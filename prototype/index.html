@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Body Model prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Newsreader:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: one screen. The body stands on a surgical-green stage (the complement of
+   muscle red, which is why theatres use it); a quiet instrument panel sits beside it. */
+:root{
+  --scrub:#DCE8E2; --paper:#F4F7F5; --ink:#10231F; --ink-2:#4B615B; --line:#C2D2CB;
+  --accent:#0C6F5C; --on-accent:#F4F7F5;
+  --prime:#C2302A; --syn:#DB7F12; --stab:#2C6CB0; --fat:#C99A12;
+  --display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --body:"Archivo",system-ui,"Segoe UI",Arial,sans-serif;
+  --latin:"Newsreader",Georgia,"Times New Roman",serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --scrub:#0D211D; --paper:#132A25; --ink:#E7F0EC; --ink-2:#9BB2AB; --line:#27443D;
+    --accent:#44C9A9; --on-accent:#0D211D;
+    --prime:#F0635A; --syn:#F3A541; --stab:#62A5E6; --fat:#E9C95B; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --scrub:#0D211D; --paper:#132A25; --ink:#E7F0EC; --ink-2:#9BB2AB; --line:#27443D;
+  --accent:#44C9A9; --on-accent:#0D211D;
+  --prime:#F0635A; --syn:#F3A541; --stab:#62A5E6; --fat:#E9C95B; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45;
+  display:grid;grid-template-rows:auto minmax(0,1fr);font-stretch:100%}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.top{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;padding:10px 18px;border-bottom:1px solid var(--line)}
+.brand{font-family:var(--display);font-weight:860;font-stretch:68%;font-size:27px;letter-spacing:.005em;line-height:1;margin:0}
+.brand small{font-weight:500;font-stretch:100%;font-size:13px;color:var(--ink-2);margin-left:8px;letter-spacing:0}
+.tabs{display:flex;flex-wrap:wrap;gap:4px}
+.tabs button{border:1px solid transparent;background:none;padding:7px 13px;border-radius:999px;font-weight:600;color:var(--ink-2)}
+.tabs button:hover{color:var(--ink);border-color:var(--line)}
+.tabs button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+
+.work{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(330px,440px);min-height:0}
+.stage{position:relative;background:var(--scrub);min-height:0;overflow:hidden}
+#gl{display:block;width:100%;height:100%;touch-action:none}
+.stage .hint{position:absolute;left:16px;top:12px;font-size:13px;color:var(--ink-2);max-width:60%}
+.pick{position:absolute;left:16px;top:36px;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:13px;max-width:min(300px,70%)}
+.pick b{display:block;font-weight:700}
+.pick i{font-family:var(--latin);font-size:14px;color:var(--ink-2)}
+.views{position:absolute;right:12px;top:10px;display:flex;gap:4px}
+.views button,.ghost{border:1px solid var(--line);background:var(--paper);border-radius:6px;padding:5px 10px;font-size:13px;font-weight:600}
+.views button:hover,.ghost:hover{border-color:var(--ink-2)}
+.legend{position:absolute;left:16px;bottom:12px;display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;margin:0;padding:0;list-style:none}
+.legend li{display:flex;align-items:center;gap:6px}
+.sw{width:12px;height:12px;border-radius:3px;display:inline-block;flex:none}
+.sw.p{background:var(--prime)}.sw.s{background:var(--syn)}.sw.t{background:var(--stab)}.sw.f{background:var(--fat)}
+.ring{width:12px;height:12px;border-radius:50%;border:3px solid var(--ink);display:inline-block;flex:none}
+.ring.hold{border-color:var(--stab);border-style:double}
+.nogl{position:absolute;inset:0;display:grid;place-items:center;padding:24px;text-align:center;color:var(--ink-2)}
+
+.panel{overflow-y:auto;border-left:1px solid var(--line);padding:16px 18px 28px;min-height:0}
+.panel h2{font-family:var(--display);font-weight:800;font-stretch:72%;font-size:25px;line-height:1.1;margin:0 0 4px;text-wrap:balance}
+.panel h3{font-size:14px;font-weight:700;margin:20px 0 8px}
+.lede{color:var(--ink-2);margin:0 0 12px;max-width:52ch}
+.note{font-size:13px;color:var(--ink-2);margin:10px 0 0;max-width:56ch}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.chips button{border:1px solid var(--line);background:none;border-radius:999px;padding:5px 11px;font-size:14px;font-weight:550}
+.chips button:hover{border-color:var(--ink-2)}
+.chips button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.chips.small button{font-size:13px;padding:3px 9px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;flex-wrap:wrap}
+.seg button{border:0;background:none;padding:6px 11px;font-size:14px;font-weight:550;border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.search{width:100%;border:1px solid var(--line);background:none;border-radius:8px;padding:7px 10px;margin-bottom:8px}
+.diff{background:color-mix(in srgb,var(--stab) 12%,transparent);border-left:3px solid var(--stab);padding:8px 10px;border-radius:0 6px 6px 0;font-size:14px;margin:12px 0 0}
+.transport{display:flex;align-items:center;gap:10px;margin:14px 0 0}
+.transport input{flex:1;accent-color:var(--accent)}
+.roles{list-style:none;margin:0;padding:0;display:grid;gap:7px}
+.roles li{display:grid;grid-template-columns:54px minmax(0,1fr);gap:10px;align-items:start}
+.meter{height:8px;border-radius:4px;background:color-mix(in srgb,var(--ink) 10%,transparent);margin-top:6px;overflow:hidden}
+.meter span{display:block;height:100%;border-radius:4px}
+.roles .nm{font-weight:650}
+.roles .lt{font-family:var(--latin);font-size:14.5px;color:var(--ink-2);margin-left:6px}
+.roles .why{display:block;font-size:13.5px;color:var(--ink-2)}
+.group{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;margin:20px 0 8px}
+.jrow{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;margin:4px 0;font-size:14px}
+.jrow .lab{width:76px;color:var(--ink-2)}
+.tag{border:1px solid var(--line);border-radius:5px;padding:1px 7px;font-size:13px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:4px 18px}
+.two ul{margin:0;padding-left:18px;font-size:14px}
+.two li{margin:3px 0}
+.dof{border-top:1px solid var(--line);padding:10px 0}
+.dof .hd{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.dof .hd b{font-weight:650}
+.dof .hd span{font-variant-numeric:tabular-nums;color:var(--ink-2);font-size:14px}
+.dof input[type=range]{width:100%;accent-color:var(--accent);margin:6px 0}
+.load{display:flex;align-items:center;gap:10px;margin-top:12px;font-size:14px}
+.load .bars{display:flex;gap:3px}
+.load .bars i{width:22px;height:8px;border-radius:2px;background:color-mix(in srgb,var(--ink) 12%,transparent)}
+.load .bars i.on{background:var(--prime)}
+table.fat{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+table.fat td,table.fat th{padding:5px 4px;border-bottom:1px solid var(--line);text-align:left;font-weight:500}
+table.fat th{color:var(--ink-2);font-size:13px}
+table.fat input{width:100%;accent-color:var(--fat)}
+table.fat td.n{width:78px;text-align:right;white-space:nowrap}
+.organ{display:grid;grid-template-columns:14px minmax(0,1fr);gap:8px;margin:7px 0;font-size:14px}
+.organ .sw{margin-top:4px;border-radius:50%}
+.organ b{font-weight:650}
+.rule{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:10px 0;font-weight:600}
+ol.how{margin:0;padding-left:20px;font-size:14px}
+ol.how li{margin:4px 0}
+@media (max-width:860px){
+  .work{grid-template-columns:1fr;grid-template-rows:50% minmax(0,1fr)}
+  .panel{border-left:0;border-top:1px solid var(--line)}
+  .brand{font-size:23px}
+  .stage .hint{display:none}
+  .pick{top:44px}
+  .two{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1 class="brand">Body Model<small>prototype</small></h1>
+  <nav class="tabs" aria-label="Mode">
+    <button type="button" data-mode="joint" aria-pressed="false">Move a joint</button>
+    <button type="button" data-mode="exercise" aria-pressed="true">Exercises</button>
+    <button type="button" data-mode="chore" aria-pressed="false">Chores</button>
+    <button type="button" data-mode="fat" aria-pressed="false">Body fat</button>
+  </nav>
+</header>
+<main class="work">
+  <section class="stage" aria-label="3D body">
+    <canvas id="gl"></canvas>
+    <div class="hint" id="hint">Drag to turn. Scroll or pinch to zoom. Tap a muscle to name it.</div>
+    <div class="pick" id="pick" hidden></div>
+    <div class="views" role="group" aria-label="View">
+      <button type="button" data-az="0">Front</button>
+      <button type="button" data-az="90">Side</button>
+      <button type="button" data-az="180">Back</button>
+    </div>
+    <ul class="legend" id="legend"></ul>
+  </section>
+  <aside class="panel" id="panel" aria-live="polite"></aside>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(function(){
+'use strict';
+var $=function(s,r){return (r||document).querySelector(s)};
+var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+var panel=$('#panel'), stage=$('.stage'), canvas=$('#gl');
+if(!window.THREE){stage.insertAdjacentHTML('beforeend','<div class="nogl">The 3D library did not load. Check your connection and reload.</div>');return}
+var T=THREE, D=Math.PI/180, SIDES=[['L',1],['R',-1]];
+
+/* ---------- names ---------- */
+var NAMES={
+ neckFlex:['Front of neck','sternocleidomastoid'], neckExt:['Back of neck','splenius, semispinalis'],
+ trapsUp:['Upper traps','trapezius, upper fibres'], trapsMid:['Mid-back','rhomboids, mid and lower trapezius'],
+ deltFront:['Front delts','deltoid, anterior'], deltSide:['Side delts','deltoid, middle'], deltRear:['Rear delts','deltoid, posterior'],
+ cuff:['Rotator cuff','supraspinatus, infraspinatus, teres minor, subscapularis'], pec:['Chest','pectoralis major'],
+ serratus:['Serratus','serratus anterior'], lats:['Lats','latissimus dorsi'], biceps:['Biceps','biceps brachii'],
+ brachialis:['Brachialis','brachialis'], triceps:['Triceps','triceps brachii'], brachiorad:['Top of forearm','brachioradialis'],
+ foreFlex:['Forearm, grip side','wrist and finger flexors'], foreExt:['Forearm, back side','wrist and finger extensors'],
+ abs:['Abs','rectus abdominis'], obliques:['Obliques','external and internal obliques'], erectors:['Lower back','erector spinae'],
+ gluteMax:['Glutes','gluteus maximus'], gluteMed:['Side glutes','gluteus medius'], hipFlex:['Hip flexors','iliopsoas'],
+ quads:['Quads','quadriceps femoris'], hams:['Hamstrings','biceps femoris, semitendinosus, semimembranosus'],
+ adductors:['Inner thigh','adductor group'], calves:['Calves','gastrocnemius, soleus'], tibialis:['Shin','tibialis anterior']
+};
+var JOINT_NAMES={neck:'Neck',shoulder:'Shoulder',elbow:'Elbow',wrist:'Wrist',spine:'Spine',hip:'Hip',knee:'Knee',ankle:'Ankle'};
+
+/* ---------- scene ---------- */
+var renderer;
+try{renderer=new T.WebGLRenderer({canvas:canvas,antialias:true,alpha:true,preserveDrawingBuffer:true})}
+catch(e){stage.insertAdjacentHTML('beforeend','<div class="nogl">3D needs WebGL. Open this page in a browser with WebGL turned on.</div>');return}
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+var scene=new T.Scene();
+var camera=new T.PerspectiveCamera(32,1,0.1,60);
+var controls=new T.OrbitControls(camera,canvas);
+controls.enablePan=false;controls.enableDamping=true;controls.dampingFactor=.12;controls.minDistance=1.6;controls.maxDistance=9;
+scene.add(new T.HemisphereLight(0xffffff,0x7f978e,.72));
+var key=new T.DirectionalLight(0xffffff,.7);key.position.set(2.2,4,3.2);scene.add(key);
+var rim=new T.DirectionalLight(0xffffff,.35);rim.position.set(-2.5,2,-3);scene.add(rim);
+var floor=new T.Mesh(new T.CircleGeometry(1.15,56),new T.MeshBasicMaterial({color:0x10231f,transparent:true,opacity:.08}));
+floor.rotation.x=-Math.PI/2;floor.position.y=-.002;scene.add(floor);
+
+var SPH=new T.SphereGeometry(1,28,18);
+var C_BONE=new T.Color(0xd6cfc0), C_REST=new T.Color(0xc9988a);
+var C_ROLE={prime:new T.Color(0xc2302a),syn:new T.Color(0xe58a17),stab:new T.Color(0x2c6cb0)};
+var baseMat=new T.MeshStandardMaterial({color:C_BONE,roughness:.8,transparent:true,opacity:1});
+var propMat=new T.MeshStandardMaterial({color:0x8fa39c,roughness:.9});
+var ironMat=new T.MeshStandardMaterial({color:0x3b4a46,roughness:.5,metalness:.4});
+
+var B={};
+function bone(name,parent,x,y,z){var g=new T.Group();g.position.set(x,y,z);g.rotation.order='ZXY';(parent?B[parent]:scene).add(g);B[name]=g;return g}
+function ell(parent,c,r,mat){var m=new T.Mesh(SPH,mat);m.position.set(c[0],c[1],c[2]);m.scale.set(r[0],r[1],r[2]);parent.add(m);return m}
+var ROOT_Y=.965;
+bone('root',null,0,ROOT_Y,0);bone('spine','root',0,.07,0);bone('neck','spine',0,.47,0);
+SIDES.forEach(function(s){var n=s[0],k=s[1];
+  bone('shoulder'+n,'spine',.205*k,.4,0);bone('elbow'+n,'shoulder'+n,0,-.29,0);bone('wrist'+n,'elbow'+n,0,-.27,0);
+  bone('hip'+n,'root',.095*k,-.03,0);bone('knee'+n,'hip'+n,0,-.43,0);bone('ankle'+n,'knee'+n,0,-.42,0);
+});
+
+/* base body: [bone, sided, centre, radii, fat region] */
+var BASE=[
+ ['root',0,[0,0,0],[.165,.105,.11],'trunk'],['spine',0,[0,.1,.005],[.145,.13,.1],'trunk'],['spine',0,[0,.31,0],[.175,.15,.115],'trunk'],
+ ['neck',0,[0,.02,0],[.05,.07,.05],null],['neck',0,[0,.155,.012],[.092,.115,.105],null],['neck',0,[0,.135,.118],[.014,.022,.016],null],
+ ['shoulder',1,[0,0,0],[.05,.05,.05],'arm'],['shoulder',1,[0,-.145,0],[.047,.165,.048],'arm'],
+ ['elbow',1,[0,-.13,0],[.038,.15,.038],'arm'],['wrist',1,[0,-.055,0],[.028,.06,.018],null],
+ ['hip',1,[0,-.21,0],[.075,.235,.082],'leg'],['knee',1,[0,-.2,0],[.05,.225,.055],'leg'],['ankle',1,[0,-.05,.055],[.045,.038,.115],null]
+];
+var fatMat={}, fatShell=[];
+['armL','armR','trunk','legL','legR','visc'].forEach(function(k){fatMat[k]=new T.MeshStandardMaterial({color:0xd9a521,roughness:.7,transparent:true,opacity:.45,depthWrite:false})});
+BASE.forEach(function(b){
+  (b[1]?SIDES:[['',1]]).forEach(function(s){
+    var c=[b[2][0]*s[1],b[2][1],b[2][2]];
+    ell(B[b[0]+s[0]],c,b[3],baseMat);
+    if(b[4]){var key=b[4]==='trunk'?'trunk':b[4]+s[0];
+      var m=ell(B[b[0]+s[0]],c,b[3],fatMat[key]);m.visible=false;m.renderOrder=3;
+      fatShell.push({m:m,key:key,r:b[3],c:c,part:b[0]});}
+  });
+});
+
+/* muscles: [id, bone, sided, centre, radii] */
+var MUS=[
+ ['neckFlex','neck',0,[0,.045,.032],[.042,.055,.022]],['neckExt','neck',0,[0,.045,-.036],[.046,.06,.024]],
+ ['trapsUp','spine',1,[.085,.452,-.028],[.085,.034,.052]],['trapsMid','spine',1,[.045,.345,-.103],[.05,.085,.022]],
+ ['cuff','spine',1,[.128,.375,-.098],[.045,.04,.02]],['pec','spine',1,[.083,.335,.088],[.085,.06,.034]],
+ ['serratus','spine',1,[.152,.245,.05],[.028,.06,.05]],['lats','spine',1,[.118,.225,-.07],[.062,.125,.042]],
+ ['abs','spine',0,[0,.115,.087],[.062,.125,.028]],['obliques','spine',1,[.115,.1,.045],[.04,.1,.058]],
+ ['erectors','spine',1,[.036,.115,-.092],[.03,.14,.022]],
+ ['gluteMax','root',1,[.085,-.035,-.082],[.078,.082,.05]],['gluteMed','root',1,[.148,.03,-.015],[.034,.055,.06]],
+ ['hipFlex','root',1,[.078,-.03,.088],[.04,.058,.024]],
+ ['deltFront','shoulder',1,[0,-.035,.04],[.042,.065,.03]],['deltSide','shoulder',1,[.034,-.035,0],[.03,.07,.042]],
+ ['deltRear','shoulder',1,[0,-.035,-.04],[.042,.065,.03]],['biceps','shoulder',1,[0,-.175,.034],[.034,.09,.028]],
+ ['triceps','shoulder',1,[0,-.165,-.034],[.04,.105,.03]],['brachialis','shoulder',1,[.034,-.225,.006],[.02,.05,.03]],
+ ['brachiorad','elbow',1,[.03,-.065,.008],[.018,.075,.026]],['foreFlex','elbow',1,[-.004,-.105,.024],[.03,.1,.022]],
+ ['foreExt','elbow',1,[0,-.105,-.024],[.03,.1,.022]],
+ ['quads','hip',1,[.004,-.215,.05],[.064,.19,.046]],['hams','hip',1,[0,-.225,-.052],[.06,.18,.044]],
+ ['adductors','hip',1,[-.046,-.15,0],[.03,.14,.055]],
+ ['calves','knee',1,[0,-.14,-.036],[.045,.125,.034]],['tibialis','knee',1,[.018,-.17,.036],[.022,.125,.022]]
+];
+var mesh={}, sided={}, pickable=[];
+MUS.forEach(function(m){
+  sided[m[0]]=!!m[2];
+  var limb=/shoulder|elbow|hip|knee/.test(m[1]);
+  (m[2]?SIDES:[['',1]]).forEach(function(s){
+    var id=m[0]+(m[2]?'_'+s[0]:''), bn=m[1]+(limb?s[0]:'');
+    var mat=new T.MeshStandardMaterial({color:C_REST.clone(),roughness:.62});
+    var o=ell(B[bn],[m[3][0]*s[1],m[3][1],m[3][2]],m[4],mat);
+    o.userData.id=id;mesh[id]=o;pickable.push(o);
+  });
+});
+
+/* organs (figure's left is +x) */
+var organs={};
+[['heart',[.03,.33,.03],[.04,.05,.035],0xa93a36],['liver',[-.06,.215,.03],[.075,.045,.05],0x7e4435],
+ ['pancreas',[.012,.172,.02],[.06,.017,.02],0xcf9550],['kidneyL',[.062,.15,-.05],[.024,.04,.02],0x8f5146],
+ ['kidneyR',[-.062,.15,-.05],[.024,.04,.02],0x8f5146],['gut',[0,.05,.03],[.095,.07,.058],0xcf9a96]
+].forEach(function(o){var m=ell(B.spine,o[1],o[2],new T.MeshStandardMaterial({color:o[3],roughness:.7}));m.visible=false;m.renderOrder=1;organs[o[0]]=m});
+var visc=ell(B.spine,[0,.07,.035],[.11,.09,.07],fatMat.visc);visc.visible=false;visc.renderOrder=2;
+
+/* joint markers */
+function dot(fill,stroke,hollow){var c=document.createElement('canvas');c.width=c.height=64;var x=c.getContext('2d');
+  x.beginPath();x.arc(32,32,20,0,7);x.fillStyle=hollow?'rgba(255,255,255,.85)':fill;x.fill();x.lineWidth=hollow?9:6;x.strokeStyle=stroke;x.stroke();
+  if(hollow){x.beginPath();x.arc(32,32,7,0,7);x.fillStyle=stroke;x.fill()}
+  return new T.SpriteMaterial({map:new T.CanvasTexture(c),depthTest:false,transparent:true})}
+var matMove=dot('#10231f','#ffffff',false), matHold=dot('','#2c6cb0',true);
+var marker={};
+Object.keys(B).forEach(function(n){if(n==='root')return;var s=new T.Sprite(matMove);s.scale.set(.06,.06,1);s.renderOrder=9;s.visible=false;B[n].add(s);marker[n]=s});
+
+/* props */
+var props={};
+function box(w,h,d,x,y,z,mat){var m=new T.Mesh(new T.BoxGeometry(w,h,d),mat||propMat);m.position.set(x,y,z);m.visible=false;scene.add(m);return m}
+function cyl(r,len,mat){var m=new T.Mesh(new T.CylinderGeometry(r,r,len,16),mat||ironMat);m.visible=false;scene.add(m);return m}
+props.seat=box(.44,.42,.42,0,.21,.1);
+props.back=box(.4,.62,.05,0,.74,-.16);
+props.bench=box(.32,.45,1.25,0,.225,-.36);
+props.pad=box(.5,.05,.36,0,.75,.2);props.pad.rotation.x=40*D;
+props.reclineBack=box(.42,.72,.06,0,.68,-.29);props.reclineBack.rotation.x=-35*D;
+props.reclineSeat=box(.42,.06,.3,0,.4,.05);props.reclineSeat.rotation.x=-35*D;
+props.pullbar=cyl(.016,1.3);props.pullbar.rotation.z=90*D;props.pullbar.position.set(0,2.15,0);
+props.shelf=box(.8,.03,.3,0,1.98,.42);
+props.step1=box(.7,.18,.28,0,.09,.24);props.step2=box(.7,.36,.28,0,.18,.52);
+props.bar=new T.Group();scene.add(props.bar);props.bar.visible=false;
+(function(){var b=new T.Mesh(new T.CylinderGeometry(.014,.014,1.5,12),ironMat);props.bar.add(b);
+  [-.62,.62].forEach(function(y){var p=new T.Mesh(new T.CylinderGeometry(.11,.11,.035,24),ironMat);p.position.y=y;props.bar.add(p)})})();
+props.handle=cyl(.013,.62);
+props.mop=cyl(.012,1.35,propMat);props.mopHead=box(.3,.03,.1,0,.015,0);
+props.bucket=new T.Mesh(new T.CylinderGeometry(.13,.105,.24,20),propMat);props.bucket.visible=false;scene.add(props.bucket);
+props.bucketR=props.bucket.clone();scene.add(props.bucketR);
+props.bagL=box(.1,.28,.24,0,0,0);props.bagR=box(.1,.28,.24,0,0,0);
+props.box=box(.36,.22,.26,0,0,0);
+props.dbL=new T.Group();props.dbR=new T.Group();
+[props.dbL,props.dbR].forEach(function(g,i){var h=new T.Mesh(new T.CylinderGeometry(.013,.013,.16,10),ironMat);h.rotation.x=90*D;g.add(h);
+  [-.08,.08].forEach(function(z){var e=new T.Mesh(new T.SphereGeometry(.04,14,10),ironMat);e.position.z=z;g.add(e)});
+  g.position.set(0,-.06,0);g.visible=false;B['wrist'+(i?'R':'L')].add(g)});
+
+/* ---------- pose solver ---------- */
+var REST={spine:{flex:0,side:0,twist:0},neck:{flex:0,side:0,twist:0},shoulder:{flex:0,abd:6,rot:0},hip:{flex:0,abd:0,rot:0}};
+function mix(a,b,c){var o={},k;for(k in a)o[k]=a[k];for(k in b||{})o[k]=b[k];for(k in c||{})o[k]=c[k];return o}
+function num(p,key,s){return p[key+s]!==undefined?p[key+s]:(p[key]||0)}
+var _e=new T.Euler();
+function solve(p){
+  var q={}; function set(n,x,y,z){_e.set(x*D,y*D,z*D,'ZXY');q[n]=new T.Quaternion().setFromEuler(_e)}
+  var sp=mix(REST.spine,p.spine), nk=mix(REST.neck,p.neck), r=p.root||{};
+  var st=p.stance||'L', hpS=mix(REST.hip,p.hip,p['hip'+st]);
+  var pitch=r.pitch!==undefined?r.pitch:(p.flat===false?0:hpS.flex-num(p,'knee',st)-num(p,'ankle',st));
+  set('root',pitch,r.yaw||0,r.roll||0);set('spine',sp.flex,sp.twist,-sp.side);set('neck',nk.flex,nk.twist,-nk.side);
+  SIDES.forEach(function(s){var n=s[0],k=s[1];
+    var sh=mix(REST.shoulder,p.shoulder,p['shoulder'+n]), hp=mix(REST.hip,p.hip,p['hip'+n]);
+    if(p.armsHang)sh.flex=pitch+sp.flex+(p.armsHang===true?0:p.armsHang);
+    set('shoulder'+n,-sh.flex,k*sh.rot,k*sh.abd);set('elbow'+n,-num(p,'elbow',n),0,0);set('wrist'+n,-num(p,'wrist',n),0,0);
+    set('hip'+n,-hp.flex,k*hp.rot,k*hp.abd);set('knee'+n,num(p,'knee',n),0,0);set('ankle'+n,num(p,'ankle',n),0,0);
+  });
+  return {q:q,pos:[0,r.y!==undefined?r.y:ROOT_Y,r.z||0],pin:p.pin||'toes',at:p.pinAt||null};
+}
+var _v=new T.Vector3(), _a=new T.Vector3(), _b=new T.Vector3();
+function wp(boneName,x,y,z,out){return B[boneName].localToWorld((out||new T.Vector3()).set(x,y,z))}
+var TOE_REST;
+function applyPose(A,Bp,t){
+  for(var n in A.q){B[n].quaternion.copy(A.q[n]).slerp(Bp.q[n],t)}
+  B.root.position.set(A.pos[0]+(Bp.pos[0]-A.pos[0])*t,A.pos[1]+(Bp.pos[1]-A.pos[1])*t,A.pos[2]+(Bp.pos[2]-A.pos[2])*t);
+  scene.updateMatrixWorld(true);
+  var pin=A.pin, at=A.at&&Bp.at?[0,1,2].map(function(i){return A.at[i]+(Bp.at[i]-A.at[i])*t}):A.at;
+  if(pin==='toes'){wp('ankleL',0,-.085,.1,_v);B.root.position.x+=TOE_REST.x-_v.x;B.root.position.y+=TOE_REST.y-_v.y;B.root.position.z+=TOE_REST.z-_v.z}
+  else if(pin==='ground'){var lo=9;SIDES.forEach(function(s){[.1,-.03].forEach(function(z){lo=Math.min(lo,wp('ankle'+s[0],0,-.085,z,_v).y)})});B.root.position.y-=lo}
+  else if(pin==='hands'&&at){wp('wristL',0,-.06,0,_v);B.root.position.x+=at[0]-_v.x;B.root.position.y+=at[1]-_v.y;B.root.position.z+=at[2]-_v.z}
+  else if(pin==='toeL'&&at){wp('ankleL',0,-.085,.1,_v);B.root.position.x+=at[0]-_v.x;B.root.position.y+=at[1]-_v.y;B.root.position.z+=at[2]-_v.z}
+  scene.updateMatrixWorld(true);updateProps();
+}
+var activeProps=[];
+var UP=new T.Vector3(0,1,0);
+function between(obj,a,b){obj.position.copy(a).add(b).multiplyScalar(.5);_v.copy(b).sub(a).normalize();obj.quaternion.setFromUnitVectors(UP,_v)}
+function updateProps(){
+  for(var k in props)props[k].visible=activeProps.indexOf(k)>=0;
+  wp('wristL',0,-.06,0,_a);wp('wristR',0,-.06,0,_b);
+  if(props.bar.visible)between(props.bar,_b,_a);
+  if(props.handle.visible)between(props.handle,_b,_a);
+  var mid=_v.copy(_a).add(_b).multiplyScalar(.5).clone();
+  if(props.bucket.visible)props.bucket.position.set(mid.x,Math.max(.12,mid.y-.16),mid.z);
+  if(props.box.visible)props.box.position.set(mid.x,mid.y,mid.z+.02);
+  if(props.bucketR.visible)props.bucketR.position.set(_b.x,Math.max(.12,_b.y-.17),_b.z);
+  if(props.bagL.visible)props.bagL.position.set(_a.x,_a.y-.17,_a.z);
+  if(props.bagR.visible)props.bagR.position.set(_b.x,_b.y-.17,_b.z);
+  if(props.mop.visible){var f=new T.Vector3(mid.x*.3,.03,mid.z+.72);between(props.mop,f,mid.clone().add(new T.Vector3(0,.12,-.1)));props.mopHead.position.set(f.x,.015,f.z);props.mopHead.visible=true}
+  else props.mopHead.visible=false;
+}
+
+/* ---------- activation ---------- */
+var current={}; /* meshId -> {role, level, why} */
+function expand(id){if(/_[LR]$/.test(id))return [id];return sided[id]?[id+'_L',id+'_R']:[id]}
+function setRoles(spec){ /* spec: {prime:[[id,level,why]],syn:[],stab:[]} */
+  current={};
+  ['stab','syn','prime'].forEach(function(role){(spec[role]||[]).forEach(function(e){
+    expand(e[0]).forEach(function(id){current[id]={role:role,level:e[1],why:e[2]||''}})})});
+  for(var id in mesh){var c=current[id], m=mesh[id].material;
+    if(c){m.color.copy(C_REST).lerp(C_ROLE[c.role],.4+.6*c.level);m.emissive.copy(C_ROLE[c.role]).multiplyScalar(.12*c.level)}
+    else{m.color.copy(C_REST);m.emissive.setRGB(0,0,0)}}
+}
+function setJoints(moving,held){
+  for(var n in marker)marker[n].visible=false;
+  function mark(list,mat){(list||[]).forEach(function(j){var m=j.match(/^(\w+?)(?:_([LR]))?$/),base=m[1],s=m[2];
+    var names=(base==='spine'||base==='neck')?[base]:(s?[base+s]:[base+'L',base+'R']);
+    names.forEach(function(nm){if(marker[nm]){marker[nm].material=mat;marker[nm].visible=true}})})}
+  mark(held,matHold);mark(moving,matMove);
+}
+
+/* ---------- data: exercises and chores ---------- */
+var STAND={}, SEAT={root:{y:.535,pitch:0},hip:{flex:90},knee:90,pin:'none'};var CAM_SEAT={ty:.8};
+function P(){var o={};for(var i=0;i<arguments.length;i++)for(var k in arguments[i])o[k]=arguments[i][k];return o}
+var HELD_STAND=['wrist','shoulder','spine','hip','knee','ankle'];
+
+var EX=[
+{id:'curl',name:'Biceps curl',part:'Arms',
+ cues:['Elbows stay by your ribs.','Stand or sit tall, ribs down.','Lower for a slow count of three.'],
+ avoid:['Swinging the hips to start the rep.','Elbows drifting forward.','Wrists bending back.'],
+ variants:[
+ {id:'stand',name:'Standing, barbell',props:['bar'],a:P(STAND,{elbow:6}),b:P(STAND,{elbow:140,shoulder:{flex:8}}),
+  prime:[['biceps',1,'Bends the elbow.'],['brachialis',.9,'Bends the elbow from under the biceps.']],
+  syn:[['brachiorad',.6,'Helps the bend, most in the middle of the lift.'],['foreFlex',.55,'Grips the bar and keeps the wrist straight.']],
+  stab:[['erectors',.4,'The bar hangs in front and pulls you forward. These keep the spine upright.'],['abs',.3,'Stops you leaning back as the bar comes up.'],
+   ['deltFront',.35,'Stops the upper arm swinging.'],['trapsUp',.3,'Carries the bar weight through the shoulders.'],['cuff',.25,'Keeps the shoulder joint centred.'],
+   ['gluteMax',.25,'Locks the hips so the trunk has a base.'],['obliques',.2,'Stops the trunk twisting.'],['quads',.2,'Holds the knees soft, not locked.'],['calves',.15,'Balances you over your feet.']],
+  moving:['elbow'],held:HELD_STAND},
+ {id:'seat',name:'Seated, dumbbells',props:['seat','back','dbL','dbR'],a:P(SEAT,{elbow:6}),b:P(SEAT,{elbow:140,shoulder:{flex:8}}),
+  prime:[['biceps',1,'Bends the elbow.'],['brachialis',.9,'Bends the elbow from under the biceps.']],
+  syn:[['brachiorad',.6,'Helps the bend.'],['foreFlex',.55,'Grips the dumbbell and keeps the wrist straight.']],
+  stab:[['deltFront',.3,'Stops the upper arm swinging.'],['trapsUp',.25,'Carries the weight through the shoulders.'],['cuff',.2,'Keeps the shoulder joint centred.'],
+   ['abs',.12,'Light bracing. The back pad does most of it.'],['erectors',.1,'Light. The back pad carries the spine.']],
+  moving:['elbow'],held:['wrist','shoulder','spine'],note:'The seat takes your legs out. The back pad takes most of the trunk out.'},
+ {id:'preacher',name:'Preacher bench',props:['seat','pad','bar'],a:P(SEAT,{spine:{flex:14},shoulder:{flex:50,abd:4},elbow:18}),b:P(SEAT,{spine:{flex:14},shoulder:{flex:50,abd:4},elbow:125}),
+  prime:[['biceps',1,'Bends the elbow. Hardest at the bottom here.'],['brachialis',1,'Bends the elbow from under the biceps.']],
+  syn:[['brachiorad',.55,'Helps the bend.'],['foreFlex',.55,'Grips the bar and keeps the wrist straight.']],
+  stab:[['cuff',.15,'Light. The pad holds the upper arm.'],['deltFront',.1,'Light. The pad holds the upper arm.']],
+  moving:['elbow'],held:['wrist','shoulder'],note:'The pad fixes your upper arms. You cannot swing, so the elbow benders do nearly everything.'}]},
+
+{id:'ohp',name:'Overhead press',part:'Shoulders',
+ cues:['Squeeze glutes before you press.','Bar travels in a straight line over mid-foot.','Finish with arms by your ears.'],
+ avoid:['Leaning back to turn it into a chest press.','Elbows flared straight out to the sides.','Pressing with a loose core.'],
+ variants:[
+ {id:'stand',name:'Standing, barbell',props:['bar'],cam:{ty:1.12,dist:4.8},a:P(STAND,{shoulder:{abd:72,rot:90},elbow:122}),b:P(STAND,{shoulder:{abd:166,rot:90},elbow:8}),
+  prime:[['deltFront',1,'Lifts the arm up and forward.'],['deltSide',.8,'Lifts the arm out and up.'],['triceps',.85,'Straightens the elbow to finish.']],
+  syn:[['trapsUp',.6,'Turns the shoulder blade upward so the arm can go overhead.'],['serratus',.55,'Wraps the shoulder blade around the ribs.'],['pec',.4,'Upper chest helps at the start.']],
+  stab:[['abs',.5,'Stops the ribs flaring and the lower back arching.'],['erectors',.45,'Holds the spine tall under the load.'],['cuff',.4,'Keeps the ball of the shoulder centred.'],
+   ['gluteMax',.4,'Locks the pelvis under the spine.'],['obliques',.35,'Stops side lean.'],['foreFlex',.3,'Holds the wrist stacked over the elbow.'],['quads',.25,'Knees stay straight and firm.'],['calves',.15,'Balance.']],
+  moving:['shoulder','elbow'],held:['wrist','spine','hip','knee','ankle']},
+ {id:'seat',name:'Seated, dumbbells',props:['seat','back','dbL','dbR'],cam:{ty:.85},a:P(SEAT,{shoulder:{abd:72,rot:90},elbow:122}),b:P(SEAT,{shoulder:{abd:164,rot:90},elbow:10}),
+  prime:[['deltFront',1,'Lifts the arm up and forward.'],['deltSide',.85,'Lifts the arm out and up.'],['triceps',.8,'Straightens the elbow to finish.']],
+  syn:[['trapsUp',.6,'Turns the shoulder blade upward.'],['serratus',.55,'Wraps the shoulder blade around the ribs.'],['pec',.35,'Upper chest helps at the start.']],
+  stab:[['cuff',.5,'Each dumbbell moves on its own, so this works harder.'],['foreFlex',.3,'Holds the wrist stacked.'],['abs',.25,'Light bracing against the pad.'],['erectors',.15,'Light. The pad carries the spine.']],
+  moving:['shoulder','elbow'],held:['wrist','spine'],note:'No legs. Less trunk. More work keeping each dumbbell steady.'}]},
+
+{id:'press',name:'Chest press',part:'Chest',
+ cues:['Shoulder blades pulled back and down.','Forearms vertical at the bottom.','Lower under control to mid-chest.'],
+ avoid:['Elbows flared at 90 degrees.','Bouncing the bar off the chest.','Shoulders rolling forward at the top.'],
+ variants:[
+ {id:'bench',name:'Flat bench, barbell',props:['bench','bar'],cam:{az:62,ty:.6,tz:-.2,dist:4.2},
+  a:{root:{pitch:-90,y:.56},pin:'none',hip:{flex:0,abd:10},knee:82,shoulder:{abd:46,flex:0},elbow:92},
+  b:{root:{pitch:-90,y:.56},pin:'none',hip:{flex:0,abd:10},knee:82,shoulder:{abd:90,flex:68},elbow:4},
+  prime:[['pec',1,'Brings the upper arm across the chest.'],['triceps',.8,'Straightens the elbow.'],['deltFront',.7,'Helps push the arm forward.']],
+  syn:[['serratus',.4,'Moves the shoulder blade around the ribs near the top.']],
+  stab:[['cuff',.4,'Keeps the shoulder joint centred under load.'],['trapsMid',.35,'Pins the shoulder blades to the bench.'],['lats',.3,'Steadies the bar path on the way down.'],
+   ['foreFlex',.3,'Grip and wrist.'],['abs',.15,'Light bracing.'],['gluteMax',.15,'Keeps the hips on the bench.'],['quads',.15,'Leg drive through the floor.']],
+  moving:['shoulder','elbow'],held:['wrist','spine','hip','knee']},
+ {id:'pushup',name:'Push-up',props:[],cam:{az:66,ty:.4,tz:.88,dist:4.2},
+  a:{root:{pitch:80},flat:false,pin:'toes',ankle:-62,shoulder:{abd:46,flex:10},elbow:95,neck:{flex:-22}},
+  b:{root:{pitch:66},flat:false,pin:'toes',ankle:-62,shoulder:{abd:60,flex:76},elbow:4,neck:{flex:-22}},
+  prime:[['pec',1,'Brings the upper arm across the chest.'],['triceps',.8,'Straightens the elbow.'],['deltFront',.7,'Helps push the arm forward.']],
+  syn:[['serratus',.6,'Pushes the shoulder blades apart at the top.']],
+  stab:[['abs',.6,'Your body is a moving plank. This stops the hips sagging.'],['obliques',.4,'Stops the hips twisting.'],['gluteMax',.35,'Keeps hips level with shoulders.'],
+   ['quads',.35,'Keeps the knees straight.'],['cuff',.35,'Keeps the shoulder joint centred.'],['hipFlex',.25,'Works with the abs to hold the line.'],['erectors',.2,'Balances the abs.']],
+  moving:['shoulder','elbow'],held:['wrist','spine','hip','knee','ankle'],note:'No bench to hold you. The whole front of the trunk has to work.'}]},
+
+{id:'row',name:'Row',part:'Back',
+ cues:['Pull elbows back, not hands up.','Squeeze shoulder blades together at the top.','Keep the neck in line with the spine.'],
+ avoid:['Rounding the lower back.','Jerking the weight with the hips.','Shrugging the shoulders to the ears.'],
+ variants:[
+ {id:'bent',name:'Bent over, barbell',props:['bar'],cam:{az:55},
+  a:{hip:{flex:75},knee:25,ankle:-8,armsHang:true,elbow:5},
+  b:{hip:{flex:75},knee:25,ankle:-8,shoulder:{flex:-8,abd:22},elbow:98},
+  prime:[['lats',1,'Pulls the upper arm back.'],['trapsMid',.9,'Pulls the shoulder blades together.'],['deltRear',.7,'Pulls the upper arm back.']],
+  syn:[['biceps',.6,'Bends the elbow.'],['brachialis',.5,'Bends the elbow.'],['brachiorad',.5,'Bends the elbow.'],['foreFlex',.6,'Grip. This is the forearm work you feel on back day.']],
+  stab:[['erectors',.8,'Holds the bent-over spine flat for the whole set.'],['hams',.55,'Holds the hip hinge.'],['gluteMax',.5,'Holds the hip hinge.'],['abs',.3,'Braces the trunk.'],['cuff',.3,'Keeps the shoulder joint centred.'],['quads',.2,'Holds the knee bend.']],
+  moving:['shoulder','elbow'],held:['wrist','spine','hip','knee','ankle']},
+ {id:'cable',name:'Seated, cable',props:['seat','handle'],cam:{az:60},
+  a:P(SEAT,{hip:{flex:80},knee:35,shoulder:{flex:78,abd:4},elbow:8,spine:{flex:6}}),
+  b:P(SEAT,{hip:{flex:80},knee:35,shoulder:{flex:-12,abd:14},elbow:100,spine:{flex:-2}}),
+  prime:[['lats',1,'Pulls the upper arm back.'],['trapsMid',.9,'Pulls the shoulder blades together.'],['deltRear',.7,'Pulls the upper arm back.']],
+  syn:[['biceps',.6,'Bends the elbow.'],['brachialis',.5,'Bends the elbow.'],['brachiorad',.5,'Bends the elbow.'],['foreFlex',.55,'Grip.']],
+  stab:[['erectors',.45,'Holds you upright against the cable.'],['abs',.2,'Braces the trunk.'],['quads',.2,'Pushes against the foot plate.'],['gluteMax',.15,'Light.'],['hams',.15,'Light.']],
+  moving:['shoulder','elbow'],held:['wrist','spine','hip'],note:'Sitting upright cuts the lower-back and hamstring hold by about half.'}]},
+
+{id:'pull',name:'Pull-up and pulldown',part:'Back',
+ cues:['Start each rep by pulling shoulders down.','Drive elbows toward your back pockets.','Chin over the bar, chest up.'],
+ avoid:['Swinging the legs for momentum.','Half reps that skip the dead hang.','Pulling with a rounded upper back.'],
+ variants:[
+ {id:'pullup',name:'Pull-up',props:['pullbar'],cam:{ty:1.25,dist:5.6},
+  a:{pin:'hands',pinAt:[.35,2.15,0],flat:false,shoulder:{abd:165,rot:90},elbow:8,knee:55},
+  b:{pin:'hands',pinAt:[.37,2.15,0],flat:false,shoulder:{abd:46,rot:90},elbow:140,knee:55},
+  prime:[['lats',1,'Pulls the upper arm down to your side.'],['biceps',.7,'Bends the elbow.'],['brachialis',.7,'Bends the elbow.'],['trapsMid',.7,'Pulls the shoulder blades down and together.']],
+  syn:[['foreFlex',.8,'Your whole body hangs from your grip.'],['brachiorad',.55,'Bends the elbow.'],['deltRear',.5,'Helps pull the arm down and back.'],['cuff',.35,'Helps pull the arm down and keeps the joint centred.']],
+  stab:[['abs',.45,'Stops the legs swinging.'],['obliques',.3,'Stops the body twisting.'],['hipFlex',.2,'Holds the legs still.'],['erectors',.2,'Keeps the chest up.']],
+  moving:['shoulder','elbow'],held:['wrist','spine','hip']},
+ {id:'pulldown',name:'Lat pulldown',props:['seat','handle'],cam:{ty:1.05,dist:5},
+  a:P(SEAT,{shoulder:{abd:165,rot:90},elbow:8}),b:P(SEAT,{shoulder:{abd:46,rot:90},elbow:140,spine:{flex:-6}}),
+  prime:[['lats',1,'Pulls the upper arm down to your side.'],['biceps',.6,'Bends the elbow.'],['brachialis',.6,'Bends the elbow.'],['trapsMid',.6,'Pulls the shoulder blades down and together.']],
+  syn:[['foreFlex',.55,'Grip.'],['brachiorad',.5,'Bends the elbow.'],['deltRear',.45,'Helps pull the arm down and back.'],['cuff',.3,'Helps pull the arm down.']],
+  stab:[['abs',.2,'Light bracing.'],['erectors',.2,'Keeps the chest up.'],['hipFlex',.2,'Presses the thighs up into the pad.']],
+  moving:['shoulder','elbow'],held:['wrist','spine'],note:'Same pull. You choose the weight, and the thigh pad replaces the core work of hanging.'}]},
+
+{id:'squat',name:'Squat',part:'Legs',
+ cues:['Feet about shoulder width, toes slightly out.','Knees track over the toes.','Chest and hips rise at the same speed.'],
+ avoid:['Knees caving inward.','Heels lifting off the floor.','Lower back rounding at the bottom.'],
+ variants:[
+ {id:'back',name:'Back squat',props:['bar'],cam:{az:48},
+  a:{hip:{flex:0,abd:8},shoulder:{abd:58,rot:90,flex:-10},elbow:138},
+  b:{hip:{flex:105,abd:14},knee:116,ankle:-28,shoulder:{abd:58,rot:90,flex:-10},elbow:138},
+  prime:[['quads',1,'Straightens the knees.'],['gluteMax',.9,'Straightens the hips.']],
+  syn:[['adductors',.6,'Helps straighten the hips out of the bottom.'],['hams',.4,'Helps at the hip.'],['calves',.3,'Controls the shin angle.']],
+  stab:[['erectors',.7,'The bar on your back tries to fold you forward. These stop it.'],['abs',.5,'Braces the trunk from the front.'],['obliques',.4,'Braces the trunk from the sides.'],
+   ['gluteMed',.4,'Stops the knees caving in.'],['trapsUp',.3,'Makes the shelf the bar sits on.'],['trapsMid',.3,'Keeps the upper back tight.']],
+  moving:['hip','knee','ankle'],held:['spine','shoulder','elbow']},
+ {id:'legpress',name:'Leg press',props:['reclineBack','reclineSeat'],cam:{az:70,ty:.7},
+  a:{root:{pitch:-35,y:.5},pin:'none',hip:{flex:112,abd:8},knee:104,ankle:-18,shoulder:{flex:-10,abd:10},elbow:25},
+  b:{root:{pitch:-35,y:.5},pin:'none',hip:{flex:66,abd:8},knee:18,ankle:-6,shoulder:{flex:-10,abd:10},elbow:25},
+  prime:[['quads',1,'Straightens the knees.'],['gluteMax',.7,'Straightens the hips.']],
+  syn:[['adductors',.5,'Helps straighten the hips.'],['hams',.35,'Helps at the hip.'],['calves',.3,'Pushes through the foot plate.']],
+  stab:[['gluteMed',.25,'Keeps the knees in line.'],['abs',.15,'Light bracing.']],
+  moving:['hip','knee','ankle'],held:['spine'],note:'The seat carries your spine and there is nothing to balance. Legs only.'}]},
+
+{id:'deadlift',name:'Deadlift',part:'Legs',
+ cues:['Bar stays against the legs.','Flat back from hips to head.','Push the floor away, then stand tall.'],
+ avoid:['Rounding the lower back.','Yanking the bar off the floor.','Leaning back at the top.'],
+ variants:[
+ {id:'conv',name:'Conventional',props:['bar'],cam:{az:55},
+  a:{hip:{flex:86},knee:56,ankle:-15,armsHang:true},b:{},
+  prime:[['gluteMax',1,'Straightens the hips.'],['erectors',.9,'Holds the spine flat against a heavy forward pull.'],['hams',.85,'Straightens the hips.'],['quads',.7,'Straightens the knees off the floor.']],
+  syn:[['foreFlex',.8,'Grip. Often the first thing to give out.'],['trapsUp',.6,'Carries the bar through the shoulders.'],['adductors',.5,'Helps straighten the hips.'],['lats',.5,'Keeps the bar close to the body.'],['trapsMid',.5,'Stops the shoulders rounding.']],
+  stab:[['abs',.5,'Braces the trunk.'],['obliques',.4,'Braces the trunk.'],['calves',.25,'Balance over mid-foot.'],['cuff',.2,'Shoulder joint.']],
+  moving:['hip','knee','ankle'],held:['spine','shoulder','elbow','wrist']},
+ {id:'rdl',name:'Romanian',props:['bar'],cam:{az:55},
+  a:{hip:{flex:76},knee:16,ankle:-3,armsHang:true},b:{knee:8},
+  prime:[['hams',1,'Lengthens under load going down, then straightens the hips.'],['gluteMax',.9,'Straightens the hips.'],['erectors',.8,'Holds the spine flat.']],
+  syn:[['foreFlex',.7,'Grip.'],['trapsUp',.5,'Carries the bar through the shoulders.'],['adductors',.45,'Helps straighten the hips.'],['lats',.45,'Keeps the bar close.']],
+  stab:[['abs',.45,'Braces the trunk.'],['trapsMid',.4,'Stops the shoulders rounding.'],['obliques',.35,'Braces the trunk.'],['quads',.2,'Knees stay soft. Quads only hold.'],['calves',.2,'Balance.']],
+  moving:['hip'],held:['spine','knee','ankle','shoulder','elbow','wrist'],note:'Knees barely bend, so the quads drop out and the hamstrings take over.'}]},
+
+{id:'lateral',name:'Lateral raise',part:'Shoulders',
+ cues:['Lead with the elbows.','Stop at shoulder height.','Lower slower than you lift.'],
+ avoid:['Shrugging the weight up.','Swinging from the hips.','Going too heavy to control.'],
+ variants:[
+ {id:'stand',name:'Standing',props:['dbL','dbR'],a:P(STAND,{shoulder:{abd:8},elbow:12}),b:P(STAND,{shoulder:{abd:86},elbow:12}),
+  prime:[['deltSide',1,'Lifts the arm out to the side.']],
+  syn:[['cuff',.5,'Starts the lift and keeps the joint centred.'],['trapsUp',.5,'Turns the shoulder blade upward.'],['deltFront',.4,'Helps the lift.'],['serratus',.35,'Moves the shoulder blade.']],
+  stab:[['foreExt',.3,'Holds the wrist level.'],['erectors',.25,'Holds you upright.'],['abs',.2,'Stops you leaning back.'],['obliques',.2,'Stops side sway.'],['gluteMax',.15,'Hip lock.'],['quads',.1,'Knee hold.']],
+  moving:['shoulder'],held:['elbow','wrist','spine','hip','knee']},
+ {id:'seat',name:'Seated',props:['seat','dbL','dbR'],a:P(SEAT,{shoulder:{abd:8},elbow:12}),b:P(SEAT,{shoulder:{abd:86},elbow:12}),
+  prime:[['deltSide',1,'Lifts the arm out to the side.']],
+  syn:[['cuff',.5,'Starts the lift and keeps the joint centred.'],['trapsUp',.5,'Turns the shoulder blade upward.'],['deltFront',.4,'Helps the lift.'],['serratus',.35,'Moves the shoulder blade.']],
+  stab:[['foreExt',.3,'Holds the wrist level.'],['erectors',.2,'Holds you upright on the seat.'],['abs',.2,'Stops you leaning back.']],
+  moving:['shoulder'],held:['elbow','wrist','spine'],note:'Sitting removes the leg drive, so it is harder to cheat the weight up.'}]},
+
+{id:'triceps',name:'Triceps extension',part:'Arms',
+ cues:['Upper arms stay still.','Straighten fully, then return slowly.','Wrists stay straight.'],
+ avoid:['Elbows flaring out.','Leaning over the weight.','Shoulders rolling forward.'],
+ variants:[
+ {id:'pushdown',name:'Cable pushdown',props:['handle'],a:P(STAND,{spine:{flex:10},shoulder:{flex:4,abd:6},elbow:112}),b:P(STAND,{spine:{flex:10},shoulder:{flex:4,abd:6},elbow:4}),
+  prime:[['triceps',1,'Straightens the elbow.']],
+  syn:[['foreFlex',.35,'Grip.'],['foreExt',.2,'Holds the wrist straight.']],
+  stab:[['abs',.4,'The cable pulls up and back. This stops the trunk lifting.'],['lats',.35,'Pins the upper arm to your side.'],['deltRear',.25,'Pins the upper arm.'],['obliques',.2,'Trunk.'],['erectors',.2,'Trunk.'],['pec',.15,'Pins the upper arm.'],['gluteMax',.15,'Hip lock.'],['quads',.1,'Knee hold.']],
+  moving:['elbow'],held:['shoulder','wrist','spine','hip','knee']},
+ {id:'overhead',name:'Overhead, seated',props:['seat','back','handle'],cam:{ty:.9,dist:4.4},a:P(SEAT,{shoulder:{flex:172,abd:2},elbow:132}),b:P(SEAT,{shoulder:{flex:172,abd:2},elbow:8}),
+  prime:[['triceps',1,'Straightens the elbow. The long head starts fully stretched.']],
+  syn:[['foreFlex',.3,'Grip.']],
+  stab:[['deltFront',.35,'Holds the arms overhead.'],['cuff',.3,'Keeps the shoulder joint centred overhead.'],['serratus',.3,'Holds the shoulder blades rotated up.'],['trapsUp',.3,'Holds the shoulder blades rotated up.'],['abs',.3,'Stops the ribs flaring.'],['erectors',.2,'Light.']],
+  moving:['elbow'],held:['shoulder','wrist','spine'],note:'Arms overhead stretch the long head of the triceps and add shoulder holding work.'}]},
+
+{id:'plank',name:'Plank',part:'Core',
+ cues:['Elbows under shoulders.','Straight line from head to heels.','Breathe. Do not hold your breath.'],
+ avoid:['Hips sagging.','Hips piked up.','Head dropping.'],
+ variants:[
+ {id:'front',name:'Front plank',props:[],still:true,cam:{az:66,ty:.3,tz:.9,dist:4.1},
+  a:{root:{pitch:83},flat:false,pin:'toes',ankle:-70,shoulder:{flex:88,abd:4},elbow:90,neck:{flex:-18}},
+  b:{root:{pitch:83},flat:false,pin:'toes',ankle:-70,shoulder:{flex:88,abd:4},elbow:90,neck:{flex:-18}},
+  prime:[['abs',1,'Stops the hips sagging toward the floor.'],['obliques',.8,'Stops the hips sagging and twisting.']],
+  syn:[['serratus',.5,'Pushes the floor away through the shoulder blades.'],['quads',.45,'Keeps the knees straight.'],['hipFlex',.4,'Works with the abs to hold the line.']],
+  stab:[['gluteMax',.4,'Keeps the pelvis tucked.'],['deltFront',.4,'Holds body weight through the shoulders.'],['cuff',.3,'Shoulder joint.'],['pec',.25,'Shoulder support.'],['erectors',.25,'Balances the abs.'],['triceps',.2,'Elbow hold.'],['tibialis',.15,'Holds the ankles.']],
+  moving:[],held:['shoulder','elbow','spine','hip','knee','ankle'],note:'Nothing moves. Every muscle here is holding a position.'}]},
+
+{id:'calf',name:'Calf raise',part:'Legs',
+ cues:['Pause at the top.','Lower until the heel is below the toes if on a step.','Go straight up, do not roll outward.'],
+ avoid:['Bouncing.','Bending the knees to help.','Cutting the range short.'],
+ variants:[
+ {id:'stand',name:'Standing',props:[],a:{flat:false},b:{flat:false,ankle:36},
+  prime:[['calves',1,'Points the foot. Knee is straight, so the big outer calf muscle leads.']],syn:[],
+  stab:[['quads',.25,'Keeps the knees straight.'],['gluteMax',.2,'Hip lock.'],['gluteMed',.2,'Side balance.'],['erectors',.15,'Upright trunk.'],['abs',.15,'Upright trunk.'],['tibialis',.15,'Steadies the ankle.']],
+  moving:['ankle'],held:['knee','hip','spine']},
+ {id:'seat',name:'Seated',props:['seat'],a:P(SEAT,{}),b:P(SEAT,{root:{y:.555,pitch:0},ankle:30}),
+  prime:[['calves',1,'Points the foot. Knee is bent, so the deeper soleus does more.']],syn:[],
+  stab:[['tibialis',.1,'Steadies the ankle.']],
+  moving:['ankle'],held:[],note:'Bent knees slacken the outer calf muscle, shifting work to the soleus underneath.'}]}
+];
+
+var CH=[
+{id:'bucket',name:'Lift a full bucket',part:'Lifting',
+ cues:['Get close to the load before you lift.','Brace your trunk, then stand.','Keep the bucket near your body.'],
+ avoid:['Twisting while bent over.','Lifting with a rounded back.','Jerking the load up.'],
+ variants:[
+ {id:'stoop',name:'Bend at the waist',props:['bucket'],cam:{az:60},spine:'high',
+  a:{hip:{flex:66},knee:8,spine:{flex:36},armsHang:true},b:{elbow:8},
+  prime:[['erectors',1,'Your back does the lifting, and it starts rounded.'],['hams',.8,'Pulls the hips straight.'],['gluteMax',.7,'Pulls the hips straight.']],
+  syn:[['foreFlex',.7,'Grip.'],['trapsUp',.5,'Carries the load through the shoulders.'],['lats',.3,'Keeps the load close.']],
+  stab:[['abs',.3,'Trunk bracing.'],['obliques',.3,'Trunk bracing.'],['calves',.2,'Balance.'],['quads',.15,'Knees nearly locked, so little help from the legs.']],
+  moving:['hip','spine'],held:['knee','shoulder','elbow'],note:'Legs stay straight, so the lower back takes the load at its weakest shape.'},
+ {id:'squat',name:'Squat down',props:['bucket'],cam:{az:60},spine:'low',
+  a:{hip:{flex:102,abd:12},knee:110,ankle:-26,spine:{flex:8},armsHang:true},b:{elbow:8},
+  prime:[['quads',1,'Straightens the knees.'],['gluteMax',.9,'Straightens the hips.']],
+  syn:[['foreFlex',.7,'Grip.'],['erectors',.5,'Holds the spine flat while the legs lift.'],['adductors',.5,'Helps the hips.'],['trapsUp',.5,'Carries the load.'],['hams',.4,'Helps the hips.']],
+  stab:[['abs',.5,'Trunk bracing.'],['obliques',.4,'Trunk bracing.'],['calves',.3,'Balance.'],['gluteMed',.3,'Keeps knees in line.']],
+  moving:['hip','knee','ankle'],held:['spine','shoulder','elbow'],note:'The big leg muscles do the lifting. The back only has to stay flat.'},
+ {id:'onehand',name:'One hand, at your side',props:['bucketR'],cam:{az:20},spine:'medium',
+  a:{hip:{flex:62},knee:66,ankle:-16,spine:{flex:6,side:-20},shoulderR:{flex:10,abd:8},shoulderL:{flex:10,abd:26}},b:{shoulderL:{abd:22}},
+  prime:[['quads',.8,'Straightens the knees.'],['gluteMax',.8,'Straightens the hips.'],['obliques_L',1,'The waist opposite the bucket stops you tipping toward it.'],['erectors_L',.8,'Pulls the spine back to centre.']],
+  syn:[['foreFlex_R',.9,'Grip, one hand only.'],['trapsUp_R',.7,'Carries the whole load on one shoulder.'],['gluteMed_L',.6,'Keeps the pelvis level.'],['deltSide_R',.3,'Holds the bucket off your leg.']],
+  stab:[['abs',.4,'Trunk bracing.'],['calves',.2,'Balance.']],
+  moving:['hip','knee','ankle','spine'],held:['shoulder','elbow'],note:'An uneven load turns a leg lift into a side-bend fight for the opposite waist.'}]},
+{id:'carry',name:'Carry shopping bags',part:'Carrying',
+ cues:['Split the load between both hands when you can.','Shoulders level, eyes forward.','Short steps on stairs.'],
+ avoid:['Hitching one hip up.','Leaning away from the bag.','Letting the shoulder drop.'],
+ variants:[
+ {id:'one',name:'All in one hand',props:['bagR'],cam:{az:25},spine:'medium',
+  a:{flat:false,pin:'ground',hipL:{flex:24},hipR:{flex:-12},kneeL:12,kneeR:24,spine:{side:6},shoulderL:{flex:-14,abd:14},shoulderR:{abd:8}},
+  b:{flat:false,pin:'ground',hipL:{flex:-12},hipR:{flex:24},kneeL:24,kneeR:12,spine:{side:6},shoulderL:{flex:16,abd:14},shoulderR:{abd:8}},
+  prime:[['foreFlex_R',1,'Grip.'],['obliques_L',.9,'The opposite waist stops you bending toward the bag.'],['trapsUp_R',.8,'Stops the loaded shoulder being pulled down.']],
+  syn:[['erectors_L',.7,'Keeps the spine upright.'],['gluteMed_L',.7,'Each step, the hip opposite the bag stops the pelvis dropping.'],['deltSide_R',.3,'Holds the bag off your leg.']],
+  stab:[['abs',.4,'Trunk.'],['quads',.4,'Walking.'],['gluteMax',.4,'Walking.'],['calves',.4,'Walking.'],['hipFlex',.3,'Swings the leg forward.'],['gluteMed_R',.3,'Pelvis.']],
+  moving:['hip','knee','ankle'],held:['spine','shoulder_R','elbow_R','wrist_R'],note:'One-sided load. The far side of your trunk works hardest.'},
+ {id:'both',name:'Split between both hands',props:['bagL','bagR'],cam:{az:25},spine:'low',
+  a:{flat:false,pin:'ground',hipL:{flex:24},hipR:{flex:-12},kneeL:12,kneeR:24,shoulder:{abd:8}},
+  b:{flat:false,pin:'ground',hipL:{flex:-12},hipR:{flex:24},kneeL:24,kneeR:12,shoulder:{abd:8}},
+  prime:[['foreFlex',1,'Grip, both hands.'],['trapsUp',.8,'Stops the shoulders being pulled down.']],
+  syn:[],
+  stab:[['abs',.4,'Trunk.'],['erectors',.4,'Trunk.'],['gluteMed',.4,'Pelvis level on each step.'],['quads',.4,'Walking.'],['gluteMax',.4,'Walking.'],['calves',.4,'Walking.'],['obliques',.3,'Trunk.'],['cuff',.2,'Shoulder joint.']],
+  moving:['hip','knee','ankle'],held:['spine','shoulder','elbow','wrist'],note:'The load is balanced, so the side-bend work nearly disappears.'}]},
+{id:'mop',name:'Mop the floor',part:'Cleaning',
+ cues:['Use a handle long enough to stand tall.','Step with the mop instead of reaching.','Switch lead hands every few minutes.'],
+ avoid:['Staying bent over for the whole job.','Twisting from the lower back only.','Locking the knees.'],
+ variants:[
+ {id:'short',name:'Short handle, bent over',props:['mop'],cam:{az:60},spine:'high',
+  a:{hip:{flex:46},knee:12,spine:{flex:26,twist:-10},armsHang:-30,elbow:25},b:{hip:{flex:46},knee:12,spine:{flex:26,twist:12},armsHang:-65,elbow:15},
+  prime:[['erectors',.9,'Holds you bent over for minutes at a time.'],['deltFront',.6,'Pushes the mop away.'],['lats',.6,'Pulls the mop back.']],
+  syn:[['obliques',.6,'Twists the trunk with each stroke.'],['foreFlex',.6,'Grip.'],['triceps',.4,'Pushes.'],['biceps',.4,'Pulls.'],['pec',.3,'Pushes.']],
+  stab:[['hams',.5,'Holds the hip bend.'],['gluteMax',.5,'Holds the hip bend.'],['abs',.3,'Trunk.'],['quads',.3,'Knees.']],
+  moving:['shoulder','elbow','spine'],held:['hip','knee'],note:'The stroke is light. The long bent-over hold is what tires the back.'},
+ {id:'long',name:'Long handle, upright',props:['mop'],cam:{az:60},spine:'low',
+  a:{hip:{flex:8},knee:8,spine:{flex:5,twist:-12},shoulder:{flex:18,abd:8},elbow:70},b:{hip:{flex:8},knee:8,spine:{flex:5,twist:14},shoulder:{flex:46,abd:8},elbow:40},
+  prime:[['obliques',.7,'Twists the trunk with each stroke.'],['deltFront',.5,'Pushes the mop away.'],['lats',.5,'Pulls the mop back.']],
+  syn:[['foreFlex',.5,'Grip.'],['pec',.4,'Pushes.'],['triceps',.4,'Pushes.'],['biceps',.4,'Pulls.']],
+  stab:[['abs',.4,'Trunk.'],['erectors',.3,'Upright hold only.'],['quads',.3,'Knees soft.'],['gluteMax',.2,'Hips.'],['calves',.2,'Balance.']],
+  moving:['shoulder','elbow','spine'],held:['hip','knee'],note:'Standing tall moves the work from the lower back to the arms and waist.'}]},
+{id:'shelf',name:'Put a box on a high shelf',part:'Reaching',
+ cues:['Step close so the shelf is above you.','Press the box up along your body.','Use a stool if you need tiptoes.'],
+ avoid:['Reaching forward with straight arms.','Arching the lower back to gain height.','Holding your breath.'],
+ variants:[
+ {id:'close',name:'Standing under the shelf',props:['box','shelf'],cam:{az:50,ty:1.1,dist:5.2},spine:'medium',
+  a:{flat:false,shoulder:{flex:38,abd:4},elbow:128},b:{flat:false,ankle:22,spine:{flex:-6},shoulder:{flex:150,abd:4},elbow:22},
+  prime:[['deltFront',1,'Lifts the arms overhead.'],['triceps',.7,'Straightens the elbows.'],['deltSide',.5,'Helps the lift.']],
+  syn:[['trapsUp',.7,'Turns the shoulder blades upward.'],['serratus',.6,'Wraps the shoulder blades around the ribs.'],['pec',.3,'Helps at the start.']],
+  stab:[['calves',.6,'Holds you on tiptoe.'],['cuff',.5,'Shoulder joint.'],['abs',.5,'Stops the back arching.'],['erectors',.4,'Trunk.'],['foreFlex',.4,'Grip.'],['gluteMax',.3,'Hips.'],['quads',.3,'Knees.']],
+  moving:['shoulder','elbow','ankle'],held:['spine','hip','knee','wrist']},
+ {id:'far',name:'Reaching forward',props:['box','shelf'],cam:{az:50,ty:1.1,dist:5.2},spine:'high',
+  a:{flat:false,shoulder:{flex:38,abd:4},elbow:128},b:{flat:false,ankle:22,spine:{flex:-10},shoulder:{flex:126,abd:4},elbow:6},
+  prime:[['deltFront',1,'Holds the box out on a long lever.'],['deltSide',.6,'Helps the lift.']],
+  syn:[['trapsUp',.8,'Turns the shoulder blades upward.'],['serratus',.6,'Wraps the shoulder blades around the ribs.'],['biceps',.3,'Helps hold the arm forward.']],
+  stab:[['cuff',.8,'Long lever: a small box becomes a big load on the shoulder.'],['erectors',.7,'Stops you tipping forward.'],['calves',.6,'Tiptoe.'],['abs',.5,'Trunk.'],['foreFlex',.5,'Grip.'],['gluteMax',.4,'Hips.'],['hams',.3,'Hips.']],
+  moving:['shoulder','elbow','ankle'],held:['spine','hip','knee','wrist'],note:'Same box, same shelf. Straight arms multiply the load on shoulders and lower back.'}]},
+{id:'stairs',name:'Climb stairs',part:'Walking',
+ cues:['Whole foot on the step.','Push through the heel of the top leg.','Stay tall. Use the rail for balance, not for pulling.'],
+ avoid:['Knee collapsing inward.','Pulling yourself up with the rail.','Landing on the toes only.'],
+ variants:[
+ {id:'one',name:'One step at a time',props:['step1','step2'],cam:{az:62,ty:1.05,tz:.2,dist:4.5},spine:'low',
+  a:{flat:false,pin:'toeL',pinAt:[.095,.18,.22],hipL:{flex:56},kneeL:64,ankleL:-8,hipR:{flex:-4},kneeR:6,ankleR:14,spine:{flex:6}},
+  b:{flat:false,pin:'toeL',pinAt:[.095,.18,.22],hipL:{flex:2},kneeL:4,hipR:{flex:34},kneeR:62,spine:{flex:2}},
+  prime:[['quads_L',1,'Straightens the top knee to lift your body.'],['gluteMax_L',.8,'Straightens the top hip.']],
+  syn:[['calves_R',.6,'The lower leg pushes off.'],['hams_L',.4,'Helps the top hip.'],['adductors_L',.3,'Helps the top hip.']],
+  stab:[['gluteMed_L',.6,'Stops the pelvis dropping while you stand on one leg.'],['hipFlex_R',.4,'Lifts the trailing leg to the next step.'],['abs',.3,'Trunk.'],['erectors',.3,'Trunk.'],['tibialis_R',.2,'Lifts the toes clear of the step.']],
+  moving:['hip','knee','ankle'],held:['spine']},
+ {id:'two',name:'Two steps at a time',props:['step1','step2'],cam:{az:62,ty:1.15,tz:.3,dist:4.9},spine:'low',
+  a:{flat:false,pin:'toeL',pinAt:[.095,.36,.5],hipL:{flex:88},kneeL:98,ankleL:-12,hipR:{flex:-12},kneeR:6,ankleR:30,spine:{flex:16}},
+  b:{flat:false,pin:'toeL',pinAt:[.095,.36,.5],hipL:{flex:2},kneeL:4,hipR:{flex:40},kneeR:70,spine:{flex:4}},
+  prime:[['gluteMax_L',1,'Deeper hip bend, so the glute does much more.'],['quads_L',1,'Straightens the top knee from a deep bend.']],
+  syn:[['calves_R',.8,'Harder push-off from the lower leg.'],['hams_L',.6,'Helps the top hip.'],['adductors_L',.5,'Helps the top hip.']],
+  stab:[['gluteMed_L',.8,'Longer time balanced on one leg.'],['erectors',.5,'Holds the forward lean.'],['hipFlex_R',.5,'Lifts the trailing leg higher.'],['abs',.4,'Trunk.']],
+  moving:['hip','knee','ankle'],held:['spine'],note:'Double the step height and the work shifts from mostly quads to glutes and hamstrings.'}]}
+];
+
+/* ---------- joint mode data ---------- */
+var DOF={
+ neck:{sided:false,dofs:[
+  {k:'flex',min:-45,max:50,pos:'Nod down',neg:'Look up',P:{prime:['neckFlex'],syn:[]},N:{prime:['neckExt'],syn:['trapsUp']}},
+  {k:'side',min:-35,max:35,pos:'Tilt left',neg:'Tilt right',P:{prime:['neckFlex','neckExt'],syn:['trapsUp_L']},N:{prime:['neckFlex','neckExt'],syn:['trapsUp_R']}},
+  {k:'twist',min:-60,max:60,pos:'Turn left',neg:'Turn right',P:{prime:['neckFlex'],syn:['neckExt']},N:{prime:['neckFlex'],syn:['neckExt']}}]},
+ shoulder:{sided:true,dofs:[
+  {k:'flex',min:-50,max:170,pos:'Raise forward',neg:'Pull back',P:{prime:['deltFront'],syn:['pec','biceps','serratus','trapsUp']},N:{prime:['lats','deltRear'],syn:['triceps','trapsMid']}},
+  {k:'abd',min:0,max:170,pos:'Raise sideways',neg:'Pull down to your side',P:{prime:['deltSide'],syn:['cuff','trapsUp','serratus']},N:{prime:['lats','pec'],syn:['triceps','trapsMid']}},
+  {k:'rot',min:-70,max:90,pos:'Rotate outward',neg:'Rotate inward',P:{prime:['cuff'],syn:['deltRear']},N:{prime:['pec','lats'],syn:['deltFront']}}]},
+ elbow:{sided:true,dofs:[{k:'v',min:0,max:145,pos:'Bend',neg:'Straighten',P:{prime:['biceps','brachialis'],syn:['brachiorad','foreFlex']},N:{prime:['triceps'],syn:[]}}]},
+ spine:{sided:false,dofs:[
+  {k:'flex',min:-25,max:70,pos:'Bend forward',neg:'Arch back',P:{prime:['abs'],syn:['obliques','hipFlex']},N:{prime:['erectors'],syn:['gluteMax']}},
+  {k:'side',min:-30,max:30,pos:'Bend left',neg:'Bend right',P:{prime:['obliques_L','erectors_L'],syn:[]},N:{prime:['obliques_R','erectors_R'],syn:[]}},
+  {k:'twist',min:-40,max:40,pos:'Turn left',neg:'Turn right',P:{prime:['obliques'],syn:['erectors']},N:{prime:['obliques'],syn:['erectors']}}]},
+ hip:{sided:true,dofs:[
+  {k:'flex',min:-25,max:110,pos:'Lift leg forward',neg:'Push leg back',P:{prime:['hipFlex'],syn:['quads']},N:{prime:['gluteMax'],syn:['hams']}},
+  {k:'abd',min:-20,max:45,pos:'Lift leg out',neg:'Pull leg in',P:{prime:['gluteMed'],syn:[]},N:{prime:['adductors'],syn:[]}}]},
+ knee:{sided:true,dofs:[{k:'v',min:0,max:140,pos:'Bend',neg:'Straighten',P:{prime:['hams'],syn:['calves']},N:{prime:['quads'],syn:[]}}]},
+ ankle:{sided:true,dofs:[{k:'v',min:-20,max:45,pos:'Point toes',neg:'Pull toes up',P:{prime:['calves'],syn:[]},N:{prime:['tibialis'],syn:[]}}]}
+};
+
+/* ---------- state ---------- */
+var S={mode:'exercise',ex:'curl',exVar:{},ch:'bucket',chVar:{},part:'All',q:'',t:0,dir:1,playing:!window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+ joint:'shoulder',side:'L',ang:{},eff:{},
+ fat:{armL:1,armR:1,trunk:7,legL:2.2,legR:2.2,visc:6},fatSrc:'hand',fatSel:'visc'};
+var poseA,poseB,curVar=null,cam={az:26,ty:.95,dist:4.15};
+
+function setCam(c,keepAz){var az=(keepAz?cam.az:(c&&c.az!==undefined?c.az:26));cam={az:az,ty:c&&c.ty!==undefined?c.ty:.95,tz:c&&c.tz?c.tz:0,dist:c&&c.dist?c.dist:4.15};placeCam()}
+function placeCam(){var a=cam.az*D,el=6*D,asp=camera.aspect,d=cam.dist*(asp<.8?(.8/asp)*.92:1);
+  var tz=cam.tz||0;floor.position.z=tz;controls.target.set(0,cam.ty,tz);camera.position.set(Math.sin(a)*Math.cos(el)*d,cam.ty+Math.sin(el)*d,tz+Math.cos(a)*Math.cos(el)*d);controls.update()}
+
+/* ---------- role helpers ---------- */
+function roleRow(e,role){var nm=NAMES[e[0].replace(/_[LR]$/,'')],side=/_L$/.test(e[0])?' (left)':/_R$/.test(e[0])?' (right)':'';
+  return '<li><div class="meter"><span style="width:'+Math.round(e[1]*100)+'%;background:var(--'+role+')"></span></div><div><span class="nm">'+esc(nm[0]+side)+'</span><span class="lt">'+esc(nm[1])+'</span>'+(e[2]?'<span class="why">'+esc(e[2])+'</span>':'')+'</div></li>'}
+function roleBlock(v){var out='';[['prime','p','Does the work'],['syn','s','Helps'],['stab','t','Holds you still']].forEach(function(g){
+  var list=v[g[0]]||[];if(!list.length)return;
+  out+='<div class="group"><span class="sw '+g[1]+'"></span>'+g[2]+'</div><ul class="roles">'+list.map(function(e){return roleRow(e,g[0])}).join('')+'</ul>'});return out}
+function levels(v){var m={};['prime','syn','stab'].forEach(function(r){(v[r]||[]).forEach(function(e){expand(e[0]).forEach(function(id){m[id]=e[1]})})});return m}
+function diffText(base,v){var a=levels(base),b=levels(v),st={},id;
+  for(id in a)st[id]=b[id]===undefined?'drop':(b[id]<=a[id]-.15?'less':(b[id]>=a[id]+.15?'more':''));
+  for(id in b)if(a[id]===undefined)st[id]='add';
+  var out={drop:[],less:[],more:[],add:[]},done={};
+  for(id in st){if(done[id]||!st[id])continue;var base0=id.replace(/_[LR]$/,''),nm=NAMES[base0][0].toLowerCase();
+    if(/_[LR]$/.test(id)){var other=base0+(/_L$/.test(id)?'_R':'_L');
+      if(st[other]===st[id]){done[other]=1;out[st[id]].push(nm)}else out[st[id]].push(nm+(/_L$/.test(id)?' (left)':' (right)'))}
+    else out[st[id]].push(nm)}
+  var p=[];if(out.drop.length)p.push('No longer working: '+out.drop.join(', ')+'.');if(out.less.length)p.push('Working less: '+out.less.join(', ')+'.');
+  if(out.more.length)p.push('Working more: '+out.more.join(', ')+'.');if(out.add.length)p.push('Newly working: '+out.add.join(', ')+'.');return p.join(' ')}
+function jointTags(list){return (list||[]).map(function(j){var m=j.split('_');return '<span class="tag">'+JOINT_NAMES[m[0]]+(m[1]?(m[1]==='L'?' (left)':' (right)'):'')+'</span>'}).join(' ')||'<span class="tag">None</span>'}
+
+/* ---------- render: exercise / chore ---------- */
+function renderMove(kind){
+  var list=kind==='exercise'?EX:CH, selKey=kind==='exercise'?'ex':'ch', vKey=kind==='exercise'?'exVar':'chVar';
+  var parts=['All'].concat(list.map(function(e){return e.part}).filter(function(p,i,a){return a.indexOf(p)===i}));
+  var shown=list.filter(function(e){return (S.part==='All'||e.part===S.part)&&(!S.q||e.name.toLowerCase().indexOf(S.q.toLowerCase())>=0)});
+  var ex=list.filter(function(e){return e.id===S[selKey]})[0]||list[0];
+  var v=ex.variants.filter(function(x){return x.id===S[vKey][ex.id]})[0]||ex.variants[0], base=ex.variants[0];
+  var h='';
+  if(kind==='exercise'){
+    h+='<input class="search" id="q" type="search" placeholder="Search exercises" aria-label="Search exercises" value="'+esc(S.q)+'">';
+    h+='<div class="chips small" id="parts">'+parts.map(function(p){return '<button type="button" aria-pressed="'+(S.part===p)+'" data-part="'+p+'">'+p+'</button>'}).join('')+'</div>';
+  }
+  h+='<div class="chips" id="list">'+(shown.length?shown.map(function(e){return '<button type="button" aria-pressed="'+(e.id===ex.id)+'" data-id="'+e.id+'">'+esc(e.name)+'</button>'}).join(''):'<span class="note">Nothing matches. Clear the search.</span>')+'</div>';
+  h+='<h2>'+esc(ex.name)+'</h2>';
+  h+='<p class="lede">'+(kind==='exercise'?'Pick a variation. The same lift uses different muscles when the support changes.':'Pick how you do it. Watch the work move around the body.')+'</p>';
+  h+='<div class="seg" id="vars">'+ex.variants.map(function(x){return '<button type="button" aria-pressed="'+(x.id===v.id)+'" data-v="'+x.id+'">'+esc(x.name)+'</button>'}).join('')+'</div>';
+  if(v!==base)h+='<p class="diff"><b>Compared with '+esc(base.name.toLowerCase())+'.</b> '+esc(diffText(base,v))+(v.note?' '+esc(v.note):'')+'</p>';
+  else if(v.note)h+='<p class="diff">'+esc(v.note)+'</p>';
+  if(v.spine){var n={low:1,medium:2,high:3}[v.spine];
+    h+='<div class="load"><span>Load on the lower back</span><span class="bars">'+[1,2,3].map(function(i){return '<i class="'+(i<=n?'on':'')+'"></i>'}).join('')+'</span><b>'+v.spine.charAt(0).toUpperCase()+v.spine.slice(1)+'</b></div>'}
+  if(!v.still)h+='<div class="transport"><button type="button" class="ghost" id="play">'+(S.playing?'Pause':'Play')+'</button><input type="range" id="phase" min="0" max="100" value="'+Math.round(S.t*100)+'" aria-label="Position in the movement"></div>';
+  h+=roleBlock(v);
+  h+='<h3>Joints</h3><div class="jrow"><span class="lab">Moving</span>'+jointTags(v.moving)+'</div><div class="jrow"><span class="lab">Held still</span>'+jointTags(v.held)+'</div>';
+  h+='<h3>Form</h3><div class="two"><ul>'+ex.cues.map(function(c){return '<li>'+esc(c)+'</li>'}).join('')+'</ul><ul>'+ex.avoid.map(function(c){return '<li>Avoid: '+esc(c.charAt(0).toLowerCase()+c.slice(1))+'</li>'}).join('')+'</ul></div>';
+  h+='<p class="note">'+(kind==='exercise'?'Showing '+EX.length+' sample exercises. The full app loads the whole open library. ':'')+'Muscle roles follow standard kinesiology. Bar lengths are estimates, not lab measurements.</p>';
+  panel.innerHTML=h;
+  curVar=v;activeProps=v.props||[];poseA=solve(v.a);poseB=solve(v.b);
+  setRoles(v);setJoints(v.moving,v.held);
+  if(v.still){S.t=0}
+  applyPose(poseA,poseB,S.t);
+  var q=$('#q');if(q)q.oninput=function(){S.q=q.value;var pos=q.selectionStart;renderMove(kind);var n=$('#q');n.focus();n.setSelectionRange(pos,pos)};
+  var pa=$('#parts');if(pa)pa.onclick=function(e){var b=e.target.closest('button');if(b){S.part=b.dataset.part;renderMove(kind)}};
+  $('#list').onclick=function(e){var b=e.target.closest('button');if(b){S[selKey]=b.dataset.id;S.t=0;S.dir=1;renderMove(kind);var x=list.filter(function(z){return z.id===S[selKey]})[0];var vv=x.variants.filter(function(z){return z.id===S[vKey][x.id]})[0]||x.variants[0];setCam(vv.cam)}};
+  $('#vars').onclick=function(e){var b=e.target.closest('button');if(b){S[vKey][ex.id]=b.dataset.v;S.t=0;S.dir=1;renderMove(kind);setCam(curVar.cam)}};
+  var pl=$('#play');if(pl)pl.onclick=function(){S.playing=!S.playing;pl.textContent=S.playing?'Pause':'Play'};
+  var ph=$('#phase');if(ph)ph.oninput=function(){S.playing=false;if(pl)pl.textContent='Play';S.t=ph.value/100;applyPose(poseA,poseB,S.t)};
+}
+
+/* ---------- render: joint ---------- */
+function jkey(j,side){return DOF[j].sided?j+'_'+side:j}
+function jointPose(){var p={flat:false,pin:'ground'};
+  function g(key,k){return (S.ang[key]||{})[k]||0}
+  p.neck={flex:g('neck','flex'),side:g('neck','side'),twist:g('neck','twist')};p.spine={flex:g('spine','flex'),side:g('spine','side'),twist:g('spine','twist')};
+  SIDES.forEach(function(s){var n=s[0];
+    p['shoulder'+n]={flex:g('shoulder_'+n,'flex'),abd:6+g('shoulder_'+n,'abd'),rot:g('shoulder_'+n,'rot')};p['elbow'+n]=g('elbow_'+n,'v');
+    p['hip'+n]={flex:g('hip_'+n,'flex'),abd:g('hip_'+n,'abd')};p['knee'+n]=g('knee_'+n,'v');p['ankle'+n]=g('ankle_'+n,'v')});
+  return p}
+function jointRoles(){var spec={prime:[],syn:[]};
+  for(var key in S.eff)for(var k in S.eff[key]){var dir=S.eff[key][k];if(!dir)continue;
+    var m=key.split('_'),d=DOF[m[0]].dofs.filter(function(x){return x.k===k})[0],set=dir>0?d.P:d.N;
+    ['prime','syn'].forEach(function(r){set[r].forEach(function(id){spec[r].push([(m[1]&&!/_[LR]$/.test(id)&&sided[id])?id+'_'+m[1]:id,r==='prime'?1:.6,''])})})}
+  return spec}
+function applyJoint(){var p=solve(jointPose());poseA=poseB=p;applyPose(p,p,0);var spec=jointRoles();setRoles(spec);
+  var mv=[];for(var key in S.eff)for(var k in S.eff[key])if(S.eff[key][k])mv.push(key);setJoints(mv,[]);
+  var box=$('#jroles');if(box){var seen={},rows='';['prime','syn'].forEach(function(r){spec[r].forEach(function(e){if(seen[e[0]])return;seen[e[0]]=1;rows+=roleRow(e,r)})});
+    box.innerHTML=rows?'<ul class="roles">'+rows+'</ul>':'<p class="note">Nothing is working yet. Drag a slider.</p>'}}
+function renderJoint(){
+  var J=DOF[S.joint],sides=J.sided?(S.side==='B'?['L','R']:[S.side]):[''];
+  var h='<h2>Move a joint</h2><p class="lede">Pick a joint and drag. The muscles that drive that motion light up.</p>';
+  h+='<div class="chips" id="joints">'+Object.keys(DOF).map(function(j){return '<button type="button" aria-pressed="'+(j===S.joint)+'" data-j="'+j+'">'+JOINT_NAMES[j]+'</button>'}).join('')+'</div>';
+  if(J.sided)h+='<div class="seg" id="side">'+[['L','Left'],['R','Right'],['B','Both']].map(function(s){return '<button type="button" aria-pressed="'+(S.side===s[0])+'" data-s="'+s[0]+'">'+s[1]+'</button>'}).join('')+'</div>';
+  var k0=jkey(S.joint,sides[0]||'');
+  J.dofs.forEach(function(d,i){var val=(S.ang[k0]||{})[d.k]||0,eff=(S.eff[k0]||{})[d.k]||0;
+    h+='<div class="dof"><div class="hd"><b>'+d.pos+' or '+d.neg.toLowerCase()+'</b><span id="val'+i+'">'+Math.round(val)+'°</span></div>'
+     +'<input type="range" id="dof'+i+'" min="'+d.min+'" max="'+d.max+'" value="'+val+'" aria-label="'+d.pos+' or '+d.neg.toLowerCase()+'">'
+     +'<div class="jrow"><span class="lab">Effort</span><div class="seg" data-i="'+i+'"><button type="button" aria-pressed="'+(eff<0)+'" data-e="-1">'+d.neg+'</button><button type="button" aria-pressed="'+(eff>0)+'" data-e="1">'+d.pos+'</button></div></div></div>'});
+  h+='<h3>Working now</h3><div id="jroles"></div>';
+  h+='<p class="note">Effort follows the direction you drag. Lowering a weight slowly uses the same muscles as lifting it, so switch the effort button to see that case. Stabilisers depend on posture and load. See Exercises for those.</p>';
+  h+='<p><button type="button" class="ghost" id="reset">Reset the body</button></p>';
+  panel.innerHTML=h;activeProps=[];curVar=null;applyJoint();
+  $('#joints').onclick=function(e){var b=e.target.closest('button');if(b){S.joint=b.dataset.j;renderJoint()}};
+  var sd=$('#side');if(sd)sd.onclick=function(e){var b=e.target.closest('button');if(b){S.side=b.dataset.s;renderJoint()}};
+  J.dofs.forEach(function(d,i){var inp=$('#dof'+i);
+    inp.oninput=function(){var nv=+inp.value;sides.forEach(function(s){var key=jkey(S.joint,s);S.ang[key]=S.ang[key]||{};S.eff[key]=S.eff[key]||{};
+      var old=S.ang[key][d.k]||0;if(nv!==old)S.eff[key][d.k]=nv>old?1:-1;S.ang[key][d.k]=nv});
+      $('#val'+i).textContent=Math.round(nv)+'°';var e=(S.eff[k0]||{})[d.k]||0;
+      panel.querySelectorAll('.seg[data-i="'+i+'"] button').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.e===e))});applyJoint()}});
+  panel.querySelectorAll('.seg[data-i]').forEach(function(seg){seg.onclick=function(e){var b=e.target.closest('button');if(!b)return;var d=J.dofs[+seg.dataset.i],v=+b.dataset.e;
+    sides.forEach(function(s){var key=jkey(S.joint,s);S.eff[key]=S.eff[key]||{};S.eff[key][d.k]=S.eff[key][d.k]===v?0:v});renderJoint()}});
+  $('#reset').onclick=function(){S.ang={};S.eff={};renderJoint()};
+}
+
+/* ---------- render: fat ---------- */
+var SHEET={armL:2.1,armR:2.1,trunk:12.0,legL:3.6,legR:3.6,visc:11};
+var REG=[['armL','Left arm',6],['armR','Right arm',6],['trunk','Trunk',35],['legL','Left leg',12],['legR','Right leg',12]];
+var ORG={
+ visc:{title:'Deep belly fat',intro:'This fat sits inside the abdomen, packed around the organs. It is the kind most tied to organ disease.',
+  list:[['Liver','Fat can build up inside the liver itself.'],['Pancreas','Linked with insulin resistance and type 2 diabetes.'],['Heart and blood vessels','Linked with a higher risk of heart disease.'],['Kidneys','Linked with a higher risk of chronic kidney disease.'],['Intestines','The fat is packed around and between the loops of the gut.']]},
+ trunk:{title:'Trunk fat under the skin',intro:'This layer sits outside the abdominal wall. No organ lies inside it. A large amount here usually comes with deep belly fat too, so check that level.',list:[]},
+ arm:{title:'Arm fat',intro:'This layer sits under the skin. It is not tied to a specific organ.',list:[]},
+ leg:{title:'Leg fat',intro:'This layer sits under the skin. It is not tied to a specific organ. Extra body weight overall adds load to knees and hips.',list:[]}
+};
+function applyFat(){
+  var f=S.fat;
+  fatShell.forEach(function(o){var kg=f[o.key],sc,dz=0;
+    if(o.key==='trunk'){sc=o.part==='spine'&&o.c[1]<.2?1+.02*kg:(o.part==='root'?1+.012*kg:1+.008*kg);dz=o.part==='spine'&&o.c[1]<.2?.003*kg:0}
+    else if(/arm/.test(o.key))sc=1+.085*kg;else sc=1+.04*kg;
+    o.m.visible=kg>.3;o.m.scale.set(o.r[0]*sc,o.r[1]*(1+(sc-1)*.25),o.r[2]*sc);o.m.position.z=o.c[2]+dz});
+  var sel=S.fatSel;
+  for(var k in fatMat){var on=(k===sel)||(sel==='arm'&&/arm/.test(k))||(sel==='leg'&&/leg/.test(k));fatMat[k].opacity=k==='visc'?(on?.62:.4):(on?.72:.42);fatMat[k].emissive.setHex(on&&k!=='visc'?0x3a2c00:0)}
+  var vs=.5+.035*f.visc;visc.scale.set(.11*vs,.09*vs,.07*vs);
+  var hot=Math.max(0,Math.min(1,(f.visc-6)/10));
+  ['heart','liver','pancreas','kidneyL','kidneyR','gut'].forEach(function(n){organs[n].material.emissive.setRGB(.5*hot,.12*hot,0)});
+}
+function renderFat(){
+  var f=S.fat,o=ORG[S.fatSel];
+  var h='<h2>Body fat</h2><p class="lede">See where fat sits, which organs it surrounds, and how it comes down.</p>';
+  h+='<div class="seg" id="src"><button type="button" aria-pressed="'+(S.fatSrc==='hand')+'" data-s="hand">Set by hand</button><button type="button" aria-pressed="'+(S.fatSrc==='sheet')+'" data-s="sheet">From an InBody sheet</button></div>';
+  if(S.fatSrc==='sheet')h+='<p class="note">Loaded from a sample sheet with invented values. In the app you will photograph your own sheet and the numbers fill in. You can still adjust them below.</p>';
+  else h+='<p class="note">Drag to add or remove fat by region. Useful for explaining a case to someone.</p>';
+  h+='<h3>Where it sits</h3><table class="fat"><tr><th>Region</th><th>Amount</th><th></th></tr>';
+  REG.forEach(function(r){h+='<tr><td>'+r[1]+'</td><td><input type="range" id="f_'+r[0]+'" min="0" max="'+r[2]+'" step="0.1" value="'+f[r[0]]+'" aria-label="'+r[1]+' fat in kilograms"></td><td class="n" id="n_'+r[0]+'">'+f[r[0]].toFixed(1)+' kg</td></tr>'});
+  h+='<tr><td>Deep belly</td><td><input type="range" id="f_visc" min="1" max="20" step="1" value="'+f.visc+'" aria-label="Visceral fat level"></td><td class="n" id="n_visc">Level '+f.visc+'</td></tr></table>';
+  h+='<p class="note" id="vnote"></p>';
+  h+='<h3>Which organs does it affect?</h3><div class="chips small" id="sel">'+[['visc','Deep belly'],['trunk','Trunk'],['arm','Arms'],['leg','Legs']].map(function(s){return '<button type="button" aria-pressed="'+(S.fatSel===s[0])+'" data-s="'+s[0]+'">'+s[1]+'</button>'}).join('')+'</div>';
+  h+='<p class="lede">'+esc(o.intro)+'</p>'+o.list.map(function(x){return '<div class="organ"><span class="sw f"></span><div><b>'+esc(x[0])+'</b><br>'+esc(x[1])+'</div></div>'}).join('');
+  h+='<h3>How to bring it down</h3><p class="rule">Fat cannot be burned from one chosen spot. It comes off the whole body, deep belly fat included.</p>';
+  h+='<ol class="how"><li>Eat a little less than you burn, steadily.</li><li>Do cardio you can repeat: brisk walking, cycling, swimming.</li><li>Lift weights so you keep muscle while losing fat.</li><li>Protect sleep and manage stress.</li><li>Cut back on alcohol and sugary drinks.</li></ol>';
+  h+='<p class="note">General education, not medical advice. A doctor should read any body-composition result with you.</p>';
+  panel.innerHTML=h;
+  function vnote(){$('#vnote').textContent=f.visc>=10?'Level '+f.visc+' is in the high band. The InBody scale marks 10 as the line.':'Level '+f.visc+' is in the low band. The InBody scale marks 10 as the line.'}
+  vnote();
+  REG.concat([['visc']]).forEach(function(r){var k=r[0],inp=$('#f_'+k);inp.oninput=function(){f[k]=+inp.value;$('#n_'+k).textContent=k==='visc'?'Level '+f.visc:f[k].toFixed(1)+' kg';if(k==='visc')vnote();applyFat()}});
+  $('#src').onclick=function(e){var b=e.target.closest('button');if(!b)return;S.fatSrc=b.dataset.s;if(S.fatSrc==='sheet')for(var k in SHEET)f[k]=SHEET[k];renderFat()};
+  $('#sel').onclick=function(e){var b=e.target.closest('button');if(b){S.fatSel=b.dataset.s;renderFat()}};
+  activeProps=[];curVar=null;var p=solve({flat:false,shoulder:{abd:24}});poseA=poseB=p;applyPose(p,p,0);setRoles({});setJoints([],[]);applyFat();
+}
+
+/* ---------- mode switch ---------- */
+function setMode(m){
+  S.mode=m;
+  document.querySelectorAll('.tabs button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.mode===m))});
+  var fat=m==='fat';
+  for(var id in mesh)mesh[id].visible=!fat;
+  for(var n in organs)organs[n].visible=fat;visc.visible=fat;
+  if(!fat)fatShell.forEach(function(o){o.m.visible=false});
+  baseMat.opacity=fat?.32:1;baseMat.depthWrite=!fat;baseMat.needsUpdate=true;
+  $('#legend').innerHTML=fat?'<li><span class="sw f"></span>Fat</li><li><span class="sw" style="background:#7e4435"></span>Organs</li>'
+   :'<li><span class="sw p"></span>Does the work</li><li><span class="sw s"></span>Helps</li>'+(m==='joint'?'':'<li><span class="sw t"></span>Holds you still</li>')
+    +'<li><span class="ring"></span>Moving joint</li>'+(m==='joint'?'':'<li><span class="ring hold"></span>Held joint</li>');
+  $('#pick').hidden=true;S.part='All';S.q='';
+  if(m==='joint'){renderJoint();setCam(null)}
+  else if(m==='fat'){renderFat();setCam({az:18})}
+  else{renderMove(m);setCam(curVar.cam)}
+}
+document.querySelector('.tabs').onclick=function(e){var b=e.target.closest('button');if(b)setMode(b.dataset.mode)};
+document.querySelector('.views').onclick=function(e){var b=e.target.closest('button');if(b){cam.az=+b.dataset.az;placeCam()}};
+
+/* ---------- picking ---------- */
+var ray=new T.Raycaster(),down=null;
+canvas.addEventListener('pointerdown',function(e){down=[e.clientX,e.clientY]});
+canvas.addEventListener('pointerup',function(e){
+  if(!down||Math.abs(e.clientX-down[0])+Math.abs(e.clientY-down[1])>6||S.mode==='fat')return;
+  var r=canvas.getBoundingClientRect();ray.setFromCamera(new T.Vector2((e.clientX-r.left)/r.width*2-1,-((e.clientY-r.top)/r.height)*2+1),camera);
+  var hit=ray.intersectObjects(pickable)[0],box=$('#pick');
+  if(!hit){box.hidden=true;return}
+  var id=hit.object.userData.id,nm=NAMES[id.replace(/_[LR]$/,'')],c=current[id],side=/_L$/.test(id)?', left':/_R$/.test(id)?', right':'';
+  var role=c?{prime:'Does the work',syn:'Helps',stab:'Holds you still'}[c.role]:'Resting in this movement';
+  box.innerHTML='<b>'+esc(nm[0]+side)+'</b><i>'+esc(nm[1])+'</i><br>'+role+(c&&c.why?'. '+esc(c.why):'');box.hidden=false;
+});
+
+/* ---------- loop ---------- */
+function resize(){var w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();placeCam()}
+if(window.ResizeObserver)new ResizeObserver(resize).observe(stage);else window.addEventListener('resize',resize);
+var last=0;
+function frame(ts){
+  var dt=Math.min(.05,(ts-last)/1000||0);last=ts;
+  if(S.playing&&curVar&&!curVar.still&&(S.mode==='exercise'||S.mode==='chore')){
+    S.t+=S.dir*dt/1.5;if(S.t>=1){S.t=1;S.dir=-1}else if(S.t<=0){S.t=0;S.dir=1}
+    var e=S.t*S.t*(3-2*S.t);applyPose(poseA,poseB,e);var ph=$('#phase');if(ph)ph.value=Math.round(S.t*100)}
+  controls.update();renderer.render(scene,camera);requestAnimationFrame(frame);
+}
+
+/* ---------- boot ---------- */
+(function(){var p=solve({});for(var n in p.q)B[n].quaternion.copy(p.q[n]);scene.updateMatrixWorld(true);TOE_REST=wp('ankleL',0,-.085,.1).clone()})();
+resize();setMode('exercise');requestAnimationFrame(frame);
+window.BM={go:function(mode,id,variant,t,az){if(mode==='exercise'||mode==='chore'){S[mode==='exercise'?'ex':'ch']=id;S[mode==='exercise'?'exVar':'chVar'][id]=variant;S.playing=false;S.t=t}
+  setMode(mode);if(mode==='exercise'||mode==='chore')applyPose(poseA,poseB,t);if(az!==undefined&&az!==null){cam.az=az;placeCam()}renderer.render(scene,camera)},state:S,set:function(fn){fn(S)}};
+})();
+</script>
+</body>
+</html>

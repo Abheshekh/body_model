@@ -1,0 +1,44 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:#232a33}canvas{display:block}</style></head><body>
+<canvas id="c"></canvas><script src="three.min.js"></script><script>
+const T=THREE,q=new URLSearchParams(location.search);const W=+q.get('w')||1200,H=+q.get('h')||1500;
+const mode=q.get('mode')||'plain';
+const r=new T.WebGLRenderer({canvas:document.getElementById('c'),antialias:true,preserveDrawingBuffer:true});r.setSize(W,H);r.setPixelRatio(1);
+r.outputEncoding=T.sRGBEncoding;r.toneMapping=T.ACESFilmicToneMapping;r.toneMappingExposure=1.0;r.localClippingEnabled=true;
+const scene=new T.Scene();scene.background=new T.Color(q.get('bg')||'#2a323d').convertSRGBToLinear();
+const cam=new T.PerspectiveCamera(+q.get('fov')||28,W/H,.05,50);
+const az=(+q.get('az')||0)*Math.PI/180,el=(+q.get('el')||4)*Math.PI/180,d=+q.get('d')||4.3,ty=+(q.get('ty')||.83),tx=+(q.get('tx')||0);
+cam.position.set(tx+Math.sin(az)*Math.cos(el)*d,ty+Math.sin(el)*d,.1+Math.cos(az)*Math.cos(el)*d);cam.lookAt(tx,ty,.1);
+scene.add(new T.HemisphereLight(0xdfe8ff,0x3a3030,.75));
+const k=new T.DirectionalLight(0xfff4e6,1.15);k.position.copy(cam.position).add(new T.Vector3(1.5,2.5,.5));scene.add(k);
+const f=new T.DirectionalLight(0xbfd4ff,.45);f.position.set(-cam.position.x-2,1.5,-cam.position.z);scene.add(f);
+const fl=new T.Mesh(new T.CircleGeometry(1.6,64),new T.MeshStandardMaterial({color:new T.Color(0x39424e).convertSRGBToLinear(),roughness:1}));fl.rotation.x=-Math.PI/2;fl.position.y=-.014;scene.add(fl);
+function hash(s){let h=7;for(const ch of s)h=(h*31+ch.charCodeAt(0))>>>0;return (h%1000)/1000}
+const RX={
+ prime:/biceps brachii|brachialis/, syn:/brachioradialis|flexor carpi|flexor digitorum (superficialis|profundus)|palmaris longus|pronator teres|flexor pollicis longus/,
+ stab:/iliocostalis|longissimus (thoracis|lumborum)|spinalis|multifidus|rectus abdominis|oblique|gluteus maximus|clavicular part of .* deltoid|descending part of .* trapezius|supraspinatus|infraspinatus|vastus|rectus femoris|soleus|gastrocnemius/};
+const SUPER=/deltoid|pectoralis major|trapezius|latissimus|rectus abdominis|external oblique|gluteus maximus|gastrocnemius|biceps brachii|rectus femoris|sartorius|sternocleidomastoid|platysma|brachioradialis|tensor fasciae|fascia|aponeurosis|palmaris|flexor carpi radialis|pronator teres/;
+Promise.all([fetch('parts.json').then(x=>x.json()),fetch('body.bin').then(x=>x.arrayBuffer())]).then(([m,buf])=>{
+ const P=new Float32Array(buf,0,m.nv*3),N=new Float32Array(buf,m.nv*12,m.nv*3),I=new Uint32Array(buf,m.nv*24,m.ni);
+ for(const p of m.parts){
+  const k=p.kind,n=p.name,left=/\bleft\b/.test(n);
+  if(mode==='skeleton'&&!(k==='bone'||k==='cartilage'))continue;
+  if(k==='organ')continue;
+  if(k==='skin'&&mode!=='skin')continue;
+  if(mode==='layers'&&left&&(k==='muscle'||k==='tendon')&&SUPER.test(n))continue;
+  const g=new T.BufferGeometry();
+  g.setAttribute('position',new T.BufferAttribute(P.subarray(p.vo*3,(p.vo+p.vc)*3),3));
+  g.setAttribute('normal',new T.BufferAttribute(N.subarray(p.vo*3,(p.vo+p.vc)*3),3));
+  g.setIndex(new T.BufferAttribute(I.subarray(p.io,p.io+p.ic),1));
+  let c=new T.Color(),rough=.55,extra={};
+  if(k==='bone')c.set(0xe8dfc6);else if(k==='cartilage')c.set(0xc9d2cf);else if(k==='tendon')c.set(0xe4d9c8);
+  else if(k==='skin'){c.set(0xd8a488);rough=.7;extra={clippingPlanes:[new T.Plane(new T.Vector3(-1,0,0),0)],side:T.DoubleSide}}
+  else{const h=hash(n.replace(/\b(left|right)\b/,''));c.setHSL(.008+h*.02,.58+h*.12,.36+h*.08);
+   if(mode==='act'){c.setHSL(.02,.14,.5);
+    if(RX.prime.test(n))c.set(0xe0281f);else if(RX.syn.test(n))c.set(0xf08a1a);else if(RX.stab.test(n))c.set(0x2f78c8);}
+   if(mode==='unique'){c.setHSL((hash(n.replace(/\b(left|right)\b/,''))*7.3)%1,.55,.5)}}
+  c.convertSRGBToLinear();const mat=new T.MeshStandardMaterial(Object.assign({color:c,roughness:rough,metalness:0},extra));
+  scene.add(new T.Mesh(g,mat));
+ }
+ r.render(scene,cam);window.__done=true;
+});
+</script></body></html>
