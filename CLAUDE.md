@@ -21,4 +21,4 @@ Android app that shows, on a real anatomical 3D body, which single muscles and j
 - Medical wording: education only, no diagnosis. Every medical claim on screen needs a source.
 
 ## Stack
-TypeScript, three.js, Vite, Vitest. Capacitor for Android. Python only in `tools/` for the data pipeline.
+TypeScript, three.js, Vite, Vitest. Capacitor for Android. Python only in `tools/` for the data pipeline. Android builds: `make apk` and `make aab`, output in `./output`.

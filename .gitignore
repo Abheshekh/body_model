@@ -1,0 +1,9 @@
+node_modules
+dist
+tools/pipeline/.venv
+tools/pipeline/cache
+__pycache__
+output
+.env.local
+*.jks
+*.keystore

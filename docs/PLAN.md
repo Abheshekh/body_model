@@ -1,6 +1,6 @@
 # Body Model — plan
 
-Status: plan v3, 14 Nov 2026. Replaces v2. The mannequin prototype (`prototype/index.html`) is rejected and kept only as a record.
+Status: plan v4, 14 Nov 2026. v4 adds Programs (posture, pelvic tilt, pelvic floor, sexual health), the first-launch question and the Makefile build. Replaces v2 and v3. The mannequin prototype (`prototype/index.html`) is rejected and kept only as a record.
 
 Read with: `docs/SPEC.md` (how each part works) and `docs/PROMPTS.md` (Claude Code prompts, one per milestone).
 
@@ -33,7 +33,7 @@ Release: personal use first. Play Store later as a simple free app.
 | # | Decision | Why | Confidence |
 |---|---|---|---|
 | D1 | TypeScript + three.js + Vite, wrapped with Capacitor for Android | 3D is web tech either way. One codebase. | 75% |
-| D2 | Anatomy source: BodyParts3D (FMA-named STL parts). Z-Anatomy as an upgrade path. | Fetched and rendered already. 352 muscle parts, 195 bone parts, skin. No Blender needed. | 85% for static display |
+| D2 | Anatomy source: BodyParts3D (FMA-named STL parts). Z-Anatomy as an upgrade path. | Fetched and rendered already. 431 muscle parts, 201 bone parts, skin (M1 build). No Blender needed. | 85% for static display |
 | D3 | Rig built in code: joints located from the bone meshes, skin weights computed per muscle | No rigged open anatomy model exists. | 60%, see R1 |
 | D4 | Muscle effort from a statics engine: joint torques from gravity and loads, mapped to muscles by an action table | Answers "what works when I change this joint or this load". Hand lists cannot. | 70% |
 | D5 | Offline first. Data ships in the app. No accounts. | Free app, no server cost. Health data stays on the phone. | 85% |
@@ -61,6 +61,8 @@ One engine serves every screen. Exercises, tasks, free joint moves and "my body"
 | Exercises | Library. Pick exercise, variation, load. Animated with correct form. Per-muscle effort, joints moving and held, cues and mistakes. Edit any keyframe. |
 | Tasks | Build a task: object, weight, where it sits, action (pick up, carry, push, pull, climb, sit, reach). Compare ways of doing it. Edit joints to see the effect. |
 | My model | My conditions and my fat levels. Toggle "typical body / my body" on every screen. Organs affected by fat. How to reduce it. |
+| Programs | Ready-made routines: posture correction, anterior pelvic tilt, pelvic floor, sexual health. Each exercise plays on the body like any other. |
+| First launch | Asks male or female, height and body mass. The answer selects the pelvic-floor and sexual-health programs. |
 
 ## 6. Milestones
 
@@ -74,7 +76,8 @@ Each ends at a checkpoint. Nothing moves on without sign-off.
 | M4 | Exercises | 50 reviewed exercises with equipment models, then pattern-generated library to 300+. | Medium |
 | M5 | Tasks | Object + weight + action + keyframe editing. Stoop vs squat pick-up shows the back-to-legs shift. | Medium |
 | M6 | My model | Conditions, fat by hand, fat from an InBody sheet photo, organs, reduction guidance. | Medium |
-| M7 | Android build | Capacitor wrap, offline, installs on your phone. | Low |
+| M6b | Programs | Posture, pelvic tilt and pelvic floor programs for both sexes. Sexual-health program per sex. Every claim on screen has a source and an evidence label. | Medium |
+| M7 | Android build | Capacitor wrap, offline, installs on your phone. `make apk` and `make aab` write to `./output`. | Low |
 | M8+ | Phase 2 | Plan builder, log, camera form check, food photo log. | High |
 
 M2 is the go/no-go point. If muscles tear badly at the joints, fall back to rigid muscle segments with blended joint caps before trying anything else.
@@ -90,7 +93,7 @@ M2 is the go/no-go point. If muscles tear badly at the joints, fall back to rigi
 | Equipment models | Must be CC0 or made for the project | Record source per model. |
 | Condition and fat text | Written fresh from medical sources | Cite sources in the app. |
 
-Check before Play Store listing (not yet verified): Google Play health-content policy, medical disclaimer wording, privacy policy for camera use.
+Check before Play Store listing (not yet verified): Google Play health-content policy, medical disclaimer wording, privacy policy for camera use, content rating and policy for sexual-wellness content.
 
 ## 8. Risks
 
@@ -104,6 +107,9 @@ Check before Play Store listing (not yet verified): Google Play health-content p
 | R6 | Exercise form quality at 300+ | Patterns reviewed once, then reused. Top 50 reviewed one by one. | 70% |
 | R7 | Photo calories are rough | Photo gives a draft. User corrects. | 85% works, accuracy low |
 | R8 | Camera form check | Last item. Start with two lifts. | 50% |
+| R9 | The anatomy data is one male body | Female users get female programs shown on male anatomy until a female model is added. Say so in the app. | 90% that this limit stays through Phase 1 |
+| R10 | Sexual-health claims overstated | Only what trials support: pelvic floor training and aerobic exercise. No size or length claims. Evidence label on each claim. Tell users to see a doctor for lasting problems. | 85% |
+| R11 | Play Store rejects or age-restricts the sexual-health program | Clinical wording, anatomical model only, 18+ confirmation before that program. Check the policy before listing. | 70% |
 
 ## 9. What is already in the repo
 
@@ -113,6 +119,7 @@ Check before Play Store listing (not yet verified): Google Play health-content p
 | `tools/anatomy-spike/build_body.py` | Script that made the data for those renders. Starting point for M1. |
 | `tools/anatomy-spike/render.html` | Minimal three.js viewer used for the renders |
 | `prototype/index.html` | Rejected v1 mannequin. Reference for screens only. |
+| `Makefile` | `make apk` (debug APK) and `make aab` (signed Play Store bundle). Output in `./output`. Setup steps tested; the Gradle build itself not yet run. |
 
 ## 10. Working method
 
@@ -129,3 +136,6 @@ Check before Play Store listing (not yet verified): Google Play health-content p
 - Visceral fat and organs: https://www.boltpharmacy.co.uk/guide/can-visceral-fat-injure-internal-organs
 - Visceral fat reduction: https://www.medicalnewstoday.com/articles/320929.php
 - Photo calorie accuracy: https://biolayne.com/reps/issue-44/can-we-use-ai-to-accurately-track-calories-with-a-picture/
+- Pelvic floor training for erectile dysfunction and premature ejaculation (systematic review): https://pubmed.ncbi.nlm.nih.gov/30979506/
+- Aerobic exercise and erectile function (meta-analysis of 11 trials): https://pubmed.ncbi.nlm.nih.gov/37814532/
+- Pelvic floor training for urinary incontinence in women (Cochrane): https://www.cochrane.org/evidence/CD005654

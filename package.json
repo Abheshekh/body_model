@@ -1,0 +1,32 @@
+{
+  "name": "body-model",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run --passWithNoTests",
+    "lint": "eslint .",
+    "pipeline": "tools/pipeline/.venv/bin/python -I tools/pipeline/build.py",
+    "test:pipeline": "tools/pipeline/.venv/bin/python -I -m unittest discover -s tools/pipeline -p 'test_*.py'"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/cli": "^8.6.2",
+    "@capacitor/core": "^8.6.2",
+    "three": "^0.187.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@gltf-transform/cli": "^4.5.1",
+    "@types/node": "^22.20.5",
+    "@types/three": "^0.187.0",
+    "eslint": "^10.15.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.72.2",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0"
+  }
+}

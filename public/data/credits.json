@@ -1,0 +1,20 @@
+{
+ "sources": [
+  {
+   "name": "BodyParts3D",
+   "url": "https://github.com/Kevin-Mattheus-Moerman/BodyParts3D",
+   "licence": "CC BY-SA 2.1 JP",
+   "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en",
+   "commit": "2c83c698788cff57f6317bddcf712e7acfbea7d8"
+  }
+ ],
+ "items": [
+  {
+   "asset": "BodyParts3D",
+   "licence": "CC BY-SA 2.1 JP",
+   "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en",
+   "text": "Summary: Creative Commons License Creative Commons Attribution-Inheritance 2.1 Japan (CC BY-SA)\n\nOriginal: http://lifesciencedb.jp/bp3d/info_en/license/index.html\n\nTranslation: https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en\n\nAbout terms of use and credit description:\nThe standard licenses for the contents (including images created by Anatomography) published on this site (http://lifesciencedb.jp/bp3d, http://lifesciencedb.jp/ag) are as follows.\n\nCreative Commons License Creative Commons Attribution-Inheritance 2.1 Japan\n\nPlease be sure to display the following credits before using.\n\nBodyParts3D, Copyrightc 2008 Life Science Integrated Database Center licensed by CC Display-Inheritance 2.1 Japan\n",
+   "modified": "Simplified and converted to glTF for this app."
+  }
+ ]
+}

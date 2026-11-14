@@ -1,0 +1,27 @@
+{
+  "sources": [
+    {"name": "BodyParts3D", "url": "https://github.com/Kevin-Mattheus-Moerman/BodyParts3D", "licence": "CC BY-SA 2.1 JP", "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en"}
+  ],
+  "repo": "https://github.com/Kevin-Mattheus-Moerman/BodyParts3D",
+  "dataDir": "assets/BodyParts3D_data",
+  "triangleBudget": 400000,
+  "kinds": {
+    "muscle": [0.07, 700, 7000],
+    "tendon": [0.07, 500, 5000],
+    "bone": [0.035, 300, 3500],
+    "cartilage": [0.03, 200, 2000],
+    "organ": [0.03, 2000, 6000],
+    "skin": [1, 60000, 60000]
+  },
+  "rules": {
+    "organs": ["liver", "stomach", "left kidney", "right kidney", "duodenum", "jejunum", "ileum", "colon", "rectum", "pancreas", "wall of heart"],
+    "tendon": "tendon|aponeurosis|\\bfascia\\b|fascia lata|iliotibial tract|linea alba",
+    "tendonAlways": "iliotibial tract|linea alba",
+    "exclude": "artery|arteries|\\bvein|nerve|vena|sinus|\\bduct\\b|ganglion|plexus|gyrus|lobe|ventricle|nucleus|tract|aorta|bronch|trache|lymph|gland|ligament|tooth|atrium|valve|cortex|sulcus|lobule|segment of|capsule|bursa|retinaculum|hair|eyebrow|brain|cerebr|thalam|hippocamp|amygdal|putamen|pallidus|colliculus|geniculate|fornix|commissure|\\bpons\\b|medulla|spinal cord|lung|spleen|appendix|bladder|papillary",
+    "muscle": "muscle|biceps|triceps|deltoid|gluteus|pectoralis|latissimus|trapezius\\b|vastus|rectus|gastrocnemius|soleus|brachi|oblique|serratus|rhomboid|teres|spinatus|subscapularis|adductor|abductor|flexor|extensor|pronator|supinator|sartorius|gracilis|semitendinosus|semimembranosus|iliacus|psoas|piriformis|gemellus|obturator|quadratus|pectineus|tensor|popliteus|plantaris|tibialis|fibularis|peroneus|sternocleidomastoid|scalen|splenius|levator|longissimus|iliocostalis|spinalis|multifidus|semispinalis|diaphragm|masseter|temporalis|platysma|digastric|coracobrachialis|anconeus|palmaris|interosse|lumbrical|opponens|transversus|erector|orbicularis|zygomatic|buccinator|mylohyoid|intercostal|rotatores|subclavius|sternohyoid|omohyoid|thyrohyoid|sternothyroid|geniohyoid|stylohyoid|pterygoid|occipitofrontalis|rotator|obliquus|intertransversari|interspinales|depressor|risorius|mentalis|coccygeus|sphincter|frontalis|occipitalis|temporoparietalis|procerus|nasalis|corrugator|longus capitis|longus colli|puborectalis|pyramidalis|iliococcygeus",
+    "notMuscle": "trapezium|trapezoid",
+    "bone": "vertebra|\\brib\\b|femur|tibia|fibula|humerus|radius|ulna|scapula|clavicle|sternum|manubrium|xiphoid|hip bone|sacrum|coccyx|patella|phalanx|metacarpal|metatarsal|calcaneus|talus|navicular|cuboid|cuneiform|scaphoid|lunate|triquetr|pisiform|trapezium|trapezoid|capitate|hamate|bone|mandible|maxilla|hyoid|costal cartilage|intervertebral disk|\\batlas\\b|\\baxis\\b|ethmoid|vomer|concha|thyroid cartilage|nasal cartilage",
+    "cartilage": "cartilage|disk"
+  },
+  "superficial": ["deltoid", "pectoralis major", "trapezius", "latissimus dorsi", "rectus abdominis", "external oblique", "gluteus maximus", "gastrocnemius", "biceps brachii", "triceps brachii", "rectus femoris", "vastus lateralis", "vastus medialis", "sartorius", "gracilis", "adductor longus", "biceps femoris", "semitendinosus", "tibialis anterior", "fibularis longus", "extensor digitorum longus", "sternocleidomastoid", "platysma", "brachioradialis", "extensor carpi radialis longus", "extensor carpi ulnaris", "flexor carpi ulnaris", "flexor carpi radialis", "palmaris longus", "pronator teres", "serratus anterior", "teres major", "infraspinatus", "soleus", "masseter", "temporalis", "frontalis", "occipitalis", "orbicularis", "tensor fasciae latae", "fascia", "aponeurosis", "calcaneal tendon", "iliotibial tract"]
+}

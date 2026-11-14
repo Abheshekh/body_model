@@ -224,6 +224,40 @@ Stop. Write docs/reports/M6.md, including every medical claim on screen with its
 
 ---
 
+## M6b — Programs
+
+```
+/feature-build M6b: programs (posture, pelvic tilt, pelvic floor, sexual health)
+
+Read first: CLAUDE.md, docs/SPEC.md sections 5, 7 and 10, docs/reports/M4-step1.md, docs/reports/M6.md.
+
+Goal
+Ready-made routines the user can follow, each exercise shown on the real body, each health claim sourced.
+
+Build
+- First-launch screen: male or female, height, body mass. Stored on the device only. Editable later in My model.
+- Program record and Programs screen as SPEC section 10.
+- Posture correction and anterior pelvic tilt programs. Every exercise is a normal Exercise record with reviewed keyframes. Link them from the matching condition in My model.
+- Pelvic floor program for both sexes. Add the pelvic floor meshes to the pipeline if they are not in the build, and a view from below with the pelvis translucent. Highlight these muscles from the exercise record (the documented exception to the engine rule).
+- Sexual-health program per sex, exactly as SPEC sections 10.4 and 10.5. Show only the one that matches the profile. 18+ confirmation before it opens.
+- Evidence labels and sources on screen for every claim. Confirm each dose against a clinical guideline and record the source in the data.
+
+Rules
+- No claim beyond SPEC section 10. No size or length claims. No jelqing, devices or supplements.
+- Clinical wording. Anatomical model only.
+- No profile value or program state leaves the device.
+
+Acceptance
+Each program plays end to end with no failing form check.
+A table in the report: every claim shown on screen, its source and its evidence label.
+Male profile never shows the female program, and the reverse, as a test.
+
+Checkpoint
+Stop. Write docs/reports/M6b.md.
+```
+
+---
+
 ## M7 — Android build
 
 ```
@@ -236,6 +270,7 @@ Install the app on my Android phone. It must work with no network.
 
 Build
 - Capacitor wrap. All data bundled. No runtime network calls.
+- The repo has a Makefile: `make apk` and `make aab` write to ./output. Keep both working. Fix the Makefile if the Capacitor setup differs from what it assumes.
 - Touch controls checked on a real phone: joint drag, one-finger orbit on empty space, pinch zoom.
 - Camera permission only where the sheet import needs it.
 - Credits and licences screen complete. Medical disclaimer screen.

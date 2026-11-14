@@ -8,18 +8,20 @@ Source: BodyParts3D. 934 STL parts, each named by an FMA id (`parts_list_e.txt`)
 
 | Kind | Parts | Notes |
 |---|---|---|
-| Muscle | 352 | Separate left and right. Heads are separate parts (for example long and short head of biceps). |
-| Tendon, aponeurosis, fascia | 11 | Render pale. |
-| Bone | 195 | Every vertebra, rib and phalanx is its own part. |
-| Cartilage, discs | 39 | |
+| Muscle | 431 | Separate left and right. Heads are separate parts (for example long and short head of biceps). Count is from the M1 build (693 parts in the glb). |
+| Tendon, aponeurosis, fascia | 8 | Render pale. |
+| Bone | 201 | Every vertebra, rib and phalanx is its own part. |
+| Cartilage, discs | 41 | |
 | Skin | 1 | Whole-body surface. Used for the skin layer and the fat view. |
-| Organs found so far | 8 | Liver, stomach, both kidneys, duodenum, jejunum, ileum, rectum. Heart and pancreas need a name search in the full list. |
+| Organs | 11 | Liver, stomach, both kidneys, duodenum, jejunum, ileum, colon, rectum, pancreas (`pancreas, nsn`) and the heart (`wall of heart`, the only heart mesh). Lungs are excluded (user decision). |
+
+The spike's `duct` exclusion wrongly dropped adductors and abductors. M1 uses `\bduct\b`.
 
 Pipeline (M1):
 1. Classify parts by name. Start from `tools/anatomy-spike/build_body.py`.
-2. Simplify per part. Test budget was 1.02 million triangles total (7% of each muscle, 3.5% of each bone, 60 thousand for skin). Phone target 300–500 thousand.
+2. Simplify per part. Budget is 400 thousand triangles total (`triangleBudget` in `tools/pipeline/config.json`; per-kind keep fractions scaled to fit).
 3. Convert to metres, Y up, +Z front, +X the body's left.
-4. Export glTF binary with one named mesh per part, compressed (Draco or meshopt).
+4. Export glTF binary with one named mesh per part, compressed with meshopt.
 5. Write `parts.json`: FMA id, name, kind, side, layer (superficial or deep), muscle key (section 4).
 
 The source meshes are smooth. They have no fibre texture. Add a simple procedural fibre normal map later if wanted. Do not promise the sculpted look of paid models.
@@ -144,7 +146,7 @@ Outputs: per-muscle effort, lower-back moment in Nm with a low/medium/high band,
 
 ## 7. My model (M6)
 
-Profile: height, body mass, sex. Stored on the phone only.
+Profile: sex (male or female, asked on first launch), height, body mass. Stored on the phone only. Sex selects the pelvic-floor and sexual-health programs in section 10. It can be changed later in My model.
 
 Conditions. Each is a posture offset on the rig plus notes.
 
@@ -196,3 +198,102 @@ Rules: the engine is a pure module with tests. Data lives in JSON, not in code. 
 ## 9. Phase 2 outline
 
 Plan builder (balances weekly volume per muscle using engine output), workout log and progression, camera form check (phone pose detection compared with keyframes and `formChecks`), food photo log (draft from a vision model, user corrects, daily total against a target).
+
+## 10. Programs (M6b)
+
+A program is an ordered list of exercises with a dose. Every item is a normal Exercise record (section 5), so it plays on the body and the engine shows the muscles.
+
+```
+Program
+  id, title, audience            all | male | female
+  linkedConditions[]             conditions from section 7 that suggest this program
+  items[]                        exerciseId, sets, reps or holdSeconds, frequency
+  evidence[]                     claim, source, strength (strong | moderate | weak | convention)
+  cautions[]
+```
+
+Rules for all programs:
+- Each on-screen claim carries its source and an evidence label.
+- Education, not treatment. Pain, numbness or a lasting problem: the app says see a clinician.
+- Doses are start values. Confirm each against a clinical guideline during M6b and record the source.
+
+### 10.1 Posture correction
+
+| Target | Exercises |
+|---|---|
+| Forward head | Chin tuck, deep neck flexor hold, upper trapezius and levator scapulae stretch |
+| Rounded shoulders, thoracic kyphosis | Thoracic extension over a roller, wall slide, band pull-apart, face pull, prone Y and T raise, doorway chest stretch |
+| Trunk control | Dead bug, bird dog, front plank, side plank, hip hinge drill |
+| Knee valgus | Side-lying hip abduction, banded lateral walk, single-leg squat to a box |
+| Flat feet | Short-foot drill, calf raise with slow lowering, towel curl |
+
+Choosing a condition in My model suggests the matching program. The evidence that exercise changes standing posture is mixed. Label these "convention" unless a trial is cited.
+
+### 10.2 Anterior pelvic tilt
+
+| Aim | Exercises |
+|---|---|
+| Lengthen the front of the hip | Half-kneeling hip flexor stretch, couch stretch for rectus femoris |
+| Strengthen what tilts the pelvis back | Glute bridge, hip thrust, dead bug, reverse crunch, plank held with the pelvis tucked |
+| Hamstrings | Romanian deadlift, hamstring curl |
+| Control | Standing and lying pelvic tilt practice: tilt forward, tilt back, find the middle |
+
+Show the pelvis and lumbar spine from the side during each one, with the tilt angle. State plainly: pelvic tilt varies between people, a forward tilt is common, and it often comes with no pain.
+
+### 10.3 Pelvic floor (both sexes)
+
+Body data: the meshes exist for pubococcygeus, iliococcygeus, coccygeus (left and right) and the external anal sphincter. Add a view from below with the pelvis bones translucent.
+
+| Step | Content |
+|---|---|
+| Find the muscles | Cue in words. Show the muscles lifting on the model. |
+| Slow holds | Squeeze and lift, hold, then relax fully for the same time. Build the hold up gradually. |
+| Quick squeezes | Short, strong contractions with full release between them. |
+| Progress | Lying, then sitting, then standing, then during a lift or a cough. |
+| Relaxation | Diaphragmatic breathing, deep squat hold, happy-baby pose. For people whose pelvic floor is tense, relaxing matters more than squeezing. |
+
+Rules:
+- These muscles do not hold a joint against gravity, so the effort engine cannot compute them. Highlight them from the exercise record. This is the one allowed exception to "muscles come from the engine". Mark it in the data.
+- Do not teach stopping urine mid-flow as a routine exercise.
+- Pain, or symptoms getting worse: stop and see a pelvic health physiotherapist.
+
+Evidence to show: for women with stress urinary incontinence, pelvic floor training made a reported cure about eight times more likely than no treatment (Cochrane review, 31 trials). Label: strong.
+
+### 10.4 Sexual health, male
+
+Asked for as "longevity and keeping an erection longer". Read this as long-term erectile health and ejaculation control.
+
+| Component | Exercises | Evidence to show |
+|---|---|---|
+| Pelvic floor training | Section 10.3 holds and quick squeezes, plus control practice | A systematic review of 10 trials found it appears effective for erectile dysfunction and premature ejaculation. Trial quality was low to moderate and no best protocol is known. Label: moderate. |
+| Aerobic exercise | Brisk walking, cycling, running, swimming, on a weekly schedule | A meta-analysis of 11 randomised trials (1,147 men) found erectile function scores improved by 2.8 points on a 6–30 scale, more in men who started lower. Label: moderate. |
+| Strength and weight | Whole-body strength work from the Exercises library. Link to the fat view. | General health link. Label: convention unless a trial is cited. |
+
+Rules:
+- No exercise makes the penis longer or larger. Say so. Do not include jelqing, stretching devices or supplements.
+- Erection problems that last can be an early sign of heart, blood-vessel or blood-sugar disease. The app says see a doctor.
+- The muscles most involved (bulbospongiosus, ischiocavernosus) are not in the BodyParts3D part list. Show the region, or add simple meshes, and say which.
+
+### 10.5 Sexual health, female
+
+| Component | Exercises | Evidence to show |
+|---|---|---|
+| Pelvic floor training | Section 10.3 | The same Cochrane review reports better sexual outcomes in the training groups. Label: moderate. |
+| Pelvic floor relaxation | Section 10.3 relaxation set, hip mobility | For pain or tension. Label: convention. |
+| General fitness | Aerobic and strength work from the library | Label: convention. |
+
+Rules:
+- During pregnancy and after birth: the app says check with a clinician before starting.
+- The body shown is male anatomy (see PLAN risk R9). Say so on this screen until a female model exists.
+
+### 10.6 Presentation
+
+- Clinical wording. Anatomical model only. No explicit imagery.
+- Confirm the user is 18 or over before opening a sexual-health program.
+- Nothing in these programs, and no answer to the first-launch question, leaves the device.
+
+### 10.7 Sources
+
+- Myers and Smith 2019, Physiotherapy 105(2): https://pubmed.ncbi.nlm.nih.gov/30979506/
+- Khera, Bhattacharyya and Miller 2023, Journal of Sexual Medicine 20(12): https://pubmed.ncbi.nlm.nih.gov/37814532/
+- Dumoulin, Cacciari and Hay-Smith 2018, Cochrane CD005654: https://www.cochrane.org/evidence/CD005654
