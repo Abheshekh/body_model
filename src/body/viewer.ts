@@ -2,15 +2,16 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { LAYER_KEYS, flyDistance, layerOf, mixColor, type LayerKey, type Part } from './model';
+import { LAYER_KEYS, fitDistance, layerOf, mixColor, viewOffset, visibleFraction, type Inset, type LayerKey, type Part } from './model';
 
 const t0 = performance.now();
 const FOV = 30;
 const TARGET = new THREE.Vector3(0, 0.85, 0);
 const VIEWS = {
-  front: new THREE.Vector3(0, 0.9, 4.3),
-  side: new THREE.Vector3(4.3, 0.9, 0),
-  back: new THREE.Vector3(0, 0.9, -4.3),
+  front: { pos: new THREE.Vector3(0, 0.9, 4.3), target: TARGET },
+  side: { pos: new THREE.Vector3(4.3, 0.9, 0), target: TARGET },
+  back: { pos: new THREE.Vector3(0, 0.9, -4.3), target: TARGET },
+  below: { pos: new THREE.Vector3(0, 0.35, 0.22), target: new THREE.Vector3(0, 0.8, 0.06) },
 };
 const KIND_COLOR = { bone: 0xe8dfc6, cartilage: 0xc9d2cf, tendon: 0xe4d9c8, skin: 0xd8a488, organ: 0xa0524d };
 const DEFAULT_LAYERS: LayerKey[] = ['superficialMuscles', 'deepMuscles', 'skeleton'];
@@ -18,9 +19,15 @@ const DEFAULT_LAYERS: LayerKey[] = ['superficialMuscles', 'deepMuscles', 'skelet
 export interface Viewer {
   parts: Part[];
   setLayerVisible(key: LayerKey, on: boolean): void;
+  isLayerVisible(key: LayerKey): boolean;
   setView(v: 'front' | 'side' | 'back'): void;
+  setLayerOpacity(key: LayerKey, opacity: number): void;
+  setPelvicView(on: boolean, keepIds?: string[]): void;
+  onLayersChanged(cb: () => void): void;
   pick(clientX: number, clientY: number): Part | null;
   flyTo(id: string): void;
+  setViewInset(inset: Inset): void;
+  frameIds(ids: string[], facing?: 'front' | 'back'): void;
 }
 
 interface Internal {
@@ -114,12 +121,23 @@ async function build(canvas: HTMLCanvasElement, opts: { fps: boolean }, host: HT
   const request = () => { dirty = true; };
   controls.addEventListener('change', request);
 
+  // projection offset: the body centres in the part of the canvas not under the nav or the sheet
+  let inset: Inset = { top: 0, right: 0, bottom: 0, left: 0 };
+  const size = () => ({ w: canvas.clientWidth || 1, h: canvas.clientHeight || 1 });
+  const applyOffset = () => {
+    const { w, h } = size();
+    if (!inset.top && !inset.right && !inset.bottom && !inset.left) camera.clearViewOffset();
+    else {
+      const o = viewOffset({ w, h }, inset);
+      camera.setViewOffset(w, h, o.x, o.y, w, h);
+    }
+  };
   const resize = () => {
-    const w = canvas.clientWidth || 1;
-    const h = canvas.clientHeight || 1;
+    const { w, h } = size();
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
+    applyOffset();
     request();
   };
   new ResizeObserver(resize).observe(canvas);
@@ -171,21 +189,80 @@ async function build(canvas: HTMLCanvasElement, opts: { fps: boolean }, host: HT
       overlay.textContent = `${stamps.length} fps · load ${overlay.dataset.load ?? '?'}`;
     }
   };
-  setCamera(VIEWS.front, TARGET);
+  setCamera(VIEWS.front.pos, VIEWS.front.target);
   resize();
   requestAnimationFrame(loop);
 
   const raycaster = new THREE.Raycaster();
+  const listeners: (() => void)[] = [];
+  const changed = () => { request(); for (const cb of listeners) cb(); };
+  const opacity = new Map<LayerKey, number>(LAYER_KEYS.map((k) => [k, 1]));
+  const setOpacity = (k: LayerKey, o: number) => {
+    const v = Math.min(1, Math.max(0, o));
+    opacity.set(k, v);
+    for (const m of layerMeshes.get(k)!) {
+      const mat = m.material as THREE.MeshStandardMaterial;
+      mat.opacity = v;
+      mat.transparent = v < 1;
+      mat.depthWrite = v >= 1;
+      mat.needsUpdate = true;
+    }
+  };
+  let saved: { vis: Map<THREE.Mesh, boolean>; opacity: Map<LayerKey, number> } | null = null;
   current = { meshes, base: baseColors, render: request };
+
+  const frameIds = (ids: string[], facing?: 'front' | 'back') => {
+    const box = new THREE.Box3();
+    for (const id of ids) {
+      const mesh = meshes.get(id);
+      if (mesh) box.expandByObject(mesh);
+    }
+    if (box.isEmpty()) return;
+    const sphere = box.getBoundingSphere(new THREE.Sphere());
+    const dir = facing ? new THREE.Vector3(0, 0, facing === 'front' ? 1 : -1) : camera.position.clone().sub(controls.target);
+    if (dir.lengthSq() < 1e-12) dir.set(0, 0, 1);
+    dir.normalize();
+    const dist = fitDistance(sphere.radius, FOV, visibleFraction(size(), inset));
+    const to = sphere.center.clone().add(dir.multiplyScalar(dist));
+    tween = { from: camera.position.clone(), to, tFrom: controls.target.clone(), tTo: sphere.center.clone(), start: performance.now() };
+    request();
+  };
 
   return {
     parts,
     setLayerVisible(k, on) {
       for (const m of layerMeshes.get(k)!) m.visible = on;
-      request();
+      changed();
+    },
+    isLayerVisible(k) {
+      return layerMeshes.get(k)!.some((m) => m.visible);
     },
     setView(v) {
-      setCamera(VIEWS[v], TARGET);
+      setCamera(VIEWS[v].pos, VIEWS[v].target);
+    },
+    setLayerOpacity(k, o) {
+      setOpacity(k, o);
+      changed();
+    },
+    setPelvicView(on, keepIds = []) {
+      if (on) {
+        if (!saved) saved = { vis: new Map([...meshes.values()].map((m) => [m, m.visible])), opacity: new Map(opacity) };
+        const keep = new Set(keepIds);
+        for (const k of ['skin', 'superficialMuscles', 'deepMuscles'] as LayerKey[]) {
+          for (const m of layerMeshes.get(k)!) m.visible = keep.has(m.name);
+        }
+        for (const m of layerMeshes.get('skeleton')!) m.visible = true;
+        setOpacity('skeleton', 0.25);
+        setCamera(VIEWS.below.pos, VIEWS.below.target);
+      } else if (saved) {
+        for (const [m, v] of saved.vis) m.visible = v;
+        for (const [k, o] of saved.opacity) setOpacity(k, o);
+        saved = null;
+      } else return;
+      changed();
+    },
+    onLayersChanged(cb) {
+      listeners.push(cb);
     },
     pick(clientX, clientY) {
       const r = canvas.getBoundingClientRect();
@@ -196,16 +273,14 @@ async function build(canvas: HTMLCanvasElement, opts: { fps: boolean }, host: HT
       return hit ? (byId.get(hit.object.name) ?? null) : null;
     },
     flyTo(id) {
-      const mesh = meshes.get(id);
-      if (!mesh) return;
-      const sphere = new THREE.Box3().setFromObject(mesh).getBoundingSphere(new THREE.Sphere());
-      const dir = camera.position.clone().sub(controls.target);
-      if (dir.lengthSq() < 1e-12) dir.set(0, 0, 1);
-      dir.normalize();
-      const to = sphere.center.clone().add(dir.multiplyScalar(flyDistance(sphere.radius, FOV)));
-      tween = { from: camera.position.clone(), to, tFrom: controls.target.clone(), tTo: sphere.center.clone(), start: performance.now() };
+      frameIds([id]);
+    },
+    setViewInset(next) {
+      inset = { ...next };
+      applyOffset();
       request();
     },
+    frameIds,
   };
 }
 
@@ -219,13 +294,20 @@ export function setPartColor(id: string, color: string | number, level: number):
     console.warn(`setPartColor: unknown part id "${id}"`);
     return false;
   }
-  (mesh.material as THREE.MeshStandardMaterial).color.setHex(mixColor(current.base.get(id)!, colorNumber(color), level));
+  const mat = mesh.material as THREE.MeshStandardMaterial;
+  mat.color.setHex(mixColor(current.base.get(id)!, colorNumber(color), level));
+  // glow so a highlight still reads where the key light does not reach (back view, pelvic view from below)
+  mat.emissive.setHex(mixColor(0x000000, colorNumber(color), level * 0.35));
   current.render();
   return true;
 }
 
 export function clearHighlights(): void {
   if (!current) return;
-  for (const [id, mesh] of current.meshes) (mesh.material as THREE.MeshStandardMaterial).color.setHex(current.base.get(id)!);
+  for (const [id, mesh] of current.meshes) {
+    const mat = mesh.material as THREE.MeshStandardMaterial;
+    mat.color.setHex(current.base.get(id)!);
+    mat.emissive.setHex(0x000000);
+  }
   current.render();
 }

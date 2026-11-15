@@ -1,5 +1,5 @@
 import { LAYER_KEYS, layerOf, parseLayersParam, searchParts, type LayerKey, type Part } from '../body/model';
-import { clearHighlights, createViewer, setPartColor } from '../body/viewer';
+import { clearHighlights, createViewer, setPartColor, type Viewer } from '../body/viewer';
 
 const LABELS: Record<LayerKey, string> = {
   skin: 'Skin',
@@ -10,7 +10,7 @@ const LABELS: Record<LayerKey, string> = {
 };
 const DEFAULT_ON: LayerKey[] = ['superficialMuscles', 'deepMuscles', 'skeleton'];
 
-export function mountExplore(root: HTMLElement): void {
+export function mountExplore(root: HTMLElement): Promise<Viewer> {
   const q = new URLSearchParams(location.search);
   root.innerHTML = `
     <canvas class="scene"></canvas>
@@ -45,7 +45,8 @@ export function mountExplore(root: HTMLElement): void {
   };
   $('.card-close').addEventListener('click', () => showCard(null));
 
-  createViewer(canvas, { fps: q.get('fps') === '1' }).then((viewer) => {
+  const ready = createViewer(canvas, { fps: q.get('fps') === '1' });
+  ready.then((viewer) => {
     const initial = parseLayersParam(q.get('layers')) ?? new Set(DEFAULT_ON);
     const boxes = new Map<LayerKey, HTMLInputElement>();
     for (const k of LAYER_KEYS) {
@@ -60,10 +61,16 @@ export function mountExplore(root: HTMLElement): void {
       boxes.set(k, box);
     }
 
+    // checkboxes follow the viewer, including layer changes made by the pelvic view or by Programs
+    viewer.onLayersChanged(() => { for (const [k, box] of boxes) box.checked = viewer.isLayerVisible(k); });
+
     for (const v of ['front', 'side', 'back'] as const) {
       const b = document.createElement('button');
       b.textContent = v[0].toUpperCase() + v.slice(1);
-      b.addEventListener('click', () => viewer.setView(v));
+      b.addEventListener('click', () => {
+        viewer.setPelvicView(false); // Programs may have left the pelvic view on
+        viewer.setView(v);
+      });
       $('.views').appendChild(b);
     }
     const view = q.get('view');
@@ -108,4 +115,5 @@ export function mountExplore(root: HTMLElement): void {
 
     (window as unknown as { bodyModel: unknown }).bodyModel = { viewer, setPartColor, clearHighlights };
   }).catch(() => { /* viewer already showed the load error */ });
+  return ready;
 }

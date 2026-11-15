@@ -64,3 +64,48 @@ export function parseLayersParam(v: string | null): Set<LayerKey> | null {
   if (v === null) return null;
   return new Set(v.split(',').filter((k): k is LayerKey => (LAYER_KEYS as string[]).includes(k)));
 }
+
+export function partIdsByName(parts: Part[], names: string[]): { ids: string[]; missing: string[] } {
+  const ids: string[] = [];
+  const missing: string[] = [];
+  for (const n of names) {
+    const hit = parts.filter((p) => p.name === n || p.name === `left ${n}` || p.name === `right ${n}`);
+    if (hit.length) ids.push(...hit.map((p) => p.id));
+    else missing.push(n);
+  }
+  return { ids, missing };
+}
+
+export const PELVIC_FLOOR = ['pubococcygeus', 'puborectalis', 'iliococcygeus', 'coccygeus', 'external anal sphincter'];
+
+export interface Inset { top: number; right: number; bottom: number; left: number }
+type Vp = { w: number; h: number };
+
+export function viewOffset(_vp: Vp, inset: Inset): { x: number; y: number } {
+  return { x: (inset.right - inset.left) / 2, y: (inset.bottom - inset.top) / 2 };
+}
+
+export function visibleFraction(vp: Vp, inset: Inset): number {
+  return Math.max(0.2, Math.min((vp.w - inset.left - inset.right) / vp.w, (vp.h - inset.top - inset.bottom) / vp.h));
+}
+
+export function fitDistance(radius: number, fovDeg: number, fraction: number): number {
+  return flyDistance(radius, fovDeg) / Math.max(0.2, fraction);
+}
+
+export function highlightPlan(parts: Part[], names: string[]): {
+  ids: string[]; missing: string[]; pelvic: boolean; layers: LayerKey[]; seeThroughSuperficial: boolean; facing: 'front' | 'back';
+} {
+  const { ids, missing } = partIdsByName(parts, names);
+  const pelvic = ids.length > 0 && names.every((n) => PELVIC_FLOOR.includes(n));
+  const hit = parts.filter((p) => ids.includes(p.id));
+  const used = new Set(hit.map(layerOf));
+  const layers = LAYER_KEYS.filter((k) => used.has(k));
+  const mean = (a: Part[]) => (a.length ? a.reduce((s, p) => s + p.center[2], 0) / a.length : 0);
+  const midZ = mean(parts.filter((p) => p.kind === 'muscle'));
+  return {
+    ids, missing, pelvic, layers,
+    seeThroughSuperficial: !pelvic && layers.includes('deepMuscles'),
+    facing: ids.length > 0 && mean(hit) < midZ ? 'back' : 'front',
+  };
+}

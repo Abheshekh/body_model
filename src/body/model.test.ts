@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { flyDistance, layerOf, mixColor, parseLayersParam, searchParts, type Kind, type Part } from './model';
+import { PELVIC_FLOOR, fitDistance, flyDistance, highlightPlan, layerOf, mixColor, parseLayersParam, partIdsByName, searchParts, viewOffset, visibleFraction, type Kind, type Part } from './model';
 
 const mk = (id: string, name: string, plainName: string, kind: Kind, layer: Part['layer'] = null): Part => ({
   id, name, plainName, kind, side: 'center', layer, muscleKey: null, triangles: 1, center: [0, 0, 0],
@@ -79,5 +79,94 @@ describe('flyDistance', () => {
   });
   it('scales with radius', () => {
     expect(flyDistance(1, 30)).toBeCloseTo(4.636, 3);
+  });
+});
+
+describe('partIdsByName', () => {
+  const parts = [
+    mk('1', 'left coccygeus', 'Coccygeus, left', 'muscle', 'deep'),
+    mk('2', 'right coccygeus', 'Coccygeus, right', 'muscle', 'deep'),
+    mk('3', 'external anal sphincter', 'External anal sphincter', 'muscle', 'deep'),
+    mk('4', 'coccygeus tendon', 'Other', 'tendon', 'deep'),
+  ];
+  it('matches both sides', () => {
+    expect(partIdsByName(parts, ['coccygeus']).ids).toEqual(['1', '2']);
+  });
+  it('matches an exact name', () => {
+    expect(partIdsByName(parts, ['external anal sphincter']).ids).toEqual(['3']);
+  });
+  it('reports unknown names as missing', () => {
+    expect(partIdsByName(parts, ['coccygeus', 'nope'])).toEqual({ ids: ['1', '2'], missing: ['nope'] });
+  });
+});
+
+describe('viewOffset', () => {
+  it('phone sheet inset', () => {
+    expect(viewOffset({ w: 390, h: 844 }, { top: 44, right: 0, bottom: 338, left: 0 })).toEqual({ x: 0, y: 147 });
+  });
+  it('desktop side panel inset', () => {
+    expect(viewOffset({ w: 1280, h: 800 }, { top: 44, right: 420, bottom: 0, left: 0 })).toEqual({ x: 210, y: -22 });
+  });
+});
+
+describe('visibleFraction', () => {
+  it('phone sheet inset', () => {
+    expect(visibleFraction({ w: 390, h: 844 }, { top: 44, right: 0, bottom: 338, left: 0 })).toBeCloseTo(462 / 844, 4);
+  });
+  it('desktop side panel inset', () => {
+    expect(visibleFraction({ w: 1280, h: 800 }, { top: 44, right: 420, bottom: 0, left: 0 })).toBe(0.671875);
+  });
+  it('clamps to 0.2', () => {
+    expect(visibleFraction({ w: 390, h: 844 }, { top: 44, right: 0, bottom: 900, left: 0 })).toBe(0.2);
+  });
+});
+
+describe('fitDistance', () => {
+  it('half fraction doubles the distance', () => {
+    expect(fitDistance(0.1, 30, 0.5)).toBeCloseTo(2 * flyDistance(0.1, 30), 10);
+  });
+  it('fraction below 0.2 is clamped', () => {
+    expect(fitDistance(0.1, 30, 0.05)).toBeCloseTo(5 * flyDistance(0.1, 30), 10);
+  });
+});
+
+describe('highlightPlan', () => {
+  const at = (p: Part, z: number): Part => ({ ...p, center: [0, 0, z] });
+  const parts = [
+    at(mk('a', 'left rectus abdominis', 'Abs', 'muscle', 'superficial'), 0.1),
+    at(mk('b', 'transversus abdominis', 'TA', 'muscle', 'deep'), 0.08),
+    at(mk('c', 'pubococcygeus', 'PC', 'muscle', 'deep'), 0),
+    at(mk('d', 'left gluteus maximus', 'Glute', 'muscle', 'superficial'), -0.1),
+    at(mk('e', 'left femur', 'Femur', 'bone'), 0),
+  ];
+  it('deep only target sees through superficial', () => {
+    const r = highlightPlan(parts, ['transversus abdominis']);
+    expect(r.layers).toEqual(['deepMuscles']);
+    expect(r.seeThroughSuperficial).toBe(true);
+    expect(r.pelvic).toBe(false);
+  });
+  it('superficial front target', () => {
+    const r = highlightPlan(parts, ['rectus abdominis']);
+    expect(r.ids).toEqual(['a']);
+    expect(r.seeThroughSuperficial).toBe(false);
+    expect(r.facing).toBe('front');
+  });
+  it('posterior target faces back', () => {
+    expect(highlightPlan(parts, ['gluteus maximus']).facing).toBe('back');
+  });
+  it('pelvic floor list', () => {
+    const r = highlightPlan(parts, PELVIC_FLOOR);
+    expect(r.pelvic).toBe(true);
+    expect(r.seeThroughSuperficial).toBe(false);
+    expect(r.missing).toEqual(['puborectalis', 'iliococcygeus', 'coccygeus', 'external anal sphincter']);
+  });
+  it('empty names', () => {
+    const r = highlightPlan(parts, []);
+    expect(r.ids).toEqual([]);
+    expect(r.pelvic).toBe(false);
+    expect(r.facing).toBe('front');
+  });
+  it('unknown name', () => {
+    expect(highlightPlan(parts, ['nope']).missing).toEqual(['nope']);
   });
 });

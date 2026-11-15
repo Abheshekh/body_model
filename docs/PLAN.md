@@ -26,7 +26,7 @@ Release: personal use first. Play Store later as a simple free app. Other gender
 | Item | State |
 |---|---|
 | M1 BodyParts3D pipeline + Explore | Committed. Superseded by R1. |
-| M1b Android, profile, Programs (static) | Built, not committed. Keep on branch `m1b-archive`; reuse profile, programs data, Makefile. |
+| M1b Android, profile, Programs (static) | Archived on branch `m1b-archive` and kept on `r0-clean-slate`. Main was fast-forwarded to M1 plus the v5.1 docs. |
 | Rig, engine, exercises, tasks, My model | Not started |
 | Sample (`tools/sample/`) | Z-Anatomy + MakeHuman, male and female, all systems, layer peeling, inspector UI, phone layout. Approved look. |
 
@@ -86,7 +86,7 @@ Each ends at a checkpoint. Nothing moves on without sign-off.
 
 | # | Milestone | Done when | Risk |
 |---|---|---|---|
-| R0 | Clean slate | M1b on branch `m1b-archive`. Main keeps Makefile, profile, programs data. "Below" button gone. Programs "Show" bug fixed with a test. | Low |
+| R0 | Clean slate | M1b on branch `m1b-archive`. Main keeps Makefile, profile, programs data. "Below" button gone. Programs "Show" bug fixed with a test. Result: all M1b code kept on `r0-clean-slate`, main fast-forwarded to M1; Show fixed (see docs/reports/R0.md). | Low |
 | R1 | Body data pipeline | `tools/pipeline` builds male + female from Z-Anatomy + MakeHuman: all systems, fibre field, AO, layers, female warp, female-only parts, quantised data. Tests pass. Numbers match the sample or better. | Medium |
 | R2 | Body page | Explorer from the sample, rebuilt in `src/`: two sexes, skin, depth, systems, colour modes, labels, list, isolate, phone sheet. Part facts with sources for the 100 most-viewed parts. ≥ 30 fps on your phone. | Medium |
 | R3 | Rig + bring back content | Anatomy and skin bend on the MakeHuman skeleton. Move screen. Prototype's 11 exercises and 5 chores play on both bodies (provisional muscle lists). | **High** |

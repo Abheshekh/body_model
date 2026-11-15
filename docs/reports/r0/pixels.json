@@ -1,0 +1,22 @@
+{
+  "show-wall-390.png": {
+    "yellow": 586,
+    "yellowVisible": 425
+  },
+  "show-deep-390.png": {
+    "yellow": 666,
+    "yellowVisible": 505
+  },
+  "show-leg-390.png": {
+    "yellow": 421,
+    "yellowVisible": 257
+  },
+  "show-pelvic-390.png": {
+    "yellow": 434,
+    "yellowVisible": 266
+  },
+  "show-deep-1280.png": {
+    "yellow": 2539,
+    "yellowVisible": 2354
+  }
+}

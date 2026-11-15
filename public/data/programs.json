@@ -1,0 +1,1640 @@
+{
+  "sources": [
+    {
+      "name": "NICE NG123 (2019), recommendations 1.4.4 and 1.4.5",
+      "url": "https://www.nice.org.uk/guidance/ng123/chapter/Recommendations"
+    },
+    {
+      "name": "WHO 2020 guidelines on physical activity and sedentary behaviour (Bull et al., Br J Sports Med 2020)",
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7719906/fullTextXML"
+    },
+    {
+      "name": "Dumoulin, Cacciari and Hay-Smith 2018, Cochrane CD005654",
+      "url": "https://www.cochrane.org/evidence/CD005654"
+    },
+    {
+      "name": "Myers and Smith 2019, Physiotherapy 105(2)",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/30979506/"
+    },
+    {
+      "name": "Khera, Bhattacharyya and Miller 2023, Journal of Sexual Medicine 20(12)",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/37814532/"
+    }
+  ],
+  "programs": [
+    {
+      "id": "posture-correction",
+      "title": "Posture correction",
+      "audience": "all",
+      "adultOnly": false,
+      "linkedConditions": [
+        "forward-head",
+        "rounded-shoulders",
+        "kyphosis",
+        "knee-valgus",
+        "flat-feet"
+      ],
+      "cautions": [
+        "Pain, numbness or a lasting problem: see a clinician."
+      ],
+      "notes": [],
+      "evidence": [
+        {
+          "id": "posture-correction-mixed",
+          "claim": "The evidence that exercise changes standing posture is mixed.",
+          "strength": "convention",
+          "source": {
+            "title": "Clinical convention, no trial cited",
+            "url": null
+          }
+        },
+        {
+          "id": "posture-correction-convention",
+          "claim": "Commonly used in practice. No trial is cited for this item.",
+          "strength": "convention",
+          "source": {
+            "title": "Clinical convention, no trial cited",
+            "url": null
+          }
+        }
+      ],
+      "items": [
+        {
+          "id": "chin-tuck",
+          "name": "Chin tuck",
+          "component": "Forward head",
+          "cues": [
+            "Sit or stand tall.",
+            "Slide the chin straight back, as if making a double chin.",
+            "Hold briefly, then relax."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "longus capitis",
+              "vertical intermediate part of left longus colli",
+              "vertical intermediate part of right longus colli"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "posture-correction-mixed",
+            "posture-correction-convention"
+          ]
+        },
+        {
+          "id": "deep-neck-flexor-hold",
+          "name": "Deep neck flexor hold",
+          "component": "Forward head",
+          "cues": [
+            "Lie on your back, head supported.",
+            "Nod the chin gently without lifting the head.",
+            "Hold, breathing normally."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "longus capitis",
+              "rectus capitis anterior",
+              "vertical intermediate part of left longus colli",
+              "vertical intermediate part of right longus colli"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "posture-correction-mixed",
+            "posture-correction-convention"
+          ]
+        },
+        {
+          "id": "upper-trapezius-levator-stretch",
+          "name": "Upper trapezius and levator scapulae stretch",
+          "component": "Forward head",
+          "cues": [
+            "Sit tall, one hand under the seat.",
+            "Tilt the head away and turn the nose toward the armpit.",
+            "Hold a gentle stretch. No pain."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "descending part of left trapezius",
+              "descending part of right trapezius",
+              "levator scapulae"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "posture-correction-mixed",
+            "posture-correction-convention"
+          ]
+        },
+        {
+          "id": "thoracic-extension-roller",
+          "name": "Thoracic extension over a roller",
+          "component": "Rounded shoulders, thoracic kyphosis",
+          "cues": [
+            "Lie with a foam roller across the upper back.",
+            "Support the head with your hands.",
+            "Arch gently over the roller, then return."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "spinalis thoracis",
+              "longissimus thoracis",
+              "semispinalis thoracis"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "posture-correction-mixed",
+            "posture-correction-convention"
+          ]
+        },
+        {
+          "id": "wall-slide",
+          "name": "Wall slide",
+          "component": "Rounded shoulders, thoracic kyphosis",
+          "cues": [
+            "Stand with back and forearms on a wall.",
+            "Slide the arms up, keeping contact.",
+            "Lower slowly."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "ascending part of left trapezius",
+              "ascending part of right trapezius",
+              "serratus anterior"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "posture-correction-mixed",
+            "posture-correction-convention"
+          ]
+        },
+        {
+          "id": "band-pull-apart",
+          "name": "Band pull-apart",
+          "component": "Rounded shoulders, thoracic kyphosis",
+          "cues": [
+            "Hold a band at shoulder height, arms straight.",
+            "Pull the band apart, squeezing the shoulder blades together.",
+            "Return slowly."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "spinal part of left deltoid",
+              "spinal part of right deltoid",
+              "transverse part of left trapezius",
+              "transverse part of right trapezius",
+              "rhomboid major",
+              "rhomboid minor"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "posture-correction-mixed",
+            "posture-correction-convention"
+          ]
+        },
+        {
+          "id": "face-pull",
+          "name": "Face pull",
+          "component": "Rounded shoulders, thoracic kyphosis",
+          "cues": [
+            "Hold a rope or band at face height.",
+            "Pull toward the face, elbows high and wide.",
+            "Return slowly."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "spinal part of left deltoid",
+              "spinal part of right deltoid",
+              "transverse part of left trapezius",
+              "transverse part of right trapezius",
+              "infraspinatus muscle",
+              "teres minor"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "posture-correction-mixed",
+            "posture-correction-convention"
+          ]
+        },
+        {
+          "id": "prone-y-t-raise",
+          "name": "Prone Y and T raise",
+          "component": "Rounded shoulders, thoracic kyphosis",
+          "cues": [
+            "Lie face down, arms in a Y, then in a T.",
+            "Lift the arms a little, thumbs up.",
+            "Lower slowly."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "ascending part of left trapezius",
+              "ascending part of right trapezius",
+              "transverse part of left trapezius",
+              "transverse part of right trapezius"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "posture-correction-mixed",
+            "posture-correction-convention"
+          ]
+        },
+        {
+          "id": "doorway-chest-stretch",
+          "name": "Doorway chest stretch",
+          "component": "Rounded shoulders, thoracic kyphosis",
+          "cues": [
+            "Forearm on a door frame, elbow at shoulder height.",
+            "Step through until you feel a gentle stretch across the chest.",
+            "Hold, breathing normally."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "sternocostal part of left pectoralis major",
+              "sternocostal part of right pectoralis major",
+              "clavicular part of left pectoralis major",
+              "clavicular part of right pectoralis major",
+              "pectoralis minor"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "posture-correction-mixed",
+            "posture-correction-convention"
+          ]
+        },
+        {
+          "id": "dead-bug",
+          "name": "Dead bug",
+          "component": "Trunk control",
+          "cues": [
+            "Lie on your back, arms up, hips and knees bent.",
+            "Keep the lower back still.",
+            "Lower the opposite arm and leg, then switch."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "rectus abdominis",
+              "transversus abdominis",
+              "external oblique",
+              "internal oblique"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "posture-correction-mixed",
+            "posture-correction-convention"
+          ]
+        },
+        {
+          "id": "bird-dog",
+          "name": "Bird dog",
+          "component": "Trunk control",
+          "cues": [
+            "Start on hands and knees.",
+            "Reach one arm and the opposite leg out, keeping the back level.",
+            "Return and switch sides."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "multifidus",
+              "longissimus thoracis",
+              "iliocostalis lumborum",
+              "gluteus maximus"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "posture-correction-mixed",
+            "posture-correction-convention"
+          ]
+        },
+        {
+          "id": "front-plank",
+          "name": "Front plank",
+          "component": "Trunk control",
+          "cues": [
+            "Forearms and toes on the floor.",
+            "Keep a straight line from head to heels.",
+            "Hold, breathing normally."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "rectus abdominis",
+              "transversus abdominis",
+              "external oblique",
+              "internal oblique"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "posture-correction-mixed",
+            "posture-correction-convention"
+          ]
+        },
+        {
+          "id": "side-plank",
+          "name": "Side plank",
+          "component": "Trunk control",
+          "cues": [
+            "Lie on one side, forearm under the shoulder.",
+            "Lift the hips into a straight line.",
+            "Hold, then switch sides."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "external oblique",
+              "internal oblique",
+              "quadratus lumborum",
+              "gluteus medius"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "posture-correction-mixed",
+            "posture-correction-convention"
+          ]
+        },
+        {
+          "id": "hip-hinge-drill",
+          "name": "Hip hinge drill",
+          "component": "Trunk control",
+          "cues": [
+            "Stand with a stick along the back of the head, upper back and tailbone.",
+            "Push the hips back, keeping all three contacts.",
+            "Stand up by driving the hips forward."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "gluteus maximus",
+              "semitendinosus",
+              "semimembranosus",
+              "long head of left biceps femoris",
+              "long head of right biceps femoris"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "posture-correction-mixed",
+            "posture-correction-convention"
+          ]
+        },
+        {
+          "id": "side-lying-hip-abduction",
+          "name": "Side-lying hip abduction",
+          "component": "Knee valgus",
+          "cues": [
+            "Lie on one side, bottom knee bent.",
+            "Lift the top leg, toes pointing forward.",
+            "Lower slowly."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "gluteus medius",
+              "gluteus minimus",
+              "tensor fasciae latae"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "posture-correction-mixed",
+            "posture-correction-convention"
+          ]
+        },
+        {
+          "id": "banded-lateral-walk",
+          "name": "Banded lateral walk",
+          "component": "Knee valgus",
+          "cues": [
+            "Band around the legs, knees slightly bent.",
+            "Step sideways, keeping the knees over the toes.",
+            "Keep tension on the band."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "gluteus medius",
+              "gluteus minimus"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "posture-correction-mixed",
+            "posture-correction-convention"
+          ]
+        },
+        {
+          "id": "single-leg-squat-box",
+          "name": "Single-leg squat to a box",
+          "component": "Knee valgus",
+          "cues": [
+            "Stand on one leg in front of a box.",
+            "Sit back to touch the box, knee over the toes.",
+            "Stand up without letting the knee drift in."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "gluteus maximus",
+              "gluteus medius",
+              "rectus femoris",
+              "vastus lateralis",
+              "vastus medialis"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "posture-correction-mixed",
+            "posture-correction-convention"
+          ]
+        },
+        {
+          "id": "short-foot-drill",
+          "name": "Short-foot drill",
+          "component": "Flat feet",
+          "cues": [
+            "Sit or stand, foot flat.",
+            "Draw the ball of the foot toward the heel to raise the arch.",
+            "Keep the toes relaxed. Hold, then relax."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "abductor hallucis",
+              "flexor digitorum brevis"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "posture-correction-mixed",
+            "posture-correction-convention"
+          ]
+        },
+        {
+          "id": "calf-raise-slow-lowering",
+          "name": "Calf raise with slow lowering",
+          "component": "Flat feet",
+          "cues": [
+            "Stand on the edge of a step.",
+            "Rise onto the toes.",
+            "Lower slowly over a few seconds."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "medial head of left gastrocnemius",
+              "medial head of right gastrocnemius",
+              "lateral head of left gastrocnemius",
+              "lateral head of right gastrocnemius",
+              "soleus"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "posture-correction-mixed",
+            "posture-correction-convention"
+          ]
+        },
+        {
+          "id": "towel-curl",
+          "name": "Towel curl",
+          "component": "Flat feet",
+          "cues": [
+            "Sit with a towel under the foot.",
+            "Curl the toes to pull the towel in.",
+            "Relax and repeat."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "flexor digitorum brevis",
+              "flexor digitorum longus",
+              "flexor hallucis longus"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "posture-correction-mixed",
+            "posture-correction-convention"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "anterior-pelvic-tilt",
+      "title": "Anterior pelvic tilt",
+      "audience": "all",
+      "adultOnly": false,
+      "linkedConditions": [
+        "anterior-pelvic-tilt"
+      ],
+      "cautions": [
+        "Pain, numbness or a lasting problem: see a clinician."
+      ],
+      "notes": [],
+      "evidence": [
+        {
+          "id": "anterior-pelvic-tilt-varies",
+          "claim": "Pelvic tilt varies between people, a forward tilt is common, and it often comes with no pain.",
+          "strength": "convention",
+          "source": {
+            "title": "Clinical convention, no trial cited",
+            "url": null
+          }
+        },
+        {
+          "id": "anterior-pelvic-tilt-convention",
+          "claim": "Commonly used in practice. No trial is cited for this item.",
+          "strength": "convention",
+          "source": {
+            "title": "Clinical convention, no trial cited",
+            "url": null
+          }
+        }
+      ],
+      "items": [
+        {
+          "id": "half-kneeling-hip-flexor-stretch",
+          "name": "Half-kneeling hip flexor stretch",
+          "component": "Lengthen the front of the hip",
+          "cues": [
+            "Kneel on one knee, other foot in front.",
+            "Tuck the pelvis under and shift forward a little.",
+            "Hold a gentle stretch at the front of the hip."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "psoas major",
+              "iliacus",
+              "rectus femoris"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "anterior-pelvic-tilt-varies",
+            "anterior-pelvic-tilt-convention"
+          ]
+        },
+        {
+          "id": "couch-stretch",
+          "name": "Couch stretch",
+          "component": "Lengthen the front of the hip",
+          "cues": [
+            "Kneel with the back foot raised against a wall or couch.",
+            "Tuck the pelvis and lift the chest.",
+            "Hold a gentle stretch at the front of the thigh."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "rectus femoris",
+              "psoas major",
+              "iliacus"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "anterior-pelvic-tilt-varies",
+            "anterior-pelvic-tilt-convention"
+          ]
+        },
+        {
+          "id": "glute-bridge",
+          "name": "Glute bridge",
+          "component": "Strengthen what tilts the pelvis back",
+          "cues": [
+            "Lie on your back, knees bent, feet flat.",
+            "Tuck the pelvis, then lift the hips.",
+            "Lower slowly."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "gluteus maximus",
+              "semitendinosus",
+              "semimembranosus",
+              "long head of left biceps femoris",
+              "long head of right biceps femoris"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "anterior-pelvic-tilt-varies",
+            "anterior-pelvic-tilt-convention"
+          ]
+        },
+        {
+          "id": "hip-thrust",
+          "name": "Hip thrust",
+          "component": "Strengthen what tilts the pelvis back",
+          "cues": [
+            "Upper back on a bench, feet flat.",
+            "Drive the hips up until the body is level.",
+            "Lower with control."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "gluteus maximus"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "anterior-pelvic-tilt-varies",
+            "anterior-pelvic-tilt-convention"
+          ]
+        },
+        {
+          "id": "dead-bug",
+          "name": "Dead bug",
+          "component": "Strengthen what tilts the pelvis back",
+          "cues": [
+            "Lie on your back, arms up, hips and knees bent.",
+            "Keep the lower back on the floor.",
+            "Lower the opposite arm and leg, then switch."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "rectus abdominis",
+              "transversus abdominis",
+              "external oblique",
+              "internal oblique"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "anterior-pelvic-tilt-varies",
+            "anterior-pelvic-tilt-convention"
+          ]
+        },
+        {
+          "id": "reverse-crunch",
+          "name": "Reverse crunch",
+          "component": "Strengthen what tilts the pelvis back",
+          "cues": [
+            "Lie on your back, knees bent toward the chest.",
+            "Curl the pelvis up off the floor.",
+            "Lower slowly."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "rectus abdominis",
+              "external oblique",
+              "internal oblique"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "anterior-pelvic-tilt-varies",
+            "anterior-pelvic-tilt-convention"
+          ]
+        },
+        {
+          "id": "plank-pelvis-tucked",
+          "name": "Plank with pelvis tucked",
+          "component": "Strengthen what tilts the pelvis back",
+          "cues": [
+            "Forearms and toes on the floor.",
+            "Tuck the pelvis and squeeze the buttocks.",
+            "Hold, breathing normally."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "rectus abdominis",
+              "transversus abdominis",
+              "external oblique",
+              "internal oblique",
+              "gluteus maximus"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "anterior-pelvic-tilt-varies",
+            "anterior-pelvic-tilt-convention"
+          ]
+        },
+        {
+          "id": "romanian-deadlift",
+          "name": "Romanian deadlift",
+          "component": "Hamstrings",
+          "cues": [
+            "Stand holding a weight, knees soft.",
+            "Push the hips back, keeping the back flat.",
+            "Stand up by driving the hips forward."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "gluteus maximus",
+              "semitendinosus",
+              "semimembranosus",
+              "long head of left biceps femoris",
+              "long head of right biceps femoris",
+              "adductor magnus"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "anterior-pelvic-tilt-varies",
+            "anterior-pelvic-tilt-convention"
+          ]
+        },
+        {
+          "id": "hamstring-curl",
+          "name": "Hamstring curl",
+          "component": "Hamstrings",
+          "cues": [
+            "Lie face down or use a machine.",
+            "Bend the knee against resistance.",
+            "Lower slowly."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "semitendinosus",
+              "semimembranosus",
+              "long head of left biceps femoris",
+              "long head of right biceps femoris",
+              "short head of left biceps femoris",
+              "short head of right biceps femoris"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "anterior-pelvic-tilt-varies",
+            "anterior-pelvic-tilt-convention"
+          ]
+        },
+        {
+          "id": "pelvic-tilt-practice",
+          "name": "Pelvic tilt practice (standing and lying)",
+          "component": "Control",
+          "cues": [
+            "Lying, then standing.",
+            "Tilt the pelvis forward, then back.",
+            "Find the middle and rest there."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": [
+              "rectus abdominis",
+              "gluteus maximus",
+              "iliocostalis lumborum",
+              "psoas major"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "anterior-pelvic-tilt-varies",
+            "anterior-pelvic-tilt-convention"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pelvic-floor",
+      "title": "Pelvic floor",
+      "audience": "all",
+      "adultOnly": false,
+      "linkedConditions": [],
+      "cautions": [
+        "Pain, numbness or a lasting problem: see a clinician.",
+        "Do not stop urine mid-flow as an exercise.",
+        "Pain or symptoms getting worse: stop and see a pelvic health physiotherapist.",
+        "During pregnancy and after birth, check with a clinician before starting."
+      ],
+      "notes": [
+        "The body shown is male anatomy."
+      ],
+      "evidence": [
+        {
+          "id": "pelvic-floor-cochrane-sui",
+          "claim": "For women with stress urinary incontinence, pelvic floor training made a reported cure about eight times more likely than no treatment (Cochrane review, 31 trials).",
+          "strength": "strong",
+          "source": {
+            "title": "Dumoulin, Cacciari and Hay-Smith 2018, Cochrane CD005654",
+            "url": "https://www.cochrane.org/evidence/CD005654"
+          }
+        },
+        {
+          "id": "pelvic-floor-relax",
+          "claim": "For people whose pelvic floor is tense, relaxing matters more than squeezing.",
+          "strength": "convention",
+          "source": {
+            "title": "Clinical convention, no trial cited",
+            "url": null
+          }
+        },
+        {
+          "id": "pelvic-floor-convention",
+          "claim": "Commonly used in practice. No trial is cited for this item.",
+          "strength": "convention",
+          "source": {
+            "title": "Clinical convention, no trial cited",
+            "url": null
+          }
+        }
+      ],
+      "items": [
+        {
+          "id": "find-the-muscles",
+          "name": "Find the muscles",
+          "component": "Find the muscles",
+          "cues": [
+            "Sit or lie comfortably.",
+            "Squeeze as if holding in wind, and lift inward.",
+            "Let go fully. Keep breathing; buttocks and thighs stay relaxed."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "record",
+            "provisional": false,
+            "parts": [
+              "pubococcygeus",
+              "puborectalis",
+              "iliococcygeus",
+              "coccygeus",
+              "external anal sphincter"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "pelvic-floor-convention"
+          ]
+        },
+        {
+          "id": "slow-holds",
+          "name": "Slow holds",
+          "component": "Slow holds",
+          "cues": [
+            "Squeeze and lift.",
+            "Hold, then relax fully for the same time.",
+            "Build the hold up gradually."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "record",
+            "provisional": false,
+            "parts": [
+              "pubococcygeus",
+              "puborectalis",
+              "iliococcygeus",
+              "coccygeus",
+              "external anal sphincter"
+            ]
+          },
+          "dose": {
+            "reps": 8,
+            "frequency": "3 times a day, for at least 3 months (guideline minimum)",
+            "source": {
+              "title": "NICE NG123 (2019), recommendations 1.4.4 and 1.4.5",
+              "url": "https://www.nice.org.uk/guidance/ng123/chapter/Recommendations"
+            }
+          },
+          "evidence": [
+            "pelvic-floor-cochrane-sui"
+          ]
+        },
+        {
+          "id": "quick-squeezes",
+          "name": "Quick squeezes",
+          "component": "Quick squeezes",
+          "cues": [
+            "Squeeze and lift quickly and strongly.",
+            "Let go fully between squeezes."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "record",
+            "provisional": false,
+            "parts": [
+              "pubococcygeus",
+              "puborectalis",
+              "iliococcygeus",
+              "coccygeus",
+              "external anal sphincter"
+            ]
+          },
+          "dose": {
+            "reps": 8,
+            "frequency": "3 times a day, for at least 3 months (guideline minimum)",
+            "source": {
+              "title": "NICE NG123 (2019), recommendations 1.4.4 and 1.4.5",
+              "url": "https://www.nice.org.uk/guidance/ng123/chapter/Recommendations"
+            }
+          },
+          "evidence": [
+            "pelvic-floor-cochrane-sui"
+          ]
+        },
+        {
+          "id": "progress",
+          "name": "Progress: lying, sitting, standing, during a lift or cough",
+          "component": "Progress",
+          "cues": [
+            "Start lying down.",
+            "Then sitting, then standing.",
+            "Then squeeze just before and during a lift or a cough."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "record",
+            "provisional": false,
+            "parts": [
+              "pubococcygeus",
+              "puborectalis",
+              "iliococcygeus",
+              "coccygeus",
+              "external anal sphincter"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "pelvic-floor-convention"
+          ]
+        },
+        {
+          "id": "diaphragmatic-breathing",
+          "name": "Diaphragmatic breathing",
+          "component": "Relaxation",
+          "cues": [
+            "Lie or sit comfortably, one hand on the belly.",
+            "Breathe in slowly and let the belly and pelvic floor soften.",
+            "Breathe out gently."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "record",
+            "provisional": false,
+            "parts": [
+              "pubococcygeus",
+              "puborectalis",
+              "iliococcygeus",
+              "coccygeus",
+              "external anal sphincter"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "pelvic-floor-relax"
+          ]
+        },
+        {
+          "id": "deep-squat-hold",
+          "name": "Deep squat hold",
+          "component": "Relaxation",
+          "cues": [
+            "Lower into a deep squat, heels down if you can.",
+            "Hold onto support if needed.",
+            "Breathe slowly and let the pelvic floor relax."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "record",
+            "provisional": false,
+            "parts": [
+              "pubococcygeus",
+              "puborectalis",
+              "iliococcygeus",
+              "coccygeus",
+              "external anal sphincter"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "pelvic-floor-relax"
+          ]
+        },
+        {
+          "id": "happy-baby-pose",
+          "name": "Happy-baby pose",
+          "component": "Relaxation",
+          "cues": [
+            "Lie on your back and hold the feet or shins, knees wide.",
+            "Let the knees drop toward the armpits.",
+            "Breathe slowly and relax."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "record",
+            "provisional": false,
+            "parts": [
+              "pubococcygeus",
+              "puborectalis",
+              "iliococcygeus",
+              "coccygeus",
+              "external anal sphincter"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "pelvic-floor-relax"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sexual-health-male",
+      "title": "Sexual health (male)",
+      "audience": "male",
+      "adultOnly": true,
+      "linkedConditions": [],
+      "cautions": [
+        "Pain, numbness or a lasting problem: see a clinician.",
+        "Erection problems that last can be an early sign of heart, blood-vessel or blood-sugar disease. See a doctor.",
+        "No exercise makes the penis longer or larger.",
+        "Do not stop urine mid-flow as an exercise."
+      ],
+      "notes": [
+        "Bulbospongiosus and ischiocavernosus are not in this anatomy model. The pelvic floor region is shown instead."
+      ],
+      "evidence": [
+        {
+          "id": "sexual-health-male-myers",
+          "claim": "A systematic review of 10 trials found pelvic floor training appears effective for erectile dysfunction and premature ejaculation. Trial quality was low to moderate and no best protocol is known.",
+          "strength": "moderate",
+          "source": {
+            "title": "Myers and Smith 2019, Physiotherapy 105(2)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/30979506/"
+          }
+        },
+        {
+          "id": "sexual-health-male-khera",
+          "claim": "A meta-analysis of 11 randomised trials (1,147 men) found erectile function scores improved by 2.8 points on a 6–30 scale, more in men who started lower.",
+          "strength": "moderate",
+          "source": {
+            "title": "Khera, Bhattacharyya and Miller 2023, Journal of Sexual Medicine 20(12)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37814532/"
+          }
+        },
+        {
+          "id": "sexual-health-male-strength",
+          "claim": "Whole-body strength work supports general health.",
+          "strength": "convention",
+          "source": {
+            "title": "Clinical convention, no trial cited",
+            "url": null
+          }
+        },
+        {
+          "id": "sexual-health-male-convention",
+          "claim": "Commonly used in practice. No trial is cited for this item.",
+          "strength": "convention",
+          "source": {
+            "title": "Clinical convention, no trial cited",
+            "url": null
+          }
+        }
+      ],
+      "items": [
+        {
+          "id": "slow-holds",
+          "name": "Slow holds",
+          "component": "Pelvic floor training",
+          "cues": [
+            "Squeeze and lift.",
+            "Hold, then relax fully for the same time.",
+            "Build the hold up gradually."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "record",
+            "provisional": false,
+            "parts": [
+              "pubococcygeus",
+              "puborectalis",
+              "iliococcygeus",
+              "coccygeus",
+              "external anal sphincter"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "sexual-health-male-myers"
+          ]
+        },
+        {
+          "id": "quick-squeezes",
+          "name": "Quick squeezes",
+          "component": "Pelvic floor training",
+          "cues": [
+            "Squeeze and lift quickly and strongly.",
+            "Let go fully between squeezes."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "record",
+            "provisional": false,
+            "parts": [
+              "pubococcygeus",
+              "puborectalis",
+              "iliococcygeus",
+              "coccygeus",
+              "external anal sphincter"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "sexual-health-male-myers"
+          ]
+        },
+        {
+          "id": "control-practice",
+          "name": "Control practice",
+          "component": "Pelvic floor training",
+          "cues": [
+            "Practise squeezing and fully relaxing on purpose.",
+            "Notice the difference between the two.",
+            "Keep breathing throughout."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "record",
+            "provisional": false,
+            "parts": [
+              "pubococcygeus",
+              "puborectalis",
+              "iliococcygeus",
+              "coccygeus",
+              "external anal sphincter"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "sexual-health-male-myers"
+          ]
+        },
+        {
+          "id": "brisk-walking",
+          "name": "Brisk walking",
+          "component": "Aerobic exercise",
+          "cues": [
+            "Walk fast enough to breathe harder but still talk."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": []
+          },
+          "dose": {
+            "frequency": "150–300 min a week of moderate aerobic activity, or 75–150 min of vigorous activity, or a mix (weekly total for all aerobic activity)",
+            "source": {
+              "title": "WHO 2020 guidelines on physical activity and sedentary behaviour (Bull et al., Br J Sports Med 2020)",
+              "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7719906/fullTextXML"
+            }
+          },
+          "evidence": [
+            "sexual-health-male-khera"
+          ]
+        },
+        {
+          "id": "cycling",
+          "name": "Cycling",
+          "component": "Aerobic exercise",
+          "cues": [
+            "Ride at a steady pace that raises your breathing."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": []
+          },
+          "dose": {
+            "frequency": "150–300 min a week of moderate aerobic activity, or 75–150 min of vigorous activity, or a mix (weekly total for all aerobic activity)",
+            "source": {
+              "title": "WHO 2020 guidelines on physical activity and sedentary behaviour (Bull et al., Br J Sports Med 2020)",
+              "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7719906/fullTextXML"
+            }
+          },
+          "evidence": [
+            "sexual-health-male-khera"
+          ]
+        },
+        {
+          "id": "running",
+          "name": "Running",
+          "component": "Aerobic exercise",
+          "cues": [
+            "Run at a pace you can keep. Build time up gradually."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": []
+          },
+          "dose": {
+            "frequency": "150–300 min a week of moderate aerobic activity, or 75–150 min of vigorous activity, or a mix (weekly total for all aerobic activity)",
+            "source": {
+              "title": "WHO 2020 guidelines on physical activity and sedentary behaviour (Bull et al., Br J Sports Med 2020)",
+              "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7719906/fullTextXML"
+            }
+          },
+          "evidence": [
+            "sexual-health-male-khera"
+          ]
+        },
+        {
+          "id": "swimming",
+          "name": "Swimming",
+          "component": "Aerobic exercise",
+          "cues": [
+            "Swim steady lengths at a pace that raises your breathing."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": []
+          },
+          "dose": {
+            "frequency": "150–300 min a week of moderate aerobic activity, or 75–150 min of vigorous activity, or a mix (weekly total for all aerobic activity)",
+            "source": {
+              "title": "WHO 2020 guidelines on physical activity and sedentary behaviour (Bull et al., Br J Sports Med 2020)",
+              "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7719906/fullTextXML"
+            }
+          },
+          "evidence": [
+            "sexual-health-male-khera"
+          ]
+        },
+        {
+          "id": "whole-body-strength-work",
+          "name": "Whole-body strength work",
+          "component": "Strength and weight",
+          "cues": [
+            "Work all major muscle groups: legs, hips, back, chest, shoulders, arms and trunk.",
+            "Use a load you can lift with good form."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": []
+          },
+          "dose": {
+            "frequency": "2 or more days a week, all major muscle groups, moderate or greater effort",
+            "source": {
+              "title": "WHO 2020 guidelines on physical activity and sedentary behaviour (Bull et al., Br J Sports Med 2020)",
+              "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7719906/fullTextXML"
+            }
+          },
+          "evidence": [
+            "sexual-health-male-strength"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sexual-health-female",
+      "title": "Sexual health (female)",
+      "audience": "female",
+      "adultOnly": true,
+      "linkedConditions": [],
+      "cautions": [
+        "Pain, numbness or a lasting problem: see a clinician.",
+        "During pregnancy and after birth, check with a clinician before starting.",
+        "Pain: see a pelvic health physiotherapist."
+      ],
+      "notes": [
+        "The body shown is male anatomy."
+      ],
+      "evidence": [
+        {
+          "id": "sexual-health-female-cochrane-sexual",
+          "claim": "The same Cochrane review reports better sexual outcomes in the pelvic floor training groups.",
+          "strength": "moderate",
+          "source": {
+            "title": "Dumoulin, Cacciari and Hay-Smith 2018, Cochrane CD005654",
+            "url": "https://www.cochrane.org/evidence/CD005654"
+          }
+        },
+        {
+          "id": "sexual-health-female-relax",
+          "claim": "Relaxation and hip mobility are commonly used for pelvic pain or tension.",
+          "strength": "convention",
+          "source": {
+            "title": "Clinical convention, no trial cited",
+            "url": null
+          }
+        },
+        {
+          "id": "sexual-health-female-fitness",
+          "claim": "Aerobic and strength work support general fitness.",
+          "strength": "convention",
+          "source": {
+            "title": "Clinical convention, no trial cited",
+            "url": null
+          }
+        },
+        {
+          "id": "sexual-health-female-convention",
+          "claim": "Commonly used in practice. No trial is cited for this item.",
+          "strength": "convention",
+          "source": {
+            "title": "Clinical convention, no trial cited",
+            "url": null
+          }
+        }
+      ],
+      "items": [
+        {
+          "id": "slow-holds",
+          "name": "Slow holds",
+          "component": "Pelvic floor training",
+          "cues": [
+            "Squeeze and lift.",
+            "Hold, then relax fully for the same time.",
+            "Build the hold up gradually."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "record",
+            "provisional": false,
+            "parts": [
+              "pubococcygeus",
+              "puborectalis",
+              "iliococcygeus",
+              "coccygeus",
+              "external anal sphincter"
+            ]
+          },
+          "dose": {
+            "reps": 8,
+            "frequency": "3 times a day, for at least 3 months (guideline minimum)",
+            "source": {
+              "title": "NICE NG123 (2019), recommendations 1.4.4 and 1.4.5",
+              "url": "https://www.nice.org.uk/guidance/ng123/chapter/Recommendations"
+            }
+          },
+          "evidence": [
+            "sexual-health-female-cochrane-sexual"
+          ]
+        },
+        {
+          "id": "quick-squeezes",
+          "name": "Quick squeezes",
+          "component": "Pelvic floor training",
+          "cues": [
+            "Squeeze and lift quickly and strongly.",
+            "Let go fully between squeezes."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "record",
+            "provisional": false,
+            "parts": [
+              "pubococcygeus",
+              "puborectalis",
+              "iliococcygeus",
+              "coccygeus",
+              "external anal sphincter"
+            ]
+          },
+          "dose": {
+            "reps": 8,
+            "frequency": "3 times a day, for at least 3 months (guideline minimum)",
+            "source": {
+              "title": "NICE NG123 (2019), recommendations 1.4.4 and 1.4.5",
+              "url": "https://www.nice.org.uk/guidance/ng123/chapter/Recommendations"
+            }
+          },
+          "evidence": [
+            "sexual-health-female-cochrane-sexual"
+          ]
+        },
+        {
+          "id": "diaphragmatic-breathing",
+          "name": "Diaphragmatic breathing",
+          "component": "Pelvic floor relaxation",
+          "cues": [
+            "Lie or sit comfortably, one hand on the belly.",
+            "Breathe in slowly and let the belly and pelvic floor soften.",
+            "Breathe out gently."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "record",
+            "provisional": false,
+            "parts": [
+              "pubococcygeus",
+              "puborectalis",
+              "iliococcygeus",
+              "coccygeus",
+              "external anal sphincter"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "sexual-health-female-relax"
+          ]
+        },
+        {
+          "id": "deep-squat-hold",
+          "name": "Deep squat hold",
+          "component": "Pelvic floor relaxation",
+          "cues": [
+            "Lower into a deep squat, heels down if you can.",
+            "Hold onto support if needed.",
+            "Breathe slowly and let the pelvic floor relax."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "record",
+            "provisional": false,
+            "parts": [
+              "pubococcygeus",
+              "puborectalis",
+              "iliococcygeus",
+              "coccygeus",
+              "external anal sphincter"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "sexual-health-female-relax"
+          ]
+        },
+        {
+          "id": "happy-baby-pose",
+          "name": "Happy-baby pose",
+          "component": "Pelvic floor relaxation",
+          "cues": [
+            "Lie on your back and hold the feet or shins, knees wide.",
+            "Let the knees drop toward the armpits.",
+            "Breathe slowly and relax."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "record",
+            "provisional": false,
+            "parts": [
+              "pubococcygeus",
+              "puborectalis",
+              "iliococcygeus",
+              "coccygeus",
+              "external anal sphincter"
+            ]
+          },
+          "dose": null,
+          "evidence": [
+            "sexual-health-female-relax"
+          ]
+        },
+        {
+          "id": "hip-mobility",
+          "name": "Hip mobility",
+          "component": "Pelvic floor relaxation",
+          "cues": [
+            "Move the hips gently through circles, opening and closing.",
+            "Stay within a comfortable range.",
+            "Breathe slowly."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": []
+          },
+          "dose": null,
+          "evidence": [
+            "sexual-health-female-relax"
+          ]
+        },
+        {
+          "id": "aerobic-work",
+          "name": "Aerobic work",
+          "component": "General fitness",
+          "cues": [
+            "Brisk walking, cycling, running or swimming at a pace that raises your breathing."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": []
+          },
+          "dose": {
+            "frequency": "150–300 min a week of moderate aerobic activity, or 75–150 min of vigorous activity, or a mix (weekly total for all aerobic activity)",
+            "source": {
+              "title": "WHO 2020 guidelines on physical activity and sedentary behaviour (Bull et al., Br J Sports Med 2020)",
+              "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7719906/fullTextXML"
+            }
+          },
+          "evidence": [
+            "sexual-health-female-fitness"
+          ]
+        },
+        {
+          "id": "strength-work",
+          "name": "Strength work",
+          "component": "General fitness",
+          "cues": [
+            "Work all major muscle groups with a load you can lift with good form."
+          ],
+          "animated": false,
+          "targets": {
+            "from": "provisional",
+            "provisional": true,
+            "parts": []
+          },
+          "dose": {
+            "frequency": "2 or more days a week, all major muscle groups, moderate or greater effort",
+            "source": {
+              "title": "WHO 2020 guidelines on physical activity and sedentary behaviour (Bull et al., Br J Sports Med 2020)",
+              "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7719906/fullTextXML"
+            }
+          },
+          "evidence": [
+            "sexual-health-female-fitness"
+          ]
+        }
+      ]
+    }
+  ]
+}

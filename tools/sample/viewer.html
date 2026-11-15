@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Body Model — anatomy sample</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#EDE6DA; --muted:#9FB3B1; --panel:rgba(14,32,36,.94); --line:#2C4A4F; --effort:#FFB547; --pw:340px; --peek:0px; }
+  * { box-sizing:border-box; }
+  html, body { margin:0; height:100%; background:#082226; color:var(--ink); font:15px/1.45 'Atkinson Hyperlegible', system-ui, sans-serif; overflow:hidden; }
+  #stage { position:fixed; left:0; top:0; right:var(--pw); bottom:var(--peek); }
+  canvas { display:block; touch-action:none; width:100%; height:100%; }
+  button, input { font:inherit; color:var(--ink); }
+  button { background:var(--panel); border:1px solid var(--line); border-radius:10px; min-height:36px; padding:0 12px; cursor:pointer; white-space:nowrap; }
+  button[aria-pressed="true"] { border-color:var(--ink); background:#1d3d42; }
+
+  button:focus-visible, input:focus-visible { outline:2px solid var(--effort); outline-offset:2px; }
+  .top { position:fixed; top:10px; left:10px; right:calc(var(--pw) + 10px); display:flex; gap:6px; align-items:center; z-index:3; overflow-x:auto; scrollbar-width:none; }
+  .top::-webkit-scrollbar { display:none; }
+  h1 { font:600 22px/1 'Barlow Condensed', sans-serif; margin:0 8px 0 4px; white-space:nowrap; }
+  .seg { display:inline-flex; border:1px solid var(--line); border-radius:10px; overflow:hidden; flex:none; }
+  .seg button { border:0; border-radius:0; min-height:34px; }
+  #panel { position:fixed; top:0; right:0; bottom:0; width:var(--pw); background:var(--panel); border-left:1px solid var(--line); display:flex; flex-direction:column; z-index:4; backdrop-filter:blur(10px); }
+  #panel section { padding:10px 14px; border-bottom:1px solid var(--line); }
+  #panel h2 { font:600 18px/1.1 'Barlow Condensed', sans-serif; margin:0 0 6px; display:flex; justify-content:space-between; align-items:center; gap:8px; }
+  #peel { width:100%; accent-color:var(--ink); }
+  .ticks { display:flex; justify-content:space-between; font-size:11px; color:var(--muted); }
+  .now { margin:4px 0 0; font-size:13px; color:var(--muted); }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; }
+  .chips button { min-height:32px; font-size:13px; padding:0 10px; }
+  .legend { display:none; gap:10px; flex-wrap:wrap; font-size:12px; color:var(--muted); margin-top:8px; }
+  .legend.on { display:flex; }
+  .sw { display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:4px; vertical-align:-1px; }
+  .search { padding:10px 14px 4px; }
+  .search input { width:100%; background:rgba(0,0,0,.25); border:1px solid var(--line); border-radius:10px; min-height:38px; padding:0 10px; }
+  .list { flex:1; overflow-y:auto; padding:0 6px 16px; }
+  .reg { font:600 16px/1 'Barlow Condensed', sans-serif; color:var(--muted); margin:14px 8px 4px; }
+  .row { display:flex; align-items:center; gap:8px; width:100%; min-height:34px; text-align:left; background:none; border:0; border-radius:8px; padding:2px 8px; font-size:14px; white-space:normal; }
+  .row:hover { background:rgba(255,255,255,.05); }
+  .row.sel { background:rgba(255,181,71,.16); }
+  .row .nm { flex:1; }
+  .dot { width:8px; height:8px; border-radius:50%; flex:none; }
+  #card { position:fixed; left:12px; bottom:calc(var(--peek) + 12px); width:min(440px, calc(100vw - var(--pw) - 24px)); background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:10px 14px; z-index:3; }
+  #card b { font:600 21px/1.1 'Barlow Condensed', sans-serif; display:block; }
+  #card .meta { color:var(--muted); font-size:13px; }
+  #card .acts { display:flex; gap:6px; margin-top:8px; flex-wrap:wrap; }
+  #card .acts button { min-height:32px; font-size:14px; }
+  #card:empty { display:none; }
+  #labels { position:fixed; left:0; top:0; right:var(--pw); bottom:var(--peek); pointer-events:none; z-index:2; }
+  #labels svg { position:absolute; inset:0; width:100%; height:100%; }
+  .lab { position:absolute; pointer-events:auto; transform:translateY(-50%); font-size:13px; line-height:1.1; padding:3px 7px; border-radius:6px; background:rgba(8,30,34,.8); border:1px solid var(--line); min-height:0; max-width:190px; overflow:hidden; text-overflow:ellipsis; }
+  .lab.r { transform:translate(-100%,-50%); }
+  #load { position:fixed; inset:0; display:grid; place-items:center; color:var(--muted); z-index:9; text-align:center; padding:20px; }
+  #handle { display:none; }
+  .tone { width:26px; height:26px; min-height:26px; padding:0; border-radius:50%; }
+  @media (max-width: 760px) {
+    :root { --pw:0px; --peek:148px; font-size:14px; }
+    h1 { display:none; }
+    .top { top:8px; left:8px; right:8px; }
+    .top button { min-height:32px; padding:0 10px; font-size:13px; }
+    #panel { top:auto; left:0; width:auto; height:var(--peek); border-left:0; border-top:1px solid var(--line); border-radius:16px 16px 0 0; transition:height .22s ease-out; }
+    body.open #panel { height:72vh; }
+    #handle { display:block; width:100%; min-height:22px; border:0; background:none; padding:6px 0 0; }
+    #handle::before { content:''; display:block; width:44px; height:4px; margin:0 auto; border-radius:2px; background:var(--muted); }
+    #panel section { padding:6px 12px; }
+    body:not(.open) #panel .more { display:none; }
+    #card { left:8px; right:8px; width:auto; padding:8px 12px; }
+    #card b { font-size:18px; }
+    .lab { font-size:12px; max-width:140px; }
+  }
+  @media (prefers-reduced-motion: reduce) { #panel { transition:none; } }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="load">Loading anatomy…</div>
+<div id="stage"></div>
+<div class="top">
+  <h1>Body sample</h1>
+  <div class="seg" role="group" aria-label="Body"><button id="sM" aria-pressed="true">Male</button><button id="sF" aria-pressed="false">Female</button></div>
+  <button data-view="front">Front</button>
+  <button data-view="side">Side</button>
+  <button data-view="back">Back</button>
+  <button data-view="q">¾</button>
+</div>
+<div id="labels"><svg></svg></div>
+
+<aside id="panel" aria-label="Layers and parts">
+  <button id="handle" aria-label="Show more controls" aria-expanded="false"></button>
+  <section>
+    <h2><span>Depth</span><span class="now" id="now"></span></h2>
+    <input id="peel" type="range" min="0" max="4" step="1" value="0" aria-label="Depth">
+    <div class="ticks" id="ticks"></div>
+  </section>
+  <section class="more">
+    <h2>Show</h2>
+    <div class="chips" id="systems"></div>
+  </section>
+  <section class="more">
+    <div class="chips">
+      <button id="tLabels" aria-pressed="true">Labels</button>
+      <button id="tGhost" aria-pressed="true">Ghost peeled</button>
+      <button id="tSee" aria-pressed="false">See-through skin</button>
+      <button id="tColour">Colour: natural</button>
+      <span style="display:inline-flex;gap:6px;align-items:center" aria-label="Skin tone">
+        <button class="tone" data-tone="#e3b796" style="background:#e3b796" aria-label="Light skin tone"></button>
+        <button class="tone" data-tone="#b8876a" style="background:#b8876a" aria-label="Medium skin tone"></button>
+        <button class="tone" data-tone="#7a5038" style="background:#7a5038" aria-label="Dark skin tone"></button>
+      </span>
+    </div>
+    <div class="legend" id="legend"></div>
+  </section>
+  <div class="search more"><input id="q" type="search" placeholder="Find a muscle, bone or organ" aria-label="Find a part"></div>
+  <div class="chips more" id="kinds" style="padding:4px 14px 0"></div>
+  <div class="list more" id="list"></div>
+</aside>
+<div id="card"></div>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const $ = (id) => document.getElementById(id);
+const stage = $('stage');
+const LAYER_COL = ['#888', '#c9483f', '#3f74c9', '#3aa36a', '#c99a2e', '#8a5cc9', '#2fb3b3'];
+const layerName = (l) => l === 1 ? 'Superficial' : l === 2 ? 'Intermediate' : l === 3 ? 'Deep' : `Deep ${l - 2}`;
+const SYSTEMS = [ // toggle key -> kinds
+  ['organs', 'Organs', ['organ']], ['vessels', 'Heart and vessels', ['vessel']], ['nerves', 'Brain and nerves', ['nerve']],
+  ['lymph', 'Lymphatic', ['lymph']], ['joints', 'Ligaments and cartilage', ['joint']], ['bones', 'Skeleton', ['bone']],
+];
+const SYS_COL = { muscle: '#c9483f', tendon: '#e6d8c4', bone: '#e2d6c1', organ: '#d88a5a', vessel: '#3f74c9', nerve: '#e8cf6e', lymph: '#5fae5a', joint: '#9ec6d4', skin: '#b8876a' };
+
+// ---------- renderer ----------
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 0.95;
+renderer.sortObjects = true;
+stage.append(renderer.domElement);
+const scene = new THREE.Scene();
+{ const c = document.createElement('canvas'); c.width = c.height = 512; const x = c.getContext('2d'), g = x.createRadialGradient(256, 210, 20, 256, 256, 380);
+  g.addColorStop(0, '#16555d'); g.addColorStop(1, '#06282c'); x.fillStyle = g; x.fillRect(0, 0, 512, 512);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; scene.background = t; }
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.35;
+const camera = new THREE.PerspectiveCamera(30, 1, 0.02, 30);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true; controls.minDistance = 0.2; controls.maxDistance = 6;
+const key = new THREE.DirectionalLight(0xfff1e0, 2.0); key.position.set(-1.5, 3, 2.5); scene.add(key);
+const rim = new THREE.DirectionalLight(0xa8e6ff, 2.2); rim.position.set(1.8, 2.2, -2.5); scene.add(rim);
+const fill = new THREE.DirectionalLight(0xffffff, 0.55); fill.position.set(2, 0.5, 2); scene.add(fill);
+scene.add(new THREE.HemisphereLight(0x9fd6dd, 0x1a0a08, 0.4));
+{ const c = document.createElement('canvas'); c.width = c.height = 128; const x = c.getContext('2d'), g = x.createRadialGradient(64, 64, 0, 64, 64, 64);
+  g.addColorStop(0, 'rgba(0,0,0,.55)'); g.addColorStop(1, 'rgba(0,0,0,0)'); x.fillStyle = g; x.fillRect(0, 0, 128, 128);
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 0.6), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(c), transparent: true, depthWrite: false }));
+  m.rotation.x = -Math.PI / 2; m.position.y = 0.002; scene.add(m); }
+
+// ---------- data ----------
+async function loadData() {
+  const meta = await fetch('body.json').then((r) => r.json());
+  const parts = await Promise.all(Array.from({ length: meta.chunks }, (_, i) => fetch(`data${i}.txt`).then((r) => r.text())));
+  const s = atob(parts.join('')), u = new Uint8Array(s.length);
+  for (let i = 0; i < s.length; i++) u[i] = s.charCodeAt(i);
+  const buf = await new Response(new Blob([u]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+  return [meta, buf];
+}
+let meta, buf;
+try { [meta, buf] = await loadData(); }
+catch (e) { $('load').textContent = 'This browser could not unpack the anatomy data. Try a current Chrome, Edge, Firefox or Safari.'; throw e; }
+const names = meta.names;
+const NW = 1 << Math.ceil(Math.log2(names.length + 1));
+const stateData = new Uint8Array(NW * 2 * 4);
+const stateTex = new THREE.DataTexture(stateData, NW, 2, THREE.RGBAFormat);
+stateTex.magFilter = stateTex.minFilter = THREE.NearestFilter;
+names.forEach((n, i) => { const c = new THREE.Color(n.colour); const o = (NW + i) * 4; stateData[o] = c.r * 255; stateData[o + 1] = c.g * 255; stateData[o + 2] = c.b * 255; });
+const uniforms = { uState: { value: stateTex }, uTime: { value: 0 }, uFibre: { value: 1 }, uColour: { value: 0 }, uGhost: { value: 1 } };
+
+const COMMON = /* glsl */`
+varying vec3 vWPos; varying vec3 vFib; varying float vMid; varying float vAo; varying float vAcr;
+uniform sampler2D uState; uniform float uTime; uniform float uFibre; uniform float uColour; uniform float uFreq; uniform float uStr;
+float h31(vec3 p){ p = fract(p*0.3183099+.1); p *= 17.0; return fract(p.x*p.y*p.z*(p.x+p.y+p.z)); }
+float vnoise(vec3 x){ vec3 i=floor(x), f=fract(x); f=f*f*(3.-2.*f);
+  return mix(mix(mix(h31(i),h31(i+vec3(1,0,0)),f.x),mix(h31(i+vec3(0,1,0)),h31(i+vec3(1,1,0)),f.x),f.y),
+             mix(mix(h31(i+vec3(0,0,1)),h31(i+vec3(1,0,1)),f.x),mix(h31(i+vec3(0,1,1)),h31(i+vec3(1,1,1)),f.x),f.y),f.z); }
+vec4 partState(){ return texelFetch(uState, ivec2(int(vMid+0.5), 0), 0); }
+vec3 partCol(){ return pow(texelFetch(uState, ivec2(int(vMid+0.5), 1), 0).rgb, vec3(2.2)); }
+vec3 layerCol(float l){
+  return l < 1.5 ? vec3(.79,.28,.25) : l < 2.5 ? vec3(.25,.45,.79) : l < 3.5 ? vec3(.23,.64,.42) : l < 4.5 ? vec3(.79,.6,.18) : l < 5.5 ? vec3(.54,.36,.79) : vec3(.18,.7,.7); }
+vec3 gBump; float gShade;
+void striate(vec3 Nw){
+  vec3 A = vFib - Nw*dot(vFib,Nw); A = length(A) < 1e-4 ? vec3(0,1,0) : normalize(A);
+  vec3 U = normalize(cross(A, Nw));
+  float along = dot(vWPos, A), across = vAcr;
+  float n = vnoise(vec3(across*90., along*4., vMid*1.7));
+  float ph = across*uFreq + n*0.55;
+  float ph2 = across*uFreq*0.22 + vnoise(vec3(across*20., along*2.5, vMid))*0.9;
+  float f1 = clamp(1.-fwidth(ph)*0.8,0.,1.), f2 = clamp(1.-fwidth(ph2)*0.8,0.,1.);
+  gBump = U*(cos(ph*6.2831)*f1*uStr*0.7 + cos(ph2*6.2831)*f2*uStr*1.5)*uFibre;
+  gShade = 1. + (sin(ph2*6.2831)*0.06*f2 + sin(ph*6.2831)*0.05*f1)*uFibre*step(0.001,uStr);
+}`;
+const VHEAD = 'attribute vec3 fib; attribute float mid; attribute float ao; attribute float acr;\nvarying vec3 vWPos; varying vec3 vFib; varying float vMid; varying float vAo; varying float vAcr;\n';
+const VSET = 'vWPos=(modelMatrix*vec4(position,1.)).xyz; vFib=fib; vMid=mid; vAo=ao; vAcr=acr;';
+
+function tissueMat(params, freq, str, tint, sysCol) {
+  const mat = new THREE.MeshPhysicalMaterial({ color: 0xffffff, ...params });
+  mat.onBeforeCompile = (s) => {
+    Object.assign(s.uniforms, uniforms, { uFreq: { value: freq }, uStr: { value: str } });
+    s.vertexShader = VHEAD + s.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\n' + VSET);
+    s.fragmentShader = s.fragmentShader
+      .replace('#include <common>', '#include <common>\n' + COMMON)
+      .replace('#include <clipping_planes_fragment>', '#include <clipping_planes_fragment>\nvec4 st = partState(); if (st.r < 0.5) discard;')
+      .replace('#include <color_fragment>', `#include <color_fragment>
+        striate(normalize((vec4(vNormal,0.)*viewMatrix).xyz));
+        diffuseColor.rgb *= partCol();
+        if (uColour > 0.5 && uColour < 1.5 && st.b > 0.) diffuseColor.rgb = layerCol(st.b*255.) * 0.5;
+        if (uColour > 1.5) diffuseColor.rgb = pow(vec3(${sysCol}), vec3(2.2)) * 0.8;
+        diffuseColor.rgb *= mix(0.32, 1.0, vAo) * gShade * mix(${tint[0].toFixed(2)}, ${tint[1].toFixed(2)}, h31(vec3(vMid,3.,7.)));`)
+      .replace('#include <normal_fragment_maps>', '#include <normal_fragment_maps>\nnormal = normalize(normal + (viewMatrix*vec4(gBump,0.)).xyz);')
+      .replace('#include <aomap_fragment>', `#include <aomap_fragment>
+        reflectedLight.indirectDiffuse *= vAo; reflectedLight.indirectSpecular *= vAo*vAo;
+        reflectedLight.directSpecular *= mix(0.35, 1.0, vAo); reflectedLight.directDiffuse *= mix(0.55, 1.0, vAo);`)
+      .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
+        if (st.g > 0.5) totalEmissiveRadiance += vec3(1.0,0.62,0.18) * (0.45 + 0.2*sin(uTime*3.));`);
+  };
+  return mat;
+}
+const rgb = (h) => { const c = new THREE.Color(h); return `${c.r.toFixed(3)},${c.g.toFixed(3)},${c.b.toFixed(3)}`; };
+const wet = { roughness: 0.42, clearcoat: 0.3, clearcoatRoughness: 0.3, sheen: 0.5, sheenRoughness: 0.5, sheenColor: new THREE.Color(0xd08a80) };
+const MATS = {
+  muscle: tissueMat({ roughness: 0.5, clearcoat: 0.22, clearcoatRoughness: 0.38, sheen: 0.7, sheenColor: new THREE.Color(0xc8574f), sheenRoughness: 0.5, anisotropy: 0.55, specularIntensity: 0.5 }, 300, 0.13, [0.8, 1.1], rgb(SYS_COL.muscle)),
+  tendon: tissueMat({ roughness: 0.32, clearcoat: 0.5, clearcoatRoughness: 0.25, sheen: 0.6, sheenColor: new THREE.Color(0xffe8d6) }, 700, 0.05, [0.95, 1.03], rgb(SYS_COL.tendon)),
+  bone: tissueMat({ roughness: 0.7, sheen: 0.3, sheenColor: new THREE.Color(0xfff4e0) }, 300, 0, [0.97, 1.02], rgb(SYS_COL.bone)),
+  organ: tissueMat(wet, 300, 0, [0.9, 1.08], rgb(SYS_COL.organ)),
+  vessel: tissueMat(wet, 300, 0, [0.95, 1.05], rgb(SYS_COL.vessel)),
+  nerve: tissueMat({ ...wet, sheenColor: new THREE.Color(0xfff0c0) }, 300, 0, [0.95, 1.05], rgb(SYS_COL.nerve)),
+  lymph: tissueMat(wet, 300, 0, [0.95, 1.05], rgb(SYS_COL.lymph)),
+  joint: tissueMat({ roughness: 0.35, clearcoat: 0.4, sheen: 0.4, sheenColor: new THREE.Color(0xeef6ff) }, 300, 0, [0.95, 1.05], rgb(SYS_COL.joint)),
+};
+// skin: soft, slightly translucent-looking; opacity driven by depth / see-through
+const skinMat = new THREE.MeshPhysicalMaterial({ color: 0xb8876a, roughness: 0.55, sheen: 0.8, sheenColor: new THREE.Color(0xff9a7a), sheenRoughness: 0.6,
+  specularIntensity: 0.22, clearcoat: 0, transparent: true, opacity: 1 });
+skinMat.onBeforeCompile = (s) => {
+  s.uniforms.uState = uniforms.uState;
+  s.vertexShader = 'attribute float mid; varying float vMid;\n' + s.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\nvMid = mid;');
+  s.fragmentShader = 'uniform sampler2D uState; varying float vMid;\n' + s.fragmentShader.replace('#include <clipping_planes_fragment>',
+    '#include <clipping_planes_fragment>\nif (texelFetch(uState, ivec2(int(vMid+0.5),0),0).r < 0.5) discard;');
+};
+const ghostMat = new THREE.ShaderMaterial({
+  uniforms, transparent: true, depthWrite: false,
+  vertexShader: VHEAD + 'varying vec3 vN; varying vec3 vV;\nvoid main(){ ' + VSET + ' vN = normalize(normalMatrix*normal); vec4 mv = modelViewMatrix*vec4(position,1.); vV = -mv.xyz; gl_Position = projectionMatrix*mv; }',
+  fragmentShader: 'varying float vMid; varying vec3 vN; varying vec3 vV;\nuniform sampler2D uState; uniform float uGhost;\n' +
+    'void main(){ vec4 st = texelFetch(uState, ivec2(int(vMid+0.5),0),0); if (st.r > 0.5 || st.a < 0.5 || uGhost < 0.5) discard;\n' +
+    ' float f = pow(1. - abs(dot(normalize(vN), normalize(vV))), 2.); gl_FragColor = vec4(vec3(0.75,0.92,0.95), 0.03 + 0.2*f); }',
+});
+const idMat = new THREE.ShaderMaterial({
+  uniforms: { uState: uniforms.uState },
+  vertexShader: 'attribute float mid; varying float vMid; void main(){ vMid = mid; gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.); }',
+  fragmentShader: 'uniform sampler2D uState; varying float vMid; void main(){ vec4 st = texelFetch(uState, ivec2(int(vMid+0.5),0),0); if (st.r < 0.5) discard;\n float id = vMid + 1.; gl_FragColor = vec4(mod(id,256.)/255., floor(id/256.)/255., 0., 1.); }',
+});
+idMat.toneMapped = false;
+
+const [lo, hi] = meta.box;
+const geos = {}, meshes = {}, ghosts = [];
+const posBy = { M: {}, F: {} }, nrmBy = { M: {}, F: {} };
+const centre = { M: names.map(() => [0, 0, 0, 0]), F: names.map(() => [0, 0, 0, 0]) };
+const ext = { M: names.map(() => [9, 9, 9, -9, -9, -9]), F: names.map(() => [9, 9, 9, -9, -9, -9]) };
+for (const [kind, g] of Object.entries(meta.groups)) {
+  const v = (k, T, n) => new T(buf, g[k][0], g[k][1] / T.BYTES_PER_ELEMENT);
+  const mid16 = v('mid', Uint16Array), mid = Float32Array.from(mid16);
+  for (const sx of ['M', 'F']) {
+    const q = v('pos' + sx, Uint16Array), p = new Float32Array(q.length);
+    for (let i = 0; i < q.length; i += 3) for (let k = 0; k < 3; k++) p[i + k] = lo[k] + (q[i + k] / 65535) * (hi[k] - lo[k]);
+    posBy[sx][kind] = p; nrmBy[sx][kind] = new THREE.BufferAttribute(v('nrm' + sx, Int8Array), 3, true);
+    for (let i = 0, j = 0; i < p.length; i += 3, j++) {
+      const m = mid16[j], c = centre[sx][m], e = ext[sx][m]; c[0] += p[i]; c[1] += p[i + 1]; c[2] += p[i + 2]; c[3]++;
+      for (let k = 0; k < 3; k++) { e[k] = Math.min(e[k], p[i + k]); e[k + 3] = Math.max(e[k + 3], p[i + k]); }
+    }
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(posBy.M[kind], 3));
+  geo.setAttribute('normal', nrmBy.M[kind]);
+  const fib = new THREE.BufferAttribute(v('fib', Int8Array), 3, true);
+  geo.setAttribute('fib', fib);
+  geo.setAttribute('mid', new THREE.BufferAttribute(mid, 1));
+  geo.setAttribute('ao', new THREE.BufferAttribute(v('ao', Uint8Array), 1, true));
+  const acr16 = v('acr', Int16Array), acr = new Float32Array(acr16.length); for (let i = 0; i < acr.length; i++) acr[i] = acr16[i] / 8000;
+  geo.setAttribute('acr', new THREE.BufferAttribute(acr, 1));
+  geo.setIndex(new THREE.BufferAttribute(v('idx', Uint32Array), 1));
+  if (kind === 'muscle' || kind === 'tendon') { // tangent along fibres, for anisotropic highlights
+    const n = nrmBy.M[kind].array, f = fib.array, tan = new Float32Array(n.length / 3 * 4);
+    for (let i = 0, j = 0; i < n.length; i += 3, j += 4) {
+      const nx = n[i] / 127, ny = n[i + 1] / 127, nz = n[i + 2] / 127, fx = f[i] / 127, fy = f[i + 1] / 127, fz = f[i + 2] / 127, d = fx * nx + fy * ny + fz * nz;
+      const x = fx - d * nx, y = fy - d * ny, z = fz - d * nz, l = Math.hypot(x, y, z) || 1; tan[j] = x / l; tan[j + 1] = y / l; tan[j + 2] = z / l; tan[j + 3] = 1;
+    }
+    geo.setAttribute('tangent', new THREE.BufferAttribute(tan, 4));
+  }
+  geos[kind] = geo;
+  const mesh = new THREE.Mesh(geo, kind === 'skin' ? skinMat : MATS[kind]);
+  if (kind === 'skin') mesh.renderOrder = 3;
+  scene.add(mesh); meshes[kind] = mesh;
+  if (kind === 'muscle' || kind === 'tendon') { const gh = new THREE.Mesh(geo, ghostMat); gh.renderOrder = 2; scene.add(gh); ghosts.push(gh); }
+}
+const maxLayer = Math.max(...names.filter((n) => n.kind === 'muscle' || n.kind === 'tendon').map((n) => n.layer));
+$('load').remove();
+
+// ---------- state ----------
+const S = { sex: 'M', depth: 0, see: false, ghost: true, labels: true, sel: null, iso: false, hidden: new Set(['Greater omentum', 'Pleura', 'Mesocolon', 'Lesser omentum']), colour: 0, list: 'muscle',
+  sys: { organs: true, vessels: false, nerves: false, lymph: false, joints: false, bones: true } };
+const byBase = new Map();
+names.forEach((n, i) => { const k = n.base; if (!byBase.has(k)) byBase.set(k, []); byBase.get(k).push(i); });
+const soft = (n) => n.kind === 'muscle' || n.kind === 'tendon';
+const sysOn = (n) => SYSTEMS.some(([k, , kinds]) => S.sys[k] && kinds.includes(n.kind));
+const sexOk = (n) => !n.sex || n.sex === S.sex.toLowerCase();
+const skinOpaque = () => S.depth === 0;
+
+function applyState() {
+  const selSet = new Set(S.sel ? byBase.get(S.sel) : []);
+  names.forEach((n, i) => {
+    let vis;
+    if (!sexOk(n)) vis = false;
+    else if (n.kind === 'skin') vis = S.depth === 0 || S.see;
+    else if (S.depth === 0 && !S.see) vis = false;            // opaque skin hides everything inside
+    else if (S.hidden.has(n.base)) vis = false;
+    else if (S.iso && S.sel) vis = selSet.has(i) || (n.kind === 'bone' && S.sys.bones);
+    else if (soft(n)) vis = S.depth === 0 || (S.depth <= maxLayer && n.layer >= S.depth);
+    else vis = sysOn(n);
+    if (n.ext && skinOpaque()) vis = false;
+    const o = i * 4;
+    stateData[o] = vis ? 255 : 0; stateData[o + 1] = selSet.has(i) ? 255 : 0;
+    stateData[o + 2] = soft(n) ? Math.min(n.layer, 6) : 0; stateData[o + 3] = soft(n) && sexOk(n) ? 255 : 0;
+  });
+  stateTex.needsUpdate = true;
+  skinMat.opacity = S.depth === 0 ? (S.see ? 0.35 : 1) : 0.22; skinMat.depthWrite = S.depth === 0 && !S.see;
+  uniforms.uGhost.value = S.ghost && S.depth > 0 ? 1 : 0;
+  $('now').textContent = S.iso && S.sel ? `Isolated: ${S.sel}` : S.depth === 0 ? 'Skin' : S.depth > maxLayer ? 'Skeleton and organs' : `${layerName(S.depth)} muscles and deeper`;
+  queueLabels();
+}
+
+// ---------- controls ----------
+const peel = $('peel'); peel.max = maxLayer + 1;
+$('ticks').innerHTML = ['Skin', 'Outer', ...Array.from({ length: maxLayer - 1 }, (_, i) => i + 2), 'Bones'].map((t) => `<span>${t}</span>`).join('');
+peel.oninput = () => { S.depth = +peel.value; S.iso = false; applyState(); renderList(); };
+$('systems').innerHTML = SYSTEMS.map(([k, label]) => `<button data-sys="${k}" aria-pressed="${S.sys[k]}">${label}</button>`).join('');
+$('systems').onclick = (e) => { const b = e.target.closest('[data-sys]'); if (!b) return; const k = b.dataset.sys; S.sys[k] = !S.sys[k]; b.setAttribute('aria-pressed', S.sys[k]); applyState(); };
+const toggle = (id, fn) => { const b = $(id); b.onclick = () => { const on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', on); fn(on); }; };
+toggle('tLabels', (on) => { S.labels = on; queueLabels(); });
+toggle('tGhost', (on) => { S.ghost = on; applyState(); });
+toggle('tSee', (on) => { S.see = on; applyState(); });
+const COLOURS = ['natural', 'by layer', 'by system'];
+$('tColour').onclick = () => {
+  S.colour = (S.colour + 1) % 3; uniforms.uColour.value = S.colour; $('tColour').textContent = `Colour: ${COLOURS[S.colour]}`;
+  const lg = $('legend'); lg.classList.toggle('on', S.colour > 0);
+  lg.innerHTML = S.colour === 1 ? Array.from({ length: maxLayer }, (_, i) => `<span><i class="sw" style="background:${LAYER_COL[i + 1]}"></i>${layerName(i + 1)}</span>`).join('')
+    : Object.entries({ Muscle: SYS_COL.muscle, Tendon: SYS_COL.tendon, Bone: SYS_COL.bone, Organ: SYS_COL.organ, Vessel: SYS_COL.vessel, Nerve: SYS_COL.nerve, Lymph: SYS_COL.lymph, Ligament: SYS_COL.joint })
+      .map(([k, c]) => `<span><i class="sw" style="background:${c}"></i>${k}</span>`).join('');
+  queueLabels();
+};
+for (const b of document.querySelectorAll('.tone')) b.onclick = () => skinMat.color.set(b.dataset.tone);
+function setSex(sx) {
+  S.sex = sx; $('sM').setAttribute('aria-pressed', sx === 'M'); $('sF').setAttribute('aria-pressed', sx === 'F');
+  for (const [kind, geo] of Object.entries(geos)) { geo.attributes.position.array = posBy[sx][kind]; geo.attributes.position.needsUpdate = true; geo.setAttribute('normal', nrmBy[sx][kind]); geo.computeBoundingSphere(); }
+  if (S.sel && !byBase.get(S.sel).some((i) => sexOk(names[i]))) S.sel = null;
+  applyState(); renderList(); select(S.sel);
+}
+$('sM').onclick = () => setSex('M'); $('sF').onclick = () => setSex('F');
+$('handle').onclick = () => { const o = document.body.classList.toggle('open'); $('handle').setAttribute('aria-expanded', o); };
+
+// ---------- list ----------
+const KINDS = [['muscle', 'Muscles'], ['organ', 'Organs'], ['bone', 'Bones'], ['vessel', 'Vessels'], ['nerve', 'Nerves'], ['lymph', 'Lymph'], ['joint', 'Ligaments']];
+$('kinds').innerHTML = KINDS.map(([k, l]) => `<button data-kind="${k}" aria-pressed="${k === S.list}">${l}</button>`).join('');
+$('kinds').onclick = (e) => { const b = e.target.closest('[data-kind]'); if (!b) return; S.list = b.dataset.kind; for (const x of $('kinds').children) x.setAttribute('aria-pressed', x === b); renderList(); };
+const REGIONS = ['Head', 'Neck', 'Chest', 'Abdomen', 'Back', 'Arm', 'Hand', 'Pelvis', 'Leg', 'Foot', 'Other'];
+function renderList() {
+  const q = $('q').value.trim().toLowerCase();
+  const rows = [...byBase.entries()].map(([base, ids]) => ({ base, n: names[ids[0]], ids }))
+    .filter((r) => r.ids.some((i) => sexOk(names[i])) && r.n.kind !== 'skin' && (q ? r.base.toLowerCase().includes(q) : (S.list === 'muscle' ? soft(r.n) : r.n.kind === S.list)));
+  const groupBy = (r) => (r.n.kind === 'muscle' || r.n.kind === 'tendon' || r.n.kind === 'bone') ? r.n.region : r.n.system;
+  const groups = [...new Set(rows.map(groupBy))].sort((a, b) => (REGIONS.indexOf(a) + 99) % 99 - (REGIONS.indexOf(b) + 99) % 99 || a.localeCompare(b));
+  let html = '';
+  for (const gname of groups) {
+    const rs = rows.filter((r) => groupBy(r) === gname).sort((a, b) => a.n.layer - b.n.layer || a.base.localeCompare(b.base));
+    html += `<div class="reg">${gname}</div>`;
+    for (const r of rs) {
+      const dim = soft(r.n) && S.depth > 0 && r.n.layer < S.depth ? ' style="opacity:.55"' : '';
+      const col = soft(r.n) ? LAYER_COL[Math.min(r.n.layer, 6)] : r.n.colour;
+      html += `<button class="row${S.sel === r.base ? ' sel' : ''}" data-base="${r.base.replace(/"/g, '&quot;')}"${dim}><i class="dot" style="background:${col}"></i><span class="nm">${r.base}</span></button>`;
+    }
+  }
+  $('list').innerHTML = html || '<p class="now" style="padding:8px">Nothing matches. Try part of the name, like "delt" or "liver".</p>';
+}
+$('q').oninput = renderList;
+$('list').onclick = (e) => { const b = e.target.closest('.row'); if (b) select(b.dataset.base, { reveal: true, focus: true }); };
+
+// ---------- selection ----------
+function select(base, { reveal = false, focus = false } = {}) {
+  S.sel = base || null; S.iso = false;
+  if (!S.sel) { $('card').innerHTML = ''; applyState(); renderList(); return; }
+  const ids = byBase.get(base).filter((i) => sexOk(names[i])), n = names[ids[0]];
+  if (reveal) {
+    if (soft(n) && (S.depth === 0 || n.layer < S.depth)) { S.depth = n.layer; peel.value = n.layer; }
+    if (!soft(n) && n.kind !== 'skin') { const sys = SYSTEMS.find(([, , kinds]) => kinds.includes(n.kind)); if (sys && !S.sys[sys[0]]) { S.sys[sys[0]] = true; document.querySelector(`[data-sys="${sys[0]}"]`).setAttribute('aria-pressed', true); }
+      if (S.depth === 0) { S.depth = maxLayer + 1; peel.value = S.depth; } }
+    S.hidden.delete(base);
+  }
+  const sides = ids.length > 1 ? 'Left and right' : n.side ? (n.side === 'left' ? 'Left' : 'Right') : 'Midline';
+  const kind = { muscle: 'Muscle', tendon: 'Tendon or fascia', bone: 'Bone', organ: 'Organ', vessel: 'Heart or vessel', nerve: 'Nervous system', lymph: 'Lymphatic', joint: 'Ligament or cartilage', skin: 'Skin' }[n.kind];
+  const lay = soft(n) ? ` · <i class="sw" style="background:${LAYER_COL[Math.min(n.layer, 6)]}"></i>${layerName(n.layer)} layer` : ` · ${n.system}`;
+  const simp = n.simplified ? '<br><span class="meta">Simplified shape. No free detailed model of this organ yet.</span>' : '';
+  $('card').innerHTML = `<b>${base}</b><span class="meta">${kind} · ${n.region} · ${sides}${lay}</span>${simp}
+    <div class="acts">${n.kind !== 'skin' ? '<button id="aIso">Isolate</button><button id="aHide">Hide</button><button id="aFocus">Zoom to it</button>' : ''}
+    ${S.hidden.size ? '<button id="aShow">Show hidden</button>' : ''}<button id="aClear">Close</button></div>`;
+  const on = (id, fn) => { const b = $(id); if (b) b.onclick = fn; };
+  on('aIso', () => { S.iso = !S.iso; $('aIso').textContent = S.iso ? 'Show all' : 'Isolate'; applyState(); });
+  on('aHide', () => { S.hidden.add(base); select(null); });
+  on('aFocus', () => focusOn(base));
+  on('aShow', () => { S.hidden.clear(); select(base); });
+  on('aClear', () => select(null));
+  applyState(); renderList();
+  if (focus) focusOn(base);
+  const row = $('list').querySelector('.row.sel'); if (row && reveal) row.scrollIntoView({ block: 'nearest' });
+}
+let tween = null;
+function focusOn(base) {
+  const i = byBase.get(base).find((k) => sexOk(names[k])); const c = centre[S.sex][i], e = ext[S.sex][i];
+  const tgt = new THREE.Vector3(c[0] / c[3], c[1] / c[3], c[2] / c[3]);
+  const size = Math.max(e[3] - e[0], e[4] - e[1], e[5] - e[2]);
+  const dir = camera.position.clone().sub(controls.target).normalize();
+  tween = { t: 0, p0: camera.position.clone(), t0: controls.target.clone(), p1: tgt.clone().add(dir.multiplyScalar(THREE.MathUtils.clamp(size * 3.2, 0.3, 3.6))), t1: tgt };
+}
+
+// ---------- id pass: picking + labels ----------
+const rt = new THREE.WebGLRenderTarget(1, 1);
+let idW = 0, idH = 0, idBuf = null;
+const cw = () => stage.clientWidth, ch = () => stage.clientHeight;
+function renderIds() {
+  idW = Math.max(1, Math.floor(cw() / 2)); idH = Math.max(1, Math.floor(ch() / 2));
+  if (rt.width !== idW || rt.height !== idH) rt.setSize(idW, idH);
+  const bg = scene.background; scene.background = null; scene.overrideMaterial = idMat;
+  ghosts.forEach((g) => (g.visible = false)); const skinVis = meshes.skin.visible; meshes.skin.visible = S.depth === 0;
+  renderer.setRenderTarget(rt); renderer.setClearColor(0, 1); renderer.clear(); renderer.render(scene, camera); renderer.setRenderTarget(null);
+  scene.overrideMaterial = null; scene.background = bg; ghosts.forEach((g) => (g.visible = true)); meshes.skin.visible = skinVis;
+  if (!idBuf || idBuf.length !== idW * idH * 4) idBuf = new Uint8Array(idW * idH * 4);
+  renderer.readRenderTargetPixels(rt, 0, 0, idW, idH, idBuf);
+}
+const idAt = (x, y) => { const o = ((idH - 1 - y) * idW + x) * 4; return idBuf[o] + idBuf[o + 1] * 256 - 1; };
+const svg = $('labels').querySelector('svg');
+let labelTimer = null;
+function queueLabels() { clearTimeout(labelTimer); labelTimer = setTimeout(drawLabels, 140); }
+function clearLabels() { svg.innerHTML = ''; $('labels').querySelectorAll('.lab').forEach((e) => e.remove()); }
+function drawLabels() {
+  clearLabels();
+  if (!S.labels || S.depth === 0) return;
+  renderIds();
+  const stats = new Map();
+  for (let y = 0; y < idH; y += 2) for (let x = 0; x < idW; x += 2) {
+    const id = idAt(x, y); if (id < 0) continue;
+    let s = stats.get(id); if (!s) stats.set(id, (s = [0, 0, 0])); s[0]++; s[1] += x; s[2] += y;
+  }
+  const best = new Map();
+  for (const [id, s] of stats) { const n = names[id]; if (!n || n.kind === 'skin') continue; if (!best.has(n.base) || best.get(n.base)[1][0] < s[0]) best.set(n.base, [id, s]); }
+  const mobile = innerWidth < 760, maxN = mobile ? 6 : 14, minPx = idW * idH / 4 * (mobile ? 0.004 : 0.002);
+  const pick = [...best.values()].filter(([, s]) => s[0] > minPx).sort((a, b) => b[1][0] - a[1][0]).slice(0, maxN);
+  if (!pick.length) return;
+  const chosen = pick.map(([id, s]) => {
+    const cx = s[1] / s[0], cy = s[2] / s[0]; let bx = cx, by = cy, bd = 1e9;
+    if (idAt(Math.round(cx), Math.round(cy)) !== id)
+      for (let y = 0; y < idH; y += 2) for (let x = 0; x < idW; x += 2) if (idAt(x, y) === id) { const d = (x - cx) ** 2 + (y - cy) ** 2; if (d < bd) { bd = d; bx = x; by = y; } }
+    return { id, x: bx * 2, y: by * 2 };
+  });
+  const W = cw(), H = ch(), midX = W / 2;
+  const top = mobile ? 52 : 64, bottom = H - ($('card').innerHTML ? (mobile ? 120 : 110) : 24), gap = mobile ? 22 : 24;
+  for (const side of ['l', 'r']) {
+    const list = chosen.filter((c) => (side === 'l') === (c.x < midX)).sort((a, b) => a.y - b.y);
+    let y = top; for (const c of list) { c.ly = Math.max(c.y, y); y = c.ly + gap; }
+    let over = (list.at(-1)?.ly ?? 0) - bottom;
+    for (let i = list.length - 1; i >= 0 && over > 0; i--) { list[i].ly -= over; if (i > 0) over = list[i - 1].ly - (list[i].ly - gap); }
+    const lx = side === 'l' ? 8 : W - 8;
+    for (const c of list) {
+      const n = names[c.id], el = document.createElement('button');
+      el.className = 'lab' + (side === 'r' ? ' r' : ''); el.textContent = n.base; el.style.left = lx + 'px'; el.style.top = c.ly + 'px';
+      el.onclick = () => select(n.base, { reveal: true }); $('labels').append(el);
+      const w = el.offsetWidth, ex = side === 'l' ? lx + w : lx - w;
+      const col = S.colour === 1 && soft(n) ? LAYER_COL[Math.min(n.layer, 6)] : '#EDE6DA';
+      svg.insertAdjacentHTML('beforeend', `<polyline points="${ex},${c.ly} ${ex + (side === 'l' ? 12 : -12)},${c.ly} ${c.x},${c.y}" fill="none" stroke="${col}" stroke-opacity=".75" stroke-width="1"/><circle cx="${c.x}" cy="${c.y}" r="2.5" fill="${col}"/>`);
+    }
+  }
+}
+controls.addEventListener('start', clearLabels);
+controls.addEventListener('end', queueLabels);
+let down = null;
+renderer.domElement.addEventListener('pointerdown', (e) => (down = [e.clientX, e.clientY]));
+renderer.domElement.addEventListener('pointerup', (e) => {
+  if (!down || Math.hypot(e.clientX - down[0], e.clientY - down[1]) > 6) return;
+  const r = renderer.domElement.getBoundingClientRect(); renderIds();
+  const id = idAt(Math.min(idW - 1, Math.floor((e.clientX - r.left) / 2)), Math.min(idH - 1, Math.floor((e.clientY - r.top) / 2)));
+  select(id >= 0 ? names[id].base : null);
+});
+
+// ---------- views, sizing ----------
+const VIEWS = { front: [0, 0.9], q: [-35, 0.9], side: [-90, 0.9], back: [180, 0.9], backtorso: [180, 1.25, 1.5], close: [-30, 1.32, 1.0], pelvis: [0, 0.95, 0.9] };
+function setView(v) {
+  let [az, y, r0] = VIEWS[v]; const a = THREE.MathUtils.degToRad(az); if (S.sex === 'F') y *= 0.93;
+  const r = r0 || (camera.aspect < 0.75 ? 4.6 / Math.max(camera.aspect, 0.45) * 0.62 : 3.6);
+  tween = null; camera.position.set(Math.sin(a) * r, y + 0.15, Math.cos(a) * r); controls.target.set(0, y, 0); controls.update(); queueLabels();
+}
+for (const b of document.querySelectorAll('[data-view]')) b.onclick = () => setView(b.dataset.view);
+function resize() { const w = cw(), h = ch(); renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); queueLabels(); }
+new ResizeObserver(resize).observe(stage);
+resize();
+const clock = new THREE.Clock();
+renderer.setAnimationLoop(() => {
+  uniforms.uTime.value = clock.getElapsedTime();
+  if (tween) {
+    tween.t = Math.min(1, tween.t + 0.06); const k = 1 - (1 - tween.t) ** 3;
+    camera.position.lerpVectors(tween.p0, tween.p1, k); controls.target.lerpVectors(tween.t0, tween.t1, k);
+    if (tween.t >= 1) { tween = null; queueLabels(); } else clearLabels();
+  }
+  controls.update(); renderer.render(scene, camera);
+});
+setView('q'); applyState(); renderList();
+Object.assign(window, { __setView: setView, __depth: (v) => { peel.value = v; peel.oninput(); }, __select: select, __sex: setSex,
+  __hide: (b, on) => { on ? S.hidden.add(b) : S.hidden.delete(b); applyState(); }, __labels: (on) => { S.labels = on; queueLabels(); },
+  __sys: (k, on) => { S.sys[k] = on; applyState(); }, __see: (on) => { S.see = on; applyState(); }, __colour: () => $('tColour').click(), __ready: true });
+</script>
+</body>
+</html>
