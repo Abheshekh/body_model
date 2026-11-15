@@ -87,7 +87,7 @@ Each ends at a checkpoint. Nothing moves on without sign-off.
 | # | Milestone | Done when | Risk |
 |---|---|---|---|
 | R0 | Clean slate | M1b on branch `m1b-archive`. Main keeps Makefile, profile, programs data. "Below" button gone. Programs "Show" bug fixed with a test. Result: all M1b code kept on `r0-clean-slate`, main fast-forwarded to M1; Show fixed (see docs/reports/R0.md). | Low |
-| R1 | Body data pipeline | `tools/pipeline` builds male + female from Z-Anatomy + MakeHuman: all systems, fibre field, AO, layers, female warp, female-only parts, quantised data. Tests pass. Numbers match the sample or better. | Medium |
+| R1 | Body data pipeline | `tools/pipeline` builds male + female from Z-Anatomy + MakeHuman: all systems, fibre field, AO, layers, female warp, female-only parts, quantised data. Tests pass. Numbers match the sample or better. Result: done, 2,649 parts, first-load 9.28 MB gz (budget 10), run 22.1 s from cache, 48 tests OK; report docs/reports/R1.md. | Medium |
 | R2 | Body page | Explorer from the sample, rebuilt in `src/`: two sexes, skin, depth, systems, colour modes, labels, list, isolate, phone sheet. Part facts with sources for the 100 most-viewed parts. ≥ 30 fps on your phone. | Medium |
 | R3 | Rig + bring back content | Anatomy and skin bend on the MakeHuman skeleton. Move screen. Prototype's 11 exercises and 5 chores play on both bodies (provisional muscle lists). | **High** |
 | R4 | Effort engine | SPEC §4. Must-pass checks. Provisional lists replaced. | Medium |

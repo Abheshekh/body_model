@@ -1,3 +1,6 @@
 numpy
 trimesh
 fast-simplification
+bpy==5.3.0
+scipy
+embreex

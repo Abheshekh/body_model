@@ -1,0 +1,16 @@
+{
+  "note": "Built part counts from public/data/body/manifest.json at R1 (2649 total). Sample total 2651. Tests allow +-5%. Regenerate only after a deliberate pipeline change.",
+  "sample_total": 2651,
+  "total": 2649,
+  "kinds": {
+    "bone": 277,
+    "joint": 349,
+    "lymph": 158,
+    "muscle": 443,
+    "nerve": 580,
+    "organ": 140,
+    "skin": 1,
+    "tendon": 39,
+    "vessel": 662
+  }
+}

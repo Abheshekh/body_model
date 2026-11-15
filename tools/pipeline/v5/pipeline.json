@@ -1,0 +1,33 @@
+{
+  "sources": {
+    "za": {
+      "repo": "https://github.com/Z-Anatomy/Models-of-human-anatomy",
+      "files": ["Z-Anatomy.zip"],
+      "zip": "Z-Anatomy.zip",
+      "blend": "Startup.blend"
+    },
+    "mpfb": {
+      "repo": "https://github.com/makehumancommunity/mpfb2",
+      "files": [
+        "src/mpfb/data/3dobjs/base.obj",
+        "src/mpfb/data/targets/macrodetails/african-male-young.target.gz",
+        "src/mpfb/data/targets/macrodetails/african-female-young.target.gz",
+        "src/mpfb/data/targets/macrodetails/asian-male-young.target.gz",
+        "src/mpfb/data/targets/macrodetails/asian-female-young.target.gz",
+        "src/mpfb/data/targets/macrodetails/caucasian-male-young.target.gz",
+        "src/mpfb/data/targets/macrodetails/caucasian-female-young.target.gz",
+        "src/mpfb/data/mesh_metadata/basemesh_vertex_groups.json",
+        "src/mpfb/data/rigs/standard/rig.game_engine.json",
+        "src/mpfb/data/rigs/standard/weights.game_engine.json"
+      ]
+    }
+  },
+  "decimate": {"muscle": 0.25, "tendon": 0.3, "bone": 0.12, "organ": 0.35, "vessel": 0.5, "nerve": 0.2, "lymph": 0.3, "joint": 0.3},
+  "keep": {"vessel": 0.22, "nerve": 0.4},
+  "peel": {"reach": 0.5, "uncovered": 0.16, "maxLayer": 6},
+  "ao": {"rays": 28, "reach": 0.05},
+  "sheath": {"depth": 0.035},
+  "budget": {"firstLoadGz": 10000000},
+  "packs": {"first": ["skin", "muscle", "tendon", "bone", "organ"], "demand": ["vessel", "nerve", "lymph", "joint"]},
+  "sample": {"parts": 2651}
+}

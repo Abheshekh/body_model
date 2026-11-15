@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>R1 contact sheet</title>
+<!-- Pipeline tool, not shipped. Serve from the repo root: npx vite --port 5190 --strictPort
+     then open /tools/pipeline/v5/contact/sheet.html?sex=male|female&depth=skin|outer|intermediate|deep|bones -->
+<style>
+  html, body { margin:0; height:100%; background:#082226; color:#EDE6DA; font:13px system-ui, sans-serif; overflow:hidden; }
+  canvas { display:block; width:100vw; height:100vh; }
+  #labels { position:fixed; inset:0; display:grid; grid-template-columns:repeat(4, 1fr); grid-template-rows:repeat(2, 1fr); pointer-events:none; }
+  #labels span { padding:6px 8px; text-shadow:0 1px 2px #000; }
+  #err { position:fixed; inset:0; display:grid; place-items:center; color:#ff8a7a; }
+</style>
+</head>
+<body>
+<div id="labels"></div>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const q = new URLSearchParams(location.search);
+const SEX = q.get('sex') === 'female' ? 'female' : 'male';
+const DEPTH = q.get('depth') || 'skin';
+const MIN_LAYER = { outer: 1, intermediate: 3, deep: 5 }[DEPTH];
+const BASE = '/data/body/';
+const SX = SEX === 'male' ? 'M' : 'F';
+
+// Which kinds and parts a depth draws (PLAN §2b.16). Vessels, nerves, lymph never.
+const KINDS = DEPTH === 'skin' ? ['skin'] : DEPTH === 'bones' ? ['bone', 'organ', 'joint'] : ['muscle', 'tendon', 'bone', 'organ'];
+const soft = (p) => p.kind === 'muscle' || p.kind === 'tendon';
+function visible(p) {
+  if (p.defaultHidden) return false; // omentum, mesocolon, pleura (SPEC §1A)
+  if (p.sex !== 'both' && p.sex !== SEX) return false;
+  if (!KINDS.includes(p.kind)) return false;
+  if (soft(p)) return p.layer >= MIN_LAYER;
+  return true;
+}
+
+const SYS_COL = { muscle: '#c9483f', tendon: '#e6d8c4', bone: '#e2d6c1', organ: '#d88a5a', joint: '#9ec6d4' };
+
+// ---------- renderer (shading ported from tools/sample/viewer.html) ----------
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1);
+renderer.setSize(innerWidth, innerHeight, false);
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 0.95;
+renderer.setScissorTest(true);
+document.body.prepend(renderer.domElement);
+const scene = new THREE.Scene();
+{ const c = document.createElement('canvas'); c.width = c.height = 512; const x = c.getContext('2d'), g = x.createRadialGradient(256, 210, 20, 256, 256, 380);
+  g.addColorStop(0, '#16555d'); g.addColorStop(1, '#06282c'); x.fillStyle = g; x.fillRect(0, 0, 512, 512);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; scene.background = t; }
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.35;
+const key = new THREE.DirectionalLight(0xfff1e0, 2.0); key.position.set(-1.5, 3, 2.5); scene.add(key);
+const rim = new THREE.DirectionalLight(0xa8e6ff, 2.2); rim.position.set(1.8, 2.2, -2.5); scene.add(rim);
+const fill = new THREE.DirectionalLight(0xffffff, 0.55); fill.position.set(2, 0.5, 2); scene.add(fill);
+scene.add(new THREE.HemisphereLight(0x9fd6dd, 0x1a0a08, 0.4));
+{ const c = document.createElement('canvas'); c.width = c.height = 128; const x = c.getContext('2d'), g = x.createRadialGradient(64, 64, 0, 64, 64, 64);
+  g.addColorStop(0, 'rgba(0,0,0,.55)'); g.addColorStop(1, 'rgba(0,0,0,0)'); x.fillStyle = g; x.fillRect(0, 0, 128, 128);
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 0.6), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(c), transparent: true, depthWrite: false }));
+  m.rotation.x = -Math.PI / 2; m.position.y = 0.002; scene.add(m); }
+
+// ---------- data ----------
+const manifest = await fetch(BASE + 'manifest.json').then((r) => r.json());
+const [lo, hi] = manifest.box;
+const byId = new Map(manifest.parts.map((p) => [p.id, p]));
+const maxId = Math.max(...byId.keys());
+const NW = 1 << Math.ceil(Math.log2(maxId + 2));
+const stateData = new Uint8Array(NW * 2 * 4);
+for (const p of manifest.parts) {
+  const c = new THREE.Color(p.colour), o = (NW + p.id) * 4;
+  stateData[o] = c.r * 255; stateData[o + 1] = c.g * 255; stateData[o + 2] = c.b * 255;
+  stateData[p.id * 4] = visible(p) ? 255 : 0;
+}
+const stateTex = new THREE.DataTexture(stateData, NW, 2, THREE.RGBAFormat);
+stateTex.magFilter = stateTex.minFilter = THREE.NearestFilter; stateTex.needsUpdate = true;
+const uniforms = { uState: { value: stateTex } };
+
+const COMMON = /* glsl */`
+varying vec3 vWPos; varying vec3 vFib; varying float vMid; varying float vAo; varying float vAcr;
+uniform sampler2D uState; uniform float uFreq; uniform float uStr;
+float h31(vec3 p){ p = fract(p*0.3183099+.1); p *= 17.0; return fract(p.x*p.y*p.z*(p.x+p.y+p.z)); }
+float vnoise(vec3 x){ vec3 i=floor(x), f=fract(x); f=f*f*(3.-2.*f);
+  return mix(mix(mix(h31(i),h31(i+vec3(1,0,0)),f.x),mix(h31(i+vec3(0,1,0)),h31(i+vec3(1,1,0)),f.x),f.y),
+             mix(mix(h31(i+vec3(0,0,1)),h31(i+vec3(1,0,1)),f.x),mix(h31(i+vec3(0,1,1)),h31(i+vec3(1,1,1)),f.x),f.y),f.z); }
+vec4 partState(){ return texelFetch(uState, ivec2(int(vMid+0.5), 0), 0); }
+vec3 partCol(){ return pow(texelFetch(uState, ivec2(int(vMid+0.5), 1), 0).rgb, vec3(2.2)); }
+vec3 gBump; float gShade;
+void striate(vec3 Nw){
+  vec3 A = vFib - Nw*dot(vFib,Nw); A = length(A) < 1e-4 ? vec3(0,1,0) : normalize(A);
+  vec3 U = normalize(cross(A, Nw));
+  float along = dot(vWPos, A), across = vAcr;
+  float n = vnoise(vec3(across*90., along*4., vMid*1.7));
+  float ph = across*uFreq + n*0.55;
+  float ph2 = across*uFreq*0.22 + vnoise(vec3(across*20., along*2.5, vMid))*0.9;
+  float f1 = clamp(1.-fwidth(ph)*0.8,0.,1.), f2 = clamp(1.-fwidth(ph2)*0.8,0.,1.);
+  gBump = U*(cos(ph*6.2831)*f1*uStr*0.7 + cos(ph2*6.2831)*f2*uStr*1.5);
+  gShade = 1. + (sin(ph2*6.2831)*0.06*f2 + sin(ph*6.2831)*0.05*f1)*step(0.001,uStr);
+}`;
+const VHEAD = 'attribute vec3 fib; attribute float mid; attribute float ao; attribute float acr;\nvarying vec3 vWPos; varying vec3 vFib; varying float vMid; varying float vAo; varying float vAcr;\n';
+const VSET = 'vWPos=(modelMatrix*vec4(position,1.)).xyz; vFib=fib; vMid=mid; vAo=ao; vAcr=acr;';
+
+function tissueMat(params, freq, str, tint) {
+  const mat = new THREE.MeshPhysicalMaterial({ color: 0xffffff, ...params });
+  mat.onBeforeCompile = (s) => {
+    Object.assign(s.uniforms, uniforms, { uFreq: { value: freq }, uStr: { value: str } });
+    s.vertexShader = VHEAD + s.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\n' + VSET);
+    s.fragmentShader = s.fragmentShader
+      .replace('#include <common>', '#include <common>\n' + COMMON)
+      .replace('#include <clipping_planes_fragment>', '#include <clipping_planes_fragment>\nvec4 st = partState(); if (st.r < 0.5) discard;')
+      .replace('#include <color_fragment>', `#include <color_fragment>
+        striate(normalize((vec4(vNormal,0.)*viewMatrix).xyz));
+        diffuseColor.rgb *= partCol();
+        diffuseColor.rgb *= mix(0.32, 1.0, vAo) * gShade * mix(${tint[0].toFixed(2)}, ${tint[1].toFixed(2)}, h31(vec3(vMid,3.,7.)));`)
+      .replace('#include <normal_fragment_maps>', '#include <normal_fragment_maps>\nnormal = normalize(normal + (viewMatrix*vec4(gBump,0.)).xyz);')
+      .replace('#include <aomap_fragment>', `#include <aomap_fragment>
+        reflectedLight.indirectDiffuse *= vAo; reflectedLight.indirectSpecular *= vAo*vAo;
+        reflectedLight.directSpecular *= mix(0.35, 1.0, vAo); reflectedLight.directDiffuse *= mix(0.55, 1.0, vAo);`);
+  };
+  return mat;
+}
+const wet = { roughness: 0.42, clearcoat: 0.3, clearcoatRoughness: 0.3, sheen: 0.5, sheenRoughness: 0.5, sheenColor: new THREE.Color(0xd08a80) };
+const MATS = {
+  muscle: tissueMat({ roughness: 0.5, clearcoat: 0.22, clearcoatRoughness: 0.38, sheen: 0.7, sheenColor: new THREE.Color(0xc8574f), sheenRoughness: 0.5, anisotropy: 0.55, specularIntensity: 0.5 }, 300, 0.13, [0.8, 1.1]),
+  tendon: tissueMat({ roughness: 0.32, clearcoat: 0.5, clearcoatRoughness: 0.25, sheen: 0.6, sheenColor: new THREE.Color(0xffe8d6) }, 700, 0.05, [0.95, 1.03]),
+  bone: tissueMat({ roughness: 0.7, sheen: 0.3, sheenColor: new THREE.Color(0xfff4e0) }, 300, 0, [0.97, 1.02]),
+  organ: tissueMat(wet, 300, 0, [0.9, 1.08]),
+  joint: tissueMat({ roughness: 0.35, clearcoat: 0.4, sheen: 0.4, sheenColor: new THREE.Color(0xeef6ff) }, 300, 0, [0.95, 1.05]),
+};
+// skin: opaque on the skin sheet (the only sheet that draws it)
+const skinMat = new THREE.MeshPhysicalMaterial({ color: 0xb8876a, roughness: 0.55, sheen: 0.8, sheenColor: new THREE.Color(0xff9a7a), sheenRoughness: 0.6, specularIntensity: 0.22, clearcoat: 0 });
+
+async function loadPack(pack) {
+  // Vite's dev server sends .gz with Content-Encoding: gzip, so the browser may already have unpacked it.
+  let buf = await fetch(BASE + pack.file).then((r) => r.arrayBuffer());
+  const head = new Uint8Array(buf, 0, 2);
+  if (head[0] === 0x1f && head[1] === 0x8b) buf = await new Response(new Blob([buf]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+  if (buf.byteLength !== pack.bytes) throw new Error(`${pack.file}: ${buf.byteLength} bytes, manifest says ${pack.bytes}`);
+  const v = (k, T) => new T(buf, pack.arrays[k][0], pack.arrays[k][1] / T.BYTES_PER_ELEMENT);
+  const q = v('pos' + SX, Uint16Array), pos = new Float32Array(q.length);
+  for (let i = 0; i < q.length; i += 3) for (let k = 0; k < 3; k++) pos[i + k] = lo[k] + (q[i + k] / 65535) * (hi[k] - lo[k]);
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const nrm = v('nrm' + SX, Int8Array);
+  geo.setAttribute('normal', new THREE.BufferAttribute(nrm, 3, true));
+  const fib = v('fib', Int8Array);
+  geo.setAttribute('fib', new THREE.BufferAttribute(fib, 3, true));
+  geo.setAttribute('mid', new THREE.BufferAttribute(Float32Array.from(v('mid', Uint16Array)), 1));
+  geo.setAttribute('ao', new THREE.BufferAttribute(v('ao', Uint8Array), 1, true));
+  geo.setAttribute('acr', new THREE.BufferAttribute(Float32Array.from(v('acr', Int16Array), (a) => a / 8000), 1));
+  geo.setIndex(new THREE.BufferAttribute(v('idx', Uint32Array), 1));
+  if (pack.kinds.includes('muscle') || pack.kinds.includes('tendon')) { // tangent along fibres, for anisotropic highlights
+    const tan = new Float32Array(nrm.length / 3 * 4);
+    for (let i = 0, j = 0; i < nrm.length; i += 3, j += 4) {
+      const nx = nrm[i] / 127, ny = nrm[i + 1] / 127, nz = nrm[i + 2] / 127, fx = fib[i] / 127, fy = fib[i + 1] / 127, fz = fib[i + 2] / 127, d = fx * nx + fy * ny + fz * nz;
+      const x = fx - d * nx, y = fy - d * ny, z = fz - d * nz, l = Math.hypot(x, y, z) || 1; tan[j] = x / l; tan[j + 1] = y / l; tan[j + 2] = z / l; tan[j + 3] = 1;
+    }
+    geo.setAttribute('tangent', new THREE.BufferAttribute(tan, 4));
+  }
+  const kind = pack.kinds[0];
+  scene.add(new THREE.Mesh(geo, kind === 'skin' ? skinMat : MATS[kind]));
+}
+
+// ---------- views: 4×2 grid on one canvas ----------
+// [label, azimuth°, target y, camera distance]; y scales with the sex's height.
+const VIEWS = [
+  ['front', 0, 0.9, 3.8], ['¾ front', -35, 0.9, 3.8], ['side', -90, 0.9, 3.8], ['back', 180, 0.9, 3.8],
+  ['¾ back', 145, 0.9, 3.8], ['chest close-up', -30, 1.32, 1.0], ['back close-up', 180, 1.25, 1.5], ['pelvis', 0, 0.95, 0.9],
+];
+const camera = new THREE.PerspectiveCamera(30, 1, 0.02, 30);
+document.getElementById('labels').innerHTML = VIEWS.map(([l], i) => `<span>${i ? '' : `${SEX} · ${DEPTH} · `}${l}</span>`).join('');
+
+try {
+  await Promise.all(manifest.packs.filter((p) => p.kinds.some((k) => KINDS.includes(k))).map(loadPack));
+} catch (e) {
+  document.body.insertAdjacentHTML('beforeend', `<div id="err">${e.message}</div>`);
+  throw e;
+}
+
+function render() {
+  const w = renderer.domElement.width, h = renderer.domElement.height, cw = w / 4, ch = h / 2;
+  const ys = manifest.heights[SEX] / manifest.heights.male;
+  camera.aspect = cw / ch; camera.updateProjectionMatrix();
+  VIEWS.forEach(([, az, y0, r], i) => {
+    const x = (i % 4) * cw, yv = (1 - Math.floor(i / 4)) * ch, a = THREE.MathUtils.degToRad(az), y = y0 * ys;
+    camera.position.set(Math.sin(a) * r, y + 0.15, Math.cos(a) * r); camera.lookAt(0, y, 0);
+    renderer.setViewport(x, yv, cw, ch); renderer.setScissor(x, yv, cw, ch);
+    renderer.render(scene, camera);
+  });
+}
+render();
+requestAnimationFrame(() => { render(); window.sheetReady = true; });
+</script>
+</body>
+</html>

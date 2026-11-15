@@ -37,15 +37,15 @@ Phone budget: first load ≤ 10 MB compressed. Muscles, tendons, bones, skin and
 2. Outward normals: flip a part whose normals point mostly toward its own centre.
 3. Fibre field (muscle, tendon): principal axis by PCA; ends = 6% tails; narrower end = tendon. Per-vertex fibre direction = weighted blend of (vertex − origin end) and (insertion end − vertex). Across-fibre coordinate: angle around the long axis × mean radius (spindle muscles) or angle around the tendon end in the sheet plane (flat or fan muscles). Stored per vertex.
 4. Rectus sheath: delete oblique and transversus triangles that lie within 3.5 cm in front of rectus abdominis (atlas convention, so the rectus shows).
-5. Depth layers (muscle, tendon): repeat: a vertex is covered if a ray along its normal hits any remaining soft part or bone (not itself) within 0.5 m; parts with ≥ 16% uncovered vertices get the next layer; remove them; continue up to 6. Then apply `layer_overrides.json` (part, layer, reason). Seed overrides: rectus abdominis 1, pyramidalis 1.
-6. Ambient occlusion per vertex: 24–32 hemisphere rays against all anatomy (skin excluded), reach 5 cm.
+5. Depth layers (muscle, tendon): repeat: a vertex is covered if a ray along its normal hits any remaining soft part or bone (not itself) within 0.5 m; parts with ≥ 16% uncovered vertices get the next layer; remove them; continue up to 6. If in a round no part reaches 16%, the top third of the remaining parts by exposure (at least one) get that layer. Then apply `layer_overrides.json` (part, layer, reason). Seed overrides: rectus abdominis 1, pyramidalis 1.
+6. Ambient occlusion per vertex: 24–32 hemisphere rays (28 used), reach 5 cm, skin excluded. Per layer: a muscle or tendon vertex of layer L is occluded only by non-muscle anatomy and muscle/tendon parts of layer ≥ L (shallower layers are peeled away when it is shown); other parts are occluded by all anatomy except skin.
 7. MakeHuman bodies: base mesh + blended targets per sex. Place: scale male to anatomy height, feet on the floor, hip centre on anatomy hip centre. Pose with linear blend skinning on the game rig: spine (L4→C7), neck (C7→C1), head (C1→vertex), then upper arm, forearm, thigh, calf to Z-Anatomy joint landmarks taken from bone ends (humerus, radius, femur, tibia). Skin keeps its shape after posing; it is never pulled onto the muscles.
-8. Female anatomy: D = female skin − male skin (posed, same topology). Smooth D lightly; replace it with a heavily smoothed D in the breast region. Each anatomy vertex moves by the inverse-distance-weighted D of its 10 nearest male skin vertices.
+8. Female anatomy: D = female skin − male skin (posed, same topology). Smooth D lightly; replace it with a heavily smoothed D in the breast region. The anatomy field differs from the skin field there: on the chest, the skin region where the full and smoothed D differ by more than 4 mm (grown 2 rings) is filled harmonically from its border, so the pectoral muscles do not take the breast shape. Each anatomy vertex moves by the inverse-distance-weighted D of its 10 nearest male skin vertices.
 9. Sex-specific parts. Male only: penis, testes, epididymis, ductus deferens, seminal glands, prostate, male urethra. Female only (generated, `simplified: true`): uterus, ovaries, uterine tubes, vagina, placed from the warped bladder; mammary gland and breast fat from the female skin bump over the chest, offset 4 mm inward. External genitalia are hidden while the skin is opaque.
 10. Names: plain base name (side suffix removed), side, region (from collection ancestry, then name rules, then height for organs), system, colour, layer, sex, `ext`, `simplified`.
 11. Pack: positions as uint16 within the body box (one set per sex), normals and fibre direction as int8, across-fibre as int16, part id as uint16, AO as uint8, indices as uint32; gzip. The viewer decompresses with `DecompressionStream`.
 
-Tests (pytest): part counts per kind within ±5% of the sample; no label object exported; every muscle has a layer 1–6; male-only parts absent from the female part list and the reverse; female height 1.54–1.62 m when male is 1.70–1.72 m; no NaN; data size budget.
+Tests (unittest): part counts per kind within ±5% of the sample; no label object exported; every muscle has a layer 1–6; male-only parts absent from the female part list and the reverse; female height 1.54–1.62 m when male is 1.70–1.72 m; no NaN; data size budget.
 
 ### 1.4 Shading
 
@@ -72,7 +72,7 @@ Tests (pytest): part counts per kind within ±5% of the sample; no label object 
 | List | Tabs: Muscles, Organs, Bones, Vessels, Nerves, Lymph, Ligaments. Muscles and bones grouped by region, others by system. Search across all. Peeled rows dimmed. |
 | Part card | Name, kind, region, side, layer or system, "simplified" note, facts with sources (R2), Isolate, Hide, Zoom to it, Show hidden |
 | Select from list | Peels to the part's layer or turns its system on, then zooms |
-| Default hidden | Greater and lesser omentum, mesocolon, pleura (they cover the organs); listed so the user can show them |
+| Default hidden | Greater and lesser omentum, mesocolon, pleura (they cover the organs); listed so the user can show them. They carry `"defaultHidden": true` in the manifest |
 | Phone (< 760 px) | Bottom sheet, collapsed to the depth slider by default, opens to 72% height. Canvas sized above the collapsed sheet. Compact scrolling top bar. No title. |
 
 Facts on the card come from `facts.json` (part id → short facts, each with a source). R2 fills the 100 most-viewed parts; the rest show the name only.

@@ -1,0 +1,61 @@
+# za_export.py run 2026-11-15 11:01:50
+opened /Users/aa/Documents/personal/body_model/tools/pipeline/cache/za/Startup.blend in 1.0s
+200 parts (439/5520 objects) 21s
+400 parts (895/5520 objects) 44s
+600 parts (1266/5520 objects) 68s
+800 parts (1854/5520 objects) 94s
+1000 parts (2190/5520 objects) 115s
+1200 parts (2575/5520 objects) 139s
+1400 parts (3078/5520 objects) 163s
+1600 parts (3417/5520 objects) 189s
+1800 parts (3814/5520 objects) 213s
+2000 parts (4166/5520 objects) 241s
+2200 parts (4662/5520 objects) 268s
+2400 parts (4988/5520 objects) 288s
+2600 parts (5446/5520 objects) 318s
+skipped {'collection': 0, 'empty': 62}
+muscle  parts   443 tris   236456
+tendon  parts    39 tris    50336
+bone    parts   277 tris    72080
+organ   parts   118 tris    93260
+vessel  parts   676 tris   846019
+nerve   parts   580 tris   475340
+lymph   parts   158 tris    37784
+joint   parts   349 tris    56623
+total parts 2640 tris 1867898
+bbox min [-0.3352999985218048, 0.0034000000450760126, -0.13009999692440033] max [0.3352999985218048, 1.7074999809265137, 0.13689999282360077] size [0.6705999970436096, 1.7041000127792358, 0.2669999897480011]
+export time 324.4s
+real 325.89
+user 578.99
+sys 41.43
+
+# re-run with decimate.muscle 0.25, 2026-11-15 11:10:16
+opened /Users/aa/Documents/personal/body_model/tools/pipeline/cache/za/Startup.blend in 1.3s
+200 parts (439/5520 objects) 21s
+400 parts (895/5520 objects) 44s
+600 parts (1266/5520 objects) 69s
+800 parts (1854/5520 objects) 94s
+1000 parts (2190/5520 objects) 116s
+1200 parts (2575/5520 objects) 140s
+1400 parts (3078/5520 objects) 163s
+1600 parts (3417/5520 objects) 190s
+1800 parts (3814/5520 objects) 212s
+2000 parts (4166/5520 objects) 239s
+2200 parts (4662/5520 objects) 266s
+2400 parts (4988/5520 objects) 286s
+2600 parts (5446/5520 objects) 316s
+skipped {'collection': 0, 'empty': 62}
+muscle  parts   443 tris   422672
+tendon  parts    39 tris    50336
+bone    parts   277 tris    72080
+organ   parts   118 tris    93260
+vessel  parts   676 tris   846019
+nerve   parts   580 tris   475340
+lymph   parts   158 tris    37784
+joint   parts   349 tris    56623
+total parts 2640 tris 2054114
+bbox min [-0.3352999985218048, 0.0034000000450760126, -0.13009999692440033] max [0.3352999985218048, 1.7074999809265137, 0.13689999282360077] size [0.6705999970436096, 1.7041000127792358, 0.2669999897480011]
+export time 321.6s
+real 323.22
+user 577.82
+sys 38.21

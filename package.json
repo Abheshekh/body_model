@@ -10,7 +10,9 @@
     "test": "vitest run --passWithNoTests",
     "lint": "eslint .",
     "pipeline": "tools/pipeline/.venv/bin/python -I tools/pipeline/build.py",
-    "test:pipeline": "tools/pipeline/.venv/bin/python -I -m unittest discover -s tools/pipeline -p 'test_*.py'"
+    "test:pipeline": "tools/pipeline/.venv/bin/python -I -m unittest discover -s tools/pipeline -p 'test_*.py'",
+    "pipeline:v5": "tools/pipeline/.venv/bin/python -I tools/pipeline/v5/run.py",
+    "test:pipeline:v5": "tools/pipeline/.venv/bin/python -I -m unittest discover -s tools/pipeline/v5 -t tools/pipeline -p 'test_*.py'"
   },
   "dependencies": {
     "@capacitor/android": "^8.6.2",

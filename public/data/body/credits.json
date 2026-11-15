@@ -1,0 +1,26 @@
+[
+ {
+  "name": "Z-Anatomy",
+  "url": "https://github.com/Z-Anatomy/Models-of-human-anatomy",
+  "licence": "CC BY-SA 4.0",
+  "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "provides": "anatomy meshes: muscles, tendons, bones, organs, vessels, nerves, lymph, joints",
+  "commit": "0c86264359f22c3bad3e475a853faf54e23b7948"
+ },
+ {
+  "name": "BodyParts3D",
+  "url": "https://lifesciencedb.jp/bp3d/",
+  "licence": "CC BY-SA 2.1 JP",
+  "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.1/jp/",
+  "provides": "original anatomy meshes that Z-Anatomy is built from (via Z-Anatomy)",
+  "commit": "0c86264359f22c3bad3e475a853faf54e23b7948"
+ },
+ {
+  "name": "MakeHuman (MPFB2)",
+  "url": "https://github.com/makehumancommunity/mpfb2",
+  "licence": "CC0",
+  "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "provides": "male and female skin: base mesh, ethnic targets, game-engine rig and weights",
+  "commit": "9de0707fdc88438d7c53a1a2ac7937d9221e2431"
+ }
+]

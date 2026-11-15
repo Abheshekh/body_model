@@ -1,0 +1,120 @@
+# T8 full run, 2026-11-15 11:24, npm run pipeline:v5 (from cache: za_raw.npz, mh.npz, pose.npz)
+# pipeline.json keep = {vessel 0.22, nerve 0.4} (Changelog 11:35). keep.muscle not added: first-load gz under budget on the first attempt.
+
+## Attempt 1 (before the real-data fixes)
+| pack | 2.5 |
+| total | 19.9 |
+
+| pack | load | parts | verts | tris | bytes | gzBytes |
+|---|---|---|---|---|---|---|
+| skin | first | 1 | 19158 | 27036 | 822546 | 439956 |
+| muscle | first | 443 | 201746 | 401608 | 10064698 | 5770706 |
+| tendon | first | 39 | 25612 | 50336 | 1269944 | 735008 |
+| bone | first | 277 | 36668 | 72080 | 1818328 | 896439 |
+| organ | first | 140 | 53277 | 103766 | 2630405 | 1331937 |
+| vessel | demand | 662 | 95828 | 179780 | 4648888 | 2340115 |
+| nerve | demand | 580 | 114720 | 215353 | 5566956 | 2750253 |
+| lymph | demand | 158 | 20200 | 37784 | 978608 | 494276 |
+| joint | demand | 349 | 30268 | 56623 | 1466444 | 707286 |
+
+first-load gz 9174046 (budget 10000000); parts 2649; heights {'male': 1.71, 'female': 1.5667}; unmatched overrides []
+first-load gz 9174046 (budget 10000000); parts 2649; heights {'male': 1.71, 'female': 1.5667}; unmatched overrides []
+
+## Real-data bug fixes (§2b.15)
+1. geom.py: back-to-back duplicate triangles (same 3 vertices, opposite winding) in 290 raw triangles (joint 217, muscle 44,
+   nerve 11, organ 10, bone 4, tendon 4) cancelled the area-weighted normal to zero; zero-area triangles (e.g. half of
+   Spinal dura, 10,100 tris) gave zero normals too. Attempt 1 packs had 5,634 skin + ~4,800 anatomy vertices with |n| < 0.9.
+   Fix: new geom.clean(part) drops duplicate and zero-area (|cross| <= 1e-12) triangles and unused vertices; geom.run
+   calls it before outward() and again after decimate_parts() (fast_simplification also leaves cancelling faces).
+2. geom.py: vertex_normals falls back to the radial direction from the part centre where the normal still cancels
+   (|sum| <= 1e-6 x sum of face areas) or the vertex has no faces (MakeHuman skin has 5,634 vertices outside the
+   body/eye groups; they stay so skin vertex ids keep MakeHuman's numbering). All packed normals now have length 0.9-1.1.
+3. sex.py: MALE_ONLY and EXTERNAL matched "testi" inside "Juxta-intestinal mesenteric nodes" (flagged male-only and
+   external). Fix: \btesti. Male-only parts 26 -> 25, ext 18 -> 17.
+
+## Final run (attempt 2)
+| step | seconds |
+|---|---|
+| export | 0.0 |
+| makehuman | 0.0 |
+| geom | 1.8 |
+| names | 0.0 |
+| pose | 0.0 |
+| sex | 3.9 |
+| layers | 0.8 |
+| ao | 11.3 |
+| pack | 2.5 |
+| total | 20.3 |
+
+| pack | load | parts | verts | tris | bytes | gzBytes |
+|---|---|---|---|---|---|---|
+| skin | first | 1 | 19158 | 27036 | 822546 | 467520 |
+| muscle | first | 443 | 201738 | 401564 | 10063962 | 5770399 |
+| tendon | first | 39 | 25610 | 50332 | 1269850 | 734944 |
+| bone | first | 277 | 36452 | 72074 | 1812640 | 893607 |
+| organ | first | 140 | 53230 | 103751 | 2628998 | 1331435 |
+| vessel | demand | 662 | 95828 | 178580 | 4634488 | 2336962 |
+| nerve | demand | 580 | 108390 | 198217 | 5196750 | 2645167 |
+| lymph | demand | 158 | 20200 | 37784 | 978608 | 494276 |
+| joint | demand | 349 | 30252 | 56406 | 1463424 | 707612 |
+
+first-load gz 9197905 (budget 10000000); parts 2649; heights {'male': 1.71, 'female': 1.5667}; unmatched overrides []
+npm run pipeline:v5  21.10s user 0.26s system 103% cpu 20.711 total
+
+## Earlier step timings (cached this run)
+export (T2, export.log): 321.6 s; makehuman and pose: cached from T3/T5, rerun with --force to time them
+
+## Fix round 1 (F1–F5, TEST_RESULTS Run 1), 2026-11-15, npm run pipeline:v5 from cache (no re-export)
+Changes:
+- sex.py (F2): new anatomy_field(pose): on the chest (y 1.05–1.45, z > 0.02, male skin), skin where |Dfull − Dlow| > 4 mm,
+  grown 2 rings (793 vertices), gets the harmonic fill of Dlow from its border (scipy sparse solve). apply() warps every
+  part with it instead of Dlow. Pec forward shift beyond the sternum shift: 12.2 mm → 5.9 mm (the saturated chest box gives
+  5.5 mm, so the breast part is gone). Literal F2 check (female pec max z − male) was already −8.0 mm and is now −10.9 mm.
+- sex.py (F3): generated parts go through geom.outward() (SPEC step 2). The ellipsoids and tubes were wound inside-out.
+- sex.py (F4): breast fat patch (sample's region rule, unchanged) is linearly subdivided until ≥ 400 vertices per side,
+  then Taubin-smoothed (trimesh). trimesh 5.2.1 subdivide_loop moves open borders wrongly (a vertex went 0.4 m up), so not used.
+  Breast fat: 78/85 → 894/970 vertices.
+- names.py + pack.py (F5): names.HIDDEN = omentum|mesocolon|pleura; every manifest part carries "defaultHidden" (true for
+  Greater omentum, Lesser omentum, Mesocolon, Pleura). FORMAT.md does not list the field yet (not in this round's files).
+- layers.py (F1): unchanged. Self hits are 3% of AO hits within 5 cm; see the F1 measurements in contact-notes.md.
+
+| step | seconds |
+|---|---|
+| export | 0.0 |
+| makehuman | 0.0 |
+| geom | 1.9 |
+| names | 0.0 |
+| pose | 0.0 |
+| sex | 4.1 |
+| layers | 0.8 |
+| ao | 11.4 |
+| pack | 2.5 |
+| total | 20.6 |
+
+| pack | load | parts | verts | tris | bytes | gzBytes |
+|---|---|---|---|---|---|---|
+| skin | first | 1 | 19158 | 27036 | 822546 | 467520 |
+| muscle | first | 443 | 201738 | 401564 | 10063962 | 5769350 |
+| tendon | first | 39 | 25610 | 50332 | 1269850 | 734943 |
+| bone | first | 277 | 36452 | 72074 | 1812640 | 893429 |
+| organ | first | 140 | 54931 | 106811 | 2709955 | 1375622 |
+| vessel | demand | 662 | 95828 | 178580 | 4634488 | 2336896 |
+| nerve | demand | 580 | 108390 | 198217 | 5196750 | 2645079 |
+| lymph | demand | 158 | 20200 | 37784 | 978608 | 494252 |
+| joint | demand | 349 | 30252 | 56406 | 1463424 | 707623 |
+
+first-load gz 9240864 (budget 10000000); parts 2649; heights {'male': 1.71, 'female': 1.5667}; unmatched overrides []
+npm run test:pipeline:v5: Ran 47 tests, OK (test_output.test_default_hidden added).
+
+## Fix round 2 (F1b, TEST_RESULTS Run 2), npm run pipeline:v5 from cache
+- layers.py: ambient_occlusion now groups the rays: non-muscle parts against all anatomy except skin (unchanged); a
+  muscle/tendon part of layer L against non-muscle anatomy + muscle/tendon of layer >= L (self included, as before).
+  New test test_layers.test_shallower_layer_does_not_occlude (inner plate mean AO 0.772 with the outer plate at layer 1
+  vs 0.340 at layer 2). npm run test:pipeline:v5: Ran 48 tests, OK.
+- Timings: geom 1.8, sex 4.1, layers 0.8, ao 12.8, pack 2.5, total 22.1 s.
+- Packs (gz): skin 467520, muscle 5804239, tendon 735232, bone 893429, organ 1375622 | vessel 2336896, nerve 2645079,
+  lymph 494252, joint 707623. first-load gz 9276042 (budget 10000000).
+- Muscle AO from the muscle pack, all vertices: layer-1 median 0.125 (same as before: layer 1 still sees all anatomy;
+  0.125 = 32/255), layer-3+ median 0.122. Floor share by layer 1–6: 0.50 0.50 0.62 0.61 0.56 0.78.
+- Muscle vertices visible on the male sheets (orthographic, front / back): outer 0.980 / 0.996, intermediate
+  0.918 / 0.949 (were 0.12), deep 0.576 / 0.804 (were 0.12).
