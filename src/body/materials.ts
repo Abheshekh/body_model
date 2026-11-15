@@ -3,6 +3,7 @@
 // state texture (§2b.8) collapses hidden vertices in the vertex shader; row 64+ holds the colour.
 import * as THREE from 'three';
 import type { Manifest } from './load';
+import { SKIN_GLSL } from '../rig/skin';
 
 export const SKIN_TONES = { light: '#e3b796', medium: '#b8876a', dark: '#7a5038' } as const;
 export type SkinTone = keyof typeof SKIN_TONES;
@@ -22,7 +23,7 @@ uniform sampler2D uState; uniform vec3 uLo; uniform vec3 uSize;
 varying vec3 vWPos; varying vec3 vFib; varying float vMid; varying float vAo; varying float vAcr;
 ivec2 stUv(float m, int row) { int i = int(m + 0.5); return ivec2(i % 64, i / 64 + row); }
 int visOf(float m) { return int(texelFetch(uState, stUv(m, 0), 0).r * 255.0 + 0.5); }
-`;
+` + SKIN_GLSL;
 
 const COMMON = /* glsl */`
 varying vec3 vWPos; varying vec3 vFib; varying float vMid; varying float vAo; varying float vAcr;
@@ -45,17 +46,20 @@ void striate(vec3 Nw){
   gShade = 1. + (sin(ph2*6.2831)*0.06*f2 + sin(ph*6.2831)*0.05*f1)*step(0.001,uStr);
 }`;
 
-// decode position, orthogonalise the fibre tangent, collapse every vertex whose part is not in state `show`
+// decode position, skin it (R5), orthogonalise the fibre tangent, collapse every vertex whose part is not in state `show`
 function patchVertex(s: Shader, show: number): void {
   s.vertexShader = VHEAD + s.vertexShader
     .replace('#include <beginnormal_vertex>', `#include <beginnormal_vertex>
+mat4 bSkin = bodySkin(mid); mat3 bRot = mat3(bSkin);
+objectNormal = bRot * objectNormal;
 #ifdef USE_TANGENT
+  objectTangent = bRot * objectTangent;
   objectTangent -= objectNormal * dot(objectNormal, objectTangent);
   objectTangent = dot(objectTangent, objectTangent) > 1e-8 ? normalize(objectTangent) : vec3(0., 1., 0.);
 #endif`)
-    .replace('#include <begin_vertex>', 'vec3 transformed = uLo + position * uSize;')
+    .replace('#include <begin_vertex>', 'vec3 transformed = (bSkin * vec4(uLo + position * uSize, 1.)).xyz;')
     .replace('#include <project_vertex>', `#include <project_vertex>
-vWPos = (modelMatrix * vec4(transformed, 1.)).xyz; vFib = fib; vMid = mid; vAo = ao; vAcr = acr / 8000.;
+vWPos = (modelMatrix * vec4(transformed, 1.)).xyz; vFib = bRot * fib; vMid = mid; vAo = ao; vAcr = acr / 8000.;
 if (visOf(mid) != ${show}) gl_Position = vec4(2., 2., 2., 1.);`);
 }
 
@@ -65,13 +69,15 @@ export interface Materials {
   ghost: THREE.ShaderMaterial;
 }
 
-export function createMaterials(state: THREE.DataTexture, box: Manifest['box']): Materials {
+export function createMaterials(state: THREE.DataTexture, box: Manifest['box'], bones: THREE.DataTexture): Materials {
   const lo = new THREE.Vector3().fromArray(box[0]);
   const shared = {
     uState: { value: state },
     uLo: { value: lo },
     uSize: { value: new THREE.Vector3().fromArray(box[1]).sub(lo) },
     uHighlight: { value: new THREE.Color(HIGHLIGHT) },
+    uBones: { value: bones },
+    uSkin: { value: 0 },
   };
   // freq/str/tint are uniforms (not inlined) so materials with equal parameters can share one program
   const tissueMat = (params: THREE.MeshPhysicalMaterialParameters, freq: number, str: number, tint: [number, number]) => {
@@ -121,7 +127,7 @@ export function createMaterials(state: THREE.DataTexture, box: Manifest['box']):
     uniforms: shared, transparent: true, depthWrite: false,
     vertexShader: VHEAD + `varying vec3 vN; varying vec3 vV;
 void main() {
-  vec3 p = uLo + position * uSize; vN = normalize(normalMatrix * normal);
+  mat4 sk = bodySkin(mid); vec3 p = (sk * vec4(uLo + position * uSize, 1.)).xyz; vN = normalize(normalMatrix * (mat3(sk) * normal));
   vec4 mv = modelViewMatrix * vec4(p, 1.); vV = -mv.xyz; gl_Position = projectionMatrix * mv;
   if (visOf(mid) != ${VIS.ghost}) gl_Position = vec4(2., 2., 2., 1.);
 }`,

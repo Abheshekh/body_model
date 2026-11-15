@@ -3,7 +3,7 @@
 // then Y (rot/twist/turn/pron/yaw). Zero = anatomical zero. root.x/y/z = metres offset from rest pelvis.
 export type Axes = Record<string, number>;
 export interface Root { x: number; y: number; z: number; pitch: number; roll: number; yaw: number }
-export type Pin = 'none' | 'ground' | 'flat' | 'toes' | 'hands';
+export type Pin = 'none' | 'ground' | 'flat' | 'toes' | 'toeL' | 'toeR' | 'hands';
 export interface Pose { root: Root; joints: Record<string, Axes>; pin?: Pin; pinAt?: [number, number, number] }
 /** Same shape as the `joints` map in public/data/joints.json (source field ignored). */
 export type Limits = Record<string, Record<string, { min: number; max: number }>>;
@@ -68,7 +68,7 @@ export const splitSpine = (v: number) => ({ lumbar: 0.6 * v, thoracic: 0.4 * v }
 // ---- prototype conversion (prototype/index.html solve()) ----
 export const PROTO_ROOT_Y = 0.965; // prototype ROOT_Y; Pose.root.y is the offset from it (2b.5)
 const neg = (v: number) => 0 - v; // avoids -0
-const PINS: Pin[] = ['none', 'ground', 'flat', 'toes', 'hands'];
+const PINS: Pin[] = ['none', 'ground', 'flat', 'toes', 'toeL', 'toeR', 'hands'];
 type PAxes = Record<string, number>;
 export interface ProtoPose {
   root?: { y?: number; z?: number; pitch?: number; yaw?: number; roll?: number };
@@ -105,8 +105,7 @@ export function fromPrototype(p: ProtoPose): Pose {
     joints['ankle' + s] = { flex: neg(num('ankle', n)), inv: 0 };
   }
   const pose: Pose = { root: { x: 0, y: (r.y ?? PROTO_ROOT_Y) - PROTO_ROOT_Y, z: r.z ?? 0, pitch, roll: r.roll ?? 0, yaw: r.yaw ?? 0 }, joints };
-  // ponytail: prototype pins outside Pin (e.g. 'toeL') are dropped; T6/T5 decide their mapping
-  if (PINS.includes(p.pin as Pin)) pose.pin = p.pin as Pin;
+  pose.pin = PINS.includes(p.pin as Pin) ? p.pin as Pin : 'toes'; // prototype default: pin: p.pin || 'toes'
   if (Array.isArray(p.pinAt)) pose.pinAt = p.pinAt as [number, number, number];
   return pose;
 }

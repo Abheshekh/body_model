@@ -8,10 +8,12 @@ import numpy as np
 from v5 import body
 from v5.geom import vertex_normals
 from v5.names import HIDDEN
+from v5.rig import WEIGHTED
 
 FLOATS = ('pos', 'posF', 'nrm', 'fib', 'acr', 'ao')
 META = ('id', 'name', 'plain', 'side', 'kind', 'region', 'system', 'colour', 'layer', 'sex', 'ext', 'simplified')
 # name -> (dtype, components per vertex); idx is per triangle
+RIGID_ENTRY = os.path.join(body.CACHE, 'weights_rigid.json')  # the rigid set's entry (as manifest rig.weights)
 LAYOUT = {'idx': (np.uint32, 3), 'posM': (np.uint16, 3), 'posF': (np.uint16, 3), 'nrmM': (np.int8, 3),
           'nrmF': (np.int8, 3), 'fib': (np.int8, 3), 'acr': (np.int16, 1), 'mid': (np.uint16, 1), 'ao': (np.uint8, 1)}
 
@@ -49,8 +51,41 @@ def _blob(ps, lo, hi):
     return bytes(blob), where, int(len(idx)), int(off[-1])
 
 
-def write(parts, pose, out):
-    """Writes <kind>.bin.gz for every non-empty kind and manifest.json into out; returns the manifest."""
+def write_weights(parts, packs, weights, out, file='weights.bin.gz'):
+    """R3: weights.bin.gz (or file) = for each weighted pack in manifest order, bi (uint8 x 4) then bw (uint8 x 4) per
+    vertex, in the pack's vertex order (parts sorted by id). Returns the manifest rig.weights entry."""
+    blob, arrays = bytearray(), {}
+    for pk in packs:
+        if pk['name'] not in WEIGHTED:
+            continue
+        ps = sorted((p for p in parts if p.kind == pk['name']), key=lambda p: p.id)
+        bi, bw = (np.concatenate([weights[p.id][k] for p in ps]) for k in (0, 1))
+        if len(bi) != pk['verts'] or len(bw) != pk['verts']:
+            raise ValueError(f'weights for {pk["name"]}: {len(bi)} vertices, pack has {pk["verts"]}')
+        arrays[pk['name']] = {}
+        for k, a in (('bi', bi), ('bw', bw)):
+            while len(blob) % 4:
+                blob.append(0)
+            arrays[pk['name']][k] = [len(blob), a.nbytes]
+            blob.extend(np.ascontiguousarray(a, np.uint8).tobytes())
+    gz = gzip.compress(bytes(blob), 9, mtime=0)
+    with open(os.path.join(out, file), 'wb') as f:
+        f.write(gz)
+    return {'file': file, 'bytes': len(blob), 'gzBytes': len(gz), 'arrays': arrays}
+
+
+def unpack_weights(out, w):
+    """Decodes a weights file described by entry w (manifest rig.weights, or the rigid set's RIGID_ENTRY in the cache):
+    {pack: (bi, bw)} as uint8 (n, 4)."""
+    with open(os.path.join(out, w['file']), 'rb') as f:
+        raw = gzip.decompress(f.read())
+    return {k: tuple(np.frombuffer(raw, np.uint8, a[x][1], a[x][0]).reshape(-1, 4) for x in ('bi', 'bw'))
+            for k, a in w['arrays'].items()}
+
+
+def write(parts, pose, out, weights=None):
+    """Writes <kind>.bin.gz for every non-empty kind and manifest.json into out; returns the manifest.
+    weights ({part id: (bi, bw)}, R3) adds weights.bin.gz and the manifest rig section (rig.json is written by rig.py)."""
     for p in parts:
         _check(p)
     if max(p.id for p in parts) > 65535:
@@ -66,7 +101,7 @@ def write(parts, pose, out):
             if not ps:
                 continue
             raw, where, tris, verts = _blob(ps, lo, hi)
-            gz = gzip.compress(raw, 9)
+            gz = gzip.compress(raw, 9, mtime=0)
             with open(os.path.join(out, f'{kind}.bin.gz'), 'wb') as f:
                 f.write(gz)
             packs.append({'name': kind, 'kinds': [kind], 'load': load, 'file': f'{kind}.bin.gz', 'bytes': len(raw),
@@ -79,6 +114,8 @@ def write(parts, pose, out):
            'parts': [{**{k: getattr(p, k) for k in META}, 'defaultHidden': bool(HIDDEN.search(p.name)), 'pack': pack_of[p.id]}
                      for p in sorted(parts, key=lambda p: p.id) if p.id in pack_of],
            'credits': 'credits.json'}
+    if weights is not None:
+        man['rig'] = {'file': 'rig.json', 'weights': write_weights(parts, packs, weights, out)}
     with open(os.path.join(out, 'manifest.json'), 'w') as f:
         json.dump(man, f, separators=(',', ':'))
     return man
@@ -124,6 +161,10 @@ def credits(out):
 
 
 def run(ctx):
-    ctx['manifest'] = write(ctx['parts'], ctx['pose'], body.OUT)
+    ctx['manifest'] = write(ctx['parts'], ctx['pose'], body.OUT, ctx['rig']['weights'])
+    # R11 rigid fallback: measurement only (acceptance_rig.py), so it stays in the pipeline cache, out of the app
+    w = write_weights(ctx['parts'], ctx['manifest']['packs'], ctx['rig']['rigid'], body.CACHE, 'weights_rigid.bin.gz')
+    with open(RIGID_ENTRY, 'w') as f:
+        json.dump(w, f)
     credits(body.OUT)
     return ctx

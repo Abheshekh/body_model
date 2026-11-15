@@ -14,7 +14,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import numpy as np  # noqa: E402
 import trimesh  # noqa: E402
 
-from v5 import body, geom, layers, mh_build, names, pack, pose, sex  # noqa: E402
+from v5 import body, geom, layers, mh_build, names, pack, pose, rig, sex  # noqa: E402
 
 
 def cached(name, force):
@@ -34,7 +34,7 @@ def makehuman(ctx):
 def posing(ctx):
     if cached('pose.npz', ctx['force']):
         ctx['pose'] = dict(np.load(os.path.join(body.CACHE, 'pose.npz')))
-    else:
+    if 'rigM' not in ctx['pose']:  # R3 §2b.9: a pose.npz from before R3 has no rig; redo the pose step (no re-export)
         pose.run(ctx)
 
 
@@ -56,7 +56,7 @@ def peel(ctx):
 
 STEPS = [('export', export), ('makehuman', makehuman), ('geom', geom.run), ('names', names.run), ('pose', posing),
          ('sex', sex.run), ('layers', peel), ('ao', lambda c: layers.ambient_occlusion(c['parts'], c['cfg'])),
-         ('pack', pack.run)]
+         ('rig', rig.run), ('pack', pack.run)]
 
 
 def main(force):
@@ -79,6 +79,8 @@ def main(force):
     first = sum(p['gzBytes'] for p in man['packs'] if p['load'] == 'first')
     print(f'\nfirst-load gz {first} (budget {ctx["cfg"]["budget"]["firstLoadGz"]}); parts {len(man["parts"])}; '
           f'heights {man["heights"]}; unmatched overrides {ctx["unmatched"]}')
+    w = man['rig']['weights']
+    print(f'weights pack bytes {w["bytes"]} gz {w["gzBytes"]}; bone_map unmatched {len(ctx["rig"]["unmatched"])}')
     return ctx
 
 

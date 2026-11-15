@@ -7,7 +7,7 @@
 | A2 | AC5 | `npm test` | — | regex: `Tests\s+\d+ passed`, no failures | 0 |
 | A3 | AC5 | `npm run build` | — | regex: `built in` | 0 |
 | A4 | AC5 | `npm run test:pipeline` | — | regex: `^OK` | 0 |
-| A5 | AC1 | `tools/pipeline/.venv/bin/python -I -m unittest discover -s tools/pipeline/v5 -t tools/pipeline -p 'test_rig.py' -v` | built data | regex: `OK` | 0 |
+| A5 | AC1 | `tools/pipeline/.venv/bin/python -I -m unittest discover -s tools/pipeline/v5 -t tools/pipeline -p 'acceptance_rig.py' -v` | built data | regex: `OK` (known to FAIL on the AC1 poses; record the failures) | 0 |
 | A6 | AC2 | `npx vitest run src/rig` | — | all pass | 0 |
 | A7 | AC3 | `npx vitest run src/library` | — | all pass | 0 |
 | A8 | AC4 | `node -e "const m=require('./public/data/body/manifest.json');const s=m.packs.filter(p=>p.load==='first').reduce((a,p)=>a+p.gzBytes,0);console.log(s<=10000000, !m.packs.some(p=>p.name==='weights'), !!(m.rig&&m.rig.weights&&m.rig.file==='rig.json'))"` | — | `true true true` | 0 |

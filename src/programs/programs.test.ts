@@ -44,6 +44,20 @@ describe('parseRoute', () => {
     expect(parseRoute('#me')).toEqual({ screen: 'me' });
     expect(parseRoute('#me/credits')).toEqual({ screen: 'credits' });
   });
+  it('routes the Move screen', () => {
+    expect(parseRoute('#workouts/move')).toEqual({ screen: 'move' });
+    expect(parseRoute('#workouts/move/')).toEqual({ screen: 'move' });
+    expect(parseRoute('#workouts/move/x')).toEqual({ screen: 'body' });
+  });
+  it('routes the exercise and task lists and the player', () => {
+    expect(parseRoute('#workouts/exercises')).toEqual({ screen: 'exercises' });
+    expect(parseRoute('#workouts/exercises/')).toEqual({ screen: 'exercises' });
+    expect(parseRoute('#workouts/exercises/curl')).toEqual({ screen: 'exercises', itemId: 'curl' });
+    expect(parseRoute('#workouts/exercises/curl/seat')).toEqual({ screen: 'exercises', itemId: 'curl', variantId: 'seat' });
+    expect(parseRoute('#workouts/tasks')).toEqual({ screen: 'tasks' });
+    expect(parseRoute('#workouts/tasks/bucket/squat')).toEqual({ screen: 'tasks', itemId: 'bucket', variantId: 'squat' });
+    expect(parseRoute('#workouts/tasks/bucket/squat/x')).toEqual({ screen: 'body' });
+  });
   it('defaults to body', () => {
     expect(parseRoute('#body')).toEqual({ screen: 'body' });
     expect(parseRoute('')).toEqual({ screen: 'body' });

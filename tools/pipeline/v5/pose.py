@@ -100,7 +100,8 @@ def lbs(V, WM, T):
 
 
 def pose_mesh(V, lm, rig, groups, WM):
-    """Rotates spine, neck, head, then upper arm/forearm and thigh/calf onto the landmarks; returns the skinned mesh."""
+    """Rotates spine, neck, head, then upper arm/forearm and thigh/calf onto the landmarks; returns the skinned mesh and
+    the posed rig (bone -> (head, tail))."""
     J = joints(V, rig, groups)
     T = {b: (np.eye(3), np.zeros(3)) for b in rig}
 
@@ -128,12 +129,13 @@ def pose_mesh(V, lm, rig, groups, WM):
             turn(u, p0, rot_between(p1 - p0, lm[f'{j1}_{s}'] - lm[f'{j0}_{s}']))
             q0, q1 = tf(T[l], J[l][0]), tf(T[l], J[l][1])
             turn(l, q0, rot_between(q1 - q0, lm[f'{j2}_{s}'] - lm[f'{j1}_{s}']))
-    return lbs(V, WM, T)
+    return lbs(V, WM, T), {b: (tf(T[b], J[b][0]), tf(T[b], J[b][1])) for b in rig}
 
 
 def place_and_pose(mh, lm):
     """§2b.5/6: two passes so the posed male is 1.71 m; the female shares the final scale.
-    Each sex gets hips on the anatomy hips (x, z) and, after posing, its lowest vertex on y = 0."""
+    Each sex gets hips on the anatomy hips (x, z) and, after posing, its lowest vertex on y = 0.
+    R3 §2b.9: also returns the posed rig per sex (rigM/rigF: bone x (head, tail) x xyz, bones in rigNames order) and scale."""
     rig, groups, WM = load_rig()
     faces = mh['faces']
     used = np.unique(faces)
@@ -143,13 +145,16 @@ def place_and_pose(mh, lm):
         Vs = np.asarray(mh[sex], np.float64) * scale
         J = joints(Vs, rig, groups)
         h = (J['thigh_l'][0] + J['thigh_r'][0]) / 2
-        P = pose_mesh(Vs + [hip[0] - h[0], -Vs[used, 1].min(), hip[2] - h[2]], lm, rig, groups, WM)
-        P[:, 1] -= P[used, 1].min()
-        return P
+        P, Jp = pose_mesh(Vs + [hip[0] - h[0], -Vs[used, 1].min(), hip[2] - h[2]], lm, rig, groups, WM)
+        dy = P[used, 1].min()
+        P[:, 1] -= dy
+        return P, np.array([Jp[b] for b in rig]) - [0, dy, 0]
 
     scale = HEIGHT / np.ptp(np.asarray(mh['male'], np.float64)[used, 1])  # also converts MakeHuman's decimetres to metres
-    scale *= POSED_HEIGHT / np.ptp(place('male', scale)[used, 1])
-    return {'faces': faces, **{sex: place(sex, scale).astype(np.float32) for sex in ('male', 'female')}}
+    scale *= POSED_HEIGHT / np.ptp(place('male', scale)[0][used, 1])
+    (M, rigM), (F, rigF) = place('male', scale), place('female', scale)
+    return {'faces': faces, 'male': M.astype(np.float32), 'female': F.astype(np.float32), 'rigM': rigM, 'rigF': rigF,
+            'rigNames': np.array(list(rig)), 'scale': np.float64(scale)}
 
 
 # ---------- warp field ----------

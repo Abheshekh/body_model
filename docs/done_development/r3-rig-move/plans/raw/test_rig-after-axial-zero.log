@@ -1,0 +1,69 @@
+
+| pose | sex | smooth worst tear | smooth worst flip | rigid worst tear | rigid worst flip | max articulation gap change (both sets) |
+|---|---|---|---|---|---|---|
+| elbow90 | M | Abductor digiti minimi of foot.l 0.000% | Extensor carpi radialis brevis.l 0.638% | Teres major muscle.l 1.852% | Superficial head of pronator teres.l 2.516% | Femur.r-Hip bone.r 0.09 cm |
+| elbow140 | M | Abductor digiti minimi of foot.l 0.000% | Superficial head of pronator teres.l 1.572% | Long head of triceps brachii.l 3.584% | Superficial head of pronator teres.l 4.088% | Humerus.r-Ulna.r 0.13 cm |
+| abd90 | M | Teres major muscle.l 0.694% | Clavicular head of pectoralis major muscle.l 0.472% | Pectoralis minor muscle.r 17.086% | Acromial part of deltoid muscle.l 8.243% | Humerus.r-Ulna.r 0.13 cm |
+| abd170 | M | Teres major muscle.l 29.167% | Serratus anterior muscle.l 6.292% | Pectoralis minor muscle.r 27.079% | Supraspinatus muscle.l 14.888% | Humerus.r-Ulna.r 0.13 cm |
+| flex90 | M | Teres major muscle.l 1.157% | Teres major muscle.l 2.083% | Pectoralis minor muscle.r 18.633% | Pectoralis minor muscle.l 16.731% | Humerus.r-Ulna.r 0.13 cm |
+| hip90 | M | Adductor brevis.l 0.251% | Pectineus muscle.l 11.475% | Superior gemellus muscle.l 18.667% | Pectineus muscle.l 13.525% | Femur.l-Hip bone.l 0.17 cm |
+| knee120 | M | Sartorius muscle.l 0.108% | Lateral head of gastrocnemius.l 3.589% | Vastus intermedius muscle.l 3.290% | Popliteus muscle.l 9.574% | Humerus.r-Ulna.r 0.13 cm |
+| trunk45 | M | Abductor digiti minimi of foot.l 0.000% | Superficial head of pronator teres.l 0.157% | Teres major muscle.l 1.852% | Internal abdominal oblique muscle.l 5.971% | Humerus.r-Ulna.r 0.13 cm |
+| squat | M | Inferior gemellus muscle.l 1.093% | Pectineus muscle.l 13.320% | Superior gemellus muscle.l 20.667% | Iliopectineal arch.r 13.636% | Humerus.r-Ulna.r 0.13 cm |
+| overhead | M | Teres major muscle.l 29.630% | Coracobrachialis muscle.l 5.862% | Pectoralis minor muscle.r 30.045% | Subscapularis muscle.l 9.214% | Humerus.r-Ulna.r 0.13 cm |
+| elbow90 | F | Abductor digiti minimi of foot.l 0.000% | Superficial head of pronator teres.l 0.786% | Long head of triceps brachii.l 1.555% | Superficial head of pronator teres.l 5.189% | Humerus.r-Radius.r 0.45 cm |
+| elbow140 | F | Extensor carpi radialis brevis.l 0.085% | Superficial head of pronator teres.l 4.403% | Long head of triceps brachii.l 3.448% | Superficial head of pronator teres.l 5.189% | Humerus.r-Radius.r 0.15 cm |
+| abd90 | F | Teres major muscle.l 1.620% | Serratus anterior muscle.r 0.555% | Pectoralis minor muscle.r 13.540% | Supraspinatus muscle.l 9.831% | Humerus.r-Ulna.r 0.11 cm |
+| abd170 | F | Teres major muscle.r 23.611% | Serratus anterior muscle.r 6.672% | Pectoralis minor muscle.r 24.565% | Supraspinatus muscle.l 14.607% | Humerus.r-Ulna.r 0.11 cm |
+| flex90 | F | Teres major muscle.l 2.546% | Coracobrachialis muscle.l 2.414% | Pectoralis minor muscle.l 15.538% | Pectoralis minor muscle.l 16.248% | Humerus.r-Ulna.r 0.11 cm |
+| hip90 | F | Superior gemellus muscle.l 2.000% | Pectineus muscle.l 1.844% | Superior gemellus muscle.l 19.333% | Pectineus muscle.l 9.631% | Humerus.r-Ulna.r 0.11 cm |
+| knee120 | F | Plantaris muscle.l 0.227% | Lateral head of gastrocnemius.l 1.387% | Rectus femoris muscle.l 3.159% | Medial head of gastrocnemius.l 3.908% | Humerus.r-Ulna.r 0.11 cm |
+| trunk45 | F | Abductor digiti minimi of foot.l 0.000% | Anconeus muscle.l 0.278% | Interspinales lumborum muscles.l 1.905% | Internal abdominal oblique muscle.r 4.951% | Humerus.r-Ulna.r 0.11 cm |
+| squat | F | Superior gemellus muscle.l 3.333% | Pectineus muscle.l 6.967% | Superior gemellus muscle.l 20.000% | Pectineus muscle.l 11.885% | Humerus.r-Ulna.r 0.11 cm |
+| overhead | F | Teres major muscle.r 22.917% | Teres minor muscle.l 5.263% | Pectoralis minor muscle.r 28.111% | Clavicular head of pectoralis major muscle.l 9.434% | Humerus.r-Ulna.r 0.11 cm |
+test_articulation_gaps (v5.test_rig.Acceptance.test_articulation_gaps) ... ok
+test_flip_per_part (v5.test_rig.Acceptance.test_flip_per_part) ... FAIL
+test_tear_per_part (v5.test_rig.Acceptance.test_tear_per_part) ... FAIL
+test_ten_poses_within_joint_limits (v5.test_rig.Acceptance.test_ten_poses_within_joint_limits) ... ok
+test_examples (v5.test_rig.BoneMap.test_examples) ... ok
+test_at_joint_blends_half (v5.test_rig.ChainWeights.test_at_joint_blends_half) ... ok
+test_blend_is_monotonic_inside_band (v5.test_rig.ChainWeights.test_blend_is_monotonic_inside_band) ... ok
+test_far_from_joint_has_one_bone (v5.test_rig.ChainWeights.test_far_from_joint_has_one_bone) ... ok
+test_folded_chain_blends_along_the_distal_segment (v5.test_rig.ChainWeights.test_folded_chain_blends_along_the_distal_segment) ... ok
+test_gradient_for_multi_segment_part (v5.test_rig.ChainWeights.test_gradient_for_multi_segment_part) ... ok
+test_quantize_keeps_top_four (v5.test_rig.ChainWeights.test_quantize_keeps_top_four) ... ok
+test_weights_sum_to_255 (v5.test_rig.ChainWeights.test_weights_sum_to_255) ... ok
+test_fingers_fold_into_hand (v5.test_rig.Fold.test_fingers_fold_into_hand) ... ok
+test_euler_order_is_z_then_x_then_y (v5.test_rig.Posing.test_euler_order_is_z_then_x_then_y) ... ok
+test_root_is_a_delta_and_ground_pins (v5.test_rig.Posing.test_root_is_a_delta_and_ground_pins) ... ok
+test_scapula_follows_elevation_and_arm_keeps_direction (v5.test_rig.Posing.test_scapula_follows_elevation_and_arm_keeps_direction) ... ok
+test_semantic_signs (v5.test_rig.Posing.test_semantic_signs) ... ok
+test_thoracic_splits_half_over_two_bones (v5.test_rig.Posing.test_thoracic_splits_half_over_two_bones) ... ok
+test_zero_pose_is_anatomical_zero (v5.test_rig.Posing.test_zero_pose_is_anatomical_zero) ... ok
+test_blend_only_at_the_cap (v5.test_rig.RigidWeights.test_blend_only_at_the_cap) ... ok
+test_one_bone_away_from_joints (v5.test_rig.RigidWeights.test_one_bone_away_from_joints) ... ok
+test_sideways_muscle_takes_the_nearest_arm_bone (v5.test_rig.RigidWeights.test_sideways_muscle_takes_the_nearest_arm_bone) ... ok
+test_round_trip_and_count_check (v5.test_rig.WeightsPack.test_round_trip_and_count_check) ... ok
+
+======================================================================
+FAIL: test_flip_per_part (v5.test_rig.Acceptance.test_flip_per_part)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/aa/Documents/personal/body_model/tools/pipeline/v5/test_rig.py", line 353, in test_flip_per_part
+    self.assertFalse(bad, f'muscle parts with > 1% of triangles flipped: {bad}')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {('elbow140', 'M'): ('Superficial head of pronator teres.l', 0.015723270440251572), ('abd170', 'M'): ('Serratus anterior muscle.l', 0.06291600633914421), ('flex90', 'M'): ('Teres major muscle.l', 0.020833333333333332), ('hip90', 'M'): ('Pectineus muscle.l', 0.11475409836065574), ('knee120', 'M'): ('Lateral head of gastrocnemius.l', 0.03588907014681892), ('squat', 'M'): ('Pectineus muscle.l', 0.13319672131147542), ('overhead', 'M'): ('Coracobrachialis muscle.l', 0.05862068965517241), ('elbow140', 'F'): ('Superficial head of pronator teres.l', 0.0440251572327044), ('abd170', 'F'): ('Serratus anterior muscle.r', 0.06671949286846275), ('flex90', 'F'): ('Coracobrachialis muscle.l', 0.02413793103448276), ('hip90', 'F'): ('Pectineus muscle.l', 0.018442622950819672), ('knee120', 'F'): ('Lateral head of gastrocnemius.l', 0.013866231647634585), ('squat', 'F'): ('Pectineus muscle.l', 0.06967213114754098), ('overhead', 'F'): ('Teres minor muscle.l', 0.05263157894736842)} is not false : muscle parts with > 1% of triangles flipped: {('elbow140', 'M'): ('Superficial head of pronator teres.l', 0.015723270440251572), ('abd170', 'M'): ('Serratus anterior muscle.l', 0.06291600633914421), ('flex90', 'M'): ('Teres major muscle.l', 0.020833333333333332), ('hip90', 'M'): ('Pectineus muscle.l', 0.11475409836065574), ('knee120', 'M'): ('Lateral head of gastrocnemius.l', 0.03588907014681892), ('squat', 'M'): ('Pectineus muscle.l', 0.13319672131147542), ('overhead', 'M'): ('Coracobrachialis muscle.l', 0.05862068965517241), ('elbow140', 'F'): ('Superficial head of pronator teres.l', 0.0440251572327044), ('abd170', 'F'): ('Serratus anterior muscle.r', 0.06671949286846275), ('flex90', 'F'): ('Coracobrachialis muscle.l', 0.02413793103448276), ('hip90', 'F'): ('Pectineus muscle.l', 0.018442622950819672), ('knee120', 'F'): ('Lateral head of gastrocnemius.l', 0.013866231647634585), ('squat', 'F'): ('Pectineus muscle.l', 0.06967213114754098), ('overhead', 'F'): ('Teres minor muscle.l', 0.05263157894736842)}
+
+======================================================================
+FAIL: test_tear_per_part (v5.test_rig.Acceptance.test_tear_per_part)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/aa/Documents/personal/body_model/tools/pipeline/v5/test_rig.py", line 349, in test_tear_per_part
+    self.assertFalse(bad, f'muscle parts with > 2% of edges stretched > 2x rest: {bad}')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {('abd170', 'M'): ('Teres major muscle.l', 0.2916666666666667), ('overhead', 'M'): ('Teres major muscle.l', 0.2962962962962963), ('abd170', 'F'): ('Teres major muscle.r', 0.2361111111111111), ('flex90', 'F'): ('Teres major muscle.l', 0.02546296296296296), ('squat', 'F'): ('Superior gemellus muscle.l', 0.03333333333333333), ('overhead', 'F'): ('Teres major muscle.r', 0.22916666666666666)} is not false : muscle parts with > 2% of edges stretched > 2x rest: {('abd170', 'M'): ('Teres major muscle.l', 0.2916666666666667), ('overhead', 'M'): ('Teres major muscle.l', 0.2962962962962963), ('abd170', 'F'): ('Teres major muscle.r', 0.2361111111111111), ('flex90', 'F'): ('Teres major muscle.l', 0.02546296296296296), ('squat', 'F'): ('Superior gemellus muscle.l', 0.03333333333333333), ('overhead', 'F'): ('Teres major muscle.r', 0.22916666666666666)}
+
+----------------------------------------------------------------------
+Ran 23 tests in 3.735s
+
+FAILED (failures=2)

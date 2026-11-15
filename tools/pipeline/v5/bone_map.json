@@ -1,0 +1,20 @@
+{
+ "note": "R3 §2b.11: Z-Anatomy bone plain name (regex, case-insensitive, first match wins) -> rig bone. Limb bones get _l/_r from the part side. Unmatched parts go to the nearest bone segment by part centre (logged by rig.py).",
+ "map": [
+  ["scapula|clavicle", "clavicle"],
+  ["humerus", "upperarm"],
+  ["radius|ulna", "lowerarm"],
+  ["of hand|metacarpal|scaphoid|lunate|triquetrum|pisiform|trapezium|trapezoid|capitate|hamate", "hand"],
+  ["femur", "thigh"],
+  ["patella|tibia|fibula", "calf"],
+  ["phalanx of .* of foot", "ball"],
+  ["talus|calcaneus|navicular|cuboid|cuneiform|metatarsal", "foot"],
+  ["atlas|axis \\(c2\\)|^vertebra c", "neck_01"],
+  ["^vertebra t[1-6]$", "spine_03"],
+  ["^vertebra t([7-9]|1[0-2])$", "spine_02"],
+  ["^vertebra l", "spine_01"],
+  ["sacrum|coccyx|hip bone", "pelvis"],
+  ["rib|sternum|xiphoid|costal cartilage", "spine_03"],
+  ["frontal|parietal|occipital|temporal|sphenoid|ethmoid|maxilla|mandible|nasal|lacrimal|zygomatic|palatine|vomer|concha|alar cartilage|incus|malleus|stapes|hyoid|incisor|canine|molar|premolar", "head"]
+ ]
+}

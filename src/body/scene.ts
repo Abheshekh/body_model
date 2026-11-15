@@ -3,17 +3,21 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
-import { loadManifest, loadPack, type Manifest, type PackData, type PackInfo, type Part } from './load';
+import { loadManifest, loadPack, loadRig, loadWeights, type Manifest, type PackData, type PackInfo, type Part, type Weights } from './load';
 import { defaultState, idsOfPlain, packsNeeded, visibility, type BodyState, type Depth } from './state';
 import { LAYER_COL, SKIN_TONES, SYS_COL, VIS, createMaterials, type Materials, type SkinTone } from './materials';
 import { createIdPass, PICK_LAYER } from './pick';
 import { createLabels } from './labels';
 import { fitDistance, viewOffset, visibleFraction, type Inset } from './model';
 import { loadProfile } from '../me/profile';
+import { createSkeleton, type Posed, type Skeleton } from '../rig/skeleton';
+import { accumulateWeights, createBoneTexture, skinBox, writeBones } from '../rig/skin';
+import type { Pose } from '../rig/pose';
 
 type Sex = BodyState['sex'];
 const FOV = 30;
 const W = 64; // state texture 64×128 (§2b.8)
+const NB = 22; // rig.json driven bones (FORMAT.md)
 const AZIMUTH = { front: 0, side: -90, back: 180 };
 export type View = keyof typeof AZIMUTH | 'below';
 
@@ -34,6 +38,19 @@ export interface BodyViewer {
   pick(x: number, y: number): number | null;
   setLabels(on: boolean): void;
   onChange(cb: () => void): void;
+  /** R5: pose the body; null = rest (the bind mesh, unchanged). The first non-null pose loads rig.json and the weights. */
+  setPose(pose: Pose | null): Promise<void>;
+  /** posed world position of a joint (rig.json joint key), or null before the rig has loaded */
+  jointPosition(key: string): THREE.Vector3 | null;
+  // §2b.15 overlays (Move handles, props): drawn in the main pass only, so they never block part picking
+  readonly camera: THREE.PerspectiveCamera;
+  /** add obj to the scene and redraw; call again after changing obj to redraw */
+  addOverlay(obj: THREE.Object3D): void;
+  removeOverlay(obj: THREE.Object3D): void;
+  /** intersections of objects under client point (x, y), nearest first */
+  raycast(x: number, y: number, objects: THREE.Object3D[]): THREE.Intersection[];
+  /** a canvas pointerdown orbits/pans only when fn(e) is true; null = always */
+  setOrbitGate(fn: ((e: PointerEvent) => boolean) | null): void;
 }
 
 export async function createBodyViewer(canvas: HTMLCanvasElement, opts: { fps: boolean }): Promise<BodyViewer> {
@@ -121,7 +138,8 @@ async function build(canvas: HTMLCanvasElement, opts: { fps: boolean }, host: HT
   const sdata = new Uint8Array(W * W * 2 * 4);
   const tex = new THREE.DataTexture(sdata, W, W * 2, THREE.RGBAFormat);
   tex.magFilter = tex.minFilter = THREE.NearestFilter;
-  const mats: Materials = createMaterials(tex, m.box);
+  const boneTex = createBoneTexture(NB);
+  const mats: Materials = createMaterials(tex, m.box, boneTex);
 
   // per-part bounds per sex, decoded once on the CPU (§2b.9)
   const n = Math.max(...m.parts.map((p) => p.id)) + 1;
@@ -141,7 +159,21 @@ async function build(canvas: HTMLCanvasElement, opts: { fps: boolean }, host: HT
   };
 
   const bodySphere = new THREE.Box3(new THREE.Vector3().fromArray(b0), new THREE.Vector3().fromArray(b1)).getBoundingSphere(new THREE.Sphere());
-  type PackMesh = { geo: THREE.BufferGeometry; pos: Record<Sex, THREE.BufferAttribute>; nrm: Record<Sex, THREE.BufferAttribute> };
+  type PackMesh = { name: string; mid: Uint16Array; geo: THREE.BufferGeometry; pos: Record<Sex, THREE.BufferAttribute>; nrm: Record<Sex, THREE.BufferAttribute> };
+  // R5 rig: loaded on the first non-null pose. partW = per-part bone weights (parts × NB) for posed bounds.
+  let weights: Weights | null = null;
+  let skel: Record<Sex, Skeleton> | null = null;
+  let partW: Float32Array | null = null;
+  let pose: Pose | null = null;
+  let posed: Posed | null = null;
+  const attachWeights = (p: PackMesh) => {
+    const w = weights?.[p.name];
+    if (!w || !partW) return;
+    if (w.bi.length !== p.mid.length * 4) throw new Error(`weights for ${p.name}: ${w.bi.length / 4} vertices, pack has ${p.mid.length}`);
+    p.geo.setAttribute('bi', new THREE.BufferAttribute(w.bi, 4));
+    p.geo.setAttribute('bw', new THREE.BufferAttribute(w.bw, 4, true));
+    accumulateWeights(partW, NB, p.mid, w.bi, w.bw);
+  };
   const packs: PackMesh[] = [];
   const meshOf: Record<string, THREE.Mesh> = {};
   const loaded = new Set<string>();
@@ -175,7 +207,9 @@ async function build(canvas: HTMLCanvasElement, opts: { fps: boolean }, host: HT
     }
     accumulate('male', d.posM, d.mid);
     accumulate('female', d.posF, d.mid);
-    packs.push({ geo, pos, nrm });
+    const pm = { name: info.name, mid: d.mid, geo, pos, nrm };
+    attachWeights(pm);
+    packs.push(pm);
     loaded.add(info.name);
   };
   first.forEach((p, i) => addPack(p, data[i]));
@@ -295,6 +329,33 @@ async function build(canvas: HTMLCanvasElement, opts: { fps: boolean }, host: HT
     });
   };
 
+  const applyPose = () => {
+    posed = pose && skel ? skel[state.sex].posed(pose) : null;
+    if (posed) writeBones(boneTex, posed);
+    mats.ghost.uniforms.uSkin.value = posed ? 1 : 0; // the same uniform object every material and the id pass share
+    changed();
+  };
+  let rigLoad: Promise<void> | null = null;
+  const ensureRig = () => rigLoad ??= (async () => {
+    const [r, w] = await Promise.all([loadRig(m), loadWeights(m)]);
+    if (r.bones.length !== NB) throw new Error(`rig.json has ${r.bones.length} bones, expected ${NB}`);
+    partW = new Float32Array(n * NB);
+    for (const [id, b] of Object.entries(r.partBone)) {
+      sdata[Number(id) * 4 + 3] = b + 1; // rigid part: bone + 1 in the state alpha (SKIN_GLSL)
+      partW[Number(id) * NB + b] = 1;
+    }
+    tex.needsUpdate = true;
+    weights = w;
+    for (const p of packs) attachWeights(p);
+    skel = { male: createSkeleton(r, 'male'), female: createSkeleton(r, 'female') };
+  })().catch((e) => {
+    rigLoad = null; // allow retry
+    const msg = document.createElement('div');
+    msg.className = 'load-error';
+    msg.textContent = `Could not load the body rig: ${e instanceof Error ? e.message : String(e)}`;
+    host.appendChild(msg);
+  });
+
   let overlay: HTMLElement | null = null;
   const stamps: number[] = [];
   if (opts.fps) {
@@ -331,6 +392,12 @@ async function build(canvas: HTMLCanvasElement, opts: { fps: boolean }, host: HT
     }
   };
 
+  let gate: ((e: PointerEvent) => boolean) | null = null;
+  // capture on the stage runs before OrbitControls' own canvas listener; the next pointerup re-enables (wheel zoom)
+  host.addEventListener('pointerdown', (e) => { if (e.target === canvas) controls.enabled = !gate || gate(e); }, true);
+  for (const t of ['pointerup', 'pointercancel']) addEventListener(t, () => { controls.enabled = true; });
+  const ray = new THREE.Raycaster();
+
   const viewer: BodyViewer = {
     manifest: m,
     parts: m.parts,
@@ -343,6 +410,7 @@ async function build(canvas: HTMLCanvasElement, opts: { fps: boolean }, host: HT
           p.geo.setAttribute('position', p.pos[state.sex]);
           p.geo.setAttribute('normal', p.nrm[state.sex]);
         }
+        if (pose) applyPose(); // the other sex's skeleton
       }
       writeState();
       ensurePacks();
@@ -355,7 +423,8 @@ async function build(canvas: HTMLCanvasElement, opts: { fps: boolean }, host: HT
     bounds(id) {
       const l = lo[state.sex], h = hi[state.sex], o = id * 3;
       if (!(l[o] <= h[o])) return null; // no vertices for this sex (or pack not loaded)
-      return new THREE.Box3(new THREE.Vector3(l[o], l[o + 1], l[o + 2]), new THREE.Vector3(h[o], h[o + 1], h[o + 2]));
+      const box = new THREE.Box3(new THREE.Vector3(l[o], l[o + 1], l[o + 2]), new THREE.Vector3(h[o], h[o + 1], h[o + 2]));
+      return posed && partW ? skinBox(box, partW, NB, id, posed) : box;
     },
     select(id) {
       selected.clear();
@@ -391,6 +460,32 @@ async function build(canvas: HTMLCanvasElement, opts: { fps: boolean }, host: HT
     onChange(cb) {
       listeners.push(cb);
     },
+    async setPose(p) {
+      pose = p;
+      if (p && !skel) await ensureRig();
+      if (pose === p) applyPose(); // a later call may have replaced p while the rig loaded
+    },
+    jointPosition(key) {
+      if (!skel) return null;
+      return new THREE.Vector3(...skel[state.sex].jointPosition(posed, key));
+    },
+    camera,
+    addOverlay(obj) {
+      scene.add(obj);
+      request();
+    },
+    removeOverlay(obj) {
+      scene.remove(obj);
+      request();
+    },
+    raycast(x, y, objects) {
+      const r = canvas.getBoundingClientRect();
+      ray.setFromCamera(new THREE.Vector2(((x - r.left) / r.width) * 2 - 1, 1 - ((y - r.top) / r.height) * 2), camera);
+      return ray.intersectObjects(objects, true);
+    },
+    setOrbitGate(fn) {
+      gate = fn;
+    },
   };
 
   writeState();
@@ -402,6 +497,15 @@ async function build(canvas: HTMLCanvasElement, opts: { fps: boolean }, host: HT
     if (sex === 'male' || sex === 'female') patch.sex = sex;
     if (depth !== null) patch.depth = depth;
     viewer.setState(patch);
+    const poseId = q.get('pose'); // acceptance pose id (public/data/poses_acceptance.json)
+    if (poseId) {
+      void fetch(`${import.meta.env.BASE_URL}data/poses_acceptance.json`).then((r) => r.json())
+        .then((d: { poses: { id: string; pose: Pose }[] }) => {
+          const e = d.poses.find((x) => x.id === poseId);
+          if (e) return viewer.setPose(e.pose);
+          console.warn(`no acceptance pose ${poseId}`);
+        });
+    }
   }
   setView('front');
   requestAnimationFrame(loop);

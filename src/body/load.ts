@@ -1,4 +1,5 @@
-// R1 loader: manifest + packs (FORMAT.md). No three.js.
+// R1 loader: manifest + packs (FORMAT.md); R3 rig.json and the weights demand pack. No three.js.
+import type { Rig } from '../rig/skeleton';
 export type Part = {
   id: number; name: string; plain: string; side: 'left' | 'right' | 'center'; kind: string;
   region: string; system: string; colour: string; layer: number | null;
@@ -9,10 +10,16 @@ export type PackInfo = {
   bytes: number; gzBytes: number; verts: number; tris: number;
   arrays: Record<string, [number, number]>;
 };
+export type WeightsInfo = {
+  file: string; bytes: number; gzBytes: number; arrays: Record<string, { bi: [number, number]; bw: [number, number] }>;
+};
 export type Manifest = {
   version: number; box: [number[], number[]]; sexes: string[]; heights: Record<string, number>;
   packs: PackInfo[]; parts: Part[]; credits: string;
+  rig?: { file: string; weights: WeightsInfo };
 };
+/** Per pack name: bone indices and weights (uint8 × 4 per vertex, in the pack's vertex order). */
+export type Weights = Record<string, { bi: Uint8Array; bw: Uint8Array }>;
 export type PackData = {
   idx: Uint32Array; posM: Uint16Array; posF: Uint16Array; nrmM: Int8Array; nrmF: Int8Array;
   fib: Int8Array; acr: Int16Array; mid: Uint16Array; ao: Uint8Array;
@@ -64,4 +71,21 @@ export function loadPack(m: Manifest, name: string): Promise<PackData> {
     cache.set(name, c);
   }
   return c;
+}
+
+export async function loadRig(m: Manifest): Promise<Rig> {
+  if (!m.rig) throw new Error('manifest has no rig');
+  return JSON.parse(new TextDecoder().decode(await get(m.rig.file))) as Rig;
+}
+
+/** The weights demand pack. */
+export async function loadWeights(m: Manifest): Promise<Weights> {
+  const w = m.rig?.weights;
+  if (!w) throw new Error('manifest has no weights');
+  const b = await get(w.file);
+  const raw = isGzip(b) ? await gunzip(b) : b;
+  const out: Weights = {};
+  for (const [name, { bi, bw }] of Object.entries(w.arrays))
+    out[name] = { bi: raw.slice(bi[0], bi[0] + bi[1]), bw: raw.slice(bw[0], bw[0] + bw[1]) };
+  return out;
 }

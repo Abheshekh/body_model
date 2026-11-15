@@ -46,11 +46,20 @@ export function mountBodyPage(root: HTMLElement, viewer: BodyViewer): void {
   };
   const idsFor = (plain: string) => viewer.parts
     .filter((p) => p.plain === plain && (p.sex === 'both' || p.sex === viewer.state.sex)).map((p) => p.id);
+  // part labels are off while another screen is in front; the Labels toggle's choice comes back with the page
+  let labelsOn = true;
+  const viewerLabels = viewer.setLabels.bind(viewer);
+  viewer.setLabels = (on) => {
+    labelsOn = on;
+    viewerLabels(on && !behind());
+  };
   let parked = behind();
+  if (parked) viewerLabels(false);
   new MutationObserver(() => {
     if (parked === behind()) return;
     parked = !parked;
     viewerSelect(parked || !selected ? null : idsFor(selected)[0] ?? null);
+    viewerLabels(!parked && labelsOn);
   }).observe(root, { attributeFilter: ['class'] });
   const select = (plain: string | null) => viewer.select(plain ? idsFor(plain)[0] ?? null : null);
   // from the list: peel to the part's layer or turn its system on, then zoom (phone: collapse to see it)

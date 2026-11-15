@@ -10,6 +10,9 @@ import { mountMe } from './me';
 import { mountProfile } from './profile';
 import { mountPrograms } from './programs';
 import { mountWorkouts } from './workouts';
+import { mountLibrary } from './workouts/library';
+import { mountMove } from './workouts/move';
+import { mountPlayer } from './workouts/player';
 
 const div = (cls: string): HTMLElement => {
   const e = document.createElement('div');
@@ -30,7 +33,7 @@ export function mountShell(app: HTMLElement): void {
   const workouts = div('screen page');
   const me = div('screen page');
   const credits = div('screen page credits');
-  const programs = div('programs-root');
+  const programs = div('programs-root'); // the sheet root of the screens that draw on the body (Programs, Move, library)
   app.replaceChildren(nav, body, workouts, me, credits, programs);
   mountWorkouts(workouts);
 
@@ -51,11 +54,12 @@ export function mountShell(app: HTMLElement): void {
     const r = parseRoute(location.hash);
     const gate = loadProfile() === null;
     const screen = gate ? 'me' : r.screen;
-    const tab = screen === 'programs' ? 'workouts' : screen === 'credits' ? 'me' : screen;
+    const onBody = screen === 'programs' || screen === 'move' || screen === 'exercises' || screen === 'tasks';
+    const tab = onBody ? 'workouts' : screen === 'credits' ? 'me' : screen;
     nav.hidden = gate;
-    // Programs draw on the body: the canvas stays, the Body page controls hide
-    body.hidden = screen !== 'body' && screen !== 'programs';
-    body.classList.toggle('behind', screen === 'programs');
+    // Programs, Move, the lists and the player draw on the body: the canvas stays, the Body page controls hide
+    body.hidden = screen !== 'body' && !onBody;
+    body.classList.toggle('behind', onBody);
     workouts.hidden = screen !== 'workouts';
     me.hidden = screen !== 'me';
     credits.hidden = screen !== 'credits';
@@ -68,14 +72,20 @@ export function mountShell(app: HTMLElement): void {
     // the Me page sets the view sex to the saved profile's sex (the Body page switch is a view toggle)
     if (screen === 'me') mountMe(me, () => { void viewerReady.then((v) => v?.setState({ sex: loadProfile()!.sex })); toBody(); });
     if (screen === 'credits') void mountCredits(credits);
-    if (screen === 'programs') {
+    if (onBody) {
       // the sheet waits for the body; a route change before then cancels the mount
       let dispose: (() => void) | null = null;
       let gone = false;
       disposePrograms = () => { gone = true; dispose?.(); };
       programs.innerHTML = '<section class="sheet">Loading…</section>';
       // a failed body load gives null: list and text only
-      void viewerReady.then((v) => { if (!gone) dispose = mountPrograms(programs, v, loadProfile()!, r.programId); });
+      void viewerReady.then((v) => {
+        if (gone) return;
+        if (screen === 'move') dispose = mountMove(programs, v);
+        else if (screen === 'exercises' || screen === 'tasks') {
+          dispose = r.itemId ? mountPlayer(programs, v, screen, r.itemId, r.variantId) : mountLibrary(programs, v, screen);
+        } else dispose = mountPrograms(programs, v, loadProfile()!, r.programId);
+      });
     }
   };
   addEventListener('hashchange', route);

@@ -130,7 +130,7 @@
         "abd": 12
        },
        "knee": 110,
-       "ankle": -26,
+       "ankle": -20,
        "spine": {
         "flex": 8
        },
@@ -140,6 +140,7 @@
        "elbow": 8
       }
      },
+     "adjusted": "Ankle dorsiflexion 26 -> 20 (AAOS 1965 limit).",
      "moving": [
       "hip",
       "knee",

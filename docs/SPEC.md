@@ -98,6 +98,13 @@ Joints, located from the bone meshes, not typed in by hand:
 
 Every axis has a limit from standard range-of-motion tables. Store limits in data.
 
+Zero and pins (as built in R3):
+- Zero pose: limb bones (upper arm, forearm, hand, thigh, calf) use anatomical zero (arms down, palms forward, legs vertical). Pelvis, foot, ball, spine, neck, head and clavicle use their fitted standing orientation as zero.
+- Joint pivots are snapped to the anatomy joint centre from the bone ends (sphere fits), per sex.
+- Pins ground the pose after the joint angles are applied: `ground`, `flat`, `toes`, `hands`, `toeL`, `toeR`, `none`. The root is an offset (metres) from the rest pelvis.
+- Weights: skin, muscle, tendon, vessel, nerve, lymph and joint weights are one demand pack (`weights.bin.gz`) loaded when the body first moves; first load is unchanged. Bones and organs are rigid, one bone per part. A rigid-segment set is built for comparison only and stays in the pipeline cache; the app uses the smooth weights.
+- Scapula rule: there is no scapula bone. The clavicle rotates by (arm elevation - 30) / 3 degrees above 30 degrees, and the shoulder is re-solved so the arm keeps its commanded direction. Muscles that attach to the shoulder blade (teres major, serratus anterior) therefore tear or flip at high elevation until a scapula bone is added.
+
 Skinning:
 - Bones: rigid, one joint each.
 - Each muscle belongs to one chain (axial, arm L/R, leg L/R) and a bone range on that chain. Example: biceps = arm chain, shoulder blade to forearm. Pectoralis major = arm chain, thorax to upper arm.

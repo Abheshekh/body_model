@@ -726,7 +726,7 @@
        },
        "flat": false,
        "pin": "toes",
-       "ankle": -62,
+       "ankle": 0,
        "shoulder": {
         "abd": 46,
         "flex": 10
@@ -742,7 +742,7 @@
        },
        "flat": false,
        "pin": "toes",
-       "ankle": -62,
+       "ankle": 0,
        "shoulder": {
         "abd": 60,
         "flex": 76
@@ -753,6 +753,7 @@
        }
       }
      },
+     "adjusted": "Ankle 0 (prototype -62 stood in for toe extension; pin 'toes' grounds the ball).",
      "moving": [
       "shoulder",
       "elbow"
@@ -1400,7 +1401,7 @@
         "abd": 14
        },
        "knee": 116,
-       "ankle": -28,
+       "ankle": -20,
        "shoulder": {
         "abd": 58,
         "rot": 90,
@@ -1409,6 +1410,7 @@
        "elbow": 138
       }
      },
+     "adjusted": "Ankle dorsiflexion 28 -> 20 (AAOS 1965 limit).",
      "moving": [
       "hip",
       "knee",
@@ -2278,6 +2280,7 @@
       "tz": 0.9,
       "dist": 4.1
      },
+     "still": true,
      "proto": {
       "a": {
        "root": {
@@ -2285,7 +2288,7 @@
        },
        "flat": false,
        "pin": "toes",
-       "ankle": -70,
+       "ankle": 0,
        "shoulder": {
         "flex": 88,
         "abd": 4
@@ -2301,7 +2304,7 @@
        },
        "flat": false,
        "pin": "toes",
-       "ankle": -70,
+       "ankle": 0,
        "shoulder": {
         "flex": 88,
         "abd": 4
@@ -2312,6 +2315,7 @@
        }
       }
      },
+     "adjusted": "Ankle 0 (prototype -70 stood in for toe extension; pin 'toes' grounds the ball).",
      "moving": [],
      "held": [
       "shoulder",

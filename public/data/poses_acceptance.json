@@ -1,0 +1,243 @@
+{
+ "sources": [
+  "PLAN r3-rig-move §2b.19 (acceptance ids and angles); angles in the Pose convention of PLAN §4 and §2b.1-5. Trunk flexion split 60% lumbar / 40% thoracic (convention, PLAN §1 R4). Squat pelvis pitch 10° = hip − knee − ankle so the feet stay flat (the prototype's flat-foot rule)."
+ ],
+ "poses": [
+  {
+   "id": "elbow90",
+   "name": "Elbow flexion 90°",
+   "pose": {
+    "root": {
+     "x": 0,
+     "y": 0,
+     "z": 0,
+     "pitch": 0,
+     "roll": 0,
+     "yaw": 0
+    },
+    "joints": {
+     "elbow_l": {
+      "flex": 90
+     },
+     "elbow_r": {
+      "flex": 90
+     }
+    }
+   }
+  },
+  {
+   "id": "elbow140",
+   "name": "Elbow flexion 140°",
+   "pose": {
+    "root": {
+     "x": 0,
+     "y": 0,
+     "z": 0,
+     "pitch": 0,
+     "roll": 0,
+     "yaw": 0
+    },
+    "joints": {
+     "elbow_l": {
+      "flex": 140
+     },
+     "elbow_r": {
+      "flex": 140
+     }
+    }
+   }
+  },
+  {
+   "id": "abd90",
+   "name": "Shoulder abduction 90°",
+   "pose": {
+    "root": {
+     "x": 0,
+     "y": 0,
+     "z": 0,
+     "pitch": 0,
+     "roll": 0,
+     "yaw": 0
+    },
+    "joints": {
+     "shoulder_l": {
+      "abd": 90
+     },
+     "shoulder_r": {
+      "abd": 90
+     }
+    }
+   }
+  },
+  {
+   "id": "abd170",
+   "name": "Shoulder abduction 170°",
+   "pose": {
+    "root": {
+     "x": 0,
+     "y": 0,
+     "z": 0,
+     "pitch": 0,
+     "roll": 0,
+     "yaw": 0
+    },
+    "joints": {
+     "shoulder_l": {
+      "abd": 170
+     },
+     "shoulder_r": {
+      "abd": 170
+     }
+    }
+   }
+  },
+  {
+   "id": "flex90",
+   "name": "Shoulder flexion 90°",
+   "pose": {
+    "root": {
+     "x": 0,
+     "y": 0,
+     "z": 0,
+     "pitch": 0,
+     "roll": 0,
+     "yaw": 0
+    },
+    "joints": {
+     "shoulder_l": {
+      "flex": 90
+     },
+     "shoulder_r": {
+      "flex": 90
+     }
+    }
+   }
+  },
+  {
+   "id": "hip90",
+   "name": "Hip flexion 90°, standing leg straight",
+   "pose": {
+    "root": {
+     "x": 0,
+     "y": 0,
+     "z": 0,
+     "pitch": 0,
+     "roll": 0,
+     "yaw": 0
+    },
+    "joints": {
+     "hip_l": {
+      "flex": 90
+     }
+    },
+    "pin": "ground"
+   }
+  },
+  {
+   "id": "knee120",
+   "name": "Knee flexion 120°, hip 0",
+   "pose": {
+    "root": {
+     "x": 0,
+     "y": 0,
+     "z": 0,
+     "pitch": 0,
+     "roll": 0,
+     "yaw": 0
+    },
+    "joints": {
+     "knee_l": {
+      "flex": 120
+     }
+    },
+    "pin": "ground"
+   }
+  },
+  {
+   "id": "trunk45",
+   "name": "Trunk flexion 45°",
+   "pose": {
+    "root": {
+     "x": 0,
+     "y": 0,
+     "z": 0,
+     "pitch": 0,
+     "roll": 0,
+     "yaw": 0
+    },
+    "joints": {
+     "lumbar": {
+      "flex": 27
+     },
+     "thoracic": {
+      "flex": 18
+     }
+    },
+    "pin": "ground"
+   }
+  },
+  {
+   "id": "squat",
+   "name": "Deep squat, feet flat",
+   "pose": {
+    "root": {
+     "x": 0,
+     "y": 0,
+     "z": 0,
+     "pitch": 10,
+     "roll": 0,
+     "yaw": 0
+    },
+    "joints": {
+     "hip_l": {
+      "flex": 110
+     },
+     "hip_r": {
+      "flex": 110
+     },
+     "knee_l": {
+      "flex": 120
+     },
+     "knee_r": {
+      "flex": 120
+     },
+     "ankle_l": {
+      "flex": 20
+     },
+     "ankle_r": {
+      "flex": 20
+     },
+     "lumbar": {
+      "flex": 21
+     },
+     "thoracic": {
+      "flex": 14
+     }
+    },
+    "pin": "flat"
+   }
+  },
+  {
+   "id": "overhead",
+   "name": "Arms overhead",
+   "pose": {
+    "root": {
+     "x": 0,
+     "y": 0,
+     "z": 0,
+     "pitch": 0,
+     "roll": 0,
+     "yaw": 0
+    },
+    "joints": {
+     "shoulder_l": {
+      "flex": 170
+     },
+     "shoulder_r": {
+      "flex": 170
+     }
+    }
+   }
+  }
+ ]
+}

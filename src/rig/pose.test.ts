@@ -80,7 +80,8 @@ describe('pose', () => {
     expect(p.root.y).toBeCloseTo(0.1);
     expect(p.pin).toBe('hands');
     expect(p.pinAt).toEqual([0.35, 2.15, 0]);
-    expect(fromPrototype({ pin: 'toeL' }).pin).toBeUndefined();
+    expect(fromPrototype({ pin: 'toeL' }).pin).toBe('toeL');
+    expect(fromPrototype({ ankle: 36 }).pin).toBe('toes'); // missing pin = prototype default (calf raise heels lift)
     expect(lerpPose(p, p, 0.5).pin).toBe('hands');
   });
   it('armElevation: angle from straight down, then scapula rule', () => {

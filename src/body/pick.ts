@@ -1,6 +1,7 @@
-// R4 GPU id pass, as the sample's renderIds/idAt: every pickable pack mesh (layer PICK_LAYER) is drawn
+// R4 GPU id pass (posed by the same GPU skinning as the materials, R5), as the sample's renderIds/idAt: every pickable pack mesh (layer PICK_LAYER) is drawn
 // at half the canvas size with a flat id colour (id + 1 in R + G·256; 0 = background) and read back.
 import * as THREE from 'three';
+import { SKIN_GLSL } from '../rig/skin';
 
 export const PICK_LAYER = 1;
 export const SCALE = 2; // id buffer is 1/SCALE of the canvas in each direction
@@ -15,18 +16,19 @@ export interface IdPass {
   pick(x: number, y: number): number | null;
 }
 
-type Uniforms = Record<string, THREE.IUniform>; // needs uState, uLo, uSize (the materials' shared uniforms)
+type Uniforms = Record<string, THREE.IUniform>; // needs uState, uLo, uSize, uBones, uSkin (the materials' shared uniforms)
 
 export function createIdPass(renderer: THREE.WebGLRenderer, scene: THREE.Scene, camera: THREE.Camera, uniforms: Uniforms): IdPass {
   const canvas = renderer.domElement;
   const mat = new THREE.ShaderMaterial({
-    uniforms: { uState: uniforms.uState, uLo: uniforms.uLo, uSize: uniforms.uSize },
+    uniforms: { uState: uniforms.uState, uLo: uniforms.uLo, uSize: uniforms.uSize, uBones: uniforms.uBones, uSkin: uniforms.uSkin },
     vertexShader: /* glsl */`
 attribute float mid; uniform sampler2D uState; uniform vec3 uLo; uniform vec3 uSize; varying float vMid;
+${SKIN_GLSL}
 void main() {
   vMid = mid; int i = int(mid + 0.5);
   int vis = int(texelFetch(uState, ivec2(i % 64, i / 64), 0).r * 255.0 + 0.5);
-  gl_Position = vis == 1 ? projectionMatrix * modelViewMatrix * vec4(uLo + position * uSize, 1.) : vec4(2., 2., 2., 1.);
+  gl_Position = vis == 1 ? projectionMatrix * modelViewMatrix * (bodySkin(mid) * vec4(uLo + position * uSize, 1.)) : vec4(2., 2., 2., 1.);
 }`,
     fragmentShader: /* glsl */`
 varying float vMid;
