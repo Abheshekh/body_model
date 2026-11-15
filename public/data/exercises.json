@@ -1,0 +1,2535 @@
+{
+ "sources": [
+  "prototype/index.html lines 380-690 (EX, CH); muscle lists are provisional until the R4 effort engine"
+ ],
+ "exercises": [
+  {
+   "id": "curl",
+   "name": "Biceps curl",
+   "part": "Arms",
+   "cues": [
+    "Elbows stay by your ribs.",
+    "Stand or sit tall, ribs down.",
+    "Lower for a slow count of three."
+   ],
+   "avoid": [
+    "Swinging the hips to start the rep.",
+    "Elbows drifting forward.",
+    "Wrists bending back."
+   ],
+   "variants": [
+    {
+     "id": "stand",
+     "name": "Standing, barbell",
+     "props": [
+      "bar"
+     ],
+     "proto": {
+      "a": {
+       "elbow": 6
+      },
+      "b": {
+       "elbow": 140,
+       "shoulder": {
+        "flex": 8
+       }
+      }
+     },
+     "moving": [
+      "elbow"
+     ],
+     "held": [
+      "wrist",
+      "shoulder",
+      "spine",
+      "hip",
+      "knee",
+      "ankle"
+     ],
+     "muscles": {
+      "provisional": true,
+      "prime": [
+       [
+        "biceps",
+        1,
+        "Bends the elbow."
+       ],
+       [
+        "brachialis",
+        0.9,
+        "Bends the elbow from under the biceps."
+       ]
+      ],
+      "syn": [
+       [
+        "brachiorad",
+        0.6,
+        "Helps the bend, most in the middle of the lift."
+       ],
+       [
+        "foreFlex",
+        0.55,
+        "Grips the bar and keeps the wrist straight."
+       ]
+      ],
+      "stab": [
+       [
+        "erectors",
+        0.4,
+        "The bar hangs in front and pulls you forward. These keep the spine upright."
+       ],
+       [
+        "abs",
+        0.3,
+        "Stops you leaning back as the bar comes up."
+       ],
+       [
+        "deltFront",
+        0.35,
+        "Stops the upper arm swinging."
+       ],
+       [
+        "trapsUp",
+        0.3,
+        "Carries the bar weight through the shoulders."
+       ],
+       [
+        "cuff",
+        0.25,
+        "Keeps the shoulder joint centred."
+       ],
+       [
+        "gluteMax",
+        0.25,
+        "Locks the hips so the trunk has a base."
+       ],
+       [
+        "obliques",
+        0.2,
+        "Stops the trunk twisting."
+       ],
+       [
+        "quads",
+        0.2,
+        "Holds the knees soft, not locked."
+       ],
+       [
+        "calves",
+        0.15,
+        "Balances you over your feet."
+       ]
+      ]
+     }
+    },
+    {
+     "id": "seat",
+     "name": "Seated, dumbbells",
+     "props": [
+      "seat",
+      "back",
+      "dbL",
+      "dbR"
+     ],
+     "proto": {
+      "a": {
+       "root": {
+        "y": 0.535,
+        "pitch": 0
+       },
+       "hip": {
+        "flex": 90
+       },
+       "knee": 90,
+       "pin": "none",
+       "elbow": 6
+      },
+      "b": {
+       "root": {
+        "y": 0.535,
+        "pitch": 0
+       },
+       "hip": {
+        "flex": 90
+       },
+       "knee": 90,
+       "pin": "none",
+       "elbow": 140,
+       "shoulder": {
+        "flex": 8
+       }
+      }
+     },
+     "moving": [
+      "elbow"
+     ],
+     "held": [
+      "wrist",
+      "shoulder",
+      "spine"
+     ],
+     "note": "The seat takes your legs out. The back pad takes most of the trunk out.",
+     "muscles": {
+      "provisional": true,
+      "prime": [
+       [
+        "biceps",
+        1,
+        "Bends the elbow."
+       ],
+       [
+        "brachialis",
+        0.9,
+        "Bends the elbow from under the biceps."
+       ]
+      ],
+      "syn": [
+       [
+        "brachiorad",
+        0.6,
+        "Helps the bend."
+       ],
+       [
+        "foreFlex",
+        0.55,
+        "Grips the dumbbell and keeps the wrist straight."
+       ]
+      ],
+      "stab": [
+       [
+        "deltFront",
+        0.3,
+        "Stops the upper arm swinging."
+       ],
+       [
+        "trapsUp",
+        0.25,
+        "Carries the weight through the shoulders."
+       ],
+       [
+        "cuff",
+        0.2,
+        "Keeps the shoulder joint centred."
+       ],
+       [
+        "abs",
+        0.12,
+        "Light bracing. The back pad does most of it."
+       ],
+       [
+        "erectors",
+        0.1,
+        "Light. The back pad carries the spine."
+       ]
+      ]
+     }
+    },
+    {
+     "id": "preacher",
+     "name": "Preacher bench",
+     "props": [
+      "seat",
+      "pad",
+      "bar"
+     ],
+     "proto": {
+      "a": {
+       "root": {
+        "y": 0.535,
+        "pitch": 0
+       },
+       "hip": {
+        "flex": 90
+       },
+       "knee": 90,
+       "pin": "none",
+       "spine": {
+        "flex": 14
+       },
+       "shoulder": {
+        "flex": 50,
+        "abd": 4
+       },
+       "elbow": 18
+      },
+      "b": {
+       "root": {
+        "y": 0.535,
+        "pitch": 0
+       },
+       "hip": {
+        "flex": 90
+       },
+       "knee": 90,
+       "pin": "none",
+       "spine": {
+        "flex": 14
+       },
+       "shoulder": {
+        "flex": 50,
+        "abd": 4
+       },
+       "elbow": 125
+      }
+     },
+     "moving": [
+      "elbow"
+     ],
+     "held": [
+      "wrist",
+      "shoulder"
+     ],
+     "note": "The pad fixes your upper arms. You cannot swing, so the elbow benders do nearly everything.",
+     "muscles": {
+      "provisional": true,
+      "prime": [
+       [
+        "biceps",
+        1,
+        "Bends the elbow. Hardest at the bottom here."
+       ],
+       [
+        "brachialis",
+        1,
+        "Bends the elbow from under the biceps."
+       ]
+      ],
+      "syn": [
+       [
+        "brachiorad",
+        0.55,
+        "Helps the bend."
+       ],
+       [
+        "foreFlex",
+        0.55,
+        "Grips the bar and keeps the wrist straight."
+       ]
+      ],
+      "stab": [
+       [
+        "cuff",
+        0.15,
+        "Light. The pad holds the upper arm."
+       ],
+       [
+        "deltFront",
+        0.1,
+        "Light. The pad holds the upper arm."
+       ]
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "ohp",
+   "name": "Overhead press",
+   "part": "Shoulders",
+   "cues": [
+    "Squeeze glutes before you press.",
+    "Bar travels in a straight line over mid-foot.",
+    "Finish with arms by your ears."
+   ],
+   "avoid": [
+    "Leaning back to turn it into a chest press.",
+    "Elbows flared straight out to the sides.",
+    "Pressing with a loose core."
+   ],
+   "variants": [
+    {
+     "id": "stand",
+     "name": "Standing, barbell",
+     "props": [
+      "bar"
+     ],
+     "cam": {
+      "ty": 1.12,
+      "dist": 4.8
+     },
+     "proto": {
+      "a": {
+       "shoulder": {
+        "abd": 72,
+        "rot": 90
+       },
+       "elbow": 122
+      },
+      "b": {
+       "shoulder": {
+        "abd": 166,
+        "rot": 90
+       },
+       "elbow": 8
+      }
+     },
+     "moving": [
+      "shoulder",
+      "elbow"
+     ],
+     "held": [
+      "wrist",
+      "spine",
+      "hip",
+      "knee",
+      "ankle"
+     ],
+     "muscles": {
+      "provisional": true,
+      "prime": [
+       [
+        "deltFront",
+        1,
+        "Lifts the arm up and forward."
+       ],
+       [
+        "deltSide",
+        0.8,
+        "Lifts the arm out and up."
+       ],
+       [
+        "triceps",
+        0.85,
+        "Straightens the elbow to finish."
+       ]
+      ],
+      "syn": [
+       [
+        "trapsUp",
+        0.6,
+        "Turns the shoulder blade upward so the arm can go overhead."
+       ],
+       [
+        "serratus",
+        0.55,
+        "Wraps the shoulder blade around the ribs."
+       ],
+       [
+        "pec",
+        0.4,
+        "Upper chest helps at the start."
+       ]
+      ],
+      "stab": [
+       [
+        "abs",
+        0.5,
+        "Stops the ribs flaring and the lower back arching."
+       ],
+       [
+        "erectors",
+        0.45,
+        "Holds the spine tall under the load."
+       ],
+       [
+        "cuff",
+        0.4,
+        "Keeps the ball of the shoulder centred."
+       ],
+       [
+        "gluteMax",
+        0.4,
+        "Locks the pelvis under the spine."
+       ],
+       [
+        "obliques",
+        0.35,
+        "Stops side lean."
+       ],
+       [
+        "foreFlex",
+        0.3,
+        "Holds the wrist stacked over the elbow."
+       ],
+       [
+        "quads",
+        0.25,
+        "Knees stay straight and firm."
+       ],
+       [
+        "calves",
+        0.15,
+        "Balance."
+       ]
+      ]
+     }
+    },
+    {
+     "id": "seat",
+     "name": "Seated, dumbbells",
+     "props": [
+      "seat",
+      "back",
+      "dbL",
+      "dbR"
+     ],
+     "cam": {
+      "ty": 0.85
+     },
+     "proto": {
+      "a": {
+       "root": {
+        "y": 0.535,
+        "pitch": 0
+       },
+       "hip": {
+        "flex": 90
+       },
+       "knee": 90,
+       "pin": "none",
+       "shoulder": {
+        "abd": 72,
+        "rot": 90
+       },
+       "elbow": 122
+      },
+      "b": {
+       "root": {
+        "y": 0.535,
+        "pitch": 0
+       },
+       "hip": {
+        "flex": 90
+       },
+       "knee": 90,
+       "pin": "none",
+       "shoulder": {
+        "abd": 164,
+        "rot": 90
+       },
+       "elbow": 10
+      }
+     },
+     "moving": [
+      "shoulder",
+      "elbow"
+     ],
+     "held": [
+      "wrist",
+      "spine"
+     ],
+     "note": "No legs. Less trunk. More work keeping each dumbbell steady.",
+     "muscles": {
+      "provisional": true,
+      "prime": [
+       [
+        "deltFront",
+        1,
+        "Lifts the arm up and forward."
+       ],
+       [
+        "deltSide",
+        0.85,
+        "Lifts the arm out and up."
+       ],
+       [
+        "triceps",
+        0.8,
+        "Straightens the elbow to finish."
+       ]
+      ],
+      "syn": [
+       [
+        "trapsUp",
+        0.6,
+        "Turns the shoulder blade upward."
+       ],
+       [
+        "serratus",
+        0.55,
+        "Wraps the shoulder blade around the ribs."
+       ],
+       [
+        "pec",
+        0.35,
+        "Upper chest helps at the start."
+       ]
+      ],
+      "stab": [
+       [
+        "cuff",
+        0.5,
+        "Each dumbbell moves on its own, so this works harder."
+       ],
+       [
+        "foreFlex",
+        0.3,
+        "Holds the wrist stacked."
+       ],
+       [
+        "abs",
+        0.25,
+        "Light bracing against the pad."
+       ],
+       [
+        "erectors",
+        0.15,
+        "Light. The pad carries the spine."
+       ]
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "press",
+   "name": "Chest press",
+   "part": "Chest",
+   "cues": [
+    "Shoulder blades pulled back and down.",
+    "Forearms vertical at the bottom.",
+    "Lower under control to mid-chest."
+   ],
+   "avoid": [
+    "Elbows flared at 90 degrees.",
+    "Bouncing the bar off the chest.",
+    "Shoulders rolling forward at the top."
+   ],
+   "variants": [
+    {
+     "id": "bench",
+     "name": "Flat bench, barbell",
+     "props": [
+      "bench",
+      "bar"
+     ],
+     "cam": {
+      "az": 62,
+      "ty": 0.6,
+      "tz": -0.2,
+      "dist": 4.2
+     },
+     "proto": {
+      "a": {
+       "root": {
+        "pitch": -90,
+        "y": 0.56
+       },
+       "pin": "none",
+       "hip": {
+        "flex": 0,
+        "abd": 10
+       },
+       "knee": 82,
+       "shoulder": {
+        "abd": 46,
+        "flex": 0
+       },
+       "elbow": 92
+      },
+      "b": {
+       "root": {
+        "pitch": -90,
+        "y": 0.56
+       },
+       "pin": "none",
+       "hip": {
+        "flex": 0,
+        "abd": 10
+       },
+       "knee": 82,
+       "shoulder": {
+        "abd": 90,
+        "flex": 68
+       },
+       "elbow": 4
+      }
+     },
+     "moving": [
+      "shoulder",
+      "elbow"
+     ],
+     "held": [
+      "wrist",
+      "spine",
+      "hip",
+      "knee"
+     ],
+     "muscles": {
+      "provisional": true,
+      "prime": [
+       [
+        "pec",
+        1,
+        "Brings the upper arm across the chest."
+       ],
+       [
+        "triceps",
+        0.8,
+        "Straightens the elbow."
+       ],
+       [
+        "deltFront",
+        0.7,
+        "Helps push the arm forward."
+       ]
+      ],
+      "syn": [
+       [
+        "serratus",
+        0.4,
+        "Moves the shoulder blade around the ribs near the top."
+       ]
+      ],
+      "stab": [
+       [
+        "cuff",
+        0.4,
+        "Keeps the shoulder joint centred under load."
+       ],
+       [
+        "trapsMid",
+        0.35,
+        "Pins the shoulder blades to the bench."
+       ],
+       [
+        "lats",
+        0.3,
+        "Steadies the bar path on the way down."
+       ],
+       [
+        "foreFlex",
+        0.3,
+        "Grip and wrist."
+       ],
+       [
+        "abs",
+        0.15,
+        "Light bracing."
+       ],
+       [
+        "gluteMax",
+        0.15,
+        "Keeps the hips on the bench."
+       ],
+       [
+        "quads",
+        0.15,
+        "Leg drive through the floor."
+       ]
+      ]
+     }
+    },
+    {
+     "id": "pushup",
+     "name": "Push-up",
+     "props": [],
+     "cam": {
+      "az": 66,
+      "ty": 0.4,
+      "tz": 0.88,
+      "dist": 4.2
+     },
+     "proto": {
+      "a": {
+       "root": {
+        "pitch": 80
+       },
+       "flat": false,
+       "pin": "toes",
+       "ankle": -62,
+       "shoulder": {
+        "abd": 46,
+        "flex": 10
+       },
+       "elbow": 95,
+       "neck": {
+        "flex": -22
+       }
+      },
+      "b": {
+       "root": {
+        "pitch": 66
+       },
+       "flat": false,
+       "pin": "toes",
+       "ankle": -62,
+       "shoulder": {
+        "abd": 60,
+        "flex": 76
+       },
+       "elbow": 4,
+       "neck": {
+        "flex": -22
+       }
+      }
+     },
+     "moving": [
+      "shoulder",
+      "elbow"
+     ],
+     "held": [
+      "wrist",
+      "spine",
+      "hip",
+      "knee",
+      "ankle"
+     ],
+     "note": "No bench to hold you. The whole front of the trunk has to work.",
+     "muscles": {
+      "provisional": true,
+      "prime": [
+       [
+        "pec",
+        1,
+        "Brings the upper arm across the chest."
+       ],
+       [
+        "triceps",
+        0.8,
+        "Straightens the elbow."
+       ],
+       [
+        "deltFront",
+        0.7,
+        "Helps push the arm forward."
+       ]
+      ],
+      "syn": [
+       [
+        "serratus",
+        0.6,
+        "Pushes the shoulder blades apart at the top."
+       ]
+      ],
+      "stab": [
+       [
+        "abs",
+        0.6,
+        "Your body is a moving plank. This stops the hips sagging."
+       ],
+       [
+        "obliques",
+        0.4,
+        "Stops the hips twisting."
+       ],
+       [
+        "gluteMax",
+        0.35,
+        "Keeps hips level with shoulders."
+       ],
+       [
+        "quads",
+        0.35,
+        "Keeps the knees straight."
+       ],
+       [
+        "cuff",
+        0.35,
+        "Keeps the shoulder joint centred."
+       ],
+       [
+        "hipFlex",
+        0.25,
+        "Works with the abs to hold the line."
+       ],
+       [
+        "erectors",
+        0.2,
+        "Balances the abs."
+       ]
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "row",
+   "name": "Row",
+   "part": "Back",
+   "cues": [
+    "Pull elbows back, not hands up.",
+    "Squeeze shoulder blades together at the top.",
+    "Keep the neck in line with the spine."
+   ],
+   "avoid": [
+    "Rounding the lower back.",
+    "Jerking the weight with the hips.",
+    "Shrugging the shoulders to the ears."
+   ],
+   "variants": [
+    {
+     "id": "bent",
+     "name": "Bent over, barbell",
+     "props": [
+      "bar"
+     ],
+     "cam": {
+      "az": 55
+     },
+     "proto": {
+      "a": {
+       "hip": {
+        "flex": 75
+       },
+       "knee": 25,
+       "ankle": -8,
+       "armsHang": true,
+       "elbow": 5
+      },
+      "b": {
+       "hip": {
+        "flex": 75
+       },
+       "knee": 25,
+       "ankle": -8,
+       "shoulder": {
+        "flex": -8,
+        "abd": 22
+       },
+       "elbow": 98
+      }
+     },
+     "moving": [
+      "shoulder",
+      "elbow"
+     ],
+     "held": [
+      "wrist",
+      "spine",
+      "hip",
+      "knee",
+      "ankle"
+     ],
+     "muscles": {
+      "provisional": true,
+      "prime": [
+       [
+        "lats",
+        1,
+        "Pulls the upper arm back."
+       ],
+       [
+        "trapsMid",
+        0.9,
+        "Pulls the shoulder blades together."
+       ],
+       [
+        "deltRear",
+        0.7,
+        "Pulls the upper arm back."
+       ]
+      ],
+      "syn": [
+       [
+        "biceps",
+        0.6,
+        "Bends the elbow."
+       ],
+       [
+        "brachialis",
+        0.5,
+        "Bends the elbow."
+       ],
+       [
+        "brachiorad",
+        0.5,
+        "Bends the elbow."
+       ],
+       [
+        "foreFlex",
+        0.6,
+        "Grip. This is the forearm work you feel on back day."
+       ]
+      ],
+      "stab": [
+       [
+        "erectors",
+        0.8,
+        "Holds the bent-over spine flat for the whole set."
+       ],
+       [
+        "hams",
+        0.55,
+        "Holds the hip hinge."
+       ],
+       [
+        "gluteMax",
+        0.5,
+        "Holds the hip hinge."
+       ],
+       [
+        "abs",
+        0.3,
+        "Braces the trunk."
+       ],
+       [
+        "cuff",
+        0.3,
+        "Keeps the shoulder joint centred."
+       ],
+       [
+        "quads",
+        0.2,
+        "Holds the knee bend."
+       ]
+      ]
+     }
+    },
+    {
+     "id": "cable",
+     "name": "Seated, cable",
+     "props": [
+      "seat",
+      "handle"
+     ],
+     "cam": {
+      "az": 60
+     },
+     "proto": {
+      "a": {
+       "root": {
+        "y": 0.535,
+        "pitch": 0
+       },
+       "hip": {
+        "flex": 80
+       },
+       "knee": 35,
+       "pin": "none",
+       "shoulder": {
+        "flex": 78,
+        "abd": 4
+       },
+       "elbow": 8,
+       "spine": {
+        "flex": 6
+       }
+      },
+      "b": {
+       "root": {
+        "y": 0.535,
+        "pitch": 0
+       },
+       "hip": {
+        "flex": 80
+       },
+       "knee": 35,
+       "pin": "none",
+       "shoulder": {
+        "flex": -12,
+        "abd": 14
+       },
+       "elbow": 100,
+       "spine": {
+        "flex": -2
+       }
+      }
+     },
+     "moving": [
+      "shoulder",
+      "elbow"
+     ],
+     "held": [
+      "wrist",
+      "spine",
+      "hip"
+     ],
+     "note": "Sitting upright cuts the lower-back and hamstring hold by about half.",
+     "muscles": {
+      "provisional": true,
+      "prime": [
+       [
+        "lats",
+        1,
+        "Pulls the upper arm back."
+       ],
+       [
+        "trapsMid",
+        0.9,
+        "Pulls the shoulder blades together."
+       ],
+       [
+        "deltRear",
+        0.7,
+        "Pulls the upper arm back."
+       ]
+      ],
+      "syn": [
+       [
+        "biceps",
+        0.6,
+        "Bends the elbow."
+       ],
+       [
+        "brachialis",
+        0.5,
+        "Bends the elbow."
+       ],
+       [
+        "brachiorad",
+        0.5,
+        "Bends the elbow."
+       ],
+       [
+        "foreFlex",
+        0.55,
+        "Grip."
+       ]
+      ],
+      "stab": [
+       [
+        "erectors",
+        0.45,
+        "Holds you upright against the cable."
+       ],
+       [
+        "abs",
+        0.2,
+        "Braces the trunk."
+       ],
+       [
+        "quads",
+        0.2,
+        "Pushes against the foot plate."
+       ],
+       [
+        "gluteMax",
+        0.15,
+        "Light."
+       ],
+       [
+        "hams",
+        0.15,
+        "Light."
+       ]
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "pull",
+   "name": "Pull-up and pulldown",
+   "part": "Back",
+   "cues": [
+    "Start each rep by pulling shoulders down.",
+    "Drive elbows toward your back pockets.",
+    "Chin over the bar, chest up."
+   ],
+   "avoid": [
+    "Swinging the legs for momentum.",
+    "Half reps that skip the dead hang.",
+    "Pulling with a rounded upper back."
+   ],
+   "variants": [
+    {
+     "id": "pullup",
+     "name": "Pull-up",
+     "props": [
+      "pullbar"
+     ],
+     "cam": {
+      "ty": 1.25,
+      "dist": 5.6
+     },
+     "proto": {
+      "a": {
+       "pin": "hands",
+       "pinAt": [
+        0.35,
+        2.15,
+        0
+       ],
+       "flat": false,
+       "shoulder": {
+        "abd": 165,
+        "rot": 90
+       },
+       "elbow": 8,
+       "knee": 55
+      },
+      "b": {
+       "pin": "hands",
+       "pinAt": [
+        0.37,
+        2.15,
+        0
+       ],
+       "flat": false,
+       "shoulder": {
+        "abd": 46,
+        "rot": 90
+       },
+       "elbow": 140,
+       "knee": 55
+      }
+     },
+     "moving": [
+      "shoulder",
+      "elbow"
+     ],
+     "held": [
+      "wrist",
+      "spine",
+      "hip"
+     ],
+     "muscles": {
+      "provisional": true,
+      "prime": [
+       [
+        "lats",
+        1,
+        "Pulls the upper arm down to your side."
+       ],
+       [
+        "biceps",
+        0.7,
+        "Bends the elbow."
+       ],
+       [
+        "brachialis",
+        0.7,
+        "Bends the elbow."
+       ],
+       [
+        "trapsMid",
+        0.7,
+        "Pulls the shoulder blades down and together."
+       ]
+      ],
+      "syn": [
+       [
+        "foreFlex",
+        0.8,
+        "Your whole body hangs from your grip."
+       ],
+       [
+        "brachiorad",
+        0.55,
+        "Bends the elbow."
+       ],
+       [
+        "deltRear",
+        0.5,
+        "Helps pull the arm down and back."
+       ],
+       [
+        "cuff",
+        0.35,
+        "Helps pull the arm down and keeps the joint centred."
+       ]
+      ],
+      "stab": [
+       [
+        "abs",
+        0.45,
+        "Stops the legs swinging."
+       ],
+       [
+        "obliques",
+        0.3,
+        "Stops the body twisting."
+       ],
+       [
+        "hipFlex",
+        0.2,
+        "Holds the legs still."
+       ],
+       [
+        "erectors",
+        0.2,
+        "Keeps the chest up."
+       ]
+      ]
+     }
+    },
+    {
+     "id": "pulldown",
+     "name": "Lat pulldown",
+     "props": [
+      "seat",
+      "handle"
+     ],
+     "cam": {
+      "ty": 1.05,
+      "dist": 5
+     },
+     "proto": {
+      "a": {
+       "root": {
+        "y": 0.535,
+        "pitch": 0
+       },
+       "hip": {
+        "flex": 90
+       },
+       "knee": 90,
+       "pin": "none",
+       "shoulder": {
+        "abd": 165,
+        "rot": 90
+       },
+       "elbow": 8
+      },
+      "b": {
+       "root": {
+        "y": 0.535,
+        "pitch": 0
+       },
+       "hip": {
+        "flex": 90
+       },
+       "knee": 90,
+       "pin": "none",
+       "shoulder": {
+        "abd": 46,
+        "rot": 90
+       },
+       "elbow": 140,
+       "spine": {
+        "flex": -6
+       }
+      }
+     },
+     "moving": [
+      "shoulder",
+      "elbow"
+     ],
+     "held": [
+      "wrist",
+      "spine"
+     ],
+     "note": "Same pull. You choose the weight, and the thigh pad replaces the core work of hanging.",
+     "muscles": {
+      "provisional": true,
+      "prime": [
+       [
+        "lats",
+        1,
+        "Pulls the upper arm down to your side."
+       ],
+       [
+        "biceps",
+        0.6,
+        "Bends the elbow."
+       ],
+       [
+        "brachialis",
+        0.6,
+        "Bends the elbow."
+       ],
+       [
+        "trapsMid",
+        0.6,
+        "Pulls the shoulder blades down and together."
+       ]
+      ],
+      "syn": [
+       [
+        "foreFlex",
+        0.55,
+        "Grip."
+       ],
+       [
+        "brachiorad",
+        0.5,
+        "Bends the elbow."
+       ],
+       [
+        "deltRear",
+        0.45,
+        "Helps pull the arm down and back."
+       ],
+       [
+        "cuff",
+        0.3,
+        "Helps pull the arm down."
+       ]
+      ],
+      "stab": [
+       [
+        "abs",
+        0.2,
+        "Light bracing."
+       ],
+       [
+        "erectors",
+        0.2,
+        "Keeps the chest up."
+       ],
+       [
+        "hipFlex",
+        0.2,
+        "Presses the thighs up into the pad."
+       ]
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "squat",
+   "name": "Squat",
+   "part": "Legs",
+   "cues": [
+    "Feet about shoulder width, toes slightly out.",
+    "Knees track over the toes.",
+    "Chest and hips rise at the same speed."
+   ],
+   "avoid": [
+    "Knees caving inward.",
+    "Heels lifting off the floor.",
+    "Lower back rounding at the bottom."
+   ],
+   "variants": [
+    {
+     "id": "back",
+     "name": "Back squat",
+     "props": [
+      "bar"
+     ],
+     "cam": {
+      "az": 48
+     },
+     "proto": {
+      "a": {
+       "hip": {
+        "flex": 0,
+        "abd": 8
+       },
+       "shoulder": {
+        "abd": 58,
+        "rot": 90,
+        "flex": -10
+       },
+       "elbow": 138
+      },
+      "b": {
+       "hip": {
+        "flex": 105,
+        "abd": 14
+       },
+       "knee": 116,
+       "ankle": -28,
+       "shoulder": {
+        "abd": 58,
+        "rot": 90,
+        "flex": -10
+       },
+       "elbow": 138
+      }
+     },
+     "moving": [
+      "hip",
+      "knee",
+      "ankle"
+     ],
+     "held": [
+      "spine",
+      "shoulder",
+      "elbow"
+     ],
+     "muscles": {
+      "provisional": true,
+      "prime": [
+       [
+        "quads",
+        1,
+        "Straightens the knees."
+       ],
+       [
+        "gluteMax",
+        0.9,
+        "Straightens the hips."
+       ]
+      ],
+      "syn": [
+       [
+        "adductors",
+        0.6,
+        "Helps straighten the hips out of the bottom."
+       ],
+       [
+        "hams",
+        0.4,
+        "Helps at the hip."
+       ],
+       [
+        "calves",
+        0.3,
+        "Controls the shin angle."
+       ]
+      ],
+      "stab": [
+       [
+        "erectors",
+        0.7,
+        "The bar on your back tries to fold you forward. These stop it."
+       ],
+       [
+        "abs",
+        0.5,
+        "Braces the trunk from the front."
+       ],
+       [
+        "obliques",
+        0.4,
+        "Braces the trunk from the sides."
+       ],
+       [
+        "gluteMed",
+        0.4,
+        "Stops the knees caving in."
+       ],
+       [
+        "trapsUp",
+        0.3,
+        "Makes the shelf the bar sits on."
+       ],
+       [
+        "trapsMid",
+        0.3,
+        "Keeps the upper back tight."
+       ]
+      ]
+     }
+    },
+    {
+     "id": "legpress",
+     "name": "Leg press",
+     "props": [
+      "reclineBack",
+      "reclineSeat"
+     ],
+     "cam": {
+      "az": 70,
+      "ty": 0.7
+     },
+     "proto": {
+      "a": {
+       "root": {
+        "pitch": -35,
+        "y": 0.5
+       },
+       "pin": "none",
+       "hip": {
+        "flex": 112,
+        "abd": 8
+       },
+       "knee": 104,
+       "ankle": -18,
+       "shoulder": {
+        "flex": -10,
+        "abd": 10
+       },
+       "elbow": 25
+      },
+      "b": {
+       "root": {
+        "pitch": -35,
+        "y": 0.5
+       },
+       "pin": "none",
+       "hip": {
+        "flex": 66,
+        "abd": 8
+       },
+       "knee": 18,
+       "ankle": -6,
+       "shoulder": {
+        "flex": -10,
+        "abd": 10
+       },
+       "elbow": 25
+      }
+     },
+     "moving": [
+      "hip",
+      "knee",
+      "ankle"
+     ],
+     "held": [
+      "spine"
+     ],
+     "note": "The seat carries your spine and there is nothing to balance. Legs only.",
+     "muscles": {
+      "provisional": true,
+      "prime": [
+       [
+        "quads",
+        1,
+        "Straightens the knees."
+       ],
+       [
+        "gluteMax",
+        0.7,
+        "Straightens the hips."
+       ]
+      ],
+      "syn": [
+       [
+        "adductors",
+        0.5,
+        "Helps straighten the hips."
+       ],
+       [
+        "hams",
+        0.35,
+        "Helps at the hip."
+       ],
+       [
+        "calves",
+        0.3,
+        "Pushes through the foot plate."
+       ]
+      ],
+      "stab": [
+       [
+        "gluteMed",
+        0.25,
+        "Keeps the knees in line."
+       ],
+       [
+        "abs",
+        0.15,
+        "Light bracing."
+       ]
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "deadlift",
+   "name": "Deadlift",
+   "part": "Legs",
+   "cues": [
+    "Bar stays against the legs.",
+    "Flat back from hips to head.",
+    "Push the floor away, then stand tall."
+   ],
+   "avoid": [
+    "Rounding the lower back.",
+    "Yanking the bar off the floor.",
+    "Leaning back at the top."
+   ],
+   "variants": [
+    {
+     "id": "conv",
+     "name": "Conventional",
+     "props": [
+      "bar"
+     ],
+     "cam": {
+      "az": 55
+     },
+     "proto": {
+      "a": {
+       "hip": {
+        "flex": 86
+       },
+       "knee": 56,
+       "ankle": -15,
+       "armsHang": true
+      },
+      "b": {}
+     },
+     "moving": [
+      "hip",
+      "knee",
+      "ankle"
+     ],
+     "held": [
+      "spine",
+      "shoulder",
+      "elbow",
+      "wrist"
+     ],
+     "muscles": {
+      "provisional": true,
+      "prime": [
+       [
+        "gluteMax",
+        1,
+        "Straightens the hips."
+       ],
+       [
+        "erectors",
+        0.9,
+        "Holds the spine flat against a heavy forward pull."
+       ],
+       [
+        "hams",
+        0.85,
+        "Straightens the hips."
+       ],
+       [
+        "quads",
+        0.7,
+        "Straightens the knees off the floor."
+       ]
+      ],
+      "syn": [
+       [
+        "foreFlex",
+        0.8,
+        "Grip. Often the first thing to give out."
+       ],
+       [
+        "trapsUp",
+        0.6,
+        "Carries the bar through the shoulders."
+       ],
+       [
+        "adductors",
+        0.5,
+        "Helps straighten the hips."
+       ],
+       [
+        "lats",
+        0.5,
+        "Keeps the bar close to the body."
+       ],
+       [
+        "trapsMid",
+        0.5,
+        "Stops the shoulders rounding."
+       ]
+      ],
+      "stab": [
+       [
+        "abs",
+        0.5,
+        "Braces the trunk."
+       ],
+       [
+        "obliques",
+        0.4,
+        "Braces the trunk."
+       ],
+       [
+        "calves",
+        0.25,
+        "Balance over mid-foot."
+       ],
+       [
+        "cuff",
+        0.2,
+        "Shoulder joint."
+       ]
+      ]
+     }
+    },
+    {
+     "id": "rdl",
+     "name": "Romanian",
+     "props": [
+      "bar"
+     ],
+     "cam": {
+      "az": 55
+     },
+     "proto": {
+      "a": {
+       "hip": {
+        "flex": 76
+       },
+       "knee": 16,
+       "ankle": -3,
+       "armsHang": true
+      },
+      "b": {
+       "knee": 8
+      }
+     },
+     "moving": [
+      "hip"
+     ],
+     "held": [
+      "spine",
+      "knee",
+      "ankle",
+      "shoulder",
+      "elbow",
+      "wrist"
+     ],
+     "note": "Knees barely bend, so the quads drop out and the hamstrings take over.",
+     "muscles": {
+      "provisional": true,
+      "prime": [
+       [
+        "hams",
+        1,
+        "Lengthens under load going down, then straightens the hips."
+       ],
+       [
+        "gluteMax",
+        0.9,
+        "Straightens the hips."
+       ],
+       [
+        "erectors",
+        0.8,
+        "Holds the spine flat."
+       ]
+      ],
+      "syn": [
+       [
+        "foreFlex",
+        0.7,
+        "Grip."
+       ],
+       [
+        "trapsUp",
+        0.5,
+        "Carries the bar through the shoulders."
+       ],
+       [
+        "adductors",
+        0.45,
+        "Helps straighten the hips."
+       ],
+       [
+        "lats",
+        0.45,
+        "Keeps the bar close."
+       ]
+      ],
+      "stab": [
+       [
+        "abs",
+        0.45,
+        "Braces the trunk."
+       ],
+       [
+        "trapsMid",
+        0.4,
+        "Stops the shoulders rounding."
+       ],
+       [
+        "obliques",
+        0.35,
+        "Braces the trunk."
+       ],
+       [
+        "quads",
+        0.2,
+        "Knees stay soft. Quads only hold."
+       ],
+       [
+        "calves",
+        0.2,
+        "Balance."
+       ]
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "lateral",
+   "name": "Lateral raise",
+   "part": "Shoulders",
+   "cues": [
+    "Lead with the elbows.",
+    "Stop at shoulder height.",
+    "Lower slower than you lift."
+   ],
+   "avoid": [
+    "Shrugging the weight up.",
+    "Swinging from the hips.",
+    "Going too heavy to control."
+   ],
+   "variants": [
+    {
+     "id": "stand",
+     "name": "Standing",
+     "props": [
+      "dbL",
+      "dbR"
+     ],
+     "proto": {
+      "a": {
+       "shoulder": {
+        "abd": 8
+       },
+       "elbow": 12
+      },
+      "b": {
+       "shoulder": {
+        "abd": 86
+       },
+       "elbow": 12
+      }
+     },
+     "moving": [
+      "shoulder"
+     ],
+     "held": [
+      "elbow",
+      "wrist",
+      "spine",
+      "hip",
+      "knee"
+     ],
+     "muscles": {
+      "provisional": true,
+      "prime": [
+       [
+        "deltSide",
+        1,
+        "Lifts the arm out to the side."
+       ]
+      ],
+      "syn": [
+       [
+        "cuff",
+        0.5,
+        "Starts the lift and keeps the joint centred."
+       ],
+       [
+        "trapsUp",
+        0.5,
+        "Turns the shoulder blade upward."
+       ],
+       [
+        "deltFront",
+        0.4,
+        "Helps the lift."
+       ],
+       [
+        "serratus",
+        0.35,
+        "Moves the shoulder blade."
+       ]
+      ],
+      "stab": [
+       [
+        "foreExt",
+        0.3,
+        "Holds the wrist level."
+       ],
+       [
+        "erectors",
+        0.25,
+        "Holds you upright."
+       ],
+       [
+        "abs",
+        0.2,
+        "Stops you leaning back."
+       ],
+       [
+        "obliques",
+        0.2,
+        "Stops side sway."
+       ],
+       [
+        "gluteMax",
+        0.15,
+        "Hip lock."
+       ],
+       [
+        "quads",
+        0.1,
+        "Knee hold."
+       ]
+      ]
+     }
+    },
+    {
+     "id": "seat",
+     "name": "Seated",
+     "props": [
+      "seat",
+      "dbL",
+      "dbR"
+     ],
+     "proto": {
+      "a": {
+       "root": {
+        "y": 0.535,
+        "pitch": 0
+       },
+       "hip": {
+        "flex": 90
+       },
+       "knee": 90,
+       "pin": "none",
+       "shoulder": {
+        "abd": 8
+       },
+       "elbow": 12
+      },
+      "b": {
+       "root": {
+        "y": 0.535,
+        "pitch": 0
+       },
+       "hip": {
+        "flex": 90
+       },
+       "knee": 90,
+       "pin": "none",
+       "shoulder": {
+        "abd": 86
+       },
+       "elbow": 12
+      }
+     },
+     "moving": [
+      "shoulder"
+     ],
+     "held": [
+      "elbow",
+      "wrist",
+      "spine"
+     ],
+     "note": "Sitting removes the leg drive, so it is harder to cheat the weight up.",
+     "muscles": {
+      "provisional": true,
+      "prime": [
+       [
+        "deltSide",
+        1,
+        "Lifts the arm out to the side."
+       ]
+      ],
+      "syn": [
+       [
+        "cuff",
+        0.5,
+        "Starts the lift and keeps the joint centred."
+       ],
+       [
+        "trapsUp",
+        0.5,
+        "Turns the shoulder blade upward."
+       ],
+       [
+        "deltFront",
+        0.4,
+        "Helps the lift."
+       ],
+       [
+        "serratus",
+        0.35,
+        "Moves the shoulder blade."
+       ]
+      ],
+      "stab": [
+       [
+        "foreExt",
+        0.3,
+        "Holds the wrist level."
+       ],
+       [
+        "erectors",
+        0.2,
+        "Holds you upright on the seat."
+       ],
+       [
+        "abs",
+        0.2,
+        "Stops you leaning back."
+       ]
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "triceps",
+   "name": "Triceps extension",
+   "part": "Arms",
+   "cues": [
+    "Upper arms stay still.",
+    "Straighten fully, then return slowly.",
+    "Wrists stay straight."
+   ],
+   "avoid": [
+    "Elbows flaring out.",
+    "Leaning over the weight.",
+    "Shoulders rolling forward."
+   ],
+   "variants": [
+    {
+     "id": "pushdown",
+     "name": "Cable pushdown",
+     "props": [
+      "handle"
+     ],
+     "proto": {
+      "a": {
+       "spine": {
+        "flex": 10
+       },
+       "shoulder": {
+        "flex": 4,
+        "abd": 6
+       },
+       "elbow": 112
+      },
+      "b": {
+       "spine": {
+        "flex": 10
+       },
+       "shoulder": {
+        "flex": 4,
+        "abd": 6
+       },
+       "elbow": 4
+      }
+     },
+     "moving": [
+      "elbow"
+     ],
+     "held": [
+      "shoulder",
+      "wrist",
+      "spine",
+      "hip",
+      "knee"
+     ],
+     "muscles": {
+      "provisional": true,
+      "prime": [
+       [
+        "triceps",
+        1,
+        "Straightens the elbow."
+       ]
+      ],
+      "syn": [
+       [
+        "foreFlex",
+        0.35,
+        "Grip."
+       ],
+       [
+        "foreExt",
+        0.2,
+        "Holds the wrist straight."
+       ]
+      ],
+      "stab": [
+       [
+        "abs",
+        0.4,
+        "The cable pulls up and back. This stops the trunk lifting."
+       ],
+       [
+        "lats",
+        0.35,
+        "Pins the upper arm to your side."
+       ],
+       [
+        "deltRear",
+        0.25,
+        "Pins the upper arm."
+       ],
+       [
+        "obliques",
+        0.2,
+        "Trunk."
+       ],
+       [
+        "erectors",
+        0.2,
+        "Trunk."
+       ],
+       [
+        "pec",
+        0.15,
+        "Pins the upper arm."
+       ],
+       [
+        "gluteMax",
+        0.15,
+        "Hip lock."
+       ],
+       [
+        "quads",
+        0.1,
+        "Knee hold."
+       ]
+      ]
+     }
+    },
+    {
+     "id": "overhead",
+     "name": "Overhead, seated",
+     "props": [
+      "seat",
+      "back",
+      "handle"
+     ],
+     "cam": {
+      "ty": 0.9,
+      "dist": 4.4
+     },
+     "proto": {
+      "a": {
+       "root": {
+        "y": 0.535,
+        "pitch": 0
+       },
+       "hip": {
+        "flex": 90
+       },
+       "knee": 90,
+       "pin": "none",
+       "shoulder": {
+        "flex": 172,
+        "abd": 2
+       },
+       "elbow": 132
+      },
+      "b": {
+       "root": {
+        "y": 0.535,
+        "pitch": 0
+       },
+       "hip": {
+        "flex": 90
+       },
+       "knee": 90,
+       "pin": "none",
+       "shoulder": {
+        "flex": 172,
+        "abd": 2
+       },
+       "elbow": 8
+      }
+     },
+     "moving": [
+      "elbow"
+     ],
+     "held": [
+      "shoulder",
+      "wrist",
+      "spine"
+     ],
+     "note": "Arms overhead stretch the long head of the triceps and add shoulder holding work.",
+     "muscles": {
+      "provisional": true,
+      "prime": [
+       [
+        "triceps",
+        1,
+        "Straightens the elbow. The long head starts fully stretched."
+       ]
+      ],
+      "syn": [
+       [
+        "foreFlex",
+        0.3,
+        "Grip."
+       ]
+      ],
+      "stab": [
+       [
+        "deltFront",
+        0.35,
+        "Holds the arms overhead."
+       ],
+       [
+        "cuff",
+        0.3,
+        "Keeps the shoulder joint centred overhead."
+       ],
+       [
+        "serratus",
+        0.3,
+        "Holds the shoulder blades rotated up."
+       ],
+       [
+        "trapsUp",
+        0.3,
+        "Holds the shoulder blades rotated up."
+       ],
+       [
+        "abs",
+        0.3,
+        "Stops the ribs flaring."
+       ],
+       [
+        "erectors",
+        0.2,
+        "Light."
+       ]
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "plank",
+   "name": "Plank",
+   "part": "Core",
+   "cues": [
+    "Elbows under shoulders.",
+    "Straight line from head to heels.",
+    "Breathe. Do not hold your breath."
+   ],
+   "avoid": [
+    "Hips sagging.",
+    "Hips piked up.",
+    "Head dropping."
+   ],
+   "variants": [
+    {
+     "id": "front",
+     "name": "Front plank",
+     "props": [],
+     "cam": {
+      "az": 66,
+      "ty": 0.3,
+      "tz": 0.9,
+      "dist": 4.1
+     },
+     "proto": {
+      "a": {
+       "root": {
+        "pitch": 83
+       },
+       "flat": false,
+       "pin": "toes",
+       "ankle": -70,
+       "shoulder": {
+        "flex": 88,
+        "abd": 4
+       },
+       "elbow": 90,
+       "neck": {
+        "flex": -18
+       }
+      },
+      "b": {
+       "root": {
+        "pitch": 83
+       },
+       "flat": false,
+       "pin": "toes",
+       "ankle": -70,
+       "shoulder": {
+        "flex": 88,
+        "abd": 4
+       },
+       "elbow": 90,
+       "neck": {
+        "flex": -18
+       }
+      }
+     },
+     "moving": [],
+     "held": [
+      "shoulder",
+      "elbow",
+      "spine",
+      "hip",
+      "knee",
+      "ankle"
+     ],
+     "note": "Nothing moves. Every muscle here is holding a position.",
+     "muscles": {
+      "provisional": true,
+      "prime": [
+       [
+        "abs",
+        1,
+        "Stops the hips sagging toward the floor."
+       ],
+       [
+        "obliques",
+        0.8,
+        "Stops the hips sagging and twisting."
+       ]
+      ],
+      "syn": [
+       [
+        "serratus",
+        0.5,
+        "Pushes the floor away through the shoulder blades."
+       ],
+       [
+        "quads",
+        0.45,
+        "Keeps the knees straight."
+       ],
+       [
+        "hipFlex",
+        0.4,
+        "Works with the abs to hold the line."
+       ]
+      ],
+      "stab": [
+       [
+        "gluteMax",
+        0.4,
+        "Keeps the pelvis tucked."
+       ],
+       [
+        "deltFront",
+        0.4,
+        "Holds body weight through the shoulders."
+       ],
+       [
+        "cuff",
+        0.3,
+        "Shoulder joint."
+       ],
+       [
+        "pec",
+        0.25,
+        "Shoulder support."
+       ],
+       [
+        "erectors",
+        0.25,
+        "Balances the abs."
+       ],
+       [
+        "triceps",
+        0.2,
+        "Elbow hold."
+       ],
+       [
+        "tibialis",
+        0.15,
+        "Holds the ankles."
+       ]
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "calf",
+   "name": "Calf raise",
+   "part": "Legs",
+   "cues": [
+    "Pause at the top.",
+    "Lower until the heel is below the toes if on a step.",
+    "Go straight up, do not roll outward."
+   ],
+   "avoid": [
+    "Bouncing.",
+    "Bending the knees to help.",
+    "Cutting the range short."
+   ],
+   "variants": [
+    {
+     "id": "stand",
+     "name": "Standing",
+     "props": [],
+     "proto": {
+      "a": {
+       "flat": false
+      },
+      "b": {
+       "flat": false,
+       "ankle": 36
+      }
+     },
+     "moving": [
+      "ankle"
+     ],
+     "held": [
+      "knee",
+      "hip",
+      "spine"
+     ],
+     "muscles": {
+      "provisional": true,
+      "prime": [
+       [
+        "calves",
+        1,
+        "Points the foot. Knee is straight, so the big outer calf muscle leads."
+       ]
+      ],
+      "syn": [],
+      "stab": [
+       [
+        "quads",
+        0.25,
+        "Keeps the knees straight."
+       ],
+       [
+        "gluteMax",
+        0.2,
+        "Hip lock."
+       ],
+       [
+        "gluteMed",
+        0.2,
+        "Side balance."
+       ],
+       [
+        "erectors",
+        0.15,
+        "Upright trunk."
+       ],
+       [
+        "abs",
+        0.15,
+        "Upright trunk."
+       ],
+       [
+        "tibialis",
+        0.15,
+        "Steadies the ankle."
+       ]
+      ]
+     }
+    },
+    {
+     "id": "seat",
+     "name": "Seated",
+     "props": [
+      "seat"
+     ],
+     "proto": {
+      "a": {
+       "root": {
+        "y": 0.535,
+        "pitch": 0
+       },
+       "hip": {
+        "flex": 90
+       },
+       "knee": 90,
+       "pin": "none"
+      },
+      "b": {
+       "root": {
+        "y": 0.555,
+        "pitch": 0
+       },
+       "hip": {
+        "flex": 90
+       },
+       "knee": 90,
+       "pin": "none",
+       "ankle": 30
+      }
+     },
+     "moving": [
+      "ankle"
+     ],
+     "held": [],
+     "note": "Bent knees slacken the outer calf muscle, shifting work to the soleus underneath.",
+     "muscles": {
+      "provisional": true,
+      "prime": [
+       [
+        "calves",
+        1,
+        "Points the foot. Knee is bent, so the deeper soleus does more."
+       ]
+      ],
+      "syn": [],
+      "stab": [
+       [
+        "tibialis",
+        0.1,
+        "Steadies the ankle."
+       ]
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}
