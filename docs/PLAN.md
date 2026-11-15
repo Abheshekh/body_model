@@ -1,141 +1,153 @@
 # Body Model — plan
 
-Status: plan v4, 14 Nov 2026. v4 adds Programs (posture, pelvic tilt, pelvic floor, sexual health), the first-launch question and the Makefile build. Replaces v2 and v3. The mannequin prototype (`prototype/index.html`) is rejected and kept only as a record.
-
-Read with: `docs/SPEC.md` (how each part works) and `docs/PROMPTS.md` (Claude Code prompts, one per milestone).
+Status: plan v5.1, 15 Nov 2026. v5.1: build the app now; complete the organs in R8. Replaces v4 and `docs/REBUILD-PLAN.md`.
+Read with `docs/SPEC.md` (how each part works) and `docs/PROMPTS.md` (Claude Code prompts).
+Approved sample: the anatomy sample artifact, built by the scripts in `tools/sample/`. It is the visual target for R1.
 
 ## 1. Goal
 
-One Android app that shows, on a real anatomical 3D body, what any movement does to you.
+One Android app with two halves.
+
+| Page | Purpose |
+|---|---|
+| **Body** | A complete human, male and female: skin, every muscle layer to the bone, skeleton, organs, heart and vessels, brain and nerves, lymphatic system, ligaments and cartilage. Correct facts, sourced. The reference the rest of the app points into. |
+| **Workouts** | Exercises, everyday tasks, free joint moves and programs, played on the same body, with muscle effort computed from physics. |
+| **Me** | Profile (sex, height, mass), conditions, body fat. Changes what both pages show. |
 
 | Phase | Outcome |
 |---|---|
-| 1 | Understand any movement at single-muscle level: exercises, everyday tasks, free joint moves. See it on a typical body or on your own body. |
+| 1 | Body page complete. Workouts: understand any movement at single-muscle level. |
 | 2 | Replace a personal trainer: plans, progression, form check. Photo calorie log. |
 
-Release: personal use first. Play Store later as a simple free app.
+Release: personal use first. Play Store later as a simple free app. Other genders later (section 10).
 
-## 2. What changed from v2
+## 2. Where the repo stands (15 Nov 2026)
+
+| Item | State |
+|---|---|
+| M1 BodyParts3D pipeline + Explore | Committed. Superseded by R1. |
+| M1b Android, profile, Programs (static) | Built, not committed. Keep on branch `m1b-archive`; reuse profile, programs data, Makefile. |
+| Rig, engine, exercises, tasks, My model | Not started |
+| Sample (`tools/sample/`) | Z-Anatomy + MakeHuman, male and female, all systems, layer peeling, inspector UI, phone layout. Approved look. |
+
+## 3. What changed from v4
 
 | # | Feedback | Change |
 |---|---|---|
-| 1 | Body looked odd, no detail | Use real anatomy meshes, one mesh per muscle. Verified renderable: see `docs/preview/`. |
-| 2 | Form was wrong | Poses come from keyframes on a real skeleton with joint limits and planted feet (IK). Each exercise reviewed against a form checklist. |
-| 3 | Exercises limited | Library built from movement patterns × posture × equipment, plus imported names. Target 300+ at first release. |
-| 4 | Machines looked bad | Proper equipment models (glTF), not boxes. |
-| 5 | Body fat page | Becomes **My model**: my conditions (for example anterior pelvic tilt), my fat levels. |
-| 6 | Move joints directly | Click a joint, drag to move. Ctrl + drag moves the camera. Sliders and typed angles stay. |
-| 7 | Chores | Becomes **Task builder**: place an object, set its weight, pick an action, then edit the motion joint by joint. |
-| 8 | Hand-written muscle lists | Muscles are computed from pose and load (section 4), so any edited pose gives an answer. |
+| 1 | Body looked cheap; skull and muscles showed through skin | Z-Anatomy meshes, procedural fibre striation, baked AO, studio light. Opaque skin hides everything inside. |
+| 2 | Female body had male genitals | Two bodies. Female skin from MakeHuman; female anatomy warped from male; male-only parts removed; female-only parts added. |
+| 3 | Inspect every muscle at every depth | Depth slider peels layers computed by ray tests (Outer, 2…6, Bones), ghost of peeled layers, colour by layer, labels, list, isolate, hide, zoom. |
+| 4 | Complete human, not only muscles | All Z-Anatomy systems: organs, heart and vessels, brain and nerves, lymphatic, ligaments and cartilage. |
+| 5 | Body and workouts on separate pages | Body page = anatomy explorer. Workouts page = exercises, tasks, move, programs. |
+| 6 | Phone UI covered the body | Bottom sheet, collapsed by default; canvas sized above it; compact top bar; fewer labels. |
+| 7 | Exercises and chores disappeared | They were never ported. R3 brings back the prototype's 11 exercises and 5 chores first. |
+| 8 | Bottom view button | Removed. Pelvic camera opens only from a pelvic-floor item. |
+| 9 | No paid assets | Free sources only. Licence check before going public. |
 
-## 3. Decisions
+## 4. Decisions
 
 | # | Decision | Why | Confidence |
 |---|---|---|---|
-| D1 | TypeScript + three.js + Vite, wrapped with Capacitor for Android | 3D is web tech either way. One codebase. | 75% |
-| D2 | Anatomy source: BodyParts3D (FMA-named STL parts). Z-Anatomy as an upgrade path. | Fetched and rendered already. 431 muscle parts, 201 bone parts, skin (M1 build). No Blender needed. | 85% for static display |
-| D3 | Rig built in code: joints located from the bone meshes, skin weights computed per muscle | No rigged open anatomy model exists. | 60%, see R1 |
-| D4 | Muscle effort from a statics engine: joint torques from gravity and loads, mapped to muscles by an action table | Answers "what works when I change this joint or this load". Hand lists cannot. | 70% |
-| D5 | Offline first. Data ships in the app. No accounts. | Free app, no server cost. Health data stays on the phone. | 85% |
-| D6 | Server only for the food photo. Decide in Phase 2. | Vision models cost money per photo. | 80% |
+| D1 | TypeScript + three.js + Vite, Capacitor for Android | Unchanged. | 80% |
+| D2 | **Anatomy: Z-Anatomy** (CC BY-SA 4.0, derived from BodyParts3D) | Free, one mesh per part, all systems, Latin/English names. Proven in the sample. | 85% |
+| D3 | **Skin and body shape: MakeHuman** (CC0), male and female, posed to Z-Anatomy's joints with its game rig | Free, both sexes, same mesh for both, natural face and hands. | 85% |
+| D4 | **Female anatomy = male anatomy warped** by the male→female MakeHuman shape difference (smoothed, breasts excluded). Male-only parts removed. Female-only parts added. | No free female anatomy atlas exists. Warp keeps every name and all engine data. | 65%. Pelvis and chest need review. |
+| D5 | Opaque skin hides all anatomy. See-through skin overlays it. | Skin keeps its natural shape. No pull-fit, no poke-through. | 90% |
+| D6 | Fibre detail = shader striation from a per-vertex fibre field (fibres converge on the tendon, fans radiate) | Free, cheap, reads as muscle. | 80% |
+| D7 | Depth layers computed by peeling (ray tests), then a reviewed override list | Covers every region without hand typing. Spot-check ~85% right. | 80% after review |
+| D8 | Quality gate = screenshots at fixed views, signed off against the sample and reference images | "Looks real" needs a test. | 75% |
+| D9 | Rig for anatomy: muscles and bones bound to the MakeHuman game skeleton after the pose fit (SPEC §2) | One skeleton drives skin and anatomy. | 60%, see R-risk 3 |
+| D10 | Muscle effort from the statics engine | Unchanged from v4. | 70% |
+| D11 | Offline first. Data ships in the app, quantised and compressed. No accounts. | Free app, health data stays on the phone. | 85% |
+| D12 | Simplified generated meshes are allowed only where no free mesh exists, and the app labels them "simplified" | Honest gap-filling; replaceable later. | 80% |
 
-## 4. Core idea
+## 5. Core idea (unchanged)
 
-Analogy: the body is a crane. Every joint is a hinge that must hold a turning force. Move the load or bend a hinge, and different motors must work.
+The body is a crane. Every joint is a hinge that must hold a turning force. Move the load or bend a hinge and different motors must work.
 
 ```
-pose (joint angles) + supports (floor, seat, bench, bar) + loads (object, weight, cable)
-        -> torque needed at every joint, in every direction
-        -> muscles that produce that torque (action table, per single muscle)
-        -> role: moving the joint = does the work; holding it still = stabiliser
+pose + supports + loads -> torque at every joint -> muscles that produce it -> role (moves / holds / helps)
 ```
 
-One engine serves every screen. Exercises, tasks, free joint moves and "my body" are just different poses, supports and loads.
+## 6. App structure
 
-## 5. Screens
-
-| Screen | What it does |
+| Page | Screens |
 |---|---|
-| Explore | The body. Layers: skin, muscles, deep muscles, skeleton, organs. Tap any muscle: name, actions, where it attaches. |
-| Move | Click a joint and drag, or use sliders, or type an angle. Muscles update live. |
-| Exercises | Library. Pick exercise, variation, load. Animated with correct form. Per-muscle effort, joints moving and held, cues and mistakes. Edit any keyframe. |
-| Tasks | Build a task: object, weight, where it sits, action (pick up, carry, push, pull, climb, sit, reach). Compare ways of doing it. Edit joints to see the effect. |
-| My model | My conditions and my fat levels. Toggle "typical body / my body" on every screen. Organs affected by fat. How to reduce it. |
-| Programs | Ready-made routines: posture correction, anterior pelvic tilt, pelvic floor, sexual health. Each exercise plays on the body like any other. |
-| First launch | Asks male or female, height and body mass. The answer selects the pelvic-floor and sexual-health programs. |
+| Body | Explorer (depth, systems, colour modes, labels, list, isolate), part card with facts and sources, compare male / female |
+| Workouts | Exercises, Tasks, Move (free joints), Programs |
+| Me | Profile, conditions, fat |
+| First launch | Male or female, height, mass. Selects the body and the programs. |
 
-## 6. Milestones
+The Body page never shows effort. Workouts link a muscle to its Body page card.
+
+## 7. Milestones
 
 Each ends at a checkpoint. Nothing moves on without sign-off.
 
 | # | Milestone | Done when | Risk |
 |---|---|---|---|
-| M1 | Body pipeline + Explore screen | Real body in the browser at 30+ fps on a mid phone. Layers. Tap a muscle to name it. | Low |
-| M2 | Rig + Move screen | Every major joint bends with muscles attached. Click-drag joints, ctrl-drag camera, typed angles, joint limits, planted feet. | **High** |
-| M3 | Effort engine | Curl, squat, deadlift, push-up, plank, pull-up give sensible muscles from physics alone. Tests pass. | Medium |
-| M4 | Exercises | 50 reviewed exercises with equipment models, then pattern-generated library to 300+. | Medium |
-| M5 | Tasks | Object + weight + action + keyframe editing. Stoop vs squat pick-up shows the back-to-legs shift. | Medium |
-| M6 | My model | Conditions, fat by hand, fat from an InBody sheet photo, organs, reduction guidance. | Medium |
-| M6b | Programs | Posture, pelvic tilt and pelvic floor programs for both sexes. Sexual-health program per sex. Every claim on screen has a source and an evidence label. | Medium |
-| M7 | Android build | Capacitor wrap, offline, installs on your phone. `make apk` and `make aab` write to `./output`. | Low |
-| M8+ | Phase 2 | Plan builder, log, camera form check, food photo log. | High |
+| R0 | Clean slate | M1b on branch `m1b-archive`. Main keeps Makefile, profile, programs data. "Below" button gone. Programs "Show" bug fixed with a test. | Low |
+| R1 | Body data pipeline | `tools/pipeline` builds male + female from Z-Anatomy + MakeHuman: all systems, fibre field, AO, layers, female warp, female-only parts, quantised data. Tests pass. Numbers match the sample or better. | Medium |
+| R2 | Body page | Explorer from the sample, rebuilt in `src/`: two sexes, skin, depth, systems, colour modes, labels, list, isolate, phone sheet. Part facts with sources for the 100 most-viewed parts. ≥ 30 fps on your phone. | Medium |
+| R3 | Rig + bring back content | Anatomy and skin bend on the MakeHuman skeleton. Move screen. Prototype's 11 exercises and 5 chores play on both bodies (provisional muscle lists). | **High** |
+| R4 | Effort engine | SPEC §4. Must-pass checks. Provisional lists replaced. | Medium |
+| R5 | Workouts: library + tasks | 50 reviewed exercises with equipment, then 300+ generated. Task builder. | Medium |
+| R6 | Me + Programs on the real bodies | Conditions, fat, organs affected. Programs animated on the correct sex. | Medium |
+| R7 | Release build | `make apk` / `make aab`, offline, credits, disclaimer, release checklist. | Low |
+| R8 | Organs complete | Lungs (lobes, pleura), cerebrum and cerebellum, properly modelled female reproductive organs, perineal muscles, rectus tendinous intersections. Added as data packs, no app rewrite. | Medium |
+| R9+ | Phase 2 | Plans, log, camera form check, food photo. | High |
 
-M2 is the go/no-go point. If muscles tear badly at the joints, fall back to rigid muscle segments with blended joint caps before trying anything else.
-
-## 7. Data and licences
+## 8. Data and licences
 
 | Asset | Licence | Obligation |
 |---|---|---|
-| BodyParts3D anatomy | CC BY-SA 2.1 Japan, © DBCLS | Show the required credit in the app. Share the modified model under the same licence. |
-| Z-Anatomy (optional upgrade) | CC BY-SA 4.0 | Same pattern. |
-| free-exercise-db (names, text, images) | Public domain | None |
-| wger exercises | Creative Commons, set per entry | Check each entry. Credit. |
-| Equipment models | Must be CC0 or made for the project | Record source per model. |
-| Condition and fat text | Written fresh from medical sources | Cite sources in the app. |
+| Z-Anatomy (anatomy) | CC BY-SA 4.0 | Credit Z-Anatomy and BodyParts3D (CC BY-SA 2.1 JP, © DBCLS). Share modified anatomy data under CC BY-SA. |
+| MakeHuman base mesh, targets, rig (via MPFB2 repo) | CC0 | None. Credit as courtesy. |
+| free-exercise-db | Public domain | None |
+| wger | Per entry | Check each, credit |
+| Generated parts (female organs, breast tissue) | Ours | Label "simplified" |
 
-Check before Play Store listing (not yet verified): Google Play health-content policy, medical disclaimer wording, privacy policy for camera use, content rating and policy for sexual-wellness content.
+Licence review is deferred until going public (your decision). Credits ship in the app from R2.
 
-## 8. Risks
+## 9. Risks
 
 | # | Risk | Mitigation | Confidence it works |
 |---|---|---|---|
-| R1 | Static atlas meshes do not bend | Code-built rig with per-muscle weights. Fallback: rigid segments. | 60% first path, 85% fallback |
-| R2 | 20 million source triangles | Simplify per part. 1.0 million rendered fine in tests. Phone target 300–500 thousand, with Draco or meshopt. | 80% |
-| R3 | Engine gives odd muscles in edge cases | Statics ignores speed, momentum and co-contraction. Add a bracing rule. Label results as estimates. | 70% |
-| R4 | Muscle action table errors (about 150 muscles) | Build from standard anatomy references, review the 40 biggest muscles by hand, show sources. | 75% |
-| R5 | Condition effects overstated | Posture offsets are visual and mechanical only. "Often tight / often weak" lists are labelled as clinical convention, not proof. | 80% |
-| R6 | Exercise form quality at 300+ | Patterns reviewed once, then reused. Top 50 reviewed one by one. | 70% |
-| R7 | Photo calories are rough | Photo gives a draft. User corrects. | 85% works, accuracy low |
-| R8 | Camera form check | Last item. Start with two lifts. | 50% |
-| R9 | The anatomy data is one male body | Female users get female programs shown on male anatomy until a female model is added. Say so in the app. | 90% that this limit stays through Phase 1 |
-| R10 | Sexual-health claims overstated | Only what trials support: pelvic floor training and aerobic exercise. No size or length claims. Evidence label on each claim. Tell users to see a doctor for lasting problems. | 85% |
-| R11 | Play Store rejects or age-restricts the sexual-health program | Clinical wording, anatomical model only, 18+ confirmation before that program. Check the policy before listing. | 70% |
+| 1 | Data too big for phones (sample: 16 MB compressed, 1.2M triangles) | Per-system lazy load; drop nerves/vessels detail on low-end; LOD; meshopt. Target ≤ 10 MB first load. | 75% |
+| 2 | Female warp wrong at pelvis, chest, hips | Review screenshots per region; hand-corrected pelvis targets; add female pelvis landmarks. | 60% |
+| 3 | Muscles tear when posed | Per-muscle weights from bone ranges (SPEC §2); fallback rigid segments. | 60% |
+| 4 | Layer errors (e.g. rectus abdominis read as deep) | Peeling + reviewed override list in data, with reason per override. | 80% |
+| 5 | Missing parts in free data | Section 10 list, labelled in app. | — |
+| 6 | Engine gives odd muscles | Statics only; bracing rule; label estimates. | 70% |
+| 7 | Sexual-health and anatomy content on Play Store | Clinical rendering, external genitalia hidden under opaque skin, 18+ gate, policy check before listing. | 70% |
 
-## 9. What is already in the repo
+## 10. Known gaps in free data
 
-| Path | What |
-|---|---|
-| `docs/preview/*.png` | Four renders of the real anatomy data: front and back, skin and skeleton, curl highlight, close-ups |
-| `tools/anatomy-spike/build_body.py` | Script that made the data for those renders. Starting point for M1. |
-| `tools/anatomy-spike/render.html` | Minimal three.js viewer used for the renders |
-| `prototype/index.html` | Rejected v1 mannequin. Reference for screens only. |
-| `Makefile` | `make apk` (debug APK) and `make aab` (signed Play Store bundle). Output in `./output`. Setup steps tested; the Gradle build itself not yet run. |
+| Gap | Now | Fix later |
+|---|---|---|
+| Lung tissue (lobes) | Only the bronchial tree | R8: BodyParts3D lungs (CC BY-SA) or model in Blender |
+| Cerebrum and cerebellum | Only brainstem, ventricles, deep nuclei | R8: BodyParts3D brain parts or a CC source; else model |
+| Female reproductive organs (uterus, ovaries, tubes, vagina) | Simplified generated shapes, labelled | R8: model properly in Blender, or a CC source |
+| Female breast tissue | Generated from the female skin shape | Add lobes, ducts, fat pads |
+| Female pelvis shape | Warped from male | Hand-corrected landmarks |
+| Perineal muscles (bulbospongiosus, ischiocavernosus, transverse perineal) | Missing for both sexes | Model in Blender |
+| Rectus abdominis tendinous intersections ("six-pack" lines) | Missing | Add as tendon strips |
+| Hair, eyebrows | Not shown (clinical) | Optional |
+| Other genders, ages, body types | — | MakeHuman targets make this a data change |
 
-## 10. Working method
+## 11. Working method
 
-- Claude Code, one milestone per prompt, through `/feature-build`. Prompts are in `docs/PROMPTS.md`.
-- Each prompt ends with a checkpoint: a demo to look at and a short report. Review before the next prompt.
-- Keep `docs/PLAN.md` and `docs/SPEC.md` current. If a decision changes, change the doc in the same commit.
+- Build first, organs later (your decision, 15 Nov): R0–R7 ship the app on the current data; R8 adds the missing organs as data packs. The pipeline and viewer must treat each system as a pack so R8 needs no UI rewrite.
+- Claude Code, one milestone per prompt via `/feature-build`. Prompts in `docs/PROMPTS.md`; the master prompt runs them in order with a stop at each checkpoint.
+- Each checkpoint: screenshots, real measurements, a short report in `docs/reports/`.
+- Keep PLAN and SPEC current in the same commit as any decision change.
 
-## 11. Sources
+## 12. Sources
 
-- BodyParts3D: https://github.com/Kevin-Mattheus-Moerman/BodyParts3D
 - Z-Anatomy: https://github.com/Z-Anatomy/Models-of-human-anatomy
+- MakeHuman licence (CC0 assets since 2020): https://static.makehumancommunity.org/oldsite/faq/what_changed_regarding_the_license_in_2020.html
+- MPFB2 (MakeHuman assets and rigs): https://github.com/makehumancommunity/mpfb2
+- BodyParts3D: https://dbarchive.biosciencedbc.jp/en/bodyparts3d/download.html
 - free-exercise-db: https://github.com/yuhonas/free-exercise-db
 - wger: https://github.com/wger-project/wger
-- Visceral fat and organs: https://www.boltpharmacy.co.uk/guide/can-visceral-fat-injure-internal-organs
-- Visceral fat reduction: https://www.medicalnewstoday.com/articles/320929.php
-- Photo calorie accuracy: https://biolayne.com/reps/issue-44/can-we-use-ai-to-accurately-track-calories-with-a-picture/
-- Pelvic floor training for erectile dysfunction and premature ejaculation (systematic review): https://pubmed.ncbi.nlm.nih.gov/30979506/
-- Aerobic exercise and erectile function (meta-analysis of 11 trials): https://pubmed.ncbi.nlm.nih.gov/37814532/
-- Pelvic floor training for urinary incontinence in women (Cochrane): https://www.cochrane.org/evidence/CD005654
+- Programs evidence: see SPEC §10.7

@@ -1,32 +1,85 @@
 # Body Model — spec
 
-Companion to `docs/PLAN.md`. Says how each part must work. Numbers marked "start value" are tuning points, not facts.
+Companion to `docs/PLAN.md` (v5). Says how each part must work. Numbers marked "start value" are tuning points, not facts.
 
-## 1. Body data
+## 1. Body data (v5)
 
-Source: BodyParts3D. 934 STL parts, each named by an FMA id (`parts_list_e.txt`). Units are millimetres. Axes: x runs right to left, front is −y, z is up. Height about 1.64 m.
+Two bodies, male and female, built by `tools/pipeline` from free sources. Prototype of every step: `tools/sample/`.
 
-| Kind | Parts | Notes |
+### 1.1 Sources
+
+| Source | Gives | Licence |
 |---|---|---|
-| Muscle | 431 | Separate left and right. Heads are separate parts (for example long and short head of biceps). Count is from the M1 build (693 parts in the glb). |
-| Tendon, aponeurosis, fascia | 8 | Render pale. |
-| Bone | 201 | Every vertebra, rib and phalanx is its own part. |
-| Cartilage, discs | 41 | |
-| Skin | 1 | Whole-body surface. Used for the skin layer and the fat view. |
-| Organs | 11 | Liver, stomach, both kidneys, duodenum, jejunum, ileum, colon, rectum, pancreas (`pancreas, nsn`) and the heart (`wall of heart`, the only heart mesh). Lungs are excluded (user decision). |
+| Z-Anatomy `Startup.blend` (Blender, 300 MB) | Muscles, tendons and fascia, bones, organs, heart and vessels, brain, nerves and sense organs, lymphatic organs, ligaments, cartilage and discs. One object per part, `.l`/`.r` suffix for sides. | CC BY-SA 4.0 |
+| MakeHuman base mesh + `african/asian/caucasian-{male,female}-young` targets, blended equally; game-engine rig + weights (from the MPFB2 repo) | Skin for both sexes, the skeleton that poses it | CC0 |
 
-The spike's `duct` exclusion wrongly dropped adductors and abductors. M1 uses `\bduct\b`.
+Read the `.blend` headless with the `bpy` pip package. Skip label objects (names ending `.g .j .t .i .s`, zero-polygon meshes) and the "Regions", "Reference lines" and "Muscular insertions" collections.
 
-Pipeline (M1):
-1. Classify parts by name. Start from `tools/anatomy-spike/build_body.py`.
-2. Simplify per part. Budget is 400 thousand triangles total (`triangleBudget` in `tools/pipeline/config.json`; per-kind keep fractions scaled to fit).
-3. Convert to metres, Y up, +Z front, +X the body's left.
-4. Export glTF binary with one named mesh per part, compressed with meshopt.
-5. Write `parts.json`: FMA id, name, kind, side, layer (superficial or deep), muscle key (section 4).
+### 1.2 Kinds and budgets (sample numbers)
 
-The source meshes are smooth. They have no fibre texture. Add a simple procedural fibre normal map later if wanted. Do not promise the sculpted look of paid models.
+| Kind | Z-Anatomy collection | Sample triangles | Notes |
+|---|---|---|---|
+| muscle | 4: Muscular system | 418k | Skip bursae, sheaths, septa, ligaments, fascia except thoracolumbar fascia, iliotibial tract, aponeuroses, retinacula, linea alba |
+| tendon | same, tendon-like names | 50k | Ivory colour, own material |
+| bone | 1: Skeletal system | 72k | |
+| organ | 8: Visceral systems | 97k | Digestive, respiratory, urinary, genital, endocrine |
+| vessel | 5: Cardiovascular system | 186k | Includes heart chambers and valves. Curves converted to meshes. Decimated per part. |
+| nerve | 7: Nervous system & Sense organs | 216k | Brain, spinal cord, nerves, eyes, ears. Decimated per part. |
+| lymph | 6: Lymphoid organs | 38k | |
+| joint | 3: Joints | 57k | Ligaments, cartilage, discs |
+| skin | MakeHuman `body` + eye helpers | 27k | One per sex, same topology |
 
-## 2. Rig (M2)
+Phone budget: first load ≤ 10 MB compressed. Muscles, tendons, bones, skin and organs load first; vessels, nerves, lymph and joints load on first use.
+
+### 1.3 Pipeline steps
+
+1. Export per part from Blender: evaluated mesh with subdivision off, decimate by kind, triangulate, world transform, flip winding when the matrix determinant is negative. Convert to metres, Y up, +Z front.
+2. Outward normals: flip a part whose normals point mostly toward its own centre.
+3. Fibre field (muscle, tendon): principal axis by PCA; ends = 6% tails; narrower end = tendon. Per-vertex fibre direction = weighted blend of (vertex − origin end) and (insertion end − vertex). Across-fibre coordinate: angle around the long axis × mean radius (spindle muscles) or angle around the tendon end in the sheet plane (flat or fan muscles). Stored per vertex.
+4. Rectus sheath: delete oblique and transversus triangles that lie within 3.5 cm in front of rectus abdominis (atlas convention, so the rectus shows).
+5. Depth layers (muscle, tendon): repeat: a vertex is covered if a ray along its normal hits any remaining soft part or bone (not itself) within 0.5 m; parts with ≥ 16% uncovered vertices get the next layer; remove them; continue up to 6. Then apply `layer_overrides.json` (part, layer, reason). Seed overrides: rectus abdominis 1, pyramidalis 1.
+6. Ambient occlusion per vertex: 24–32 hemisphere rays against all anatomy (skin excluded), reach 5 cm.
+7. MakeHuman bodies: base mesh + blended targets per sex. Place: scale male to anatomy height, feet on the floor, hip centre on anatomy hip centre. Pose with linear blend skinning on the game rig: spine (L4→C7), neck (C7→C1), head (C1→vertex), then upper arm, forearm, thigh, calf to Z-Anatomy joint landmarks taken from bone ends (humerus, radius, femur, tibia). Skin keeps its shape after posing; it is never pulled onto the muscles.
+8. Female anatomy: D = female skin − male skin (posed, same topology). Smooth D lightly; replace it with a heavily smoothed D in the breast region. Each anatomy vertex moves by the inverse-distance-weighted D of its 10 nearest male skin vertices.
+9. Sex-specific parts. Male only: penis, testes, epididymis, ductus deferens, seminal glands, prostate, male urethra. Female only (generated, `simplified: true`): uterus, ovaries, uterine tubes, vagina, placed from the warped bladder; mammary gland and breast fat from the female skin bump over the chest, offset 4 mm inward. External genitalia are hidden while the skin is opaque.
+10. Names: plain base name (side suffix removed), side, region (from collection ancestry, then name rules, then height for organs), system, colour, layer, sex, `ext`, `simplified`.
+11. Pack: positions as uint16 within the body box (one set per sex), normals and fibre direction as int8, across-fibre as int16, part id as uint16, AO as uint8, indices as uint32; gzip. The viewer decompresses with `DecompressionStream`.
+
+Tests (pytest): part counts per kind within ±5% of the sample; no label object exported; every muscle has a layer 1–6; male-only parts absent from the female part list and the reverse; female height 1.54–1.62 m when male is 1.70–1.72 m; no NaN; data size budget.
+
+### 1.4 Shading
+
+| Kind | Look |
+|---|---|
+| Muscle | Deep red, per-part tint, wet clearcoat, sheen, anisotropy along fibres, fine fibres + fascicle bundles from the fibre field, faded by screen derivative to avoid shimmer |
+| Tendon, fascia | Ivory, glossier, fine striation |
+| Bone | Ivory, matte |
+| Organs, vessels, nerves, lymph, ligaments | Per-part colour from data, wet sheen |
+| Skin | Tone swatches (light, medium, dark), soft sheen, no clearcoat |
+| All | Baked AO, studio key + rim + fill, environment light, ACES tone mapping, teal backdrop, contact shadow |
+
+## 1A. Body page
+
+| Control | Behaviour |
+|---|---|
+| Male / Female | Swaps positions and normals; same part ids. Male-only and female-only parts follow the profile. |
+| Depth slider | Skin → Outer → 2 … 6 → Bones. Skin: only the skin draws. Outer…6: muscles at that layer and deeper. Bones: no muscles. |
+| See-through skin | Skin at about 30% over whatever is shown |
+| Ghost peeled | Faint fresnel shell of peeled muscles; off at the Skin step |
+| Show (systems) | Organs, Heart and vessels, Brain and nerves, Lymphatic, Ligaments and cartilage, Skeleton |
+| Colour | Natural / by layer (legend) / by system (legend) |
+| Labels | GPU id pass: per visible part pixel area and nearest-own-pixel anchor; top 14 (desktop) or 6 (phone) as left/right columns with leader lines; redraw when the camera stops. Tap a label to select. |
+| List | Tabs: Muscles, Organs, Bones, Vessels, Nerves, Lymph, Ligaments. Muscles and bones grouped by region, others by system. Search across all. Peeled rows dimmed. |
+| Part card | Name, kind, region, side, layer or system, "simplified" note, facts with sources (R2), Isolate, Hide, Zoom to it, Show hidden |
+| Select from list | Peels to the part's layer or turns its system on, then zooms |
+| Default hidden | Greater and lesser omentum, mesocolon, pleura (they cover the organs); listed so the user can show them |
+| Phone (< 760 px) | Bottom sheet, collapsed to the depth slider by default, opens to 72% height. Canvas sized above the collapsed sheet. Compact scrolling top bar. No title. |
+
+Facts on the card come from `facts.json` (part id → short facts, each with a source). R2 fills the 100 most-viewed parts; the rest show the name only.
+
+## 2. Rig (R3)
+
+v5: the MakeHuman game skeleton fitted in pipeline step 7 (section 1.3) drives skin and anatomy for both sexes. The joint table below gives the landmarks the fit and the limits use. Skin uses MakeHuman's own weights; anatomy uses the rules below.
 
 Joints, located from the bone meshes, not typed in by hand:
 
@@ -54,7 +107,9 @@ Skinning:
 
 Feet: when standing, feet are planted by two-bone IK. Moving the pelvis bends hips, knees and ankles together. A foot becomes free when the user drags it.
 
-## 3. Interaction (M2)
+## 3. Interaction (R3)
+
+Phone rule for every screen: the body is never covered. Controls live in a bottom sheet that starts collapsed (SPEC 1A).
 
 | Input | Result |
 |---|---|
@@ -70,7 +125,7 @@ Feet: when standing, feet are planted by two-bone IK. Moving the pelvis bends hi
 
 Keyframes: a movement is two or more poses. The editor shows the keyframes on a strip. Select one, edit joints, play the blend. This is the "animation studio" control.
 
-## 4. Effort engine (M3)
+## 4. Effort engine (R4)
 
 Pure function. No rendering. Fully unit-tested.
 
@@ -111,7 +166,7 @@ Must-pass checks:
 
 Limits to state in the app: the engine is static. It ignores speed, momentum, fatigue, and individual differences. Levels are estimates, not lab measurements.
 
-## 5. Exercises (M4)
+## 5. Exercises (R5)
 
 Record:
 ```
@@ -130,7 +185,7 @@ Honest target: 50 hand-reviewed, 300+ generated at first release, growing toward
 
 Equipment: real models (flat and adjustable bench, rack, barbell and plates, dumbbells, kettlebell, cable column, lat machine, leg press, leg extension and curl, pull-up rig, box, mat). CC0 sources or built in Blender. No placeholder boxes in a reviewed exercise.
 
-## 6. Task builder (M5)
+## 6. Task builder (R5)
 
 | Step | Options |
 |---|---|
@@ -144,7 +199,7 @@ Equipment: real models (flat and adjustable bench, rack, barbell and plates, dum
 
 Outputs: per-muscle effort, lower-back moment in Nm with a low/medium/high band, balance warning when the centre of mass leaves the feet.
 
-## 7. My model (M6)
+## 7. My model (R6)
 
 Profile: sex (male or female, asked on first launch), height, body mass. Stored on the phone only. Sex selects the pelvic-floor and sexual-health programs in section 10. It can be changed later in My model.
 
@@ -181,6 +236,8 @@ Fat:
 
 ## 8. Architecture
 
+v5 pages: `src/ui/body/` (Body page), `src/ui/workouts/` (exercises, tasks, move, programs), `src/ui/me/`. Body data loader in `src/body/`. Pipeline in `tools/pipeline/`; reference sample in `tools/sample/`.
+
 ```
 src/
   body/      load glTF, parts index, layers, picking
@@ -199,7 +256,7 @@ Rules: the engine is a pure module with tests. Data lives in JSON, not in code. 
 
 Plan builder (balances weekly volume per muscle using engine output), workout log and progression, camera form check (phone pose detection compared with keyframes and `formChecks`), food photo log (draft from a vision model, user corrects, daily total against a target).
 
-## 10. Programs (M6b)
+## 10. Programs (R6)
 
 A program is an ordered list of exercises with a dose. Every item is a normal Exercise record (section 5), so it plays on the body and the engine shows the muscles.
 
@@ -272,7 +329,7 @@ Asked for as "longevity and keeping an erection longer". Read this as long-term 
 Rules:
 - No exercise makes the penis longer or larger. Say so. Do not include jelqing, stretching devices or supplements.
 - Erection problems that last can be an early sign of heart, blood-vessel or blood-sugar disease. The app says see a doctor.
-- The muscles most involved (bulbospongiosus, ischiocavernosus) are not in the BodyParts3D part list. Show the region, or add simple meshes, and say which.
+- The muscles most involved (bulbospongiosus, ischiocavernosus) are not in Z-Anatomy either (PLAN section 10). Show the region, or add simple meshes, and say which.
 
 ### 10.5 Sexual health, female
 
@@ -284,7 +341,7 @@ Rules:
 
 Rules:
 - During pregnancy and after birth: the app says check with a clinician before starting.
-- The body shown is male anatomy (see PLAN risk R9). Say so on this screen until a female model exists.
+- The female body is the warped female model (PLAN D4). Female reproductive organs are simplified shapes; the card says so.
 
 ### 10.6 Presentation
 
