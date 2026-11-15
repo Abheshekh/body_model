@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { partIdsByName, type Part } from '../body/model';
+import type { Manifest } from '../body/load';
+import { PELVIC_FLOOR, highlightPlan } from '../body/model';
 import type { Program, ProgramsFile } from './programs';
 
 // Read lazily so a missing file fails every test, not the whole module.
@@ -11,9 +12,12 @@ const get = (id: string): Program => {
   if (!p) throw new Error(`program ${id} missing in programs.json`);
   return p;
 };
-const parts = (): Part[] => read('parts.json').parts;
+const parts = () => (read('body/manifest.json') as Manifest).parts;
+const resolve = (names: string[]) => highlightPlan(parts(), names, () => 0);
 
-const PELVIC = ['pubococcygeus', 'puborectalis', 'iliococcygeus', 'coccygeus', 'external anal sphincter'];
+// R1 plain names (§2b.14). puborectalis → Pubo-analis muscle: the closest Z-Anatomy part of the levator ani.
+const PELVIC = ['Pubococcygeus muscle', 'Pubo-analis muscle', 'Iliococcygeus muscle', 'Coccygeus muscle', 'External anal sphincter'];
+const FEMALE_NOTE = 'Female anatomy here is adapted from the male model; pelvic organs are simplified.';
 const IDS = ['posture-correction', 'anterior-pelvic-tilt', 'pelvic-floor', 'sexual-health-male', 'sexual-health-female'];
 const LABELS = ['strong', 'moderate', 'weak', 'convention'];
 const FORBIDDEN = /jelq|enlarg|lengthen the penis|supplement|stop(ping)? (the )?(urine|flow)/i;
@@ -24,14 +28,14 @@ describe('programs.json', () => {
   });
   it('resolves the five pelvic-floor names', () => {
     load(); // the file must exist before the names are checked
-    const r = partIdsByName(parts(), PELVIC);
+    expect(PELVIC_FLOOR).toEqual(PELVIC);
+    const r = resolve(PELVIC);
     expect(r.missing).toEqual([]);
     expect(r.ids.length).toBeGreaterThanOrEqual(5);
   });
-  it('resolves every target name', () => {
-    const ps = parts();
+  it('resolves every target name against the manifest', () => {
     for (const p of load().programs)
-      for (const i of p.items) expect(partIdsByName(ps, i.targets.parts).missing, `${p.id}/${i.id}`).toEqual([]);
+      for (const i of p.items) expect(resolve(i.targets.parts).missing, `${p.id}/${i.id}`).toEqual([]);
   });
   it('pelvic-floor items use record targets with the five names', () => {
     for (const i of get('pelvic-floor').items) {
@@ -78,9 +82,12 @@ describe('programs.json', () => {
   it('male program has the not-in-model note', () => {
     expect(get('sexual-health-male').notes.some((n) => n.includes('not in this anatomy model'))).toBe(true);
   });
-  it('female and pelvic-floor programs have the male-anatomy note', () => {
-    for (const id of ['sexual-health-female', 'pelvic-floor'])
-      expect(get(id).notes).toContain('The body shown is male anatomy.');
+  it('female program has the female-anatomy note; no program has the old male-anatomy note', () => {
+    expect(get('sexual-health-female').notes).toContain(FEMALE_NOTE);
+    for (const p of load().programs) expect(p.notes, p.id).not.toContain('The body shown is male anatomy.');
+  });
+  it('side-lying hip abduction notes that tensor fasciae latae is not in the model', () => {
+    expect(get('posture-correction').notes).toContain('Tensor fasciae latae is not in this anatomy model.');
   });
   it('items are not animated and cite claims from their own program', () => {
     for (const p of load().programs) {

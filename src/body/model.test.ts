@@ -1,77 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { PELVIC_FLOOR, fitDistance, flyDistance, highlightPlan, layerOf, mixColor, parseLayersParam, partIdsByName, searchParts, viewOffset, visibleFraction, type Kind, type Part } from './model';
-
-const mk = (id: string, name: string, plainName: string, kind: Kind, layer: Part['layer'] = null): Part => ({
-  id, name, plainName, kind, side: 'center', layer, muscleKey: null, triangles: 1, center: [0, 0, 0],
-});
-
-describe('layerOf', () => {
-  it('maps every kind', () => {
-    expect(layerOf(mk('a', 'skin', 'Skin', 'skin'))).toBe('skin');
-    expect(layerOf(mk('a', 'liver', 'Liver', 'organ'))).toBe('organs');
-    expect(layerOf(mk('a', 'femur', 'Femur', 'bone'))).toBe('skeleton');
-    expect(layerOf(mk('a', 'x cartilage', 'X', 'cartilage'))).toBe('skeleton');
-    expect(layerOf(mk('a', 'm', 'M', 'muscle', 'superficial'))).toBe('superficialMuscles');
-    expect(layerOf(mk('a', 'm', 'M', 'muscle', 'deep'))).toBe('deepMuscles');
-    expect(layerOf(mk('a', 't', 'T', 'tendon', 'superficial'))).toBe('superficialMuscles');
-    expect(layerOf(mk('a', 't', 'T', 'tendon', 'deep'))).toBe('deepMuscles');
-  });
-});
-
-describe('searchParts', () => {
-  const parts = [
-    mk('1', 'left femur', 'Thigh bone (femur), left', 'bone'),
-    mk('2', 'left biceps brachii', 'Biceps, left', 'muscle', 'superficial'),
-    mk('3', 'right biceps brachii', 'Biceps, right', 'muscle', 'superficial'),
-    mk('4', 'biceps femoris tendon', 'Hamstrings (biceps femoris) tendon', 'tendon', 'deep'),
-    mk('5', 'skin', 'Skin', 'skin'),
-    mk('6', 'biceps bone', 'Biceps bone', 'bone'),
-  ];
-  it('empty query returns nothing', () => {
-    expect(searchParts(parts, '')).toEqual([]);
-    expect(searchParts(parts, '   ')).toEqual([]);
-  });
-  it('puts muscles first and finds both sides', () => {
-    const r = searchParts(parts, 'biceps');
-    expect(r.map((p) => p.id)).toEqual(['4', '2', '3', '6']);
-  });
-  it('matches multiple tokens', () => {
-    expect(searchParts(parts, 'brachii left').map((p) => p.id)).toEqual(['2']);
-  });
-  it('never returns skin', () => {
-    expect(searchParts(parts, 'skin')).toEqual([]);
-  });
-  it('respects the limit', () => {
-    expect(searchParts(parts, 'biceps', 2)).toHaveLength(2);
-  });
-  it('returns [] when nothing matches', () => {
-    expect(searchParts(parts, 'zzz')).toEqual([]);
-  });
-});
-
-describe('mixColor', () => {
-  it('level 0 gives base and 1 gives target', () => {
-    expect(mixColor(0x102030, 0xffffff, 0)).toBe(0x102030);
-    expect(mixColor(0x102030, 0xffffff, 1)).toBe(0xffffff);
-  });
-  it('mixes at the midpoint with rounding', () => {
-    expect(mixColor(0x000000, 0x010101, 0.5)).toBe(0x010101);
-    expect(mixColor(0x000000, 0xff0000, 0.5)).toBe(0x800000);
-  });
-  it('clamps the level', () => {
-    expect(mixColor(0x102030, 0xffffff, -1)).toBe(0x102030);
-    expect(mixColor(0x102030, 0xffffff, 2)).toBe(0xffffff);
-  });
-});
-
-describe('parseLayersParam', () => {
-  it('null gives null', () => {
-    expect(parseLayersParam(null)).toBeNull();
-  });
-  it('keeps only known keys', () => {
-    expect(parseLayersParam('skin,bogus')).toEqual(new Set(['skin']));
-  });
-});
+import type { Part as BodyPart } from './load';
+import { PELVIC_FLOOR, fitDistance, flyDistance, highlightPlan, viewOffset, visibleFraction } from './model';
 
 describe('flyDistance', () => {
   it('floors at 0.35', () => {
@@ -79,24 +8,6 @@ describe('flyDistance', () => {
   });
   it('scales with radius', () => {
     expect(flyDistance(1, 30)).toBeCloseTo(4.636, 3);
-  });
-});
-
-describe('partIdsByName', () => {
-  const parts = [
-    mk('1', 'left coccygeus', 'Coccygeus, left', 'muscle', 'deep'),
-    mk('2', 'right coccygeus', 'Coccygeus, right', 'muscle', 'deep'),
-    mk('3', 'external anal sphincter', 'External anal sphincter', 'muscle', 'deep'),
-    mk('4', 'coccygeus tendon', 'Other', 'tendon', 'deep'),
-  ];
-  it('matches both sides', () => {
-    expect(partIdsByName(parts, ['coccygeus']).ids).toEqual(['1', '2']);
-  });
-  it('matches an exact name', () => {
-    expect(partIdsByName(parts, ['external anal sphincter']).ids).toEqual(['3']);
-  });
-  it('reports unknown names as missing', () => {
-    expect(partIdsByName(parts, ['coccygeus', 'nope'])).toEqual({ ids: ['1', '2'], missing: ['nope'] });
   });
 });
 
@@ -131,42 +42,51 @@ describe('fitDistance', () => {
 });
 
 describe('highlightPlan', () => {
-  const at = (p: Part, z: number): Part => ({ ...p, center: [0, 0, z] });
-  const parts = [
-    at(mk('a', 'left rectus abdominis', 'Abs', 'muscle', 'superficial'), 0.1),
-    at(mk('b', 'transversus abdominis', 'TA', 'muscle', 'deep'), 0.08),
-    at(mk('c', 'pubococcygeus', 'PC', 'muscle', 'deep'), 0),
-    at(mk('d', 'left gluteus maximus', 'Glute', 'muscle', 'superficial'), -0.1),
-    at(mk('e', 'left femur', 'Femur', 'bone'), 0),
-  ];
-  it('deep only target sees through superficial', () => {
-    const r = highlightPlan(parts, ['transversus abdominis']);
-    expect(r.layers).toEqual(['deepMuscles']);
-    expect(r.seeThroughSuperficial).toBe(true);
-    expect(r.pelvic).toBe(false);
+  const bp = (id: number, plain: string, kind: string, layer: number | null): BodyPart => ({
+    id, name: plain, plain, side: 'center', kind, region: '', system: '', colour: '#ffffff', layer,
+    sex: 'both', ext: false, simplified: false, defaultHidden: false, pack: kind,
   });
-  it('superficial front target', () => {
-    const r = highlightPlan(parts, ['rectus abdominis']);
-    expect(r.ids).toEqual(['a']);
-    expect(r.seeThroughSuperficial).toBe(false);
+  const parts = [
+    bp(0, 'Rectus abdominis muscle', 'muscle', 1),
+    bp(1, 'Rectus abdominis muscle', 'muscle', 1),
+    bp(2, 'Transversus abdominis muscle', 'muscle', 3),
+    bp(3, 'Pubococcygeus muscle', 'muscle', 4),
+    bp(4, 'Gluteus maximus muscle', 'muscle', 1),
+    bp(5, 'Femur', 'bone', null),
+  ];
+  const z: Record<number, number | null> = { 0: 0.1, 1: 0.1, 2: 0.08, 3: 0, 4: -0.1, 5: null };
+  const centreZ = (id: number) => z[id];
+  it('both sides share a plain name', () => {
+    const r = highlightPlan(parts, ['Rectus abdominis muscle'], centreZ);
+    expect(r.ids).toEqual([0, 1]);
+    expect(r.depth).toBe(1);
     expect(r.facing).toBe('front');
   });
+  it('depth is the min layer of the muscle targets', () => {
+    expect(highlightPlan(parts, ['Transversus abdominis muscle'], centreZ).depth).toBe(3);
+    expect(highlightPlan(parts, ['Transversus abdominis muscle', 'Rectus abdominis muscle'], centreZ).depth).toBe(1);
+    expect(highlightPlan(parts, ['Femur'], centreZ).depth).toBeNull();
+  });
   it('posterior target faces back', () => {
-    expect(highlightPlan(parts, ['gluteus maximus']).facing).toBe('back');
+    expect(highlightPlan(parts, ['Gluteus maximus muscle'], centreZ).facing).toBe('back');
   });
   it('pelvic floor list', () => {
-    const r = highlightPlan(parts, PELVIC_FLOOR);
+    const r = highlightPlan(parts, PELVIC_FLOOR, centreZ);
     expect(r.pelvic).toBe(true);
-    expect(r.seeThroughSuperficial).toBe(false);
-    expect(r.missing).toEqual(['puborectalis', 'iliococcygeus', 'coccygeus', 'external anal sphincter']);
+    expect(r.ids).toEqual([3]);
+    expect(r.missing).toEqual(['Pubo-analis muscle', 'Iliococcygeus muscle', 'Coccygeus muscle', 'External anal sphincter']);
+  });
+  it('a non-pelvic name in the list is not pelvic', () => {
+    expect(highlightPlan(parts, ['Pubococcygeus muscle', 'Gluteus maximus muscle'], centreZ).pelvic).toBe(false);
   });
   it('empty names', () => {
-    const r = highlightPlan(parts, []);
+    const r = highlightPlan(parts, [], centreZ);
     expect(r.ids).toEqual([]);
     expect(r.pelvic).toBe(false);
+    expect(r.depth).toBeNull();
     expect(r.facing).toBe('front');
   });
   it('unknown name', () => {
-    expect(highlightPlan(parts, ['nope']).missing).toEqual(['nope']);
+    expect(highlightPlan(parts, ['nope'], centreZ).missing).toEqual(['nope']);
   });
 });

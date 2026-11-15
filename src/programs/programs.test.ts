@@ -35,17 +35,24 @@ describe('visiblePrograms / canOpen', () => {
 
 describe('parseRoute', () => {
   it('routes programs with an id', () => {
-    expect(parseRoute('#programs/pelvic-floor')).toEqual({ screen: 'programs', programId: 'pelvic-floor' });
+    expect(parseRoute('#workouts/programs/pelvic-floor')).toEqual({ screen: 'programs', programId: 'pelvic-floor' });
   });
-  it('routes the list, profile, credits', () => {
-    expect(parseRoute('#programs')).toEqual({ screen: 'programs' });
-    expect(parseRoute('#profile')).toEqual({ screen: 'profile' });
-    expect(parseRoute('#credits')).toEqual({ screen: 'credits' });
+  it('routes workouts, the programs list, me, credits', () => {
+    expect(parseRoute('#workouts')).toEqual({ screen: 'workouts' });
+    expect(parseRoute('#workouts/programs')).toEqual({ screen: 'programs' });
+    expect(parseRoute('#workouts/programs/')).toEqual({ screen: 'programs' });
+    expect(parseRoute('#me')).toEqual({ screen: 'me' });
+    expect(parseRoute('#me/credits')).toEqual({ screen: 'credits' });
   });
-  it('defaults to explore', () => {
-    expect(parseRoute('')).toEqual({ screen: 'explore' });
-    expect(parseRoute('#')).toEqual({ screen: 'explore' });
-    expect(parseRoute('#nonsense')).toEqual({ screen: 'explore' });
-    expect(parseRoute('#programs/')).toEqual({ screen: 'programs' });
+  it('defaults to body', () => {
+    expect(parseRoute('#body')).toEqual({ screen: 'body' });
+    expect(parseRoute('')).toEqual({ screen: 'body' });
+    expect(parseRoute('#')).toEqual({ screen: 'body' });
+    expect(parseRoute('#nonsense')).toEqual({ screen: 'body' });
+  });
+  it('old M1 routes are unknown now', () => {
+    expect(parseRoute('#programs/pelvic-floor')).toEqual({ screen: 'body' });
+    expect(parseRoute('#profile')).toEqual({ screen: 'body' });
+    expect(parseRoute('#credits')).toEqual({ screen: 'body' });
   });
 });

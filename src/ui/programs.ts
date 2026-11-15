@@ -1,5 +1,6 @@
 import { highlightPlan, type Inset } from '../body/model';
-import { clearHighlights, setPartColor, type Viewer } from '../body/viewer';
+import type { BodyViewer } from '../body/scene';
+import type { Depth } from '../body/state';
 import { confirmAdult, isAdultConfirmed, type Profile } from '../me/profile';
 import { canOpen, visiblePrograms, type Claim, type Item, type Program, type ProgramsFile } from '../programs/programs';
 
@@ -13,16 +14,21 @@ const h = (tag: string, cls = '', text = ''): HTMLElement => {
 };
 const back = () => {
   const a = h('a', 'back', '← Programs') as HTMLAnchorElement;
-  a.href = '#programs';
+  a.href = '#workouts/programs';
   return a;
 };
 
-export function mountPrograms(root: HTMLElement, viewer: Viewer | null, profile: Profile, programId?: string): () => void {
+const FEMALE_NOTE = 'Female anatomy here is adapted from the male model; pelvic organs are simplified.';
+
+export function mountPrograms(root: HTMLElement, viewer: BodyViewer | null, profile: Profile, programId?: string): () => void {
   let disposed = false;
   let pelvic = false;
+  // Programs restore the Body page state on dispose and show the profile's sex while mounted (§2b.16)
+  const snapshot = viewer?.state;
+  if (viewer && viewer.state.sex !== profile.sex) viewer.setState({ sex: profile.sex });
   const sheet = h('section', 'sheet programs');
   sheet.setAttribute('aria-label', 'Programs');
-  const banner = h('div', 'banner sheet-banner', 'The body shown is male anatomy.');
+  const banner = h('div', 'banner sheet-banner', FEMALE_NOTE);
   banner.hidden = true;
   const body = h('div', '', 'Loading…');
   const handle = h('button', 'sheet-handle') as HTMLButtonElement;
@@ -30,17 +36,21 @@ export function mountPrograms(root: HTMLElement, viewer: Viewer | null, profile:
   sheet.append(handle, banner, body);
   root.replaceChildren(sheet);
 
-  // the viewer centres the body in the canvas area not under the nav, the Explore toolbar or the sheet
+  // the viewer centres the body in the canvas area not under any displayed fixed bar (top nav on wide,
+  // bottom tab bar on phone) or the sheet; insets are measured against the canvas
   const applyInset = () => {
-    if (!viewer) return;
-    let top = 0;
-    for (const el of document.querySelectorAll<HTMLElement>('.nav, .explore .toolbar')) {
-      if (getComputedStyle(el).display !== 'none' && !el.closest('[hidden]')) top = Math.max(top, el.getBoundingClientRect().bottom);
+    const canvas = document.querySelector('.body-stage canvas');
+    if (!viewer || !canvas) return;
+    const c = canvas.getBoundingClientRect();
+    const inset: Inset = { top: 0, right: 0, bottom: 0, left: 0 };
+    for (const el of [...document.querySelectorAll<HTMLElement>('.nav'), sheet]) {
+      if (getComputedStyle(el).display === 'none' || el.closest('[hidden]')) continue;
+      const r = el.getBoundingClientRect();
+      if (r.bottom <= c.top || r.top >= c.bottom || r.right <= c.left || r.left >= c.right) continue;
+      if (r.left > c.left + 1) inset.right = Math.max(inset.right, c.right - r.left); // side panel
+      else if (r.top <= c.top) inset.top = Math.max(inset.top, r.bottom - c.top);
+      else inset.bottom = Math.max(inset.bottom, c.bottom - r.top);
     }
-    const r = sheet.getBoundingClientRect();
-    const inset: Inset = innerWidth < 900
-      ? { top, right: 0, bottom: innerHeight - r.top, left: 0 }
-      : { top, right: innerWidth - r.left, bottom: 0, left: 0 };
     viewer.setViewInset(inset);
   };
   const setPeek = (on: boolean) => {
@@ -57,33 +67,35 @@ export function mountPrograms(root: HTMLElement, viewer: Viewer | null, profile:
   addEventListener('resize', applyInset);
   applyInset();
 
-  const leavePelvic = () => {
-    if (!viewer || !pelvic) return;
-    viewer.setPelvicView(false);
-    viewer.setView('front');
-    pelvic = false;
+  const centreZ = (id: number) => {
+    const b = viewer?.bounds(id);
+    return b ? (b.min.z + b.max.z) / 2 : null;
   };
 
   const select = (prog: Program, item: Item, row: HTMLElement) => {
     for (const r of body.querySelectorAll('.item.active')) r.classList.remove('active');
     row.classList.add('active');
-    banner.hidden = prog.audience !== 'female';
+    const female = profile.sex === 'female';
+    banner.hidden = !female || prog.audience !== 'female';
     if (!viewer) return;
-    const plan = highlightPlan(viewer.parts, item.targets.parts);
+    const plan = highlightPlan(viewer.parts, item.targets.parts, centreZ);
     for (const n of plan.missing) console.warn(`Programs: unknown target "${n}" in ${prog.id}/${item.id}`);
-    clearHighlights();
+    const s = viewer.state;
+    const systems = new Set(s.systems).add('skeleton');
     if (plan.pelvic) {
-      // full opacity first: setPelvicView snapshots the state it restores later
-      viewer.setLayerOpacity('superficialMuscles', 1);
-      viewer.setPelvicView(true, plan.ids);
+      // pelvic floor from below: bones with the pelvic-floor muscles isolated (§2b.3), as R0
+      viewer.setState({ depth: 'bones', isolate: new Set(plan.ids), systems });
+      viewer.setView('below');
       pelvic = true;
-      banner.hidden = false;
+      banner.hidden = !female;
     } else {
-      leavePelvic();
-      for (const k of plan.layers) if (!viewer.isLayerVisible(k)) viewer.setLayerVisible(k, true);
-      viewer.setLayerOpacity('superficialMuscles', plan.seeThroughSuperficial ? 0.35 : 1);
+      // peel to the min layer of the targets instead of R0's see-through; keep a depth that already shows them
+      const shows = typeof s.depth === 'number' && plan.depth !== null && s.depth <= plan.depth;
+      viewer.setState({ isolate: null, systems, ...(plan.depth !== null && !shows ? { depth: plan.depth as Depth } : {}) });
+      if (pelvic) viewer.setView('front');
+      pelvic = false;
     }
-    for (const id of plan.ids) setPartColor(id, '#ffd400', 1);
+    viewer.setHighlight(plan.ids, '#ffd400');
     if (matchMedia('(max-width: 899px)').matches) setPeek(true);
     applyInset(); // synchronous: measures the sheet right after the peek toggle
     if (!plan.pelvic && plan.ids.length) viewer.frameIds(plan.ids, plan.facing);
@@ -150,7 +162,7 @@ export function mountPrograms(root: HTMLElement, viewer: Viewer | null, profile:
   const showDetail = (prog: Program) => {
     const out: HTMLElement[] = [back(), h('h1', '', prog.title), h('p', 'muted', 'Education, not treatment. Pain, numbness or a lasting problem: see a clinician.')];
     if (!viewer) out.push(h('p', 'notice', 'The body could not be loaded, so highlights are off.'));
-    // the sticky banner is the single place the male-anatomy note shows
+    // the sticky banner is the single place the female-anatomy note shows
     for (const n of prog.notes) if (n !== banner.textContent) out.push(h('p', 'notice', n));
     if (prog.cautions.length) {
       out.push(h('h2', '', 'Cautions'));
@@ -177,7 +189,7 @@ export function mountPrograms(root: HTMLElement, viewer: Viewer | null, profile:
     const yes = h('button', 'primary', 'I am 18 or over') as HTMLButtonElement;
     const no = h('button', '', 'Back') as HTMLButtonElement;
     yes.addEventListener('click', () => { confirmAdult(); showDetail(prog); });
-    no.addEventListener('click', () => { location.hash = '#programs'; });
+    no.addEventListener('click', () => { location.hash = '#workouts/programs'; });
     const row = h('div', 'actions');
     row.append(yes, no);
     body.replaceChildren(back(), h('h1', '', prog.title), h('p', '', 'This program covers sexual health. Confirm you are 18 or over.'), row);
@@ -188,7 +200,7 @@ export function mountPrograms(root: HTMLElement, viewer: Viewer | null, profile:
       const ul = h('ul', 'program-list');
       for (const p of visiblePrograms(programs, profile)) {
         const a = h('a', 'program-row') as HTMLAnchorElement;
-        a.href = `#programs/${p.id}`;
+        a.href = `#workouts/programs/${p.id}`;
         a.append(h('span', 'item-name', p.title), h('span', 'muted', `${p.items.length} exercises`));
         const li = h('li');
         li.append(a);
@@ -222,13 +234,11 @@ export function mountPrograms(root: HTMLElement, viewer: Viewer | null, profile:
     disposed = true;
     observer.disconnect();
     removeEventListener('resize', applyInset);
-    if (viewer) {
-      clearHighlights();
-      const wasPelvic = pelvic;
-      viewer.setPelvicView(false);
-      if (wasPelvic) viewer.setView('front');
+    if (viewer && snapshot) {
+      viewer.clearHighlight();
+      viewer.setState(snapshot);
+      if (pelvic) viewer.setView('front');
       pelvic = false;
-      viewer.setLayerOpacity('superficialMuscles', 1);
       viewer.setViewInset({ top: 0, right: 0, bottom: 0, left: 0 });
     }
     root.replaceChildren();

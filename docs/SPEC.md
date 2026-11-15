@@ -62,7 +62,7 @@ Tests (unittest): part counts per kind within ±5% of the sample; no label objec
 
 | Control | Behaviour |
 |---|---|
-| Male / Female | Swaps positions and normals; same part ids. Male-only and female-only parts follow the profile. |
+| Male / Female | Swaps positions and normals; same part ids. Sex-only parts follow the viewed sex (the switch is a view toggle initialised from the profile). |
 | Depth slider | Skin → Outer → 2 … 6 → Bones. Skin: only the skin draws. Outer…6: muscles at that layer and deeper. Bones: no muscles. |
 | See-through skin | Skin at about 30% over whatever is shown |
 | Ghost peeled | Faint fresnel shell of peeled muscles; off at the Skin step |
@@ -73,9 +73,9 @@ Tests (unittest): part counts per kind within ±5% of the sample; no label objec
 | Part card | Name, kind, region, side, layer or system, "simplified" note, facts with sources (R2), Isolate, Hide, Zoom to it, Show hidden |
 | Select from list | Peels to the part's layer or turns its system on, then zooms |
 | Default hidden | Greater and lesser omentum, mesocolon, pleura (they cover the organs); listed so the user can show them. They carry `"defaultHidden": true` in the manifest |
-| Phone (< 760 px) | Bottom sheet, collapsed to the depth slider by default, opens to 72% height. Canvas sized above the collapsed sheet. Compact scrolling top bar. No title. |
+| Phone (< 900 px; labels cap at 6 below 760 px) | Bottom sheet, collapsed to the depth slider by default, opens to 72% height. Canvas sized above the collapsed sheet. Compact scrolling top bar. No title. |
 
-Facts on the card come from `facts.json` (part id → short facts, each with a source). R2 fills the 100 most-viewed parts; the rest show the name only.
+Facts on the card come from `facts.json` (plain name → short facts, each with a source; one entry covers left and right). R2 fills the 100 most-viewed parts; the rest show the name only.
 
 ## 2. Rig (R3)
 

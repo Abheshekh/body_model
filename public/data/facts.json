@@ -1,0 +1,1612 @@
+{
+ "sources": [
+  {
+   "title": "OpenStax Anatomy and Physiology 2e",
+   "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/1-introduction",
+   "licence": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 (as stated on the OpenStax pages)",
+   "note": "Facts are short paraphrases for education, not medical advice. Each fact cites the chapter page that covers it. One entry covers both sides of a part."
+  }
+ ],
+ "facts": {
+  "Diaphragm": [
+   {
+    "text": "A dome-shaped sheet of muscle that separates the chest cavity from the abdominal cavity.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.4 Axial Muscles of the Abdominal Wall, and Thorax",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-4-axial-muscles-of-the-abdominal-wall-and-thorax"
+    }
+   },
+   {
+    "text": "It is the main muscle of breathing: it contracts and flattens to draw air into the lungs.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.4 Axial Muscles of the Abdominal Wall, and Thorax",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-4-axial-muscles-of-the-abdominal-wall-and-thorax"
+    }
+   }
+  ],
+  "Rectus abdominis muscle": [
+   {
+    "text": "A paired muscle running down the front of the abdomen, covered by the rectus sheath.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.4 Axial Muscles of the Abdominal Wall, and Thorax",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-4-axial-muscles-of-the-abdominal-wall-and-thorax"
+    }
+   },
+   {
+    "text": "It flexes the trunk, as when sitting up.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.4 Axial Muscles of the Abdominal Wall, and Thorax",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-4-axial-muscles-of-the-abdominal-wall-and-thorax"
+    }
+   }
+  ],
+  "External abdominal oblique muscle": [
+   {
+    "text": "The most superficial of the three layers of the side abdominal wall.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.4 Axial Muscles of the Abdominal Wall, and Thorax",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-4-axial-muscles-of-the-abdominal-wall-and-thorax"
+    }
+   },
+   {
+    "text": "It helps twist the trunk and bend it to the side.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.4 Axial Muscles of the Abdominal Wall, and Thorax",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-4-axial-muscles-of-the-abdominal-wall-and-thorax"
+    }
+   }
+  ],
+  "Internal abdominal oblique muscle": [
+   {
+    "text": "It forms the middle layer of the abdominal wall, beneath the external oblique.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.4 Axial Muscles of the Abdominal Wall, and Thorax",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-4-axial-muscles-of-the-abdominal-wall-and-thorax"
+    }
+   },
+   {
+    "text": "It helps twist the trunk and bend it to the side.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.4 Axial Muscles of the Abdominal Wall, and Thorax",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-4-axial-muscles-of-the-abdominal-wall-and-thorax"
+    }
+   }
+  ],
+  "Transversus abdominis muscle": [
+   {
+    "text": "The deepest layer of the abdominal wall, with fibres running across the abdomen.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.4 Axial Muscles of the Abdominal Wall, and Thorax",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-4-axial-muscles-of-the-abdominal-wall-and-thorax"
+    }
+   },
+   {
+    "text": "It squeezes the abdomen during forceful breathing out, defecation, urination and childbirth.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.4 Axial Muscles of the Abdominal Wall, and Thorax",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-4-axial-muscles-of-the-abdominal-wall-and-thorax"
+    }
+   }
+  ],
+  "External intercostal muscles": [
+   {
+    "text": "Thin muscles between the ribs, on the sides of the chest.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.4 Axial Muscles of the Abdominal Wall, and Thorax",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-4-axial-muscles-of-the-abdominal-wall-and-thorax"
+    }
+   },
+   {
+    "text": "They aid breathing in by raising the ribs.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.4 Axial Muscles of the Abdominal Wall, and Thorax",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-4-axial-muscles-of-the-abdominal-wall-and-thorax"
+    }
+   }
+  ],
+  "Internal intercostal muscles": [
+   {
+    "text": "Muscles between the ribs, nearer the breastbone than the external intercostals.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.4 Axial Muscles of the Abdominal Wall, and Thorax",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-4-axial-muscles-of-the-abdominal-wall-and-thorax"
+    }
+   },
+   {
+    "text": "They help bring the ribs closer together in forced breathing out.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.4 Axial Muscles of the Abdominal Wall, and Thorax",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-4-axial-muscles-of-the-abdominal-wall-and-thorax"
+    }
+   }
+  ],
+  "Sternocleidomastoid muscle": [
+   {
+    "text": "A large neck muscle running from the breastbone and collarbone up to the skull behind the ear.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.3 Axial Muscles of the Head, Neck, and Back",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-3-axial-muscles-of-the-head-neck-and-back"
+    }
+   },
+   {
+    "text": "It rotates and tilts the head, and tilts it forward when both sides act.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.3 Axial Muscles of the Head, Neck, and Back",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-3-axial-muscles-of-the-head-neck-and-back"
+    }
+   }
+  ],
+  "Descending part of trapezius muscle": [
+   {
+    "text": "A broad muscle of the upper back, attached to the skull, spine, collarbone and shoulder blade.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   },
+   {
+    "text": "It raises the shoulders (shrugging) and pulls the shoulder blades together.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   }
+  ],
+  "Latissimus dorsi muscle": [
+   {
+    "text": "A broad, triangular muscle on the lower part of the back.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   },
+   {
+    "text": "It is one of the muscles that move the arm downward at the shoulder.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   }
+  ],
+  "Rhomboid major muscle": [
+   {
+    "text": "A muscle between the spine and the shoulder blade, attached to vertebrae T2 to T5.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   },
+   {
+    "text": "It steadies the shoulder blade and pulls it toward the spine.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   }
+  ],
+  "Rhomboid minor muscle": [
+   {
+    "text": "A small muscle between the spine and the shoulder blade, attached to vertebrae C7 and T1.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   },
+   {
+    "text": "It steadies the shoulder blade and pulls it toward the spine.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   }
+  ],
+  "Serratus anterior muscle": [
+   {
+    "text": "A muscle on the side of the chest attached to the upper ribs and the shoulder blade.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   },
+   {
+    "text": "It brings the arm forward from the side of the body and assists breathing in.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   }
+  ],
+  "Pectoralis minor muscle": [
+   {
+    "text": "A thin muscle on the upper chest that attaches the ribs to the coracoid process of the shoulder blade.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   },
+   {
+    "text": "It draws the shoulder forward and assists breathing in.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   }
+  ],
+  "Supraspinatus muscle": [
+   {
+    "text": "One of the four rotator cuff muscles, above the spine of the shoulder blade.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   },
+   {
+    "text": "It helps lift the arm out to the side.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   }
+  ],
+  "Infraspinatus muscle": [
+   {
+    "text": "A rotator cuff muscle on the back of the shoulder blade, below its spine.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   },
+   {
+    "text": "It turns the arm outward at the shoulder.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   }
+  ],
+  "Teres minor muscle": [
+   {
+    "text": "A small rotator cuff muscle on the back of the shoulder blade.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   },
+   {
+    "text": "It turns the arm outward and extends it.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   }
+  ],
+  "Subscapularis muscle": [
+   {
+    "text": "A rotator cuff muscle that lies on the front surface of the shoulder blade.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   },
+   {
+    "text": "It turns the arm inward at the shoulder.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   }
+  ],
+  "Brachialis muscle": [
+   {
+    "text": "A muscle of the upper arm that bends the elbow, together with the biceps brachii.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   },
+   {
+    "text": "It is one of the three main forearm flexors.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   }
+  ],
+  "Brachioradialis muscle": [
+   {
+    "text": "A muscle of the forearm that helps bend the elbow.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   },
+   {
+    "text": "It is one of the three main forearm flexors.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   }
+  ],
+  "Coracobrachialis muscle": [
+   {
+    "text": "A small muscle of the upper arm that works at the shoulder.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   },
+   {
+    "text": "It flexes and adducts the arm.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   }
+  ],
+  "Anconeus muscle": [
+   {
+    "text": "A small muscle at the back of the elbow.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   },
+   {
+    "text": "With the triceps brachii it extends the forearm.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   }
+  ],
+  "Pronator quadratus": [
+   {
+    "text": "One of the two pronators of the forearm, with the pronator teres.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   },
+   {
+    "text": "It helps turn the forearm so the palm faces backward.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs"
+    }
+   }
+  ],
+  "Gluteus maximus muscle": [
+   {
+    "text": "The largest of the three gluteal muscles, forming the bulk of the buttock.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   },
+   {
+    "text": "The gluteal muscles are among the largest and most powerful muscles in the body.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   }
+  ],
+  "Gluteus medius muscle": [
+   {
+    "text": "A gluteal muscle lying deep to the gluteus maximus.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   },
+   {
+    "text": "It lies between the gluteus maximus and the gluteus minimus.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   }
+  ],
+  "Gluteus minimus muscle": [
+   {
+    "text": "The smallest of the three gluteal muscles.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   },
+   {
+    "text": "It lies deepest, beneath the gluteus medius.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   }
+  ],
+  "Piriformis muscle": [
+   {
+    "text": "A small hip muscle lying deep to the gluteus maximus.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   },
+   {
+    "text": "It turns the thigh bone outward at the hip.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   }
+  ],
+  "Iliacus muscle": [
+   {
+    "text": "A hip muscle that, with the psoas major, makes up the iliopsoas group.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   },
+   {
+    "text": "The iliopsoas helps flex the thigh at the hip.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   }
+  ],
+  "Psoas major": [
+   {
+    "text": "A hip muscle that, with the iliacus, makes up the iliopsoas group.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   },
+   {
+    "text": "The iliopsoas helps flex the thigh at the hip.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   }
+  ],
+  "Adductor longus": [
+   {
+    "text": "One of the muscles of the inner thigh that move the thigh toward the midline.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   },
+   {
+    "text": "It also helps flex the thigh.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   }
+  ],
+  "Adductor magnus": [
+   {
+    "text": "One of the muscles of the inner thigh that move the thigh toward the midline.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   },
+   {
+    "text": "It also helps extend the thigh.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   }
+  ],
+  "Rectus femoris muscle": [
+   {
+    "text": "The quadriceps muscle on the front of the thigh.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   },
+   {
+    "text": "With the other quadriceps muscles it extends the knee, and it also helps flex the thigh.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   }
+  ],
+  "Vastus lateralis muscle": [
+   {
+    "text": "The quadriceps muscle on the outer side of the thigh.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   },
+   {
+    "text": "With the other quadriceps muscles it extends the knee.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   }
+  ],
+  "Vastus medialis muscle": [
+   {
+    "text": "The quadriceps muscle on the inner side of the thigh.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   },
+   {
+    "text": "With the other quadriceps muscles it extends the knee.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   }
+  ],
+  "Vastus intermedius muscle": [
+   {
+    "text": "The quadriceps muscle between the lateral and medial vastus, deep to the rectus femoris.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   },
+   {
+    "text": "With the other quadriceps muscles it extends the knee.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   }
+  ],
+  "Semitendinosus muscle": [
+   {
+    "text": "One of the three hamstring muscles on the back of the thigh.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   },
+   {
+    "text": "The hamstrings flex the knee.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   }
+  ],
+  "Semimembranosus muscle": [
+   {
+    "text": "One of the three hamstring muscles on the back of the thigh.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   },
+   {
+    "text": "The hamstrings flex the knee.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   }
+  ],
+  "Tibialis anterior muscle": [
+   {
+    "text": "A long, thick muscle on the outer surface of the shin bone.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   },
+   {
+    "text": "It helps raise the front of the foot.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   }
+  ],
+  "Soleus muscle": [
+   {
+    "text": "A wide, flat calf muscle lying deep to the gastrocnemius.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   },
+   {
+    "text": "It attaches to the calcaneal (Achilles) tendon.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   }
+  ],
+  "Fibularis longus muscle": [
+   {
+    "text": "A muscle in the lateral compartment of the lower leg.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   },
+   {
+    "text": "The other muscle of that compartment is the fibularis brevis.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs"
+    }
+   }
+  ],
+  "Left ventricle": [
+   {
+    "text": "The lower left chamber of the heart.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 19.1 Heart Anatomy",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/19-1-heart-anatomy"
+    }
+   },
+   {
+    "text": "Its thick muscular wall pumps blood out through the aorta to the body.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 19.1 Heart Anatomy",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/19-1-heart-anatomy"
+    }
+   }
+  ],
+  "Right ventricle": [
+   {
+    "text": "The lower right chamber of the heart.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 19.1 Heart Anatomy",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/19-1-heart-anatomy"
+    }
+   },
+   {
+    "text": "It pumps blood to the lungs through the pulmonary trunk.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 19.1 Heart Anatomy",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/19-1-heart-anatomy"
+    }
+   }
+  ],
+  "Left atrium": [
+   {
+    "text": "The upper left chamber of the heart.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 19.1 Heart Anatomy",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/19-1-heart-anatomy"
+    }
+   },
+   {
+    "text": "It receives oxygen-rich blood from the lungs through the pulmonary veins.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 19.1 Heart Anatomy",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/19-1-heart-anatomy"
+    }
+   }
+  ],
+  "Right atrium": [
+   {
+    "text": "The upper right chamber of the heart.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 19.1 Heart Anatomy",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/19-1-heart-anatomy"
+    }
+   },
+   {
+    "text": "It receives oxygen-poor blood returning from the body through the venae cavae.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 19.1 Heart Anatomy",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/19-1-heart-anatomy"
+    }
+   }
+  ],
+  "Trachea": [
+   {
+    "text": "The windpipe, a tube reinforced with C-shaped rings of cartilage.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 22.1 Organs and Structures of the Respiratory System",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/22-1-organs-and-structures-of-the-respiratory-system"
+    }
+   },
+   {
+    "text": "It carries air between the larynx and the two main bronchi.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 22.1 Organs and Structures of the Respiratory System",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/22-1-organs-and-structures-of-the-respiratory-system"
+    }
+   }
+  ],
+  "Superior lobe of left lung": [
+   {
+    "text": "The upper of the two lobes of the left lung.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 22.2 The Lungs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/22-2-the-lungs"
+    }
+   },
+   {
+    "text": "The left lung has two lobes; the right lung has three.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 22.2 The Lungs",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/22-2-the-lungs"
+    }
+   }
+  ],
+  "Oesophagus": [
+   {
+    "text": "A muscular tube that carries food from the throat to the stomach.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 23.3 The Mouth, Pharynx, and Esophagus",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-3-the-mouth-pharynx-and-esophagus"
+    }
+   },
+   {
+    "text": "Waves of muscle contraction called peristalsis push food down it.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 23.3 The Mouth, Pharynx, and Esophagus",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-3-the-mouth-pharynx-and-esophagus"
+    }
+   }
+  ],
+  "Stomach": [
+   {
+    "text": "A muscular organ that can stretch to hold about 4 litres of food and fluid.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 23.4 The Stomach",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-4-the-stomach"
+    }
+   },
+   {
+    "text": "It holds food temporarily and starts protein digestion with acid and pepsin.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 23.4 The Stomach",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-4-the-stomach"
+    }
+   }
+  ],
+  "Duodenum": [
+   {
+    "text": "The first and shortest section of the small intestine, starting at the pyloric sphincter.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 23.5 The Small and Large Intestines",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-5-the-small-and-large-intestines"
+    }
+   },
+   {
+    "text": "Bile and pancreatic juice empty into it.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 23.5 The Small and Large Intestines",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-5-the-small-and-large-intestines"
+    }
+   }
+  ],
+  "Jejunum": [
+   {
+    "text": "The middle section of the small intestine, between the duodenum and the ileum.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 23.5 The Small and Large Intestines",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-5-the-small-and-large-intestines"
+    }
+   },
+   {
+    "text": "Most nutrient absorption happens in the small intestine.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 23.5 The Small and Large Intestines",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-5-the-small-and-large-intestines"
+    }
+   }
+  ],
+  "Ascending colon": [
+   {
+    "text": "The part of the large intestine that rises up the right side of the abdomen.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 23.5 The Small and Large Intestines",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-5-the-small-and-large-intestines"
+    }
+   },
+   {
+    "text": "At the underside of the liver it bends and becomes the transverse colon.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 23.5 The Small and Large Intestines",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-5-the-small-and-large-intestines"
+    }
+   }
+  ],
+  "Transverse colon": [
+   {
+    "text": "The part of the large intestine that crosses the abdomen from right to left.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 23.5 The Small and Large Intestines",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-5-the-small-and-large-intestines"
+    }
+   },
+   {
+    "text": "The large intestine absorbs water and forms faeces.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 23.5 The Small and Large Intestines",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-5-the-small-and-large-intestines"
+    }
+   }
+  ],
+  "Descending colon": [
+   {
+    "text": "The part of the large intestine that runs down the left side of the abdomen.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 23.5 The Small and Large Intestines",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-5-the-small-and-large-intestines"
+    }
+   },
+   {
+    "text": "The large intestine absorbs water and forms faeces.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 23.5 The Small and Large Intestines",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-5-the-small-and-large-intestines"
+    }
+   }
+  ],
+  "Sigmoid colon": [
+   {
+    "text": "The S-shaped last part of the colon, leading into the rectum.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 23.5 The Small and Large Intestines",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-5-the-small-and-large-intestines"
+    }
+   },
+   {
+    "text": "The large intestine absorbs water and forms faeces.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 23.5 The Small and Large Intestines",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-5-the-small-and-large-intestines"
+    }
+   }
+  ],
+  "Liver": [
+   {
+    "text": "The largest internal organ, in the upper right abdomen below the diaphragm.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 23.6 Accessory Organs in Digestion: The Liver, Pancreas, and Gallbladder",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-6-accessory-organs-in-digestion-the-liver-pancreas-and-gallbladder"
+    }
+   },
+   {
+    "text": "It makes bile, which helps digest fats, and processes nutrients from the gut.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 23.6 Accessory Organs in Digestion: The Liver, Pancreas, and Gallbladder",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-6-accessory-organs-in-digestion-the-liver-pancreas-and-gallbladder"
+    }
+   }
+  ],
+  "Gallbladder": [
+   {
+    "text": "An accessory digestive organ, with the liver and pancreas.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 23.6 Accessory Organs in Digestion: The Liver, Pancreas, and Gallbladder",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-6-accessory-organs-in-digestion-the-liver-pancreas-and-gallbladder"
+    }
+   },
+   {
+    "text": "It stores, concentrates and releases bile.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 23.6 Accessory Organs in Digestion: The Liver, Pancreas, and Gallbladder",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-6-accessory-organs-in-digestion-the-liver-pancreas-and-gallbladder"
+    }
+   }
+  ],
+  "Pancreas": [
+   {
+    "text": "An accessory digestive organ that sends pancreatic juice to the duodenum.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 23.6 Accessory Organs in Digestion: The Liver, Pancreas, and Gallbladder",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-6-accessory-organs-in-digestion-the-liver-pancreas-and-gallbladder"
+    }
+   },
+   {
+    "text": "Its juice has digestive enzymes and bicarbonate; it also makes the hormone insulin.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 23.6 Accessory Organs in Digestion: The Liver, Pancreas, and Gallbladder",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-6-accessory-organs-in-digestion-the-liver-pancreas-and-gallbladder"
+    }
+   }
+  ],
+  "Kidney": [
+   {
+    "text": "A fist-sized organ lying behind the lining of the abdominal cavity, protected by muscle, fat and ribs.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 25.3 Gross Anatomy of the Kidney",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/25-3-gross-anatomy-of-the-kidney"
+    }
+   },
+   {
+    "text": "The kidneys filter the blood and make urine.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 25.3 Gross Anatomy of the Kidney",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/25-3-gross-anatomy-of-the-kidney"
+    }
+   }
+  ],
+  "Ureter": [
+   {
+    "text": "A narrow muscular tube that connects each kidney to the urinary bladder.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 25.2 Gross Anatomy of Urine Transport",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/25-2-gross-anatomy-of-urine-transport"
+    }
+   },
+   {
+    "text": "Peristalsis moves urine down it.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 25.2 Gross Anatomy of Urine Transport",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/25-2-gross-anatomy-of-urine-transport"
+    }
+   }
+  ],
+  "Urinary bladder": [
+   {
+    "text": "A hollow organ in the pelvis that collects urine from both ureters.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 25.2 Gross Anatomy of Urine Transport",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/25-2-gross-anatomy-of-urine-transport"
+    }
+   },
+   {
+    "text": "It stores urine until it is passed out through the urethra.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 25.2 Gross Anatomy of Urine Transport",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/25-2-gross-anatomy-of-urine-transport"
+    }
+   }
+  ],
+  "Thyroid gland": [
+   {
+    "text": "A butterfly-shaped gland at the front of the neck, below the larynx.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 17.4 The Thyroid Gland",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/17-4-the-thyroid-gland"
+    }
+   },
+   {
+    "text": "It makes thyroid hormones that help set the body's metabolic rate.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 17.4 The Thyroid Gland",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/17-4-the-thyroid-gland"
+    }
+   }
+  ],
+  "Suprarenal gland": [
+   {
+    "text": "A small gland that sits on top of each kidney, also called the adrenal gland.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 17.6 The Adrenal Glands",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/17-6-the-adrenal-glands"
+    }
+   },
+   {
+    "text": "It makes hormones including cortisol and adrenaline.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 17.6 The Adrenal Glands",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/17-6-the-adrenal-glands"
+    }
+   }
+  ],
+  "Pineal gland": [
+   {
+    "text": "A tiny endocrine gland behind and below the thalamus in the brain.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 17.7 The Pineal Gland",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/17-7-the-pineal-gland"
+    }
+   },
+   {
+    "text": "It makes the hormone melatonin, which helps regulate the sleep-wake cycle.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 17.7 The Pineal Gland",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/17-7-the-pineal-gland"
+    }
+   }
+  ],
+  "Prostate": [
+   {
+    "text": "A gland at the base of the bladder that surrounds the first part of the urethra.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 27.1 Anatomy and Physiology of the Testicular Reproductive System",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/27-1-anatomy-and-physiology-of-the-testicular-reproductive-system"
+    }
+   },
+   {
+    "text": "It adds fluid to sperm to make semen.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 27.1 Anatomy and Physiology of the Testicular Reproductive System",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/27-1-anatomy-and-physiology-of-the-testicular-reproductive-system"
+    }
+   }
+  ],
+  "Testis": [
+   {
+    "text": "The male gonad; the two testes sit in the scrotum.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 27.1 Anatomy and Physiology of the Testicular Reproductive System",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/27-1-anatomy-and-physiology-of-the-testicular-reproductive-system"
+    }
+   },
+   {
+    "text": "The testes make sperm and androgens such as testosterone.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 27.1 Anatomy and Physiology of the Testicular Reproductive System",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/27-1-anatomy-and-physiology-of-the-testicular-reproductive-system"
+    }
+   }
+  ],
+  "Ovary (simplified)": [
+   {
+    "text": "The female gonad, which produces the egg cell (oocyte).",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 27.2 Anatomy and Physiology of the Ovarian Reproductive System",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/27-2-anatomy-and-physiology-of-the-ovarian-reproductive-system"
+    }
+   },
+   {
+    "text": "The ovaries also make the sex hormones oestrogen and progesterone.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 27.2 Anatomy and Physiology of the Ovarian Reproductive System",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/27-2-anatomy-and-physiology-of-the-ovarian-reproductive-system"
+    }
+   }
+  ],
+  "Femur": [
+   {
+    "text": "The thigh bone, the longest and strongest bone in the body.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 8.4 Bones of the Lower Limb",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-4-bones-of-the-lower-limb"
+    }
+   },
+   {
+    "text": "Its rounded head fits into the hip socket.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 8.4 Bones of the Lower Limb",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-4-bones-of-the-lower-limb"
+    }
+   }
+  ],
+  "Tibia": [
+   {
+    "text": "The shin bone, the larger weight-bearing bone on the inner side of the lower leg.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 8.4 Bones of the Lower Limb",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-4-bones-of-the-lower-limb"
+    }
+   },
+   {
+    "text": "It meets the femur at the knee and the talus at the ankle.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 8.4 Bones of the Lower Limb",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-4-bones-of-the-lower-limb"
+    }
+   }
+  ],
+  "Fibula": [
+   {
+    "text": "The thin bone on the outer side of the lower leg.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 8.4 Bones of the Lower Limb",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-4-bones-of-the-lower-limb"
+    }
+   },
+   {
+    "text": "It joins the tibia at the top and bottom, and the bottom end forms part of the ankle joint.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 8.4 Bones of the Lower Limb",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-4-bones-of-the-lower-limb"
+    }
+   }
+  ],
+  "Patella": [
+   {
+    "text": "The kneecap, a small triangular bone in front of the knee.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 8.4 Bones of the Lower Limb",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-4-bones-of-the-lower-limb"
+    }
+   },
+   {
+    "text": "It sits within the quadriceps tendon.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 8.4 Bones of the Lower Limb",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-4-bones-of-the-lower-limb"
+    }
+   }
+  ],
+  "Calcaneus": [
+   {
+    "text": "The heel bone, the largest bone of the foot.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 8.4 Bones of the Lower Limb",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-4-bones-of-the-lower-limb"
+    }
+   },
+   {
+    "text": "Body weight passes from the tibia to the talus to the calcaneus.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 8.4 Bones of the Lower Limb",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-4-bones-of-the-lower-limb"
+    }
+   }
+  ],
+  "Talus": [
+   {
+    "text": "A bone of the ankle that sits on the heel bone.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 8.4 Bones of the Lower Limb",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-4-bones-of-the-lower-limb"
+    }
+   },
+   {
+    "text": "It connects the foot to the tibia and fibula at the ankle joint.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 8.4 Bones of the Lower Limb",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-4-bones-of-the-lower-limb"
+    }
+   }
+  ],
+  "Humerus": [
+   {
+    "text": "The single bone of the upper arm.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 8.2 Bones of the Upper Limb",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-2-bones-of-the-upper-limb"
+    }
+   },
+   {
+    "text": "Its rounded head fits into the shoulder socket (glenoid cavity of the scapula).",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 8.2 Bones of the Upper Limb",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-2-bones-of-the-upper-limb"
+    }
+   }
+  ],
+  "Radius": [
+   {
+    "text": "The forearm bone on the thumb side.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 8.2 Bones of the Upper Limb",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-2-bones-of-the-upper-limb"
+    }
+   },
+   {
+    "text": "It meets the humerus at the elbow and the carpal bones at the wrist.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 8.2 Bones of the Upper Limb",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-2-bones-of-the-upper-limb"
+    }
+   }
+  ],
+  "Ulna": [
+   {
+    "text": "The forearm bone on the little-finger side.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 8.2 Bones of the Upper Limb",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-2-bones-of-the-upper-limb"
+    }
+   },
+   {
+    "text": "Its upper end forms the point of the elbow, the olecranon.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 8.2 Bones of the Upper Limb",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-2-bones-of-the-upper-limb"
+    }
+   }
+  ],
+  "Scapula": [
+   {
+    "text": "The shoulder blade, a flat triangular bone on the upper back.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 8.1 The Pectoral Girdle",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-1-the-pectoral-girdle"
+    }
+   },
+   {
+    "text": "It has a socket, the glenoid cavity, that holds the head of the humerus.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 8.1 The Pectoral Girdle",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-1-the-pectoral-girdle"
+    }
+   }
+  ],
+  "Clavicle": [
+   {
+    "text": "The collarbone, a long slender bone between the breastbone and the shoulder.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 8.1 The Pectoral Girdle",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-1-the-pectoral-girdle"
+    }
+   },
+   {
+    "text": "It holds the shoulder out to the side of the chest.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 8.1 The Pectoral Girdle",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-1-the-pectoral-girdle"
+    }
+   }
+  ],
+  "Hip bone": [
+   {
+    "text": "A large flat bone that forms half of the pelvis; each is made of the ilium, ischium and pubis.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 8.3 The Pelvic Girdle and Pelvis",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-3-the-pelvic-girdle-and-pelvis"
+    }
+   },
+   {
+    "text": "Its socket, the acetabulum, holds the head of the femur.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 8.3 The Pelvic Girdle and Pelvis",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-3-the-pelvic-girdle-and-pelvis"
+    }
+   }
+  ],
+  "Sacrum": [
+   {
+    "text": "A triangular bone made of fused vertebrae at the base of the spine.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.3 The Vertebral Column",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-3-the-vertebral-column"
+    }
+   },
+   {
+    "text": "It joins the hip bones to form the pelvis.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.3 The Vertebral Column",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-3-the-vertebral-column"
+    }
+   }
+  ],
+  "Coccyx": [
+   {
+    "text": "The tailbone, formed by the fusion of four small vertebrae.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.3 The Vertebral Column",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-3-the-vertebral-column"
+    }
+   },
+   {
+    "text": "It is the last part of the vertebral column, after the sacrum.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.3 The Vertebral Column",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-3-the-vertebral-column"
+    }
+   }
+  ],
+  "Atlas (C1)": [
+   {
+    "text": "The first neck (cervical) vertebra, C1, which supports the skull.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.3 The Vertebral Column",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-3-the-vertebral-column"
+    }
+   },
+   {
+    "text": "It is named after Atlas, the figure of Greek myth who held up the heavens.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.3 The Vertebral Column",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-3-the-vertebral-column"
+    }
+   }
+  ],
+  "Axis (C2)": [
+   {
+    "text": "The second neck vertebra, with a tooth-like projection called the dens.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.3 The Vertebral Column",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-3-the-vertebral-column"
+    }
+   },
+   {
+    "text": "It is the pivot for turning the head to the right or left.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.3 The Vertebral Column",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-3-the-vertebral-column"
+    }
+   }
+  ],
+  "Vertebra L1": [
+   {
+    "text": "One of the five lumbar vertebrae, L1 to L5, in the lower back.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.3 The Vertebral Column",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-3-the-vertebral-column"
+    }
+   },
+   {
+    "text": "Lumbar vertebrae are larger than neck vertebrae because they support more body weight.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.3 The Vertebral Column",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-3-the-vertebral-column"
+    }
+   }
+  ],
+  "Vertebra T1": [
+   {
+    "text": "The first of the twelve thoracic vertebrae, T1 to T12.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.3 The Vertebral Column",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-3-the-vertebral-column"
+    }
+   },
+   {
+    "text": "Thoracic vertebrae have sites where the ribs attach.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.3 The Vertebral Column",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-3-the-vertebral-column"
+    }
+   }
+  ],
+  "First rib": [
+   {
+    "text": "The topmost rib, curving from the spine toward the breastbone.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.4 The Thoracic Cage",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-4-the-thoracic-cage"
+    }
+   },
+   {
+    "text": "It is one of the true ribs (ribs 1 to 7).",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.4 The Thoracic Cage",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-4-the-thoracic-cage"
+    }
+   }
+  ],
+  "Twelfth rib": [
+   {
+    "text": "One of the two lowest pairs of ribs, called floating ribs (ribs 11 and 12).",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.4 The Thoracic Cage",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-4-the-thoracic-cage"
+    }
+   },
+   {
+    "text": "Ribs 8 to 12 are the false ribs; the last two pairs are the floating ribs.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.4 The Thoracic Cage",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-4-the-thoracic-cage"
+    }
+   }
+  ],
+  "Manubrium of sternum": [
+   {
+    "text": "The upper part of the breastbone.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.4 The Thoracic Cage",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-4-the-thoracic-cage"
+    }
+   },
+   {
+    "text": "It connects to the collarbones and the first ribs.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.4 The Thoracic Cage",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-4-the-thoracic-cage"
+    }
+   }
+  ],
+  "Body of sternum": [
+   {
+    "text": "The long middle part of the breastbone.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.4 The Thoracic Cage",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-4-the-thoracic-cage"
+    }
+   },
+   {
+    "text": "Most of the true ribs attach to it by costal cartilage.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.4 The Thoracic Cage",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-4-the-thoracic-cage"
+    }
+   }
+  ],
+  "Xiphoid process": [
+   {
+    "text": "The small pointed lower tip of the breastbone.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.4 The Thoracic Cage",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-4-the-thoracic-cage"
+    }
+   },
+   {
+    "text": "It is made of cartilage that gradually turns to bone with age.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.4 The Thoracic Cage",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-4-the-thoracic-cage"
+    }
+   }
+  ],
+  "Mandible": [
+   {
+    "text": "The lower jaw, the only movable bone of the skull.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.2 The Skull",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-2-the-skull"
+    }
+   },
+   {
+    "text": "It holds the lower teeth and is the attachment point for chewing muscles.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.2 The Skull",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-2-the-skull"
+    }
+   }
+  ],
+  "Maxilla": [
+   {
+    "text": "The upper jaw bone, one of the paired bones of the face.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.2 The Skull",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-2-the-skull"
+    }
+   },
+   {
+    "text": "Its palatine processes form the front of the hard palate.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.2 The Skull",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-2-the-skull"
+    }
+   }
+  ],
+  "Frontal bone": [
+   {
+    "text": "The bone of the forehead and the upper rims of the eye sockets.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.2 The Skull",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-2-the-skull"
+    }
+   },
+   {
+    "text": "It forms the front of the skull cap.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.2 The Skull",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-2-the-skull"
+    }
+   }
+  ],
+  "Parietal bone": [
+   {
+    "text": "A paired bone that forms most of the upper side of the skull.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.2 The Skull",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-2-the-skull"
+    }
+   },
+   {
+    "text": "The two parietal bones meet at the sagittal suture along the top of the skull.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.2 The Skull",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-2-the-skull"
+    }
+   }
+  ],
+  "Occipital bone": [
+   {
+    "text": "The bone at the back and base of the skull.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.2 The Skull",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-2-the-skull"
+    }
+   },
+   {
+    "text": "It has a large opening, the foramen magnum, where the spinal cord leaves the skull.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.2 The Skull",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-2-the-skull"
+    }
+   }
+  ],
+  "Temporal bone": [
+   {
+    "text": "One of a pair of bones forming the lower sides of the skull, around the ear.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.2 The Skull",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-2-the-skull"
+    }
+   },
+   {
+    "text": "It houses the structures of the ear.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.2 The Skull",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-2-the-skull"
+    }
+   }
+  ],
+  "Sphenoid bone": [
+   {
+    "text": "A single, complex bone in the centre of the skull.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.2 The Skull",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-2-the-skull"
+    }
+   },
+   {
+    "text": "It acts as a keystone, joining with almost every other bone of the skull.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.2 The Skull",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-2-the-skull"
+    }
+   }
+  ],
+  "Zygomatic bone": [
+   {
+    "text": "The cheekbone, forming the prominence of the cheek.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.2 The Skull",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-2-the-skull"
+    }
+   },
+   {
+    "text": "It forms part of the eye socket.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.2 The Skull",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-2-the-skull"
+    }
+   }
+  ],
+  "Nasal bone": [
+   {
+    "text": "One of two small bones that form the bridge of the nose.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.2 The Skull",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-2-the-skull"
+    }
+   },
+   {
+    "text": "The rest of the nose is shaped by cartilage.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.2 The Skull",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-2-the-skull"
+    }
+   }
+  ],
+  "Hyoid bone": [
+   {
+    "text": "A small U-shaped bone in the neck, below the lower jaw.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.2 The Skull",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-2-the-skull"
+    }
+   },
+   {
+    "text": "It does not join any other bone; muscles of the tongue and throat attach to it.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 7.2 The Skull",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-2-the-skull"
+    }
+   }
+  ],
+  "Epiglottis": [
+   {
+    "text": "A flap of cartilage at the very top of the larynx.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 23.3 The Mouth, Pharynx, and Esophagus",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-3-the-mouth-pharynx-and-esophagus"
+    }
+   },
+   {
+    "text": "It folds down over the opening of the larynx when you swallow.",
+    "source": {
+     "title": "OpenStax Anatomy and Physiology 2e, 23.3 The Mouth, Pharynx, and Esophagus",
+     "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/23-3-the-mouth-pharynx-and-esophagus"
+    }
+   }
+  ]
+ }
+}

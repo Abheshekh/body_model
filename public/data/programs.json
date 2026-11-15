@@ -37,7 +37,9 @@
       "cautions": [
         "Pain, numbness or a lasting problem: see a clinician."
       ],
-      "notes": [],
+      "notes": [
+        "Tensor fasciae latae is not in this anatomy model."
+      ],
       "evidence": [
         {
           "id": "posture-correction-mixed",
@@ -73,9 +75,8 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "longus capitis",
-              "vertical intermediate part of left longus colli",
-              "vertical intermediate part of right longus colli"
+              "Longus capitis muscle",
+              "Longus colli muscle"
             ]
           },
           "dose": null,
@@ -98,10 +99,9 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "longus capitis",
-              "rectus capitis anterior",
-              "vertical intermediate part of left longus colli",
-              "vertical intermediate part of right longus colli"
+              "Longus capitis muscle",
+              "Rectus anterior capitis muscle",
+              "Longus colli muscle"
             ]
           },
           "dose": null,
@@ -124,9 +124,8 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "descending part of left trapezius",
-              "descending part of right trapezius",
-              "levator scapulae"
+              "Descending part of trapezius muscle",
+              "Levator scapulae"
             ]
           },
           "dose": null,
@@ -149,9 +148,9 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "spinalis thoracis",
-              "longissimus thoracis",
-              "semispinalis thoracis"
+              "Spinalis thoracis muscle",
+              "Longissimus thoracis muscle",
+              "Semispinalis thoracis muscle"
             ]
           },
           "dose": null,
@@ -174,9 +173,8 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "ascending part of left trapezius",
-              "ascending part of right trapezius",
-              "serratus anterior"
+              "Ascending part of trapezius muscle",
+              "Serratus anterior muscle"
             ]
           },
           "dose": null,
@@ -199,12 +197,10 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "spinal part of left deltoid",
-              "spinal part of right deltoid",
-              "transverse part of left trapezius",
-              "transverse part of right trapezius",
-              "rhomboid major",
-              "rhomboid minor"
+              "Scapular spinal part of deltoid muscle",
+              "Transverse part of trapezius muscle",
+              "Rhomboid major muscle",
+              "Rhomboid minor muscle"
             ]
           },
           "dose": null,
@@ -227,12 +223,10 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "spinal part of left deltoid",
-              "spinal part of right deltoid",
-              "transverse part of left trapezius",
-              "transverse part of right trapezius",
-              "infraspinatus muscle",
-              "teres minor"
+              "Scapular spinal part of deltoid muscle",
+              "Transverse part of trapezius muscle",
+              "Infraspinatus muscle",
+              "Teres minor muscle"
             ]
           },
           "dose": null,
@@ -255,10 +249,8 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "ascending part of left trapezius",
-              "ascending part of right trapezius",
-              "transverse part of left trapezius",
-              "transverse part of right trapezius"
+              "Ascending part of trapezius muscle",
+              "Transverse part of trapezius muscle"
             ]
           },
           "dose": null,
@@ -281,11 +273,9 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "sternocostal part of left pectoralis major",
-              "sternocostal part of right pectoralis major",
-              "clavicular part of left pectoralis major",
-              "clavicular part of right pectoralis major",
-              "pectoralis minor"
+              "Sternocostal head of pectoralis major muscle",
+              "Clavicular head of pectoralis major muscle",
+              "Pectoralis minor muscle"
             ]
           },
           "dose": null,
@@ -308,10 +298,10 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "rectus abdominis",
-              "transversus abdominis",
-              "external oblique",
-              "internal oblique"
+              "Rectus abdominis muscle",
+              "Transversus abdominis muscle",
+              "External abdominal oblique muscle",
+              "Internal abdominal oblique muscle"
             ]
           },
           "dose": null,
@@ -334,10 +324,12 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "multifidus",
-              "longissimus thoracis",
-              "iliocostalis lumborum",
-              "gluteus maximus"
+              "Multifidus colli muscle",
+              "Multifidus lumborum muscle",
+              "Multifidus thoracis muscle",
+              "Longissimus thoracis muscle",
+              "Iliocostalis lumborum muscle",
+              "Gluteus maximus muscle"
             ]
           },
           "dose": null,
@@ -360,10 +352,10 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "rectus abdominis",
-              "transversus abdominis",
-              "external oblique",
-              "internal oblique"
+              "Rectus abdominis muscle",
+              "Transversus abdominis muscle",
+              "External abdominal oblique muscle",
+              "Internal abdominal oblique muscle"
             ]
           },
           "dose": null,
@@ -386,10 +378,10 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "external oblique",
-              "internal oblique",
-              "quadratus lumborum",
-              "gluteus medius"
+              "External abdominal oblique muscle",
+              "Internal abdominal oblique muscle",
+              "Quadratus lumborum muscle",
+              "Gluteus medius muscle"
             ]
           },
           "dose": null,
@@ -412,11 +404,10 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "gluteus maximus",
-              "semitendinosus",
-              "semimembranosus",
-              "long head of left biceps femoris",
-              "long head of right biceps femoris"
+              "Gluteus maximus muscle",
+              "Semitendinosus muscle",
+              "Semimembranosus muscle",
+              "Long head of biceps femoris"
             ]
           },
           "dose": null,
@@ -439,9 +430,8 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "gluteus medius",
-              "gluteus minimus",
-              "tensor fasciae latae"
+              "Gluteus medius muscle",
+              "Gluteus minimus muscle"
             ]
           },
           "dose": null,
@@ -464,8 +454,8 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "gluteus medius",
-              "gluteus minimus"
+              "Gluteus medius muscle",
+              "Gluteus minimus muscle"
             ]
           },
           "dose": null,
@@ -488,11 +478,11 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "gluteus maximus",
-              "gluteus medius",
-              "rectus femoris",
-              "vastus lateralis",
-              "vastus medialis"
+              "Gluteus maximus muscle",
+              "Gluteus medius muscle",
+              "Rectus femoris muscle",
+              "Vastus lateralis muscle",
+              "Vastus medialis muscle"
             ]
           },
           "dose": null,
@@ -515,8 +505,8 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "abductor hallucis",
-              "flexor digitorum brevis"
+              "Abductor hallucis",
+              "Flexor digitorum brevis"
             ]
           },
           "dose": null,
@@ -539,11 +529,9 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "medial head of left gastrocnemius",
-              "medial head of right gastrocnemius",
-              "lateral head of left gastrocnemius",
-              "lateral head of right gastrocnemius",
-              "soleus"
+              "Medial head of gastrocnemius",
+              "Lateral head of gastrocnemius",
+              "Soleus muscle"
             ]
           },
           "dose": null,
@@ -566,9 +554,9 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "flexor digitorum brevis",
-              "flexor digitorum longus",
-              "flexor hallucis longus"
+              "Flexor digitorum brevis",
+              "Flexor digitorum longus",
+              "Flexor hallucis longus"
             ]
           },
           "dose": null,
@@ -626,9 +614,9 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "psoas major",
-              "iliacus",
-              "rectus femoris"
+              "Psoas major",
+              "Iliacus muscle",
+              "Rectus femoris muscle"
             ]
           },
           "dose": null,
@@ -651,9 +639,9 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "rectus femoris",
-              "psoas major",
-              "iliacus"
+              "Rectus femoris muscle",
+              "Psoas major",
+              "Iliacus muscle"
             ]
           },
           "dose": null,
@@ -676,11 +664,10 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "gluteus maximus",
-              "semitendinosus",
-              "semimembranosus",
-              "long head of left biceps femoris",
-              "long head of right biceps femoris"
+              "Gluteus maximus muscle",
+              "Semitendinosus muscle",
+              "Semimembranosus muscle",
+              "Long head of biceps femoris"
             ]
           },
           "dose": null,
@@ -703,7 +690,7 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "gluteus maximus"
+              "Gluteus maximus muscle"
             ]
           },
           "dose": null,
@@ -726,10 +713,10 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "rectus abdominis",
-              "transversus abdominis",
-              "external oblique",
-              "internal oblique"
+              "Rectus abdominis muscle",
+              "Transversus abdominis muscle",
+              "External abdominal oblique muscle",
+              "Internal abdominal oblique muscle"
             ]
           },
           "dose": null,
@@ -752,9 +739,9 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "rectus abdominis",
-              "external oblique",
-              "internal oblique"
+              "Rectus abdominis muscle",
+              "External abdominal oblique muscle",
+              "Internal abdominal oblique muscle"
             ]
           },
           "dose": null,
@@ -777,11 +764,11 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "rectus abdominis",
-              "transversus abdominis",
-              "external oblique",
-              "internal oblique",
-              "gluteus maximus"
+              "Rectus abdominis muscle",
+              "Transversus abdominis muscle",
+              "External abdominal oblique muscle",
+              "Internal abdominal oblique muscle",
+              "Gluteus maximus muscle"
             ]
           },
           "dose": null,
@@ -804,12 +791,11 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "gluteus maximus",
-              "semitendinosus",
-              "semimembranosus",
-              "long head of left biceps femoris",
-              "long head of right biceps femoris",
-              "adductor magnus"
+              "Gluteus maximus muscle",
+              "Semitendinosus muscle",
+              "Semimembranosus muscle",
+              "Long head of biceps femoris",
+              "Adductor magnus"
             ]
           },
           "dose": null,
@@ -832,12 +818,10 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "semitendinosus",
-              "semimembranosus",
-              "long head of left biceps femoris",
-              "long head of right biceps femoris",
-              "short head of left biceps femoris",
-              "short head of right biceps femoris"
+              "Semitendinosus muscle",
+              "Semimembranosus muscle",
+              "Long head of biceps femoris",
+              "Short head of biceps femoris"
             ]
           },
           "dose": null,
@@ -860,10 +844,10 @@
             "from": "provisional",
             "provisional": true,
             "parts": [
-              "rectus abdominis",
-              "gluteus maximus",
-              "iliocostalis lumborum",
-              "psoas major"
+              "Rectus abdominis muscle",
+              "Gluteus maximus muscle",
+              "Iliocostalis lumborum muscle",
+              "Psoas major"
             ]
           },
           "dose": null,
@@ -886,9 +870,7 @@
         "Pain or symptoms getting worse: stop and see a pelvic health physiotherapist.",
         "During pregnancy and after birth, check with a clinician before starting."
       ],
-      "notes": [
-        "The body shown is male anatomy."
-      ],
+      "notes": [],
       "evidence": [
         {
           "id": "pelvic-floor-cochrane-sui",
@@ -933,11 +915,11 @@
             "from": "record",
             "provisional": false,
             "parts": [
-              "pubococcygeus",
-              "puborectalis",
-              "iliococcygeus",
-              "coccygeus",
-              "external anal sphincter"
+              "Pubococcygeus muscle",
+              "Pubo-analis muscle",
+              "Iliococcygeus muscle",
+              "Coccygeus muscle",
+              "External anal sphincter"
             ]
           },
           "dose": null,
@@ -959,11 +941,11 @@
             "from": "record",
             "provisional": false,
             "parts": [
-              "pubococcygeus",
-              "puborectalis",
-              "iliococcygeus",
-              "coccygeus",
-              "external anal sphincter"
+              "Pubococcygeus muscle",
+              "Pubo-analis muscle",
+              "Iliococcygeus muscle",
+              "Coccygeus muscle",
+              "External anal sphincter"
             ]
           },
           "dose": {
@@ -991,11 +973,11 @@
             "from": "record",
             "provisional": false,
             "parts": [
-              "pubococcygeus",
-              "puborectalis",
-              "iliococcygeus",
-              "coccygeus",
-              "external anal sphincter"
+              "Pubococcygeus muscle",
+              "Pubo-analis muscle",
+              "Iliococcygeus muscle",
+              "Coccygeus muscle",
+              "External anal sphincter"
             ]
           },
           "dose": {
@@ -1024,11 +1006,11 @@
             "from": "record",
             "provisional": false,
             "parts": [
-              "pubococcygeus",
-              "puborectalis",
-              "iliococcygeus",
-              "coccygeus",
-              "external anal sphincter"
+              "Pubococcygeus muscle",
+              "Pubo-analis muscle",
+              "Iliococcygeus muscle",
+              "Coccygeus muscle",
+              "External anal sphincter"
             ]
           },
           "dose": null,
@@ -1050,11 +1032,11 @@
             "from": "record",
             "provisional": false,
             "parts": [
-              "pubococcygeus",
-              "puborectalis",
-              "iliococcygeus",
-              "coccygeus",
-              "external anal sphincter"
+              "Pubococcygeus muscle",
+              "Pubo-analis muscle",
+              "Iliococcygeus muscle",
+              "Coccygeus muscle",
+              "External anal sphincter"
             ]
           },
           "dose": null,
@@ -1076,11 +1058,11 @@
             "from": "record",
             "provisional": false,
             "parts": [
-              "pubococcygeus",
-              "puborectalis",
-              "iliococcygeus",
-              "coccygeus",
-              "external anal sphincter"
+              "Pubococcygeus muscle",
+              "Pubo-analis muscle",
+              "Iliococcygeus muscle",
+              "Coccygeus muscle",
+              "External anal sphincter"
             ]
           },
           "dose": null,
@@ -1102,11 +1084,11 @@
             "from": "record",
             "provisional": false,
             "parts": [
-              "pubococcygeus",
-              "puborectalis",
-              "iliococcygeus",
-              "coccygeus",
-              "external anal sphincter"
+              "Pubococcygeus muscle",
+              "Pubo-analis muscle",
+              "Iliococcygeus muscle",
+              "Coccygeus muscle",
+              "External anal sphincter"
             ]
           },
           "dose": null,
@@ -1184,11 +1166,11 @@
             "from": "record",
             "provisional": false,
             "parts": [
-              "pubococcygeus",
-              "puborectalis",
-              "iliococcygeus",
-              "coccygeus",
-              "external anal sphincter"
+              "Pubococcygeus muscle",
+              "Pubo-analis muscle",
+              "Iliococcygeus muscle",
+              "Coccygeus muscle",
+              "External anal sphincter"
             ]
           },
           "dose": null,
@@ -1209,11 +1191,11 @@
             "from": "record",
             "provisional": false,
             "parts": [
-              "pubococcygeus",
-              "puborectalis",
-              "iliococcygeus",
-              "coccygeus",
-              "external anal sphincter"
+              "Pubococcygeus muscle",
+              "Pubo-analis muscle",
+              "Iliococcygeus muscle",
+              "Coccygeus muscle",
+              "External anal sphincter"
             ]
           },
           "dose": null,
@@ -1235,11 +1217,11 @@
             "from": "record",
             "provisional": false,
             "parts": [
-              "pubococcygeus",
-              "puborectalis",
-              "iliococcygeus",
-              "coccygeus",
-              "external anal sphincter"
+              "Pubococcygeus muscle",
+              "Pubo-analis muscle",
+              "Iliococcygeus muscle",
+              "Coccygeus muscle",
+              "External anal sphincter"
             ]
           },
           "dose": null,
@@ -1382,7 +1364,7 @@
         "Pain: see a pelvic health physiotherapist."
       ],
       "notes": [
-        "The body shown is male anatomy."
+        "Female anatomy here is adapted from the male model; pelvic organs are simplified."
       ],
       "evidence": [
         {
@@ -1437,11 +1419,11 @@
             "from": "record",
             "provisional": false,
             "parts": [
-              "pubococcygeus",
-              "puborectalis",
-              "iliococcygeus",
-              "coccygeus",
-              "external anal sphincter"
+              "Pubococcygeus muscle",
+              "Pubo-analis muscle",
+              "Iliococcygeus muscle",
+              "Coccygeus muscle",
+              "External anal sphincter"
             ]
           },
           "dose": {
@@ -1469,11 +1451,11 @@
             "from": "record",
             "provisional": false,
             "parts": [
-              "pubococcygeus",
-              "puborectalis",
-              "iliococcygeus",
-              "coccygeus",
-              "external anal sphincter"
+              "Pubococcygeus muscle",
+              "Pubo-analis muscle",
+              "Iliococcygeus muscle",
+              "Coccygeus muscle",
+              "External anal sphincter"
             ]
           },
           "dose": {
@@ -1502,11 +1484,11 @@
             "from": "record",
             "provisional": false,
             "parts": [
-              "pubococcygeus",
-              "puborectalis",
-              "iliococcygeus",
-              "coccygeus",
-              "external anal sphincter"
+              "Pubococcygeus muscle",
+              "Pubo-analis muscle",
+              "Iliococcygeus muscle",
+              "Coccygeus muscle",
+              "External anal sphincter"
             ]
           },
           "dose": null,
@@ -1528,11 +1510,11 @@
             "from": "record",
             "provisional": false,
             "parts": [
-              "pubococcygeus",
-              "puborectalis",
-              "iliococcygeus",
-              "coccygeus",
-              "external anal sphincter"
+              "Pubococcygeus muscle",
+              "Pubo-analis muscle",
+              "Iliococcygeus muscle",
+              "Coccygeus muscle",
+              "External anal sphincter"
             ]
           },
           "dose": null,
@@ -1554,11 +1536,11 @@
             "from": "record",
             "provisional": false,
             "parts": [
-              "pubococcygeus",
-              "puborectalis",
-              "iliococcygeus",
-              "coccygeus",
-              "external anal sphincter"
+              "Pubococcygeus muscle",
+              "Pubo-analis muscle",
+              "Iliococcygeus muscle",
+              "Coccygeus muscle",
+              "External anal sphincter"
             ]
           },
           "dose": null,
