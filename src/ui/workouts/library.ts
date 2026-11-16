@@ -5,7 +5,9 @@ import type { BodyViewer } from '../../body/scene';
 import type { ProtoPose } from '../../rig/pose';
 
 export type Kind = 'exercises' | 'tasks';
-export type RoleEntry = [groupKey: string, level: number, reason: string];
+/** Muscle colours by engine role (work / help / hold), prototype C_ROLE; REST = a muscle with no effort (C_REST). */
+export const ROLE_COL = { prime: '#c2302a', syn: '#e58a17', stab: '#2c6cb0' } as const;
+export const REST = '#c9988a';
 export type Variant = {
   id: string;
   name: string;
@@ -15,7 +17,6 @@ export type Variant = {
   held: string[];
   note?: string;
   cam?: { az?: number }; // prototype camera azimuth, degrees
-  muscles: { provisional: true; prime: RoleEntry[]; syn: RoleEntry[]; stab: RoleEntry[] };
 };
 export type Entry = { id: string; name: string; part: string; cues: string[]; avoid: string[]; variants: Variant[] };
 

@@ -1,6 +1,6 @@
 {
  "sources": [
-  "prototype/index.html lines 380-690 (EX, CH); muscle lists are provisional until the R4 effort engine"
+  "prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine"
  ],
  "tasks": [
   {
@@ -52,66 +52,7 @@
       "shoulder",
       "elbow"
      ],
-     "note": "Legs stay straight, so the lower back takes the load at its weakest shape.",
-     "muscles": {
-      "provisional": true,
-      "prime": [
-       [
-        "erectors",
-        1,
-        "Your back does the lifting, and it starts rounded."
-       ],
-       [
-        "hams",
-        0.8,
-        "Pulls the hips straight."
-       ],
-       [
-        "gluteMax",
-        0.7,
-        "Pulls the hips straight."
-       ]
-      ],
-      "syn": [
-       [
-        "foreFlex",
-        0.7,
-        "Grip."
-       ],
-       [
-        "trapsUp",
-        0.5,
-        "Carries the load through the shoulders."
-       ],
-       [
-        "lats",
-        0.3,
-        "Keeps the load close."
-       ]
-      ],
-      "stab": [
-       [
-        "abs",
-        0.3,
-        "Trunk bracing."
-       ],
-       [
-        "obliques",
-        0.3,
-        "Trunk bracing."
-       ],
-       [
-        "calves",
-        0.2,
-        "Balance."
-       ],
-       [
-        "quads",
-        0.15,
-        "Knees nearly locked, so little help from the legs."
-       ]
-      ]
-     }
+     "note": "Legs stay straight, so the lower back takes the load at its weakest shape."
     },
     {
      "id": "squat",
@@ -151,71 +92,7 @@
       "shoulder",
       "elbow"
      ],
-     "note": "The big leg muscles do the lifting. The back only has to stay flat.",
-     "muscles": {
-      "provisional": true,
-      "prime": [
-       [
-        "quads",
-        1,
-        "Straightens the knees."
-       ],
-       [
-        "gluteMax",
-        0.9,
-        "Straightens the hips."
-       ]
-      ],
-      "syn": [
-       [
-        "foreFlex",
-        0.7,
-        "Grip."
-       ],
-       [
-        "erectors",
-        0.5,
-        "Holds the spine flat while the legs lift."
-       ],
-       [
-        "adductors",
-        0.5,
-        "Helps the hips."
-       ],
-       [
-        "trapsUp",
-        0.5,
-        "Carries the load."
-       ],
-       [
-        "hams",
-        0.4,
-        "Helps the hips."
-       ]
-      ],
-      "stab": [
-       [
-        "abs",
-        0.5,
-        "Trunk bracing."
-       ],
-       [
-        "obliques",
-        0.4,
-        "Trunk bracing."
-       ],
-       [
-        "calves",
-        0.3,
-        "Balance."
-       ],
-       [
-        "gluteMed",
-        0.3,
-        "Keeps knees in line."
-       ]
-      ]
-     }
+     "note": "The big leg muscles do the lifting. The back only has to stay flat."
     },
     {
      "id": "onehand",
@@ -263,66 +140,7 @@
       "shoulder",
       "elbow"
      ],
-     "note": "An uneven load turns a leg lift into a side-bend fight for the opposite waist.",
-     "muscles": {
-      "provisional": true,
-      "prime": [
-       [
-        "quads",
-        0.8,
-        "Straightens the knees."
-       ],
-       [
-        "gluteMax",
-        0.8,
-        "Straightens the hips."
-       ],
-       [
-        "obliques_L",
-        1,
-        "The waist opposite the bucket stops you tipping toward it."
-       ],
-       [
-        "erectors_L",
-        0.8,
-        "Pulls the spine back to centre."
-       ]
-      ],
-      "syn": [
-       [
-        "foreFlex_R",
-        0.9,
-        "Grip, one hand only."
-       ],
-       [
-        "trapsUp_R",
-        0.7,
-        "Carries the whole load on one shoulder."
-       ],
-       [
-        "gluteMed_L",
-        0.6,
-        "Keeps the pelvis level."
-       ],
-       [
-        "deltSide_R",
-        0.3,
-        "Holds the bucket off your leg."
-       ]
-      ],
-      "stab": [
-       [
-        "abs",
-        0.4,
-        "Trunk bracing."
-       ],
-       [
-        "calves",
-        0.2,
-        "Balance."
-       ]
-      ]
-     }
+     "note": "An uneven load turns a leg lift into a side-bend fight for the opposite waist."
     }
    ]
   },
@@ -408,76 +226,7 @@
       "elbow_R",
       "wrist_R"
      ],
-     "note": "One-sided load. The far side of your trunk works hardest.",
-     "muscles": {
-      "provisional": true,
-      "prime": [
-       [
-        "foreFlex_R",
-        1,
-        "Grip."
-       ],
-       [
-        "obliques_L",
-        0.9,
-        "The opposite waist stops you bending toward the bag."
-       ],
-       [
-        "trapsUp_R",
-        0.8,
-        "Stops the loaded shoulder being pulled down."
-       ]
-      ],
-      "syn": [
-       [
-        "erectors_L",
-        0.7,
-        "Keeps the spine upright."
-       ],
-       [
-        "gluteMed_L",
-        0.7,
-        "Each step, the hip opposite the bag stops the pelvis dropping."
-       ],
-       [
-        "deltSide_R",
-        0.3,
-        "Holds the bag off your leg."
-       ]
-      ],
-      "stab": [
-       [
-        "abs",
-        0.4,
-        "Trunk."
-       ],
-       [
-        "quads",
-        0.4,
-        "Walking."
-       ],
-       [
-        "gluteMax",
-        0.4,
-        "Walking."
-       ],
-       [
-        "calves",
-        0.4,
-        "Walking."
-       ],
-       [
-        "hipFlex",
-        0.3,
-        "Swings the leg forward."
-       ],
-       [
-        "gluteMed_R",
-        0.3,
-        "Pelvis."
-       ]
-      ]
-     }
+     "note": "One-sided load. The far side of your trunk works hardest."
     },
     {
      "id": "both",
@@ -533,65 +282,7 @@
       "elbow",
       "wrist"
      ],
-     "note": "The load is balanced, so the side-bend work nearly disappears.",
-     "muscles": {
-      "provisional": true,
-      "prime": [
-       [
-        "foreFlex",
-        1,
-        "Grip, both hands."
-       ],
-       [
-        "trapsUp",
-        0.8,
-        "Stops the shoulders being pulled down."
-       ]
-      ],
-      "syn": [],
-      "stab": [
-       [
-        "abs",
-        0.4,
-        "Trunk."
-       ],
-       [
-        "erectors",
-        0.4,
-        "Trunk."
-       ],
-       [
-        "gluteMed",
-        0.4,
-        "Pelvis level on each step."
-       ],
-       [
-        "quads",
-        0.4,
-        "Walking."
-       ],
-       [
-        "gluteMax",
-        0.4,
-        "Walking."
-       ],
-       [
-        "calves",
-        0.4,
-        "Walking."
-       ],
-       [
-        "obliques",
-        0.3,
-        "Trunk."
-       ],
-       [
-        "cuff",
-        0.2,
-        "Shoulder joint."
-       ]
-      ]
-     }
+     "note": "The load is balanced, so the side-bend work nearly disappears."
     }
    ]
   },
@@ -655,76 +346,7 @@
       "hip",
       "knee"
      ],
-     "note": "The stroke is light. The long bent-over hold is what tires the back.",
-     "muscles": {
-      "provisional": true,
-      "prime": [
-       [
-        "erectors",
-        0.9,
-        "Holds you bent over for minutes at a time."
-       ],
-       [
-        "deltFront",
-        0.6,
-        "Pushes the mop away."
-       ],
-       [
-        "lats",
-        0.6,
-        "Pulls the mop back."
-       ]
-      ],
-      "syn": [
-       [
-        "obliques",
-        0.6,
-        "Twists the trunk with each stroke."
-       ],
-       [
-        "foreFlex",
-        0.6,
-        "Grip."
-       ],
-       [
-        "triceps",
-        0.4,
-        "Pushes."
-       ],
-       [
-        "biceps",
-        0.4,
-        "Pulls."
-       ],
-       [
-        "pec",
-        0.3,
-        "Pushes."
-       ]
-      ],
-      "stab": [
-       [
-        "hams",
-        0.5,
-        "Holds the hip bend."
-       ],
-       [
-        "gluteMax",
-        0.5,
-        "Holds the hip bend."
-       ],
-       [
-        "abs",
-        0.3,
-        "Trunk."
-       ],
-       [
-        "quads",
-        0.3,
-        "Knees."
-       ]
-      ]
-     }
+     "note": "The stroke is light. The long bent-over hold is what tires the back."
     },
     {
      "id": "long",
@@ -777,76 +399,7 @@
       "hip",
       "knee"
      ],
-     "note": "Standing tall moves the work from the lower back to the arms and waist.",
-     "muscles": {
-      "provisional": true,
-      "prime": [
-       [
-        "obliques",
-        0.7,
-        "Twists the trunk with each stroke."
-       ],
-       [
-        "deltFront",
-        0.5,
-        "Pushes the mop away."
-       ],
-       [
-        "lats",
-        0.5,
-        "Pulls the mop back."
-       ]
-      ],
-      "syn": [
-       [
-        "foreFlex",
-        0.5,
-        "Grip."
-       ],
-       [
-        "pec",
-        0.4,
-        "Pushes."
-       ],
-       [
-        "triceps",
-        0.4,
-        "Pushes."
-       ],
-       [
-        "biceps",
-        0.4,
-        "Pulls."
-       ]
-      ],
-      "stab": [
-       [
-        "abs",
-        0.4,
-        "Trunk."
-       ],
-       [
-        "erectors",
-        0.3,
-        "Upright hold only."
-       ],
-       [
-        "quads",
-        0.3,
-        "Knees soft."
-       ],
-       [
-        "gluteMax",
-        0.2,
-        "Hips."
-       ],
-       [
-        "calves",
-        0.2,
-        "Balance."
-       ]
-      ]
-     }
+     "note": "Standing tall moves the work from the lower back to the arms and waist."
     }
    ]
   },
@@ -910,81 +463,7 @@
       "hip",
       "knee",
       "wrist"
-     ],
-     "muscles": {
-      "provisional": true,
-      "prime": [
-       [
-        "deltFront",
-        1,
-        "Lifts the arms overhead."
-       ],
-       [
-        "triceps",
-        0.7,
-        "Straightens the elbows."
-       ],
-       [
-        "deltSide",
-        0.5,
-        "Helps the lift."
-       ]
-      ],
-      "syn": [
-       [
-        "trapsUp",
-        0.7,
-        "Turns the shoulder blades upward."
-       ],
-       [
-        "serratus",
-        0.6,
-        "Wraps the shoulder blades around the ribs."
-       ],
-       [
-        "pec",
-        0.3,
-        "Helps at the start."
-       ]
-      ],
-      "stab": [
-       [
-        "calves",
-        0.6,
-        "Holds you on tiptoe."
-       ],
-       [
-        "cuff",
-        0.5,
-        "Shoulder joint."
-       ],
-       [
-        "abs",
-        0.5,
-        "Stops the back arching."
-       ],
-       [
-        "erectors",
-        0.4,
-        "Trunk."
-       ],
-       [
-        "foreFlex",
-        0.4,
-        "Grip."
-       ],
-       [
-        "gluteMax",
-        0.3,
-        "Hips."
-       ],
-       [
-        "quads",
-        0.3,
-        "Knees."
-       ]
-      ]
-     }
+     ]
     },
     {
      "id": "far",
@@ -1032,76 +511,7 @@
       "knee",
       "wrist"
      ],
-     "note": "Same box, same shelf. Straight arms multiply the load on shoulders and lower back.",
-     "muscles": {
-      "provisional": true,
-      "prime": [
-       [
-        "deltFront",
-        1,
-        "Holds the box out on a long lever."
-       ],
-       [
-        "deltSide",
-        0.6,
-        "Helps the lift."
-       ]
-      ],
-      "syn": [
-       [
-        "trapsUp",
-        0.8,
-        "Turns the shoulder blades upward."
-       ],
-       [
-        "serratus",
-        0.6,
-        "Wraps the shoulder blades around the ribs."
-       ],
-       [
-        "biceps",
-        0.3,
-        "Helps hold the arm forward."
-       ]
-      ],
-      "stab": [
-       [
-        "cuff",
-        0.8,
-        "Long lever: a small box becomes a big load on the shoulder."
-       ],
-       [
-        "erectors",
-        0.7,
-        "Stops you tipping forward."
-       ],
-       [
-        "calves",
-        0.6,
-        "Tiptoe."
-       ],
-       [
-        "abs",
-        0.5,
-        "Trunk."
-       ],
-       [
-        "foreFlex",
-        0.5,
-        "Grip."
-       ],
-       [
-        "gluteMax",
-        0.4,
-        "Hips."
-       ],
-       [
-        "hams",
-        0.3,
-        "Hips."
-       ]
-      ]
-     }
+     "note": "Same box, same shelf. Straight arms multiply the load on shoulders and lower back."
     }
    ]
   },
@@ -1185,66 +595,7 @@
      ],
      "held": [
       "spine"
-     ],
-     "muscles": {
-      "provisional": true,
-      "prime": [
-       [
-        "quads_L",
-        1,
-        "Straightens the top knee to lift your body."
-       ],
-       [
-        "gluteMax_L",
-        0.8,
-        "Straightens the top hip."
-       ]
-      ],
-      "syn": [
-       [
-        "calves_R",
-        0.6,
-        "The lower leg pushes off."
-       ],
-       [
-        "hams_L",
-        0.4,
-        "Helps the top hip."
-       ],
-       [
-        "adductors_L",
-        0.3,
-        "Helps the top hip."
-       ]
-      ],
-      "stab": [
-       [
-        "gluteMed_L",
-        0.6,
-        "Stops the pelvis dropping while you stand on one leg."
-       ],
-       [
-        "hipFlex_R",
-        0.4,
-        "Lifts the trailing leg to the next step."
-       ],
-       [
-        "abs",
-        0.3,
-        "Trunk."
-       ],
-       [
-        "erectors",
-        0.3,
-        "Trunk."
-       ],
-       [
-        "tibialis_R",
-        0.2,
-        "Lifts the toes clear of the step."
-       ]
-      ]
-     }
+     ]
     },
     {
      "id": "two",
@@ -1312,61 +663,7 @@
      "held": [
       "spine"
      ],
-     "note": "Double the step height and the work shifts from mostly quads to glutes and hamstrings.",
-     "muscles": {
-      "provisional": true,
-      "prime": [
-       [
-        "gluteMax_L",
-        1,
-        "Deeper hip bend, so the glute does much more."
-       ],
-       [
-        "quads_L",
-        1,
-        "Straightens the top knee from a deep bend."
-       ]
-      ],
-      "syn": [
-       [
-        "calves_R",
-        0.8,
-        "Harder push-off from the lower leg."
-       ],
-       [
-        "hams_L",
-        0.6,
-        "Helps the top hip."
-       ],
-       [
-        "adductors_L",
-        0.5,
-        "Helps the top hip."
-       ]
-      ],
-      "stab": [
-       [
-        "gluteMed_L",
-        0.8,
-        "Longer time balanced on one leg."
-       ],
-       [
-        "erectors",
-        0.5,
-        "Holds the forward lean."
-       ],
-       [
-        "hipFlex_R",
-        0.5,
-        "Lifts the trailing leg higher."
-       ],
-       [
-        "abs",
-        0.4,
-        "Trunk."
-       ]
-      ]
-     }
+     "note": "Double the step height and the work shifts from mostly quads to glutes and hamstrings."
     }
    ]
   }

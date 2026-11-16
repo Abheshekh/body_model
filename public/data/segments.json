@@ -1,0 +1,140 @@
+{
+ "sources": [
+  "Winter, D. A. (2009). Biomechanics and Motor Control of Human Movement, 4th ed., Table 4.1 (SPEC section 4 step 1 start values for the mass fractions). Mass fractions are the SPEC start values; centre-of-mass fractions are from memory, approximate start value, not verified against the original. No page numbers claimed."
+ ],
+ "note": "One entry per segment and side. A multi-bone segment runs from the head of its first bone to the tail of its last bone; comFraction is measured along that line from the end named by \"from\". Clavicles ride with the trunk chain (no separate mass). Fractions sum to 1.0 for the whole body.",
+ "segments": {
+  "headNeck": {
+   "bones": [
+    "neck_01",
+    "head"
+   ],
+   "massFraction": 0.081,
+   "comFraction": 0.5,
+   "from": "head",
+   "source": "Winter, D. A. (2009). Biomechanics and Motor Control of Human Movement, 4th ed., Table 4.1 (SPEC section 4 step 1 start values for the mass fractions). Mass fractions are the SPEC start values; centre-of-mass fractions are from memory, approximate start value, not verified against the original. No page numbers claimed."
+  },
+  "trunk": {
+   "bones": [
+    "pelvis",
+    "spine_01",
+    "spine_02",
+    "spine_03"
+   ],
+   "massFraction": 0.497,
+   "comFraction": 0.5,
+   "from": "head",
+   "source": "Winter, D. A. (2009). Biomechanics and Motor Control of Human Movement, 4th ed., Table 4.1 (SPEC section 4 step 1 start values for the mass fractions). Mass fractions are the SPEC start values; centre-of-mass fractions are from memory, approximate start value, not verified against the original. No page numbers claimed."
+  },
+  "upperArm_l": {
+   "bones": [
+    "upperarm_l"
+   ],
+   "massFraction": 0.028,
+   "comFraction": 0.436,
+   "from": "head",
+   "source": "Winter, D. A. (2009). Biomechanics and Motor Control of Human Movement, 4th ed., Table 4.1 (SPEC section 4 step 1 start values for the mass fractions). Mass fractions are the SPEC start values; centre-of-mass fractions are from memory, approximate start value, not verified against the original. No page numbers claimed."
+  },
+  "forearm_l": {
+   "bones": [
+    "lowerarm_l"
+   ],
+   "massFraction": 0.016,
+   "comFraction": 0.43,
+   "from": "head",
+   "source": "Winter, D. A. (2009). Biomechanics and Motor Control of Human Movement, 4th ed., Table 4.1 (SPEC section 4 step 1 start values for the mass fractions). Mass fractions are the SPEC start values; centre-of-mass fractions are from memory, approximate start value, not verified against the original. No page numbers claimed."
+  },
+  "hand_l": {
+   "bones": [
+    "hand_l"
+   ],
+   "massFraction": 0.006,
+   "comFraction": 0.506,
+   "from": "head",
+   "source": "Winter, D. A. (2009). Biomechanics and Motor Control of Human Movement, 4th ed., Table 4.1 (SPEC section 4 step 1 start values for the mass fractions). Mass fractions are the SPEC start values; centre-of-mass fractions are from memory, approximate start value, not verified against the original. No page numbers claimed."
+  },
+  "thigh_l": {
+   "bones": [
+    "thigh_l"
+   ],
+   "massFraction": 0.1,
+   "comFraction": 0.433,
+   "from": "head",
+   "source": "Winter, D. A. (2009). Biomechanics and Motor Control of Human Movement, 4th ed., Table 4.1 (SPEC section 4 step 1 start values for the mass fractions). Mass fractions are the SPEC start values; centre-of-mass fractions are from memory, approximate start value, not verified against the original. No page numbers claimed."
+  },
+  "shank_l": {
+   "bones": [
+    "calf_l"
+   ],
+   "massFraction": 0.0465,
+   "comFraction": 0.433,
+   "from": "head",
+   "source": "Winter, D. A. (2009). Biomechanics and Motor Control of Human Movement, 4th ed., Table 4.1 (SPEC section 4 step 1 start values for the mass fractions). Mass fractions are the SPEC start values; centre-of-mass fractions are from memory, approximate start value, not verified against the original. No page numbers claimed."
+  },
+  "foot_l": {
+   "bones": [
+    "foot_l",
+    "ball_l"
+   ],
+   "massFraction": 0.0145,
+   "comFraction": 0.5,
+   "from": "head",
+   "source": "Winter, D. A. (2009). Biomechanics and Motor Control of Human Movement, 4th ed., Table 4.1 (SPEC section 4 step 1 start values for the mass fractions). Mass fractions are the SPEC start values; centre-of-mass fractions are from memory, approximate start value, not verified against the original. No page numbers claimed."
+  },
+  "upperArm_r": {
+   "bones": [
+    "upperarm_r"
+   ],
+   "massFraction": 0.028,
+   "comFraction": 0.436,
+   "from": "head",
+   "source": "Winter, D. A. (2009). Biomechanics and Motor Control of Human Movement, 4th ed., Table 4.1 (SPEC section 4 step 1 start values for the mass fractions). Mass fractions are the SPEC start values; centre-of-mass fractions are from memory, approximate start value, not verified against the original. No page numbers claimed."
+  },
+  "forearm_r": {
+   "bones": [
+    "lowerarm_r"
+   ],
+   "massFraction": 0.016,
+   "comFraction": 0.43,
+   "from": "head",
+   "source": "Winter, D. A. (2009). Biomechanics and Motor Control of Human Movement, 4th ed., Table 4.1 (SPEC section 4 step 1 start values for the mass fractions). Mass fractions are the SPEC start values; centre-of-mass fractions are from memory, approximate start value, not verified against the original. No page numbers claimed."
+  },
+  "hand_r": {
+   "bones": [
+    "hand_r"
+   ],
+   "massFraction": 0.006,
+   "comFraction": 0.506,
+   "from": "head",
+   "source": "Winter, D. A. (2009). Biomechanics and Motor Control of Human Movement, 4th ed., Table 4.1 (SPEC section 4 step 1 start values for the mass fractions). Mass fractions are the SPEC start values; centre-of-mass fractions are from memory, approximate start value, not verified against the original. No page numbers claimed."
+  },
+  "thigh_r": {
+   "bones": [
+    "thigh_r"
+   ],
+   "massFraction": 0.1,
+   "comFraction": 0.433,
+   "from": "head",
+   "source": "Winter, D. A. (2009). Biomechanics and Motor Control of Human Movement, 4th ed., Table 4.1 (SPEC section 4 step 1 start values for the mass fractions). Mass fractions are the SPEC start values; centre-of-mass fractions are from memory, approximate start value, not verified against the original. No page numbers claimed."
+  },
+  "shank_r": {
+   "bones": [
+    "calf_r"
+   ],
+   "massFraction": 0.0465,
+   "comFraction": 0.433,
+   "from": "head",
+   "source": "Winter, D. A. (2009). Biomechanics and Motor Control of Human Movement, 4th ed., Table 4.1 (SPEC section 4 step 1 start values for the mass fractions). Mass fractions are the SPEC start values; centre-of-mass fractions are from memory, approximate start value, not verified against the original. No page numbers claimed."
+  },
+  "foot_r": {
+   "bones": [
+    "foot_r",
+    "ball_r"
+   ],
+   "massFraction": 0.0145,
+   "comFraction": 0.5,
+   "from": "head",
+   "source": "Winter, D. A. (2009). Biomechanics and Motor Control of Human Movement, 4th ed., Table 4.1 (SPEC section 4 step 1 start values for the mass fractions). Mass fractions are the SPEC start values; centre-of-mass fractions are from memory, approximate start value, not verified against the original. No page numbers claimed."
+  }
+ }
+}

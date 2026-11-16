@@ -12,7 +12,7 @@ const ADJUST = {
   'squat/back': [{ ankle: -20 }, 'Ankle dorsiflexion 28 -> 20 (AAOS 1965 limit).'],
   'bucket/squat': [{ ankle: -20 }, 'Ankle dorsiflexion 26 -> 20 (AAOS 1965 limit).'],
 };
-const sources = ['prototype/index.html lines 380-690 (EX, CH); muscle lists are provisional until the R4 effort engine'];
+const sources = ['prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine'];
 const variant = (v, eid) => {
   const adj = ADJUST[`${eid}/${v.id}`];
   const fix = (k) => (adj && k.ankle !== undefined ? { ...k, ...adj[0] } : k);
@@ -25,7 +25,6 @@ const variant = (v, eid) => {
   o.moving = v.moving;
   o.held = v.held;
   if (v.note) o.note = v.note;
-  o.muscles = { provisional: true, prime: v.prime, syn: v.syn, stab: v.stab };
   return o;
 };
 const item = (e) => ({ id: e.id, name: e.name, part: e.part, cues: e.cues, avoid: e.avoid, variants: e.variants.map((v) => variant(v, e.id)) });

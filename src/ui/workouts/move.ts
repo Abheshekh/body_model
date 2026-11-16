@@ -2,18 +2,24 @@
 // selects (panel: slider + number per axis, limits from joints.json), drag bends the joint inside its limits (hinges
 // stay in their plane), drag a hand or foot = IK for that limb (a dragged foot comes free), drag the pelvis = move
 // the body with planted feet (IK). Undo/redo/reset, keyframes (localStorage bodyModel.move.v1, §2b.20).
-// Keyboard: Tab cycles joints, arrows nudge the selected axis 1° (Shift 10°). Phone: controls in a bottom sheet,
-// collapsed by default; the viewer frames the body above it.
+// Keyboard: Tab cycles joints, arrows nudge the selected axis 1° (Shift 10°). Muscle effort (R4): live for the current
+// pose (≤ 10 Hz), supports from the pin (pins.default when none), a hand load split over both hands. Phone: controls
+// in a bottom sheet, collapsed by default; the viewer frames the body above it.
 import * as THREE from 'three';
-import { loadRig } from '../../body/load';
 import type { Inset } from '../../body/model';
 import type { BodyViewer, View } from '../../body/scene';
+import { effort } from '../../engine/effort';
+import { loadEngine } from '../../engine/load';
+import { setupVariant } from '../../engine/setup';
+import type { Load } from '../../engine/types';
 import type { Vec3 } from '../../rig/ik';
 import { emptyPose, lerpPose, type Limits, type Pose, type Root } from '../../rig/pose';
-import { createSkeleton, mv, type Limb, type Posed } from '../../rig/skeleton';
+import { mv, type Limb, type Posed } from '../../rig/skeleton';
+import { mountEffortPanel, topLine, type PanelCtx } from './effort-panel';
 
 const STORE = 'bodyModel.move.v1';
 const SEG_MS = 1000; // one keyframe blend
+const LIVE_MS = 100; // effort panel updates at most 10 times a second
 const JOINTS = ['pelvis', 'lumbar', 'thoracic', 'neck', 'head', 'shoulder_l', 'elbow_l', 'wrist_l', 'shoulder_r', 'elbow_r',
   'wrist_r', 'hip_l', 'knee_l', 'ankle_l', 'hip_r', 'knee_r', 'ankle_r'];
 const BIG = new Set(['pelvis', 'wrist_l', 'wrist_r', 'ankle_l', 'ankle_r']); // pelvis, hands and feet
@@ -84,7 +90,7 @@ export function mountMove(root: HTMLElement, viewer: BodyViewer | null): () => v
     const loaded = await (async () => {
       const res = await fetch(`${import.meta.env.BASE_URL}data/joints.json`);
       if (!res.ok) throw new Error(`joints.json ${res.status}`);
-      const out = [((await res.json()) as { joints: Limits }).joints, await loadRig(viewer.manifest)] as const;
+      const out = [((await res.json()) as { joints: Limits }).joints, await loadEngine(viewer.manifest)] as const;
       if (disposed) return null; // left Move while loading: no setPose after dispose (the body stays at rest)
       await viewer.setPose(emptyPose()); // loads the weights pack
       return out;
@@ -93,8 +99,8 @@ export function mountMove(root: HTMLElement, viewer: BodyViewer | null): () => v
       return null;
     });
     if (!loaded || disposed) return;
-    const [limits, rig] = loaded;
-    const skel = createSkeleton(rig, viewer.state.sex);
+    const [limits, engine] = loaded;
+    const sex = viewer.state.sex, skel = engine.data.skel[sex];
 
     // ---- pose math ----
     const get = (p: Pose, k: string, a: string) => (k === 'pelvis' ? p.root[a as keyof Root] : p.joints[k]?.[a]) ?? 0;
@@ -174,10 +180,11 @@ export function mountMove(root: HTMLElement, viewer: BodyViewer | null): () => v
     let sel: string | null = null, selAxis: string | null = null;
     const past: Pose[] = [], future: Pose[] = [];
     const keys = loadKeys();
-    let cur = -1, loop = false, play: number | null = null;
+    let cur = -1, loop = false, play: number | null = null, dirty = true;
     cleanup.push(() => { if (play !== null) cancelAnimationFrame(play); });
     const show = (p: Pose) => {
       pose = p;
+      dirty = true;
       void viewer.setPose(p);
       const f = skel.fk(p);
       for (const [k, m] of handles) m.position.set(...skel.jointPosition(f, k));
@@ -233,18 +240,50 @@ export function mountMove(root: HTMLElement, viewer: BodyViewer | null): () => v
     const strip = h('div', 'move-keys');
     strip.setAttribute('role', 'group');
     strip.setAttribute('aria-label', 'Keyframes');
+    // ---- muscle effort: hand load field and the panel, live at the current pose ----
+    let handKg = 0;
+    const kgRow = h('div', 'axis');
+    const kgLabel = h('label', '', 'Hand load (kg)') as HTMLLabelElement;
+    kgLabel.htmlFor = 'move-hand-kg';
+    const kgNum = h('input') as HTMLInputElement;
+    Object.assign(kgNum, { id: 'move-hand-kg', type: 'number', min: '0', max: '100', step: '0.5', inputMode: 'decimal', value: '0' });
+    kgNum.addEventListener('change', () => {
+      const x = kgNum.valueAsNumber;
+      if (Number.isFinite(x) && x >= 0 && x <= 100) { handKg = x; dirty = true; } else kgNum.value = String(handKg);
+    });
+    kgRow.append(kgLabel, h('span'), kgNum);
+    const top = h('p', 'notice effort-top', '\u00a0'); // the one summary line in the collapsed sheet
+    const fx = h('div');
+    fx.append(h('h2', '', 'Muscles'), kgRow);
+    const effortPanel = mountEffortPanel(fx, { sources: engine.sources });
+    cleanup.push(() => effortPanel.dispose());
+    const ctx: PanelCtx = { parts: new Map(engine.data.parts.map((p) => [p.id, { plain: p.plain, side: p.side }])), sources: engine.sources };
+    const live = () => {
+      if (!dirty) return;
+      dirty = false;
+      // the kg is the total, split over both hands (loads.json convention for `hands`)
+      const loads: Load[] = handKg > 0 ? [{ id: 'hands', kind: 'free', kg: handKg, at: 'hands' }] : [];
+      const { supports } = setupVariant('move', 'pose', [], pose.pin, engine.tables);
+      const r = effort({ pose, sex, loads, supports }, engine.data);
+      effortPanel.update(r, ctx);
+      top.textContent = topLine(r, ctx);
+    };
+    const tick = setInterval(live, LIVE_MS);
+    cleanup.push(() => clearInterval(tick));
+
     const more = h('div', 'more');
-    more.append(acts, h('h2', '', 'Keyframes'), strip, h('p', 'muted', HELP));
+    more.append(fx, acts, h('h2', '', 'Keyframes'), strip, h('p', 'muted', HELP));
 
     const handle = btn('', () => {
       const open = sheet.classList.toggle('open');
       handle.setAttribute('aria-expanded', String(open));
       handle.setAttribute('aria-label', open ? 'Show fewer controls' : 'Show more controls');
       applyInset();
+      fit(); // whole body above the sheet
     }, 'sheet-handle');
     handle.setAttribute('aria-expanded', 'false');
     handle.setAttribute('aria-label', 'Show more controls');
-    sheet.replaceChildren(handle, h('h1', 'sr-only', 'Move'), bar, panel, more);
+    sheet.replaceChildren(handle, h('h1', 'sr-only', 'Move'), bar, top, panel, more);
 
     // ---- keyframes ----
     const save = () => {

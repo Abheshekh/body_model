@@ -1,0 +1,355 @@
+{
+ "sources": [
+  "Contact points and normals follow plan section 2b.3 and 2b.4; angles (40 degree preacher pad, 35 degree recline) are start values, approximate start value, not verified against the original."
+ ],
+ "note": "normal = direction of the reaction force on the body. Points are body-point names from geometry.ts. A missing pin means default (flat) for supports; fromPrototype still grounds it by toes. pinAt only places the body (pull-up) and is not a support. Pins (plan 2b.12): default (no pin, standing) = flat = heel + ball of both feet; toes = balls only (plank, push-up: the hands/forearms give the area); toeL/toeR = heel + ball of that foot only.",
+ "pins": {
+  "none": [],
+  "ground": [
+   {
+    "point": "heel_l",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "foot_l",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "heel_r",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "foot_r",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   }
+  ],
+  "flat": [
+   {
+    "point": "heel_l",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "foot_l",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "heel_r",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "foot_r",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   }
+  ],
+  "toes": [
+   {
+    "point": "foot_l",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "foot_r",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   }
+  ],
+  "toeL": [
+   {
+    "point": "heel_l",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "foot_l",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   }
+  ],
+  "toeR": [
+   {
+    "point": "heel_r",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "foot_r",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   }
+  ],
+  "hands": [
+   {
+    "point": "hand_l",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "hand_r",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   }
+  ],
+  "default": [
+   {
+    "point": "heel_l",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "foot_l",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "heel_r",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "foot_r",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   }
+  ]
+ },
+ "props": {
+  "seat": [
+   {
+    "point": "pelvis",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "thigh_l",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "thigh_r",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   }
+  ],
+  "back": [
+   {
+    "point": "thoraxBack",
+    "normal": [
+     0,
+     0,
+     1
+    ]
+   }
+  ],
+  "bench": [
+   {
+    "point": "thoraxBack",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "pelvis",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   }
+  ],
+  "pad": [
+   {
+    "point": "forearm_l",
+    "normal": [
+     0,
+     0.766,
+     0.643
+    ]
+   },
+   {
+    "point": "forearm_r",
+    "normal": [
+     0,
+     0.766,
+     0.643
+    ]
+   }
+  ],
+  "reclineBack": [
+   {
+    "point": "thoraxBack",
+    "normal": [
+     0,
+     0.819,
+     0.574
+    ]
+   }
+  ],
+  "reclineSeat": [
+   {
+    "point": "pelvis",
+    "normal": [
+     0,
+     0.819,
+     0.574
+    ]
+   }
+  ],
+  "pullbar": [
+   {
+    "point": "hand_l",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "hand_r",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   }
+  ],
+  "floorHands": [
+   {
+    "point": "hand_l",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "hand_r",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   }
+  ],
+  "floorForearms": [
+   {
+    "point": "forearm_l",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "forearm_r",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   }
+  ]
+ },
+ "none": [
+  "shelf",
+  "step1",
+  "step2",
+  "mop",
+  "box",
+  "bucket",
+  "bucketR",
+  "bagL",
+  "bagR",
+  "handle",
+  "bar",
+  "dbL",
+  "dbR",
+  "legpress"
+ ],
+ "variantProps": {
+  "press/pushup": [
+   "floorHands"
+  ],
+  "plank/front": [
+   "floorForearms"
+  ]
+ }
+}

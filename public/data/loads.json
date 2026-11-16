@@ -1,0 +1,129 @@
+{
+ "sources": [
+  "Prop masses are start values chosen for the app (user can edit kg in the player), approximate start value, not verified against the original; kg is the total for the load point (hands = split over both hands)."
+ ],
+ "note": "toward/track are directions of the force the load applies to the body (y up, z body-forward); the engine normalises them. handle toward is the default (row); towardByVariant overrides it by exercise/variant (pulley direction differs per exercise). legpress track: force on the feet along the torso axis toward the body, for a back reclined 35 degrees off vertical. Plan section 2b.3 lists legpress as a prop; no current variant uses it (squat/legpress uses reclineBack and reclineSeat), so it is kept for the library.",
+ "props": {
+  "bar": [
+   {
+    "at": "hands",
+    "kind": "free",
+    "kg": 20
+   }
+  ],
+  "dbL": [
+   {
+    "at": "hand_l",
+    "kind": "free",
+    "kg": 8
+   }
+  ],
+  "dbR": [
+   {
+    "at": "hand_r",
+    "kind": "free",
+    "kg": 8
+   }
+  ],
+  "bucket": [
+   {
+    "at": "hands",
+    "kind": "free",
+    "kg": 10
+   }
+  ],
+  "bucketR": [
+   {
+    "at": "hand_r",
+    "kind": "free",
+    "kg": 10
+   }
+  ],
+  "bagL": [
+   {
+    "at": "hand_l",
+    "kind": "free",
+    "kg": 5
+   }
+  ],
+  "bagR": [
+   {
+    "at": "hand_r",
+    "kind": "free",
+    "kg": 5
+   }
+  ],
+  "box": [
+   {
+    "at": "hands",
+    "kind": "free",
+    "kg": 10
+   }
+  ],
+  "mop": [
+   {
+    "at": "hands",
+    "kind": "free",
+    "kg": 1
+   }
+  ],
+  "handle": [
+   {
+    "at": "hands",
+    "kind": "cable",
+    "kg": 15,
+    "toward": [
+     0,
+     -0.1,
+     1
+    ],
+    "towardByVariant": {
+     "row/cable": [
+      0,
+      -0.1,
+      1
+     ],
+     "pull/pulldown": [
+      0,
+      1,
+      0
+     ],
+     "triceps/pushdown": [
+      0,
+      1,
+      0
+     ],
+     "triceps/overhead": [
+      0,
+      -0.5,
+      -1
+     ]
+    }
+   }
+  ],
+  "legpress": [
+   {
+    "at": "foot",
+    "kind": "machine",
+    "kg": 40,
+    "track": [
+     0,
+     0.574,
+     -0.819
+    ]
+   }
+  ]
+ },
+ "none": [
+  "pullbar",
+  "step1",
+  "step2",
+  "shelf",
+  "pad",
+  "reclineBack",
+  "reclineSeat",
+  "seat",
+  "back",
+  "bench"
+ ]
+}

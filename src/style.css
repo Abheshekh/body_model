@@ -147,10 +147,18 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .player-transport button { flex: none; min-width: 5.5em; }
 .player-transport input { flex: 1; min-width: 0; height: var(--touch); margin: 0; accent-color: var(--accent); }
 .player .notice { font-size: var(--fs-small); }
+.effort-top { font-size: var(--fs-small); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .roles li { display: flex; flex-direction: column; margin-bottom: var(--s2); }
 @media (max-width: 899.98px) {
   .player:not(.open) .more { display: none; }
   .player .back { min-height: 0; }
+  /* open phone sheet: at most 45% of the screen; the header stays, `.more` scrolls inside (the body stays visible) */
+  .player.open > *, .player.open > div > *, .move.open > * { flex: none; }
+  .player.open, .move.open { display: flex; flex-direction: column; max-height: 45vh; overflow-y: auto; }
+  .player.open > div { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
+  /* never squeezed to nothing: below 6em the whole sheet scrolls instead (Move's joint panel is tall) */
+  .player.open .more, .move.open .more { flex: 1 1 auto; min-height: 6em; overflow-y: auto; }
+  .move.open .move-joint { min-height: 0; } /* the sheet is capped open, so `.more` takes the space instead */
 }
 /* body page (T6a, T6b): wide = side panel; < 900 px = bottom sheet collapsed to the card and depth slider */
 .body-page { --pw: 340px; --peek: 0px; }
@@ -239,3 +247,13 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
+
+/* effort panel */
+.effort-rows { list-style: none; margin: 0; padding: 0; }
+.effort-row { display: grid; grid-template-columns: 1fr 72px; gap: 0 var(--s2); min-height: 3.6em; margin-bottom: var(--s2); font-size: var(--fs-small); }
+.effort-name { font-weight: 600; }
+.effort-bar { align-self: center; height: 8px; border-radius: 4px; background: var(--surface); overflow: hidden; }
+.effort-bar i { display: block; height: 100%; }
+.effort-role, .effort-why { grid-column: 1 / -1; color: var(--muted); }
+.effort-back, .effort-limits, .effort-sources { font-size: var(--fs-small); margin: var(--s2) 0; }
+.effort-limits, .effort-sources { color: var(--muted); }

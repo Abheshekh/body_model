@@ -158,14 +158,15 @@ Steps:
    - Grip from the force in the hand.
    - Trunk bracing: abdominals and obliques co-contract with spinal load.
 9. Roles: the joint moves between keyframes → "does the work". Demand without motion → "holds you still". Action weight under 0.6 → "helps".
+Engine decisions fixed in R4 (see docs/reports/R4.md): joint keys in data are sideless (`elbow`, `hip`) and resolved by the muscle part's side; `ipsi`/`contra` resolve with the part's side (a `center` part acts on both sides, no contra); `hadd` is an engine-only shoulder axis; a missing pin counts as `flat` (heel and ball of both feet) for supports; level is capped at 1 while demand is not; roles use a 5° peak-to-peak rule between the two keyframes; loads and supports come from prop and pin tables in `loads.json` and `supports.json`.
 10. Support removes demand. A back pad zeroes most spine torque. A seat takes the legs out. This must fall out of step 3, not be special-cased.
 
 Must-pass checks:
 
 | Case | Expected |
 |---|---|
-| Standing barbell curl vs seated with back pad | Same elbow flexors. Standing adds spinal erectors, glutes, calves. |
-| Pick up 10 kg: stoop vs squat | Stoop: high lower-back moment, hamstrings, erectors. Squat: lower back moment falls, quadriceps and glutes rise. |
+| Standing barbell curl vs seated with back pad | Same elbow flexors. Standing adds glutes and calves. Spinal erectors within 10% of each other: a pad can only push the trunk forward, as the bar in front does, so it cannot lower the lumbar moment (changed in R4; the first wording "Standing adds spinal erectors" was wrong). Leaning back 10° lowers the lumbar moment by at least 10%. |
+| Pick up 10 kg: stoop vs squat | Stoop: high lower-back moment, hamstrings, erectors. Squat: lower back moment falls, quadriceps rise, glutes stay within 90% of the stoop (the stoop is also high on glutes; changed in R4). |
 | Carry 10 kg in one hand vs 5 kg in each | One hand: opposite-side obliques, quadratus lumborum, gluteus medius. Split: these fall. |
 | Push-up vs bench press | Same pressing muscles. Push-up adds abdominals and hip flexors. |
 | Pull-up hang | Finger flexors high. Lats and elbow flexors rise as the elbows bend. |
