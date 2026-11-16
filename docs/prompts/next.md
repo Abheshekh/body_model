@@ -1,6 +1,6 @@
 /feature-build R5: exercise library and task builder (docs/PROMPTS.md "R5 — Workouts: exercise library and task builder")
 
-Context: R0–R4 are built and committed on stacked branches (not pushed, not merged; main has only "Docs: plan v5.1"): r0-clean-slate cb7909e → r1-body-pipeline 2bf9323 → r2-body-page 8a1914f → r3-rig-move f4dd0b9 → r4-effort-engine <R4_HASH>. Start branch r5-library-tasks from r4-effort-engine (or from main if I have merged by then; check git log first). R5 has two steps; stop after each (see the checkpoint block).
+Context: R0–R4 are built and committed on stacked branches (not pushed, not merged; main has only "Docs: plan v5.1"): r0-clean-slate cb7909e → r1-body-pipeline 2bf9323 → r2-body-page 8a1914f → r3-rig-move f4dd0b9 → r4-effort-engine 9b3a664. Start branch r5-library-tasks from r4-effort-engine (or from main if I have merged by then; check git log first). R5 has two steps; stop after each (see the checkpoint block).
 
 Read first: CLAUDE.md, docs/PLAN.md, docs/SPEC.md §4–6, docs/PROMPTS.md R5, docs/reports/R1.md–R4.md, docs/done_development/r4-effort-engine/plans/PLAN.md §2b (binding clarifications and changelog) and plans/raw/cases.md, src/engine/*, src/ui/workouts/*, public/data/{actions,loads,supports,strengths,segments,exercises,tasks}.json.
 
