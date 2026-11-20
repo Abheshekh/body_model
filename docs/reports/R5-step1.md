@@ -1,6 +1,6 @@
 # R5 step 1: exercise library and task builder (report)
 
-Branch `r5-library-tasks` (from `r4-effort-engine` 9b3a664). Commit: STEP1_COMMIT. Numbers come from plans/raw/*.md under docs/done_development/r5-library-tasks/plans/ (cases.md, form.md, review.md, measure.md, equipment-review.md, wrist.md).
+Branch `r5-library-tasks` (from `r4-effort-engine` 9b3a664). Commit: 510df99. Numbers come from plans/raw/*.md under docs/done_development/r5-library-tasks/plans/ (cases.md, form.md, review.md, measure.md, equipment-review.md, wrist.md).
 
 ## AC status
 - AC1 50 records, zero failing form checks, contact sheets: **partly met**. 50 records, schema-valid, all sourced; `tools/library/check.mjs` says `failing: 0 of 50` (364 checks over both sexes, none failing). Contact sheets exist (docs/reports/r5/contact-male.png, contact-female.png). `reviewed: true` on **25 of 50** only: the other 25 tiles could not be confirmed (list in section 4). That is a decision by the user on 2026-11-21: finish them in step 2.
