@@ -3,6 +3,7 @@
 // then kept; other pages only hide it.
 import { createBodyViewer, type BodyViewer } from '../body/scene';
 import { loadProfile } from '../me/profile';
+import { legacyId } from '../library/exercises';
 import { parseRoute } from '../programs/programs';
 import { mountBodyPage } from './body/page';
 import { mountCredits } from './credits';
@@ -12,7 +13,8 @@ import { mountPrograms } from './programs';
 import { mountWorkouts } from './workouts';
 import { mountLibrary } from './workouts/library';
 import { mountMove } from './workouts/move';
-import { mountPlayer } from './workouts/player';
+import { mountEditor, mountPlayer } from './workouts/player';
+import { mountTaskBuilder } from './workouts/taskbuilder';
 
 const div = (cls: string): HTMLElement => {
   const e = document.createElement('div');
@@ -51,10 +53,15 @@ export function mountShell(app: HTMLElement): void {
     disposePrograms?.();
     disposePrograms = null;
     programs.replaceChildren();
+    // old R4 links #workouts/exercises/<exercise>/<variant> → the record id (plan 2b.1); a bare old exercise id is mapped by the player
+    const old = /^#workouts\/exercises\/([^/]+)\/([^/]+)\/?$/.exec(location.hash);
+    const moved = old && legacyId(old[1], old[2]);
+    if (moved) return void location.replace(`#workouts/exercises/${moved}`); // the hashchange runs route again
     const r = parseRoute(location.hash);
+    const ed = /^#workouts\/edit\/(exercises|tasks)\/([^/]+)\/?$/.exec(location.hash); // parseRoute does not know the editor
     const gate = loadProfile() === null;
-    const screen = gate ? 'me' : r.screen;
-    const onBody = screen === 'programs' || screen === 'move' || screen === 'exercises' || screen === 'tasks';
+    const screen: string = gate ? 'me' : ed ? 'edit' : r.screen;
+    const onBody = screen === 'programs' || screen === 'move' || screen === 'exercises' || screen === 'tasks' || screen === 'edit';
     const tab = onBody ? 'workouts' : screen === 'credits' ? 'me' : screen;
     nav.hidden = gate;
     // Programs, Move, the lists and the player draw on the body: the canvas stays, the Body page controls hide
@@ -82,9 +89,10 @@ export function mountShell(app: HTMLElement): void {
       void viewerReady.then((v) => {
         if (gone) return;
         if (screen === 'move') dispose = mountMove(programs, v);
-        else if (screen === 'exercises' || screen === 'tasks') {
-          dispose = r.itemId ? mountPlayer(programs, v, screen, r.itemId, r.variantId) : mountLibrary(programs, v, screen);
-        } else dispose = mountPrograms(programs, v, loadProfile()!, r.programId);
+        else if (ed) dispose = mountEditor(programs, v, ed[1] as 'exercises' | 'tasks', ed[2]);
+        else if (screen === 'exercises') dispose = r.itemId ? mountPlayer(programs, v, r.itemId, r.variantId) : mountLibrary(programs, v);
+        else if (screen === 'tasks') dispose = mountTaskBuilder(programs, v, r.itemId); // old task ids are the preset ids
+        else dispose = mountPrograms(programs, v, loadProfile()!, r.programId);
       });
     }
   };

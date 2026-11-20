@@ -5,17 +5,45 @@
 // Keyboard: Tab cycles joints, arrows nudge the selected axis 1° (Shift 10°). Muscle effort (R4): live for the current
 // pose (≤ 10 Hz), supports from the pin (pins.default when none), a hand load split over both hands. Phone: controls
 // in a bottom sheet, collapsed by default; the viewer frames the body above it.
+// Keyframe editor (R5 R7, `source` given): the record's keyframes in the strip with its equipment, loads (kg) and
+// supports per keyframe; dragging edits the current keyframe; effort, muscle colours and form checks live (≤ 10 Hz);
+// add/remove/reorder keyframes (≥ 2 kept); "Save my version" / "Revert" on the device only (src/library/edits.ts).
 import * as THREE from 'three';
 import type { Inset } from '../../body/model';
 import type { BodyViewer, View } from '../../body/scene';
 import { effort } from '../../engine/effort';
 import { loadEngine } from '../../engine/load';
 import { setupVariant } from '../../engine/setup';
-import type { Load } from '../../engine/types';
+import type { EffortResult, Load, Support } from '../../engine/types';
+import { editChecks, insertKey, loadVersion, moveKey, removeKey, revertVersion, saveVersion, versionKey, MIN_KEYS } from '../../library/edits';
+import type { EquipmentJson, Placement } from '../../library/equipment';
+import type { Exercise } from '../../library/exercises';
+import type { CheckId, CheckResult } from '../../library/form';
 import type { Vec3 } from '../../rig/ik';
 import { emptyPose, lerpPose, type Limits, type Pose, type Root } from '../../rig/pose';
 import { mv, type Limb, type Posed } from '../../rig/skeleton';
 import { mountEffortPanel, topLine, type PanelCtx } from './effort-panel';
+import { REST, ROLE_COL } from './library';
+import { buildProps } from './objects';
+import './editor.css';
+
+/** what the keyframe editor edits: an exercise record or a generated task, resolved by the caller */
+export interface MoveSource {
+  kind: 'exercises' | 'tasks';
+  /** record id (tasks: `custom`); the version is stored under <kind>/<id> */
+  id: string;
+  name: string;
+  keyframes: Pose[];
+  /** supports per keyframe: setupVariant with each keyframe's supportPin, or Generated.supports */
+  supports: Support[][];
+  props: string[];
+  /** resolved loads (setupVariant / Generated.loads); kg overrides them by load id */
+  loads: Load[];
+  equipment: string[];
+  placement: Placement;
+  kg: Record<string, number>;
+  formChecks?: Exercise['formChecks'];
+}
 
 const STORE = 'bodyModel.move.v1';
 const SEG_MS = 1000; // one keyframe blend
@@ -45,6 +73,15 @@ const HINT = 'Tap a joint to bend it. Drag a joint, a hand, a foot or the pelvis
 const HELP = 'Drag empty space or Ctrl+drag to turn the view, scroll or pinch to zoom, right-drag to pan. '
   + 'Keyboard: Tab through the joints, arrow keys nudge the selected axis by 1°, Shift+arrow by 10°.';
 
+// editor: role colours (as player.ts), load names (as player.ts LOAD_NAME), check names
+const ROLES: [keyof typeof ROLE_COL, string][] = [['prime', 'Prime mover'], ['syn', 'Synergist'], ['stab', 'Stabiliser']];
+const ROLE_OF = { work: 'prime', help: 'syn', hold: 'stab' } as const;
+const LOAD_NAME: Record<string, string> = { bar: 'Bar', dbL: 'Left dumbbell', dbR: 'Right dumbbell', bucket: 'Bucket',
+  bucketR: 'Bucket (right hand)', bagL: 'Left bag', bagR: 'Right bag', box: 'Box', mop: 'Mop', handle: 'Cable', legpress: 'Sled' };
+const CHECK: Record<CheckId, string> = { limits: 'Joint ranges', balance: 'Balance', contacts: 'Contacts', clearance: 'Clearance',
+  kneeOverFoot: 'Knee over foot', neutralSpine: 'Neutral spine' };
+const frameName = (f: number) => (Number.isInteger(f) ? `keyframe ${f + 1}` : `between keyframes ${Math.floor(f) + 1} and ${Math.floor(f) + 2}`);
+
 const add = (p: Vec3, q: Vec3): Vec3 => [p[0] + q[0], p[1] + q[1], p[2] + q[2]];
 const sub = (p: Vec3, q: Vec3): Vec3 => [p[0] - q[0], p[1] - q[1], p[2] - q[2]];
 const dot = (p: Vec3, q: Vec3) => p[0] * q[0] + p[1] * q[1] + p[2] * q[2];
@@ -71,9 +108,9 @@ const loadKeys = (): Pose[] => {
   }
 };
 
-export function mountMove(root: HTMLElement, viewer: BodyViewer | null): () => void {
-  const sheet = h('section', 'sheet move');
-  sheet.setAttribute('aria-label', 'Move');
+export function mountMove(root: HTMLElement, viewer: BodyViewer | null, source?: MoveSource): () => void {
+  const sheet = h('section', source ? 'sheet move editor' : 'sheet move');
+  sheet.setAttribute('aria-label', source ? 'Edit keyframes' : 'Move');
   sheet.append(h('p', '', viewer ? 'Loading…' : 'The body could not be loaded, so Move is off.'));
   root.replaceChildren(sheet);
   const canvas = document.querySelector<HTMLCanvasElement>('.body-stage canvas');
@@ -88,9 +125,13 @@ export function mountMove(root: HTMLElement, viewer: BodyViewer | null): () => v
 
   void (async () => {
     const loaded = await (async () => {
-      const res = await fetch(`${import.meta.env.BASE_URL}data/joints.json`);
-      if (!res.ok) throw new Error(`joints.json ${res.status}`);
-      const out = [((await res.json()) as { joints: Limits }).joints, await loadEngine(viewer.manifest)] as const;
+      const get = async (name: string) => {
+        const res = await fetch(`${import.meta.env.BASE_URL}data/${name}.json`);
+        if (!res.ok) throw new Error(`${name}.json ${res.status}`);
+        return res.json();
+      };
+      const out = [((await get('joints')) as { joints: Limits }).joints, await loadEngine(viewer.manifest),
+        source ? (await get('equipment')) as EquipmentJson : null] as const;
       if (disposed) return null; // left Move while loading: no setPose after dispose (the body stays at rest)
       await viewer.setPose(emptyPose()); // loads the weights pack
       return out;
@@ -99,7 +140,7 @@ export function mountMove(root: HTMLElement, viewer: BodyViewer | null): () => v
       return null;
     });
     if (!loaded || disposed) return;
-    const [limits, engine] = loaded;
+    const [limits, engine, eq] = loaded;
     const sex = viewer.state.sex, skel = engine.data.skel[sex];
 
     // ---- pose math ----
@@ -179,21 +220,35 @@ export function mountMove(root: HTMLElement, viewer: BodyViewer | null): () => v
     let pose = emptyPose();
     let sel: string | null = null, selAxis: string | null = null;
     const past: Pose[] = [], future: Pose[] = [];
-    const keys = loadKeys();
-    let cur = -1, loop = false, play: number | null = null, dirty = true;
+    // editor: the saved version (if any) replaces the record's keyframes, supports and kg
+    const store = (() => { try { return localStorage; } catch { return null; } })();
+    const vkey = source ? versionKey(source.kind, source.id) : '';
+    const saved = source ? loadVersion(store, vkey) : null;
+    let keys = source ? structuredClone(saved?.keyframes ?? source.keyframes) : loadKeys();
+    let sups: Support[][] = source ? structuredClone(saved?.supports ?? source.supports) : [];
+    let kg: Record<string, number> = { ...(saved?.kg ?? source?.kg) };
+    let mine = !!saved, changed = false, storageOff = !store, checksDirty = true, supAt = 0;
+    try { if (source) store?.getItem(vkey); } catch { storageOff = true; }
+    let cur = source ? 0 : -1, loop = false, play: number | null = null, dirty = true;
+    if (source) pose = structuredClone(keys[0]);
     cleanup.push(() => { if (play !== null) cancelAnimationFrame(play); });
+    const props3d = source && eq ? buildProps(viewer, source.equipment, source.placement, skel, eq) : null;
+    if (props3d) cleanup.push(() => props3d.dispose());
     const show = (p: Pose) => {
       pose = p;
       dirty = true;
+      if (source && play === null) { keys[cur] = p; checksDirty = true; } // editor: the pose is the current keyframe
       void viewer.setPose(p);
       const f = skel.fk(p);
       for (const [k, m] of handles) m.position.set(...skel.jointPosition(f, k));
+      props3d?.update(skel.posed(p));
       syncValues();
     };
     const commit = (before: Pose) => {
       past.push(before);
       if (past.length > 100) past.shift();
       future.length = 0;
+      changed = true;
       sync();
     };
     const edit = (p: Pose) => { const b = pose; show(p); commit(b); };
@@ -254,25 +309,95 @@ export function mountMove(root: HTMLElement, viewer: BodyViewer | null): () => v
     kgRow.append(kgLabel, h('span'), kgNum);
     const top = h('p', 'notice effort-top', '\u00a0'); // the one summary line in the collapsed sheet
     const fx = h('div');
-    fx.append(h('h2', '', 'Muscles'), kgRow);
+    // editor: one kg field per record load (0\u2013200 kg), instead of the hand load
+    const loadsBox = h('div');
+    const renderLoads = () => loadsBox.replaceChildren(...(source?.loads ?? []).map((l) => {
+      const id = `move-kg-${l.id}`;
+      const label = h('label', '', `${LOAD_NAME[l.id.split('#')[0]] ?? l.id} (kg)`) as HTMLLabelElement;
+      label.htmlFor = id;
+      const num = h('input') as HTMLInputElement;
+      Object.assign(num, { id, type: 'number', min: '0', max: '200', step: '0.5', inputMode: 'decimal', value: String(kg[l.id] ?? l.kg) });
+      num.addEventListener('change', () => {
+        const x = num.valueAsNumber;
+        if (Number.isFinite(x) && x >= 0 && x <= 200) { kg = { ...kg, [l.id]: x }; dirty = checksDirty = changed = true; sync(); } else num.value = String(kg[l.id] ?? l.kg);
+      });
+      const row = h('div', 'axis');
+      row.append(label, h('span'), num);
+      return row;
+    }));
+    renderLoads();
+    if (!source) fx.append(h('h2', '', 'Muscles'), kgRow);
+    else fx.append(...(source.loads.length ? [h('h2', '', 'Load'), loadsBox] : []), h('h2', '', 'Muscles'));
     const effortPanel = mountEffortPanel(fx, { sources: engine.sources });
     cleanup.push(() => effortPanel.dispose());
     const ctx: PanelCtx = { parts: new Map(engine.data.parts.map((p) => [p.id, { plain: p.plain, side: p.side }])), sources: engine.sources };
+
+    // ---- editor: muscle colours (as player.ts: the role colour mixed in by level, put back on leave) and form checks ----
+    const own = new Map<number, string>();
+    if (source) {
+      const snapshot = viewer.state;
+      cleanup.push(() => viewer.setState(snapshot)); // runs after the colours are back (cleanup runs in reverse)
+      for (const p of viewer.parts) if (p.kind === 'muscle') own.set(p.id, p.colour);
+      cleanup.push(() => { for (const p of viewer.parts) if (own.has(p.id)) p.colour = own.get(p.id)!; });
+      viewer.setState({ colour: 'natural', depth: 1, isolate: null, seeThrough: false });
+    }
+    const col = new THREE.Color();
+    const colour = (r: EffortResult) => {
+      for (const p of viewer.parts) {
+        if (!own.has(p.id)) continue;
+        const m = r.muscle[p.id];
+        p.colour = !m || m.role === 'none' || !(m.level > 0) ? REST
+          : '#' + col.set(REST).lerp(new THREE.Color(ROLE_COL[ROLE_OF[m.role]]), 0.4 + 0.6 * m.level).getHexString();
+      }
+      viewer.setState({}); // writes the new part colours
+    };
+    const legend = h('div', 'legend');
+    legend.setAttribute('aria-label', 'Muscle colours');
+    for (const [r, name] of ROLES) {
+      const it = h('span', '', name), sw = h('i', 'sw');
+      sw.style.background = ROLE_COL[r];
+      it.prepend(sw);
+      legend.append(it);
+    }
+    const checksList = h('ul', 'move-checks');
+    checksList.setAttribute('aria-live', 'polite');
+    let failing = 0;
+    const editLoads = () => (source?.loads ?? []).map((l) => ({ ...l, kg: kg[l.id] ?? l.kg }));
+    const runChecks = () => {
+      if (!source || !eq) return;
+      const rows: CheckResult[] = editChecks({ id: source.id, props: source.props, loads: editLoads(), equipment: source.equipment,
+        placement: source.placement, formChecks: source.formChecks }, keys, sups, sex, engine.data, { ...engine.tables, limits }, eq);
+      failing = rows.filter((r) => !r.ok).length;
+      checksList.replaceChildren(...rows.map((r) => {
+        const li = h('li', r.ok ? 'ok' : 'fail');
+        li.append(h('strong', '', `${r.ok ? 'OK' : 'Fix'}: ${CHECK[r.id]}`), ` ${r.words}${r.ok ? '' : ` (${frameName(r.frame)})`}`);
+        return li;
+      }));
+    };
+
     const live = () => {
       if (!dirty) return;
       dirty = false;
       // the kg is the total, split over both hands (loads.json convention for `hands`)
-      const loads: Load[] = handKg > 0 ? [{ id: 'hands', kind: 'free', kg: handKg, at: 'hands' }] : [];
-      const { supports } = setupVariant('move', 'pose', [], pose.pin, engine.tables);
+      const loads: Load[] = source ? editLoads() : handKg > 0 ? [{ id: 'hands', kind: 'free', kg: handKg, at: 'hands' }] : [];
+      const supports = source ? sups[play !== null ? supAt : cur] : setupVariant('move', [], pose.pin, engine.tables).supports;
       const r = effort({ pose, sex, loads, supports }, engine.data);
       effortPanel.update(r, ctx);
-      top.textContent = topLine(r, ctx);
+      if (source) {
+        if (checksDirty) { checksDirty = false; runChecks(); }
+        colour(r);
+      }
+      top.textContent = (failing ? `${failing} form check${failing > 1 ? 's' : ''} to fix \u00b7 ` : '') + topLine(r, ctx);
     };
     const tick = setInterval(live, LIVE_MS);
     cleanup.push(() => clearInterval(tick));
 
     const more = h('div', 'more');
-    more.append(fx, acts, h('h2', '', 'Keyframes'), strip, h('p', 'muted', HELP));
+    // editor: version line (collapsed), Save / Revert and the keyframe edits (under the handle)
+    const version = h('p', 'muted move-version');
+    const saveRow = h('div', 'move-acts'), keyOps = h('div', 'move-acts');
+    if (!source) more.append(fx, acts, h('h2', '', 'Keyframes'), strip, h('p', 'muted', HELP));
+    else more.append(saveRow, h('h2', '', 'Keyframes'), keyOps, h('h2', '', 'Form checks'), checksList, fx, panel, bar, acts, h('p', 'muted', HELP));
 
     const handle = btn('', () => {
       const open = sheet.classList.toggle('open');
@@ -283,15 +408,27 @@ export function mountMove(root: HTMLElement, viewer: BodyViewer | null): () => v
     }, 'sheet-handle');
     handle.setAttribute('aria-expanded', 'false');
     handle.setAttribute('aria-label', 'Show more controls');
-    sheet.replaceChildren(handle, h('h1', 'sr-only', 'Move'), bar, top, panel, more);
+    if (!source) sheet.replaceChildren(handle, h('h1', 'sr-only', 'Move'), bar, top, panel, more);
+    // editor, collapsed: title, version, transport (keyframes, play), legend, one summary line; the rest in `.more`
+    else sheet.replaceChildren(handle, h('h1', '', `Edit: ${source.name}`), version, strip, legend, top, more);
 
     // ---- keyframes ----
     const save = () => {
       try { localStorage.setItem(STORE, JSON.stringify({ keys })); } catch { /* storage off: keyframes last this visit */ }
     };
+    // editor: show keyframe i to edit (undo history is per keyframe, so it starts empty)
+    const pick = (i: number) => {
+      cur = i;
+      past.length = future.length = 0;
+      show(structuredClone(keys[i]));
+      replant();
+      sync();
+    };
     function stop() {
+      const was = play !== null;
       if (play !== null) cancelAnimationFrame(play);
       play = null;
+      if (was && source) return pick(cur); // back to the keyframe being edited
       sync();
     }
     const start = () => {
@@ -299,15 +436,71 @@ export function mountMove(root: HTMLElement, viewer: BodyViewer | null): () => v
       const t0 = performance.now(), n = keys.length - 1;
       const step = (now: number) => {
         const t = (now - t0) / SEG_MS;
-        if (t >= n && !loop) { show(keys[n]); return stop(); }
+        if (t >= n && !loop) {
+          if (source) cur = n;
+          show(keys[n]);
+          return stop();
+        }
         const u = t % n, i = Math.floor(u);
+        supAt = Math.min(n, Math.ceil(u)); // in-betweens take the next keyframe's supports
         show(lerpPose(keys[i], keys[i + 1], u - i));
         play = requestAnimationFrame(step);
       };
       play = requestAnimationFrame(step);
       sync();
     };
+    // editor: keyframe list edits keep keys and their supports together (edits.ts)
+    const keyEdit = (k: Pose[], s: Support[][], to: number) => {
+      stop();
+      [keys, sups, changed] = [k, s, true];
+      pick(to);
+    };
+    const renderEditor = () => {
+      const kb = keys.map((_, i) => {
+        const b = btn(String(i + 1), () => { stop(); pick(i); });
+        b.setAttribute('aria-label', `Keyframe ${i + 1}`);
+        b.setAttribute('aria-pressed', String(i === cur));
+        return b;
+      });
+      const playB = btn(play === null ? 'Play' : 'Stop', () => (play === null ? start() : stop()));
+      const loopB = btn('Loop', () => { loop = !loop; sync(); });
+      loopB.setAttribute('aria-pressed', String(loop));
+      strip.replaceChildren(...kb, playB, loopB);
+
+      const addB = btn('Add after', () => keyEdit(insertKey(keys, cur, structuredClone(pose)), insertKey(sups, cur, structuredClone(sups[cur])), cur + 1));
+      const del = btn('Delete', () => keyEdit(removeKey(keys, cur), removeKey(sups, cur), Math.min(cur, keys.length - 2)));
+      del.disabled = keys.length <= MIN_KEYS;
+      const earlier = btn('Earlier', () => keyEdit(moveKey(keys, cur, cur - 1), moveKey(sups, cur, cur - 1), cur - 1));
+      earlier.disabled = cur <= 0;
+      const later = btn('Later', () => keyEdit(moveKey(keys, cur, cur + 1), moveKey(sups, cur, cur + 1), cur + 1));
+      later.disabled = cur >= keys.length - 1;
+      for (const [b, w] of [[addB, 'Add a keyframe after this one'], [del, 'Delete this keyframe'], [earlier, 'Move this keyframe earlier'], [later, 'Move this keyframe later']] as const)
+        b.setAttribute('aria-label', w);
+      keyOps.replaceChildren(addB, del, earlier, later);
+
+      const saveB = btn('Save my version', () => {
+        if (saveVersion(store, vkey, { keyframes: keys, supports: sups, kg })) [mine, changed] = [true, false];
+        else storageOff = true; // the edits stay for this visit
+        sync();
+      });
+      const revertB = btn('Revert', () => {
+        stop();
+        if (!revertVersion(store, vkey) && mine) storageOff = true;
+        keys = structuredClone(source!.keyframes);
+        sups = structuredClone(source!.supports);
+        kg = { ...source!.kg };
+        [mine, changed, dirty] = [false, false, true];
+        renderLoads();
+        pick(0);
+      });
+      revertB.disabled = !mine && !changed;
+      saveRow.replaceChildren(saveB, revertB);
+      version.textContent = storageOff ? 'Storage is off on this device: your edits last this visit only.'
+        : `${mine ? 'My version (saved on this device only)' : 'Original'}${changed ? ' · not saved' : ''}`;
+      version.classList.toggle('notice', storageOff);
+    };
     const renderStrip = () => {
+      if (source) return renderEditor();
       const kb = keys.map((k, i) => {
         const b = btn(String(i + 1), () => { stop(); cur = i; load(structuredClone(k)); });
         b.setAttribute('aria-label', `Keyframe ${i + 1}`);
@@ -471,6 +664,7 @@ export function mountMove(root: HTMLElement, viewer: BodyViewer | null): () => v
     cleanup.push(() => { ro.disconnect(); viewer.setViewInset({ top: 0, right: 0, bottom: 0, left: 0 }); });
 
     show(pose);
+    if (source) replant(); // the record's feet stay where its keyframe has them
     renderPanel();
     sync();
     applyInset();

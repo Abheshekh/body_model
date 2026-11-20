@@ -1,4 +1,6 @@
-// Writes public/data/exercises.json and tasks.json from prototype/index.html lines 380-690 (poses kept as-is, prototype form).
+// Writes public/data/tasks.json from prototype/index.html lines 380-690 (poses kept as-is, prototype form).
+// No longer writes exercises.json: since R5 T1 that file is v2 (flat records, plan 2b.1) and is edited as data; the
+// exercise ADJUST entries below stay as the record of the ankle fixes carried into it.
 import { readFileSync, writeFileSync } from 'node:fs';
 import vm from 'node:vm';
 
@@ -29,6 +31,5 @@ const variant = (v, eid) => {
 };
 const item = (e) => ({ id: e.id, name: e.name, part: e.part, cues: e.cues, avoid: e.avoid, variants: e.variants.map((v) => variant(v, e.id)) });
 const out = (file, key, list) => writeFileSync(`public/data/${file}`, JSON.stringify({ sources, [key]: list.map(item) }, null, 1) + '\n');
-out('exercises.json', 'exercises', ctx.EX);
 out('tasks.json', 'tasks', ctx.CH);
-console.log(ctx.EX.length, 'exercises', ctx.CH.length, 'tasks');
+console.log(ctx.CH.length, 'tasks');

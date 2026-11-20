@@ -11,7 +11,7 @@ import { createLabels } from './labels';
 import { fitDistance, viewOffset, visibleFraction, type Inset } from './model';
 import { loadProfile } from '../me/profile';
 import { createSkeleton, type Posed, type Skeleton } from '../rig/skeleton';
-import { accumulateWeights, createBoneTexture, skinBox, writeBones } from '../rig/skin';
+import { SKIN_GLSL, accumulateWeights, createBoneTexture, skinBox, writeBones } from '../rig/skin';
 import type { Pose } from '../rig/pose';
 
 type Sex = BodyState['sex'];
@@ -40,6 +40,8 @@ export interface BodyViewer {
   onChange(cb: () => void): void;
   /** R5: pose the body; null = rest (the bind mesh, unchanged). The first non-null pose loads rig.json and the weights. */
   setPose(pose: Pose | null): Promise<void>;
+  /** R6 compare: draw the skin again at this pose, faint and translucent, own bone texture, never pickable; null removes it */
+  setGhost(pose: Pose | null): Promise<void>;
   /** posed world position of a joint (rig.json joint key), or null before the rig has loaded */
   jointPosition(key: string): THREE.Vector3 | null;
   // §2b.15 overlays (Move handles, props): drawn in the main pass only, so they never block part picking
@@ -104,6 +106,36 @@ function parseDepth(v: string | null): Depth | null {
 
 const hex = (c: string) => parseInt(c.slice(1), 16);
 const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+const GHOST_OPACITY = 0.18;
+
+/** R6 ghost: a second draw of the skin geometry with its own bone texture. No PICK_LAYER, so the id pass never sees it. */
+export function createGhost(scene: THREE.Object3D, geo: THREE.BufferGeometry, shared: { uState: THREE.IUniform; uLo: THREE.IUniform; uSize: THREE.IUniform }, bones: number) {
+  const tex = createBoneTexture(bones);
+  const material = new THREE.ShaderMaterial({
+    uniforms: { ...shared, uBones: { value: tex }, uSkin: { value: 1 }, opacity: { value: GHOST_OPACITY } }, // ShaderMaterial does not feed `opacity` to the shader itself
+    transparent: true, opacity: GHOST_OPACITY, depthWrite: false,
+    vertexShader: `attribute float mid; uniform sampler2D uState; uniform vec3 uLo; uniform vec3 uSize;
+varying vec3 vN;
+` + SKIN_GLSL + `void main() {
+  mat4 sk = bodySkin(mid);
+  vN = normalize(normalMatrix * (mat3(sk) * normal));
+  gl_Position = projectionMatrix * modelViewMatrix * (sk * vec4(uLo + position * uSize, 1.));
+}`,
+    fragmentShader: `uniform float opacity; varying vec3 vN;
+void main() { gl_FragColor = vec4(vec3(0.55, 0.85, 1.0) * (0.55 + 0.45 * abs(normalize(vN).z)), opacity); }`,
+  });
+  const mesh = new THREE.Mesh(geo, material);
+  mesh.frustumCulled = false;
+  mesh.renderOrder = 4; // after the skin (3)
+  scene.add(mesh);
+  return {
+    mesh, tex, material,
+    update: (posed: Posed) => writeBones(tex, posed),
+    // the geometry is the skin's and stays
+    dispose() { scene.remove(mesh); material.dispose(); tex.dispose(); },
+  };
+}
 
 async function build(canvas: HTMLCanvasElement, opts: { fps: boolean }, host: HTMLElement): Promise<BodyViewer> {
   // load before creating the renderer, so a failed fetch leaves no WebGL context behind
@@ -335,6 +367,14 @@ async function build(canvas: HTMLCanvasElement, opts: { fps: boolean }, host: HT
     mats.ghost.uniforms.uSkin.value = posed ? 1 : 0; // the same uniform object every material and the id pass share
     changed();
   };
+  let ghostPose: Pose | null = null;
+  let ghost: ReturnType<typeof createGhost> | null = null;
+  const applyGhost = () => {
+    const skin = meshOf.skin;
+    if (!ghostPose || !skel || !skin) { ghost?.dispose(); ghost = null; return; }
+    ghost ??= createGhost(scene, skin.geometry, mats.ghost.uniforms as never, NB);
+    ghost.update(skel[state.sex].posed(ghostPose));
+  };
   let rigLoad: Promise<void> | null = null;
   const ensureRig = () => rigLoad ??= (async () => {
     const [r, w] = await Promise.all([loadRig(m), loadWeights(m)]);
@@ -411,6 +451,7 @@ async function build(canvas: HTMLCanvasElement, opts: { fps: boolean }, host: HT
           p.geo.setAttribute('normal', p.nrm[state.sex]);
         }
         if (pose) applyPose(); // the other sex's skeleton
+        if (ghostPose) applyGhost();
       }
       writeState();
       ensurePacks();
@@ -464,6 +505,11 @@ async function build(canvas: HTMLCanvasElement, opts: { fps: boolean }, host: HT
       pose = p;
       if (p && !skel) await ensureRig();
       if (pose === p) applyPose(); // a later call may have replaced p while the rig loaded
+    },
+    async setGhost(p) {
+      ghostPose = p;
+      if (p && !skel) await ensureRig();
+      if (ghostPose === p) { applyGhost(); request(); }
     },
     jointPosition(key) {
       if (!skel) return null;

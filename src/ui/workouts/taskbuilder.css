@@ -1,0 +1,24 @@
+/* task builder (R5 R8): the player's sheet (.player rules in style.css: collapsed phone sheet, open ≤ 45vh) with the
+   settings under the handle; compare (R6, compare-ui.ts imports this file too): A/B switch, words, muscle columns */
+.tb-fields { display: flex; flex-direction: column; gap: var(--s2); margin-top: var(--s2); }
+.tb-field { display: grid; grid-template-columns: minmax(84px, 9em) 1fr; gap: var(--s2); align-items: center; }
+.tb-field label { font-size: var(--fs-small); color: var(--muted); }
+.tb-field select { font: inherit; width: 100%; min-height: var(--touch); padding: 0 var(--s2); border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); color: inherit; }
+.taskbuilder .effort-back { display: none; } /* the builder shows the peak lower-back line with its band instead */
+.taskbuilder .tb-back p { margin: var(--s1) 0; }
+.compare h3 { font-size: var(--fs-small); margin: var(--s2) 0 var(--s1); color: var(--muted); font-weight: 600; }
+.compare .move-acts { display: flex; flex-wrap: wrap; gap: var(--s2); }
+.cmp-switch { margin-top: var(--s2); }
+.cmp-switch button[aria-pressed=true] { background: #44515f; box-shadow: inset 0 0 0 2px var(--accent); }
+.cmp-words { margin: 0; padding-left: var(--s4); font-size: var(--fs-small); }
+.cmp-words li { margin-bottom: var(--s1); }
+/* the two muscle columns stack on phone, sit side by side at ≥ 900 px */
+.cmp-cols { display: grid; grid-template-columns: 1fr; gap: var(--s3); margin-top: var(--s2); }
+.cmp-col { min-width: 0; }
+.cmp-rows { margin: 0; padding: 0; list-style: none; }
+.cmp-rows li { display: grid; grid-template-columns: 1fr 48px 3em; gap: var(--s2); align-items: center; font-size: var(--fs-small); }
+.cmp-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cmp-pct { text-align: right; color: var(--muted); }
+@media (min-width: 900px) {
+  .cmp-cols { grid-template-columns: 1fr 1fr; }
+}

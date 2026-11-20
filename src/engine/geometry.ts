@@ -20,11 +20,12 @@ export const POINT_ALIAS: Partial<Record<BodyPoint, BodyPoint[]>> = {
 };
 export const expandPoint = (p: BodyPoint): BodyPoint[] => POINT_ALIAS[p] ?? [p];
 
-const SIDED: Record<string, string> = { hand: 'hand', foot: 'ball', heel: 'foot', shin: 'calf', shoulder: 'upperarm', thigh: 'thigh', forearm: 'lowerarm' };
+const SIDED: Record<string, string> = { hand: 'hand', knee: 'calf', elbow: 'lowerarm', foot: 'ball', heel: 'foot', shin: 'calf', shoulder: 'upperarm', thigh: 'thigh', forearm: 'lowerarm' };
 /** The bone a single body point rides on. */
 export function pointBone(p: BodyPoint): string {
   if (p === 'pelvis') return 'pelvis';
-  if (p === 'thoraxBack') return 'spine_03';
+  if (p === 'thoraxBack' || p === 'chest' || p === 'shoulderBack') return 'spine_03';
+  if (p === 'hipsFront' || p === 'pelvisBack') return 'pelvis';
   const b = SIDED[p.slice(0, -2)];
   if (!b || !/_[lr]$/.test(p)) throw new Error(`Body point "${p}" has no single bone`);
   return b + p.slice(-2);
@@ -81,6 +82,12 @@ export function bodyGeometry(skel: Skeleton, pose: Pose, segs: Segments, massKg:
     const base = p.slice(0, -2);
     if (p === 'pelvis') return add(b.head, mv(b.Rw, [0, -0.08, 0])); // ischial point
     if (p === 'thoraxBack') return add(mid(b.head, b.tail), mv(b.Rw, [0, 0, -0.12]));
+    if (p === 'hipsFront') return add(b.head, mv(b.Rw, [0, 0, 0.1])); // 10 cm in front of the pelvis head
+    if (p === 'pelvisBack') return add(b.head, mv(b.Rw, [0, -0.04, -0.08])); // back of the pelvis (sacrum): lying contact
+    if (p === 'chest') return add(mid(b.head, b.tail), mv(b.Rw, [0, 0, 0.12]));
+    if (p === 'shoulderBack') return add(b.head, mv(b.Rw, [0, 0, -0.12]));
+    if (base === 'knee') return add(b.head, mv(b.Rw, [0, 0, 0.05])); // calf head = knee centre, 5 cm to the front
+    if (base === 'elbow') return b.head;
     if (base === 'hand') return add(b.head, scale(unit(sub(b.tail, b.head)), 0.06 * s)); // grip point, as props.ts
     if (base === 'foot' || base === 'shoulder') return b.head;
     if (base === 'heel') { // ponytail: start value, 6 cm (× body scale) behind the ankle along the foot, at sole level

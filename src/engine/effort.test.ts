@@ -64,21 +64,21 @@ describe('muscleLevels', () => {
 
 describe('setupVariant (loads.json, supports.json)', () => {
   it('free load from the prop table, kg override by id, default pin = flat feet', () => {
-    const s = setupVariant('curl', 'stand', ['bar'], undefined, tables, { bar: 30 });
+    const s = setupVariant('barbell-curl', ['bar'], undefined, tables, { bar: 30 });
     expect(s.loads).toEqual([{ id: 'bar', kind: 'free', kg: 30, at: 'hands' }]);
     expect(s.supports).toEqual(tables.supports.pins.default);
   });
   it('cable direction by variant; seat and back contacts; variantProps add floor contacts', () => {
-    expect(setupVariant('pull', 'pulldown', ['seat', 'handle'], 'none', tables).loads[0].toward).toEqual([0, 1, 0]);
-    const seat = setupVariant('curl', 'seat', ['seat', 'back', 'dbL', 'dbR'], 'none', tables);
+    expect(setupVariant('lat-pulldown', ['seat', 'handle'], 'none', tables).loads[0].toward).toEqual([0, 1, 0]);
+    const seat = setupVariant('seated-dumbbell-curl', ['seat', 'back', 'dbL', 'dbR'], 'none', tables);
     expect(seat.supports.map((x) => x.point)).toEqual(['pelvis', 'thigh_l', 'thigh_r', 'thoraxBack']);
     expect(seat.loads.map((l) => [l.id, l.at, l.kg])).toEqual([['dbL', 'hand_l', 8], ['dbR', 'hand_r', 8]]);
-    expect(setupVariant('plank', 'front', [], 'toes', tables).supports.map((x) => x.point)).toEqual(['foot_l', 'foot_r', 'forearm_l', 'forearm_r']);
+    expect(setupVariant('plank', [], 'toes', tables).supports.map((x) => x.point)).toEqual(['foot_l', 'foot_r', 'forearm_l', 'forearm_r']);
   });
   it('duplicate contacts count once; unknown prop or pin throws', () => {
-    expect(setupVariant('pull', 'pullup', ['pullbar'], 'hands', tables).supports.length).toBe(2);
-    expect(() => setupVariant('x', 'y', ['rocket'], undefined, tables)).toThrow(/Unknown prop/);
-    expect(() => setupVariant('x', 'y', [], 'moon', tables)).toThrow(/Unknown pin/);
+    expect(setupVariant('pull-up', ['pullbar'], 'hands', tables).supports.length).toBe(2);
+    expect(() => setupVariant('x', ['rocket'], undefined, tables)).toThrow(/Unknown prop/);
+    expect(() => setupVariant('x', [], 'moon', tables)).toThrow(/Unknown pin/);
   });
 });
 

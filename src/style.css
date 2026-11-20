@@ -147,6 +147,12 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .player-transport button { flex: none; min-width: 5.5em; }
 .player-transport input { flex: 1; min-width: 0; height: var(--touch); margin: 0; accent-color: var(--accent); }
 .player .notice { font-size: var(--fs-small); }
+.lib-search { font: inherit; width: 100%; min-height: var(--touch); padding: 0 var(--s3); border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); color: inherit; }
+.lib-filters { margin: var(--s2) 0; }
+.lib-filters summary { min-height: var(--touch); display: flex; align-items: center; cursor: pointer; }
+.lib-chips { display: flex; flex-wrap: wrap; gap: var(--s1); }
+.lib-chip { min-height: var(--touch); padding: 0 var(--s3); border-radius: 999px; font-size: var(--fs-small); }
+.lib-chip[aria-pressed=true] { background: #44515f; box-shadow: inset 0 0 0 2px var(--accent); }
 .effort-top { font-size: var(--fs-small); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .roles li { display: flex; flex-direction: column; margin-bottom: var(--s2); }
 @media (max-width: 899.98px) {

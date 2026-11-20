@@ -1,5 +1,6 @@
-// Loads and supports for an exercise/task variant from the prop and pin tables (loads.json, supports.json; PLAN §2b.3,
-// 2b.4, 2b.12). Data only: no per-exercise logic beyond the tables' own `towardByVariant` and `variantProps`. Pure.
+// Loads and supports for an exercise record (or task variant) from the prop and pin tables (loads.json, supports.json;
+// PLAN §2b.3, 2b.4, 2b.12). Data only: no per-exercise logic beyond the tables' own `towardByVariant` and `variantProps`,
+// keyed by record id (R5 2b.1; was exercise/variant). Pure.
 import type { ProtoPose } from '../rig/pose';
 import type { BodyPoint, Load, Support, Vec3 } from './types';
 
@@ -12,14 +13,13 @@ export interface LoadsJson { props: Record<string, LoadEntry[]>; none: string[] 
 export interface SupportsJson { pins: Record<string, Support[]>; props: Record<string, Support[]>; none: string[]; variantProps?: Record<string, string[]> }
 
 /**
- * Loads and supports for `exercise/variant` with its props and the prototype pin (undefined = `default`, flat feet).
+ * Loads and supports for record `key` (exercises.json record id) with its props and the prototype pin (undefined = `default`, flat feet).
  * `kg` overrides a load's mass by its id (the prop name). Duplicate contacts (pin `hands` + prop `pullbar`) count once.
  */
 export function setupVariant(
-  exercise: string, variant: string, props: string[], pin: string | undefined,
+  key: string, props: string[], pin: string | undefined,
   tables: { loads: LoadsJson; supports: SupportsJson }, kg: Record<string, number> = {},
 ): { loads: Load[]; supports: Support[] } {
-  const key = `${exercise}/${variant}`;
   const { loads: L, supports: S } = tables;
   const loads = props.flatMap((p) => {
     if (!L.props[p] && !L.none.includes(p) && !S.props[p] && !S.none.includes(p)) throw new Error(`Unknown prop "${p}"`);

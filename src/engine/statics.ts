@@ -8,10 +8,10 @@ export const gravityForces = (g: Geometry): Force[] => Object.entries(g.bones)
   .filter(([, b]) => b.mass > 0)
   .map(([bone, b]) => ({ at: b.com, f: [0, -b.mass * G, 0], bone, kind: 'gravity' }));
 
-/** Loads as forces: free weight straight down, cable toward its pulley, machine along its track; plural points split. */
+/** Loads as forces: free weight straight down, cable toward its pulley, band like a cable (elastic: kg × g at the stretched keyframe, simplification), machine along its track; plural points split. */
 export function loadForces(g: Geometry, loads: Load[]): Force[] {
   return loads.flatMap((l) => {
-    const d = l.kind === 'free' ? [0, -1, 0] as Vec3 : l.kind === 'cable' ? l.toward : l.track;
+    const d = l.kind === 'free' ? [0, -1, 0] as Vec3 : l.kind === 'cable' || l.kind === 'band' ? l.toward : l.track;
     if (!d || !(norm(d) > 0)) throw new Error(`Load "${l.id}" (${l.kind}) needs a direction`);
     const pts = expandPoint(l.at);
     const f = scale(unit(d), (l.kg * G) / pts.length);

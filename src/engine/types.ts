@@ -7,10 +7,11 @@ export type Sex = 'male' | 'female';
 /** Body points (§2b.3). Plural names (hands, foot, shin, shoulders) are two points; a load there is split. */
 export type BodyPoint =
   | 'hand_l' | 'hand_r' | 'hands' | 'foot_l' | 'foot_r' | 'foot' | 'heel_l' | 'heel_r' | 'pelvis' | 'thoraxBack'
+  | 'hipsFront' | 'pelvisBack' | 'chest' | 'shoulderBack' | 'knee_l' | 'knee_r' | 'elbow_l' | 'elbow_r'
   | 'shin_l' | 'shin_r' | 'shin' | 'shoulder_l' | 'shoulder_r' | 'shoulders' | 'thigh_l' | 'thigh_r' | 'forearm_l' | 'forearm_r';
 
 export interface Force { at: Vec3; f: Vec3; bone: string; kind: 'gravity' | 'load' | 'reaction' }
-export interface Load { id: string; kind: 'free' | 'cable' | 'machine'; kg: number; at: BodyPoint; toward?: Vec3; track?: Vec3 }
+export interface Load { id: string; kind: 'free' | 'cable' | 'band' | 'machine'; kg: number; at: BodyPoint; toward?: Vec3; track?: Vec3 }
 export interface Support { point: BodyPoint; normal: Vec3 }
 
 /** segments.json `segments` (PLAN §5). */

@@ -27,6 +27,10 @@ describe.each(['male', 'female'] as Sex[])('statics (%s)', (sex) => {
     const [m] = loadForces(g, [{ id: 'p', kind: 'machine', kg: 40, at: 'foot_l', track: [0, 3, 0] }]);
     expect(m.f[1]).toBeCloseTo(40 * G, 9);
     expect(m.bone).toBe('ball_l');
+    const [b] = loadForces(g, [{ id: 'band', kind: 'band', kg: 12, at: 'hand_l', toward: [0, 4, 0] }]);
+    expect(b.f[1]).toBeCloseTo(12 * G, 9); // band = elastic: kg x g toward its anchor
+    expect(b.bone).toBe('hand_l');
+    expect(() => loadForces(g, [{ id: 'x', kind: 'band', kg: 5, at: 'hands' }])).toThrow(/direction/);
     expect(() => loadForces(g, [{ id: 'x', kind: 'cable', kg: 5, at: 'hands' }])).toThrow(/direction/);
   });
 

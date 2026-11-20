@@ -2,7 +2,7 @@
  "sources": [
   "Contact points and normals follow plan section 2b.3 and 2b.4; angles (40 degree preacher pad, 35 degree recline) are start values, approximate start value, not verified against the original."
  ],
- "note": "normal = direction of the reaction force on the body. Points are body-point names from geometry.ts. A missing pin means default (flat) for supports; fromPrototype still grounds it by toes. pinAt only places the body (pull-up) and is not a support. Pins (plan 2b.12): default (no pin, standing) = flat = heel + ball of both feet; toes = balls only (plank, push-up: the hands/forearms give the area); toeL/toeR = heel + ball of that foot only.",
+ "note": "normal = direction of the reaction force on the body. Points are body-point names from geometry.ts. A missing pin means default (flat) for supports; fromPrototype still grounds it by toes. pinAt only places the body (pull-up) and is not a support. Pins (plan 2b.12): default (no pin, standing) = flat = heel + ball of both feet; toes = balls only (plank, push-up: the hands/forearms give the area); toeL/toeR = heel + ball of that foot only. chair (task builder, plan 2b.9): seated on a chair, the seat carries the pelvis and thighs and the feet stay on the floor; used with pin none at the seated keyframe. reclineBack and reclineSeat carry the normals of the leg-press back pad (35 degrees off vertical) and seat (tilted 15 degrees) in equipment.json (R5 T9a), so the reactions push where the drawn pads are. R5 T9b props (normals are start values, approximate, not verified): inclineBack = back on the adjustable bench at 45 degrees; benchUpperBack = upper back on the flat-bench edge (hip thrust), pushing up and toward the feet; matSupine = lower and upper back on the mat (crunch); matUpperBack = shoulder blades on the mat (glute bridge); legCurlPads = prone on the leg-curl pads (hips and thighs on the thigh pad, chest on the 15-degree chest pad, hands on the handles); matForearmL = left forearm on the mat (side plank); benchKneeHandL = left knee and left hand on the bench (one-arm row); benchFootR = right foot on the bench (Bulgarian split squat).",
  "pins": {
   "none": [],
   "ground": [
@@ -227,7 +227,7 @@
     ]
    },
    {
-    "point": "pelvis",
+    "point": "pelvisBack",
     "normal": [
      0,
      1,
@@ -258,18 +258,18 @@
     "point": "thoraxBack",
     "normal": [
      0,
-     0.819,
-     0.574
+     0.574,
+     0.819
     ]
    }
   ],
   "reclineSeat": [
    {
-    "point": "pelvis",
+    "point": "pelvisBack",
     "normal": [
      0,
-     0.819,
-     0.574
+     0.966,
+     -0.259
     ]
    }
   ],
@@ -326,6 +326,200 @@
      0
     ]
    }
+  ],
+  "chair": [
+   {
+    "point": "pelvis",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "thigh_l",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "thigh_r",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "heel_l",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "foot_l",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "heel_r",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "foot_r",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   }
+  ],
+  "inclineBack": [
+   {
+    "point": "thoraxBack",
+    "normal": [
+     0,
+     0.707,
+     0.707
+    ]
+   }
+  ],
+  "matSupine": [
+   {
+    "point": "pelvisBack",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "thoraxBack",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   }
+  ],
+  "matUpperBack": [
+   {
+    "point": "shoulderBack",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   }
+  ],
+  "legCurlPads": [
+   {
+    "point": "hipsFront",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "thigh_l",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "thigh_r",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "chest",
+    "normal": [
+     0,
+     0.966,
+     0.259
+    ]
+   },
+   {
+    "point": "hand_l",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "hand_r",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   }
+  ],
+  "matForearmL": [
+   {
+    "point": "forearm_l",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   }
+  ],
+  "benchKneeHandL": [
+   {
+    "point": "knee_l",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "point": "hand_l",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   }
+  ],
+  "benchFootR": [
+   {
+    "point": "foot_r",
+    "normal": [
+     0,
+     1,
+     0
+    ]
+   }
+  ],
+  "benchUpperBack": [
+   {
+    "point": "shoulderBack",
+    "normal": [
+     0,
+     0.866,
+     0.5
+    ]
+   }
   ]
  },
  "none": [
@@ -342,13 +536,31 @@
   "bar",
   "dbL",
   "dbR",
-  "legpress"
+  "legpress",
+  "boxR",
+  "bag",
+  "child",
+  "childR",
+  "suitcase",
+  "suitcaseR",
+  "gas-cylinder",
+  "gas-cylinderR",
+  "mopR",
+  "broom",
+  "broomR",
+  "furniture-edge",
+  "kettlebell",
+  "band",
+  "hipBar",
+  "legext",
+  "legcurl",
+  "crossover"
  ],
  "variantProps": {
-  "press/pushup": [
+  "push-up": [
    "floorHands"
   ],
-  "plank/front": [
+  "plank": [
    "floorForearms"
   ]
  }

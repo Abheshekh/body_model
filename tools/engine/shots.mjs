@@ -1,6 +1,6 @@
 /* eslint-disable */
 // Drives headless Chrome over the DevTools protocol against the dev server (npx vite --port 5300).
-//   node --experimental-websocket tools/engine/shots.mjs [male|female]   opens every exercise and task variant, prints "opened N of M" and console errors
+//   node --experimental-websocket tools/engine/shots.mjs [male|female]   opens every exercise record and task preset, prints "opened N of M" and console errors
 //   node --experimental-websocket tools/engine/shots.mjs --shot <sex> <route> <out.png> [js]   one 390x844 screenshot of #<route> (js runs first)
 import { spawn } from 'node:child_process';
 import { readFileSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
@@ -57,17 +57,19 @@ if (shot) {
   done(0);
 } else {
   const read = (f) => JSON.parse(readFileSync(`public/data/${f}`, 'utf8'));
-  const jobs = [['exercises', read('exercises.json').exercises], ['tasks', read('tasks.json').tasks]]
-    .flatMap(([kind, list]) => list.flatMap((e) => e.variants.map((v) => ({ kind, e, v }))));
+  const exs = read('exercises.json').exercises.map((e) => ({ route: `exercises/${e.id}`, name: e.name, id: e.id }));
+  const tasks = read('taskbuilder.json').presets.map((p) => ({ route: `tasks/${p.id}`, name: p.name, id: p.id }));
+  const jobs = [...exs, ...tasks];
   let ok = 0;
-  for (const { kind, e, v } of jobs) {
+  for (const j of jobs) {
     const before = errors.length;
-    await evaluate(`location.hash = '#workouts/${kind}/${e.id}/${v.id}'`);
+    await evaluate(`location.hash = '#workouts/${j.route}'`);
     await sleep(500);
-    const opened = await waitFor(`(() => { const s = document.querySelector('.sheet.player'); return !!s && s.querySelector('h1')?.textContent === ${JSON.stringify(e.name)} && (!s.querySelector('#player-variant') || s.querySelector('#player-variant').value === ${JSON.stringify(v.id)}) && !/Loading|could not be loaded|^No /.test(s.textContent) && s.querySelectorAll('.effort-rows li').length > 0; })()`, 8000);
-    await sleep(300); console.log(`${kind}/${e.id}/${v.id} ${opened}`);
+    // player: h1 = record name; builder: the effort rows appear
+    const opened = await waitFor(`(() => { const s = document.querySelector('.sheet'); return !!s && ${j.route.startsWith('exercises') ? `s.querySelector('h1')?.textContent === ${JSON.stringify(j.name)} && ` : ''}!/Loading|could not be loaded|^No /.test(s.textContent) && s.querySelectorAll('.effort-rows li').length > 0; })()`, 8000);
+    await sleep(300); console.log(`${j.route} ${opened}`);
     if (opened && errors.length === before) ok++;
-    else console.log(`FAIL ${kind}/${e.id}/${v.id}: opened=${opened}`, errors.slice(before));
+    else console.log(`FAIL ${j.route}: opened=${opened}`, errors.slice(before));
   }
   console.log(`opened ${ok} of ${jobs.length}`);
   if (errors.length) console.log('console errors:', errors);

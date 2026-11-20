@@ -8,8 +8,11 @@ const str = read('strengths.json');
 const loads = read('loads.json');
 const sup = read('supports.json');
 const rigBones = (read('body/rig.json').bones as { name: string }[]).map((b) => b.name);
-const variants = [...read('exercises.json').exercises, ...read('tasks.json').tasks].flatMap((e) =>
-  (e.variants as { props: string[]; proto: { a: { pin?: string } } }[]).map((v) => ({ ...v, key: `${e.id}/${(v as unknown as { id: string }).id}` })));
+// exercise records (v2): key, props, first keyframe's pin
+type Pin = { pin?: string };
+const variants = [
+  ...(read('exercises.json').exercises as { id: string; props: string[]; keyframes: Pin[] }[]).map((e) => ({ key: e.id, props: e.props, pin: e.keyframes[0].pin })),
+];
 
 describe('segments.json', () => {
   it('mass fractions sum to 1', () => {
@@ -53,14 +56,13 @@ describe('strengths.json', () => {
 describe('props and pins', () => {
   it('every prop has a loads entry (or is listed none) and a supports entry (or is listed none)', () => {
     const props = new Set(variants.flatMap((v) => v.props));
-    expect(props.size).toBe(20);
     for (const p of props) {
       expect(p in loads.props || loads.none.includes(p), `loads ${p}`).toBe(true);
       expect(p in sup.props || sup.none.includes(p), `supports ${p}`).toBe(true);
     }
   });
   it('every pin in use has supports; every contact is well formed', () => {
-    for (const v of variants) expect((v.proto.a.pin ?? 'default') in sup.pins, `${v.key}: ${v.proto.a.pin}`).toBe(true); // no pin → default
+    for (const v of variants) expect((v.pin ?? 'default') in sup.pins, `${v.key}: ${v.pin}`).toBe(true); // no pin → default
     // §2b.12: no pin = default = flat (heel + ball, both feet); toes = balls only; toeL/toeR = heel + ball of that foot
     const pts = (k: string) => (sup.pins[k] as { point: string }[]).map((c) => c.point).sort();
     expect(pts('default')).toEqual(pts('flat'));

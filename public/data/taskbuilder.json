@@ -1,0 +1,225 @@
+{
+ "sources": [
+  "Keyframe templates adapted from the R4 everyday tasks (public/data/tasks.json, from prototype/index.html EX/CH); depths are scaled by the generator to reach each target (plan 2b.9). Angles are start values chosen for the app, not measured.",
+  "Stoop vs squat lifting: van Dieen JH, Hoozemans MJM, Toussaint HM. Stoop or squat: a review of biomechanical studies on lifting technique. Clin Biomech 1999;14(10):685-696.",
+  "Golfer's lift (one leg extended back as a counterweight): McGill S. Low Back Disorders, 2nd ed. Human Kinetics 2007.",
+  "One-hand vs two-hand carrying: McGill SM, Marshall L, Andersen J. Low back loads while walking and carrying: comparing the load carried in one hand or in both hands. Ergonomics 2013;56(2):293-302.",
+  "Pushing and pulling: Hoozemans MJM, van der Beek AJ, Frings-Dresen MHW, van Dijk FJH, van der Woude LHV. Pushing and pulling in relation to musculoskeletal disorders: a review of risk factors. Ergonomics 1998;41(6):757-781.",
+  "Stair climbing: Nadeau S, McFadyen BJ, Malouin F. Frontal and sagittal plane analyses of the stair climbing task in healthy adults aged over 40 years. Clin Biomech 2003;18(10):950-959.",
+  "Sit to stand: Schenkman M, Berger RA, Riley PO, Mann RW, Hodge WA. Whole-body movements during rising to standing from sitting. Phys Ther 1990;70(10):638-648.",
+  "Object sizes and grip points: public/data/equipment.json objects (same numbers); object masses are approximate start values, not verified (the user sets the weight).",
+  "Start heights: table 0.75 m, shelf 1.5 m, overhead 1.9 m (plan 2b.9); knee 0.47 m = the male model's knee height in prototype coordinates."
+ ],
+ "note": "Prototype coordinates (metres, ROOT_Y 0.965) x body scale s. Start: height, forward (+z, in front), side (+x = the body's left). An object's grips are its equipment.json grip points in item coordinates (the object stands at the start). Props: hands both = the object id (load at hands, split over both hands), hands right = object id + R (load at hand_r). free = the prototype keys the generator scales together (one scalar, 0..1 of the template) to reach the target; target.keyframes = which keyframes must reach it. A keyframe with pin none is carried by the style's support prop (supports.json). rest = a body point the free hand rests on in the target keyframes. from: put down and stand up replay their base action reversed; bend and hold keeps the base's first keyframe only. Carry: the target is the two-feet keyframe; in the one-leg keyframe the arms hang as they fall. A templated combination whose grip the hands cannot reach (a high grip on the shelf or overhead; a floor grip in the squat, which keeps the trunk within 20 degrees, or the golfer's lift) is disabled as out of reach. Presets: the five R4 tasks (mop = bend and hold with the mop).",
+ "objects": [
+  { "id": "none", "name": "Nothing", "kg": 0, "grip": "both", "size": [0, 0, 0], "model": null, "grips": [[0, 0, 0]] },
+  { "id": "box", "name": "Box", "kg": 10, "grip": "both", "size": [0.36, 0.22, 0.26], "model": "box", "grips": [[0.18, 0.15, 0], [-0.18, 0.15, 0]] },
+  { "id": "bucket", "name": "Bucket", "kg": 10, "grip": "one", "size": [0.285, 0.265, 0.285], "model": "bucket", "grips": [[0, 0.395, 0]] },
+  { "id": "bag", "name": "Shopping bag", "kg": 5, "grip": "one", "size": [0.34, 0.34, 0.18], "model": "bag", "grips": [[0, 0.52, 0]] },
+  { "id": "child", "name": "Child (simplified)", "kg": 14, "grip": "both", "size": [0.3, 0.95, 0.2], "model": "child", "grips": [[0.1, 0.66, 0], [-0.1, 0.66, 0]], "simplified": true },
+  { "id": "suitcase", "name": "Suitcase", "kg": 15, "grip": "one", "size": [0.42, 0.66, 0.26], "model": "suitcase", "grips": [[0, 0.665, 0]] },
+  { "id": "gas-cylinder", "name": "Gas cylinder", "kg": 24, "grip": "one", "size": [0.31, 0.59, 0.31], "model": "gas-cylinder", "grips": [[0.105, 0.53, 0]] },
+  { "id": "furniture-edge", "name": "Furniture edge", "kg": 20, "grip": "edge", "size": [0.9, 1.05, 0.45], "model": "furniture-edge", "grips": [] },
+  { "id": "mop", "name": "Mop", "kg": 1, "grip": "both", "size": [0.4, 1.3, 0.12], "model": "mop", "grips": [[0, 0.9, 0], [0, 1.2, 0]] },
+  { "id": "broom", "name": "Broom", "kg": 1, "grip": "both", "size": [0.3, 1.4, 0.12], "model": "broom", "grips": [[0, 0.9, 0], [0, 1.2, 0]] }
+ ],
+ "starts": [
+  { "id": "floorFront", "name": "Floor, in front", "height": 0, "forward": 0.3, "side": 0 },
+  { "id": "floorSide", "name": "Floor, to the side", "height": 0, "forward": 0.1, "side": -0.35 },
+  { "id": "knee", "name": "Knee height", "height": 0.47, "forward": 0.3, "side": 0 },
+  { "id": "table", "name": "Table", "height": 0.75, "forward": 0.3, "side": 0 },
+  { "id": "shelf", "name": "Shelf", "height": 1.5, "forward": 0.3, "side": 0 },
+  { "id": "overhead", "name": "Overhead", "height": 1.9, "forward": 0.3, "side": 0 }
+ ],
+ "actions": [
+  {
+   "id": "pick-up",
+   "name": "Pick up",
+   "objects": ["box", "bucket", "bag", "child", "suitcase", "gas-cylinder", "mop", "broom"],
+   "starts": ["floorFront", "floorSide", "knee", "table", "shelf", "overhead"],
+   "target": { "point": "grip", "keyframes": [0] },
+   "styles": [
+    {
+     "id": "stoop", "name": "Bend at the waist", "free": "hip,spine", "hands": "both",
+     "keyframes": [{ "hip": { "flex": 115 }, "knee": 10, "spine": { "flex": 80 }, "armsHang": true }, { "elbow": 8 }],
+     "source": "van Dieen 1999 (stoop: knees nearly straight, the hips and spine bend)"
+    },
+    {
+     "id": "squat", "name": "Squat down", "free": "hip,knee,ankle", "hands": "both",
+     "keyframes": [{ "hip": { "flex": 120, "abd": 12 }, "knee": 130, "ankle": -20, "spine": { "flex": 8 }, "armsHang": true }, { "elbow": 8 }],
+     "source": "van Dieen 1999 (squat: hips, knees and ankles bend, trunk near upright, here at most 18 degrees)"
+    },
+    {
+     "id": "one-hand", "name": "One hand, other hand on the knee", "free": "hip,spine", "hands": "right", "rest": "knee_l",
+     "keyframes": [{ "hip": { "flex": 115 }, "knee": 15, "spine": { "flex": 80 }, "armsHang": true }, { "elbow": 8 }],
+     "source": "R4 tasks.json bucket/onehand; stoop with one arm, the other hand braced on the knee (plan 2b.9)"
+    },
+    {
+     "id": "golfer", "name": "Golfer's lift", "free": "hipL,kneeL,spine", "hands": "right",
+     "keyframes": [{ "hipL": { "flex": 110 }, "kneeL": 25, "hipR": { "flex": 0 }, "spine": { "flex": 40 }, "pin": "toeL", "armsHang": true }, { "elbow": 8 }],
+     "source": "McGill 2007 (golfer's lift: hinge on one leg, the other leg extends back)"
+    }
+   ]
+  },
+  {
+   "id": "put-down",
+   "name": "Put down",
+   "from": { "action": "pick-up", "mode": "reverse" },
+   "objects": ["box", "bucket", "bag", "child", "suitcase", "gas-cylinder", "mop", "broom"],
+   "starts": ["floorFront", "floorSide", "knee", "table", "shelf", "overhead"],
+   "target": { "point": "grip", "keyframes": [1] },
+   "styles": []
+  },
+  {
+   "id": "carry",
+   "name": "Carry",
+   "objects": ["box", "bucket", "bag", "child", "suitcase", "gas-cylinder", "mop", "broom"],
+   "target": { "point": "grip", "height": 0.85, "keyframes": [0] },
+   "styles": [
+    {
+     "id": "one-hand", "name": "All in one hand", "free": "", "hands": "right",
+     "keyframes": [
+      { "flat": false, "pin": "ground", "hip": { "abd": 4 }, "hipL": { "flex": 24 }, "hipR": { "flex": -12 }, "kneeL": 22, "kneeR": 30, "shoulderL": { "flex": -14, "abd": 14 }, "shoulderR": { "abd": 8 } },
+      { "flat": false, "pin": "toeL", "hipL": { "flex": 0, "abd": -13 }, "kneeL": 20, "hipR": { "flex": 25, "abd": 13 }, "kneeR": 45, "shoulderL": { "flex": 16, "abd": 14 }, "shoulderR": { "abd": 8 } }
+     ],
+     "source": "R4 tasks.json carry/one; McGill 2013 (one-hand carry)"
+    },
+    {
+     "id": "both", "name": "Split between both hands", "free": "", "hands": "both",
+     "keyframes": [
+      { "flat": false, "pin": "ground", "hip": { "abd": 4 }, "hipL": { "flex": 24 }, "hipR": { "flex": -12 }, "kneeL": 22, "kneeR": 30, "shoulder": { "abd": 8 } },
+      { "flat": false, "pin": "toeL", "hipL": { "flex": 0, "abd": -10 }, "kneeL": 20, "hipR": { "flex": 25, "abd": 10 }, "kneeR": 45, "shoulder": { "abd": 8 } }
+     ],
+     "source": "R4 tasks.json carry/both; McGill 2013 (load split over both hands)"
+    }
+   ]
+  },
+  {
+   "id": "push",
+   "name": "Push",
+   "objects": ["furniture-edge"],
+   "target": { "point": "grip", "height": 1.0, "forward": 0.4, "keyframes": [0, 1] },
+   "styles": [
+    {
+     "id": "lean", "name": "Lean in, drive with the legs", "free": "", "hands": "both",
+     "keyframes": [
+      { "hipL": { "flex": 40 }, "kneeL": 30, "ankleL": -10, "hipR": { "flex": -5 }, "kneeR": 5, "spine": { "flex": 5 } },
+      { "hipL": { "flex": 35 }, "kneeL": 20, "ankleL": -10, "hipR": { "flex": -10 }, "kneeR": 0, "spine": { "flex": 5 } }
+     ],
+     "source": "Hoozemans 1998 (pushing: lean into the load, staggered stance)"
+    },
+    {
+     "id": "upright", "name": "Stand upright, push with the arms", "free": "spine", "hands": "both",
+     "keyframes": [{ "hip": { "flex": 5 }, "knee": 5, "spine": { "flex": 25 } }, { "hip": { "flex": 10 }, "knee": 10, "spine": { "flex": 25 } }],
+     "source": "Hoozemans 1998 (pushing at hand height about 1 m; the trunk bends only as far as the hands need to reach)"
+    }
+   ]
+  },
+  {
+   "id": "pull",
+   "name": "Pull",
+   "objects": ["furniture-edge"],
+   "target": { "point": "grip", "height": 1.0, "forward": 0.4, "keyframes": [0, 1] },
+   "styles": [
+    {
+     "id": "lean-back", "name": "Lean back, drive with the legs", "free": "", "hands": "both",
+     "keyframes": [
+      { "hipL": { "flex": 10 }, "kneeL": 30, "ankleL": -10, "hipR": { "flex": 10 }, "kneeR": 30, "ankleR": -10, "spine": { "flex": 5 } },
+      { "hipL": { "flex": 15 }, "kneeL": 25, "ankleL": -5, "hipR": { "flex": 15 }, "kneeR": 25, "ankleR": -5, "spine": { "flex": 5 } }
+     ],
+     "source": "Hoozemans 1998 (pulling: lean back away from the load)"
+    },
+    {
+     "id": "upright", "name": "Stand upright, pull with the arms", "free": "spine", "hands": "both",
+     "keyframes": [{ "hip": { "flex": 5 }, "knee": 5, "spine": { "flex": 25 } }, { "hip": { "flex": 10 }, "knee": 10, "spine": { "flex": 25 } }],
+     "source": "Hoozemans 1998 (pulling at hand height about 1 m; the trunk bends only as far as the hands need to reach)"
+    }
+   ]
+  },
+  {
+   "id": "climb-step",
+   "name": "Climb a step",
+   "objects": ["none"],
+   "target": { "point": "foot_l", "height": 0.18, "keyframes": [0, 1] },
+   "styles": [
+    {
+     "id": "upright", "name": "Upright", "free": "", "hands": "both",
+     "keyframes": [
+      { "flat": false, "pin": "toeL", "pinAt": [0.095, 0.18, 0.22], "hipL": { "flex": 56 }, "kneeL": 64, "ankleL": -8, "hipR": { "flex": -4 }, "kneeR": 6, "ankleR": 14, "spine": { "flex": 6 } },
+      { "flat": false, "pin": "toeL", "pinAt": [0.095, 0.18, 0.22], "hipL": { "flex": 2 }, "kneeL": 4, "hipR": { "flex": 34 }, "kneeR": 62, "spine": { "flex": 2 } }
+     ],
+     "source": "R4 tasks.json stairs/one; Nadeau 2003 (lead foot on the step, trunk near upright)"
+    },
+    {
+     "id": "lean", "name": "Lean forward", "free": "", "hands": "both",
+     "keyframes": [
+      { "flat": false, "pin": "toeL", "pinAt": [0.095, 0.18, 0.22], "hipL": { "flex": 70 }, "kneeL": 64, "ankleL": -8, "hipR": { "flex": 10 }, "kneeR": 6, "ankleR": 14, "spine": { "flex": 16 } },
+      { "flat": false, "pin": "toeL", "pinAt": [0.095, 0.18, 0.22], "hipL": { "flex": 10 }, "kneeL": 4, "hipR": { "flex": 40 }, "kneeR": 62, "spine": { "flex": 8 } }
+     ],
+     "source": "R4 tasks.json stairs/one with more trunk lean; Nadeau 2003"
+    }
+   ]
+  },
+  {
+   "id": "sit-down",
+   "name": "Sit down",
+   "objects": ["none"],
+   "target": { "point": "pelvis", "height": 0.45, "keyframes": [1] },
+   "styles": [
+    {
+     "id": "upright", "name": "Upright", "free": "hip,knee,ankle", "hands": "both", "support": "chair",
+     "keyframes": [{}, { "hip": { "flex": 100 }, "knee": 110, "ankle": -10, "spine": { "flex": 5 }, "pin": "none" }],
+     "source": "Schenkman 1990 (sitting: hips and knees near 90 degrees, trunk upright)"
+    },
+    {
+     "id": "lean-forward", "name": "Lean forward, arms forward", "free": "hip,knee,ankle", "hands": "both", "support": "chair",
+     "keyframes": [{}, { "hip": { "flex": 110 }, "knee": 110, "ankle": -15, "spine": { "flex": 20 }, "shoulder": { "flex": 60, "abd": 6 }, "pin": "none" }],
+     "source": "Schenkman 1990 (trunk flexes forward to bring the body over the feet; arms forward as a counterweight)"
+    }
+   ]
+  },
+  {
+   "id": "stand-up",
+   "name": "Stand up",
+   "from": { "action": "sit-down", "mode": "reverse" },
+   "objects": ["none"],
+   "target": { "point": "pelvis", "height": 0.45, "keyframes": [0] },
+   "styles": []
+  },
+  {
+   "id": "reach",
+   "name": "Reach",
+   "objects": ["none", "box", "bag", "bucket"],
+   "starts": ["table", "shelf", "overhead"],
+   "target": { "point": "grip", "keyframes": [1] },
+   "styles": [
+    {
+     "id": "both", "name": "Both hands", "free": "hip,spine", "hands": "both",
+     "keyframes": [{}, { "hip": { "flex": 60 }, "knee": 5, "spine": { "flex": 30 }, "armsHang": true }],
+     "source": "R4 tasks.json shelf/close (stand close, arms raise to the target; bend at the hips only as far as a low target needs)"
+    },
+    {
+     "id": "one-hand", "name": "One hand", "free": "hip,spine", "hands": "right",
+     "keyframes": [{}, { "hip": { "flex": 60 }, "knee": 5, "spine": { "flex": 30 }, "armsHang": true }],
+     "source": "R4 tasks.json shelf/close, one arm"
+    }
+   ]
+  },
+  {
+   "id": "bend-and-hold",
+   "name": "Bend and hold",
+   "from": { "action": "pick-up", "mode": "hold" },
+   "objects": ["none", "box", "bucket", "bag", "child", "suitcase", "gas-cylinder", "mop", "broom"],
+   "starts": ["floorFront", "knee"],
+   "target": { "point": "grip", "keyframes": [0] },
+   "styles": []
+  }
+ ],
+ "presets": [
+  { "id": "bucket", "name": "Lift a full bucket", "settings": { "object": "bucket", "kg": 10, "start": "floorFront", "action": "pick-up", "style": "stoop" } },
+  { "id": "carry", "name": "Carry shopping bags", "settings": { "object": "bag", "kg": 10, "start": "floorFront", "action": "carry", "style": "one-hand" } },
+  { "id": "mop", "name": "Mop the floor", "settings": { "object": "mop", "kg": 1, "start": "floorFront", "action": "bend-and-hold", "style": "stoop" } },
+  { "id": "shelf", "name": "Put a box on a high shelf", "settings": { "object": "box", "kg": 10, "start": "shelf", "action": "reach", "style": "both" } },
+  { "id": "stairs", "name": "Climb stairs", "settings": { "object": "none", "kg": 0, "start": "floorFront", "action": "climb-step", "style": "upright" } }
+ ]
+}

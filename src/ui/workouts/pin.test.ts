@@ -8,16 +8,20 @@ import { fromPrototype, type ProtoPose } from '../../rig/pose';
 
 const read = (f: string) => JSON.parse(readFileSync(`public/data/${f}`, 'utf8'));
 const tables = { loads: read('loads.json'), supports: read('supports.json') };
-type V = { id: string; props: string[]; proto: { a: ProtoPose; b: ProtoPose } };
-const all: { id: string; variants: V[] }[] = [...read('exercises.json').exercises, ...read('tasks.json').tasks];
+// key = exercise record id (exercises.json v2)
+type V = { key: string; props: string[]; a: ProtoPose; b: ProtoPose };
+const all: V[] = [
+  ...(read('exercises.json').exercises as { id: string; props: string[]; keyframes: ProtoPose[] }[])
+    .map((e) => ({ key: e.id, props: e.props, a: e.keyframes[0], b: e.keyframes[1] })),
+];
 
 describe('player supports pin', () => {
-  for (const e of all) for (const v of e.variants) {
-    it(`${e.id}/${v.id}: supports from the raw prototype pin`, () => {
-      const raw = v.proto.a.pin as string | undefined;
-      expect(supportPin(v.proto.a)).toBe(raw);
+  for (const v of all) {
+    it(`${v.key}: supports from the raw prototype pin`, () => {
+      const raw = v.a.pin as string | undefined;
+      expect(supportPin(v.a)).toBe(raw);
       const pins = tables.supports.pins[raw ?? 'default'];
-      const { supports } = setupVariant(e.id, v.id, v.props, supportPin(v.proto.a), tables);
+      const { supports } = setupVariant(v.key, v.props, supportPin(v.a), tables);
       for (const s of pins) expect(supports).toContainEqual(s);
     });
   }
@@ -26,11 +30,11 @@ describe('player supports pin', () => {
   });
 
   const data = engineData({ rig: read('body/rig.json'), manifest: read('body/manifest.json'), segments: read('segments.json'), strengths: read('strengths.json'), actions: read('actions.json') });
-  const curl = all.find((e) => e.id === 'curl')!.variants.find((v) => v.id === 'stand')!;
+  const curl = all.find((v) => v.key === 'barbell-curl')!;
   for (const sex of ['male', 'female'] as const) {
-    it(`curl/stand (${sex}): centre of mass over the feet`, () => {
-      const input = { sex, ...setupVariant('curl', 'stand', curl.props, supportPin(curl.proto.a), tables) };
-      expect(effortOverMove(fromPrototype(curl.proto.a), fromPrototype(curl.proto.b), input, data).balance.comOverFeet).toBe(true);
+    it(`barbell-curl (${sex}): centre of mass over the feet`, () => {
+      const input = { sex, ...setupVariant('barbell-curl', curl.props, supportPin(curl.a), tables) };
+      expect(effortOverMove(fromPrototype(curl.a), fromPrototype(curl.b), input, data).balance.comOverFeet).toBe(true);
     });
   }
 });

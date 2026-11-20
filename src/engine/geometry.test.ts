@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { createSkeleton, type Rig } from '../rig/skeleton';
 import { emptyPose } from '../rig/pose';
-import { bodyGeometry, norm, sub } from './geometry';
+import { bodyGeometry, norm, pointBone, sub } from './geometry';
 import type { Segments, Sex } from './types';
 
 const read = (f: string) => JSON.parse(readFileSync(`public/data/${f}`, 'utf8'));
@@ -54,6 +54,26 @@ describe.each(['male', 'female'] as Sex[])('bodyGeometry (%s)', (sex) => {
     const heel = g.point('heel_l');
     expect(heel[2]).toBeLessThan(g.bones.foot_l.head[2]); // behind the ankle
     expect(heel[1]).toBe(g.bones.ball_l.head[1]);
+    // 2b.5 points: offsets in the bone frame (+z forward)
+    const off = (p: Parameters<typeof g.point>[0], bone: string, from: number[], z: number) => {
+      const d = sub(g.point(p), from as [number, number, number]);
+      const R = g.bones[bone].Rw;
+      expect(d[0] * R[2] + d[1] * R[5] + d[2] * R[8]).toBeCloseTo(z, 9); // along the bone's z
+      expect(norm(d)).toBeCloseTo(Math.abs(z), 9);
+    };
+    const sp = g.bones.spine_03, spMid = sp.head.map((v, i) => (v + sp.tail[i]) / 2);
+    off('hipsFront', 'pelvis', g.bones.pelvis.head, 0.1);
+    // pelvisBack (R5 2d.C): 8 cm along the pelvis' -z and 4 cm down its -y
+    const pb = sub(g.point('pelvisBack'), g.bones.pelvis.head), P = g.bones.pelvis.Rw;
+    expect(pb[0] * P[2] + pb[1] * P[5] + pb[2] * P[8]).toBeCloseTo(-0.08, 9);
+    expect(pb[0] * P[1] + pb[1] * P[4] + pb[2] * P[7]).toBeCloseTo(-0.04, 9);
+    expect(pointBone('pelvisBack')).toBe('pelvis');
+    off('chest', 'spine_03', spMid, 0.12);
+    off('shoulderBack', 'spine_03', sp.head, -0.12);
+    for (const k of ['l', 'r']) {
+      off(`knee_${k}` as 'knee_l', `calf_${k}`, g.bones[`calf_${k}`].head, 0.05);
+      expect(g.point(`elbow_${k}` as 'elbow_l')).toEqual(g.joint(`elbow_${k}`));
+    }
     // grounded: the lowest foot point at y = 0
     expect(Math.min(g.bones.ball_l.head[1], g.bones.ball_l.tail[1], g.bones.foot_l.head[1], g.bones.foot_l.tail[1])).toBeCloseTo(0, 9);
   });

@@ -1,0 +1,17 @@
+/* keyframe editor (R5 R7): Move's sheet (.move rules in style.css: collapsed phone sheet, open ≤ 45vh) with a title,
+   the version line, the keyframe strip as transport, the legend and the summary line; form checks under the handle */
+.move.editor h1 { margin: var(--s1) 0; font-size: var(--fs-h); }
+.move.editor .move-version { margin: 0 0 var(--s1); }
+.move.editor .move-version.notice { color: var(--text); }
+.move.editor .move-keys { margin-top: var(--s1); }
+.move-checks { margin: 0; padding: 0; list-style: none; font-size: var(--fs-small); }
+.move-checks li { margin-bottom: var(--s1); padding-left: var(--s2); border-left: 3px solid var(--chip-strong); }
+.move-checks li.fail { border-left-color: var(--error); }
+.move-checks strong { margin-right: var(--s1); }
+@media (max-width: 899.98px) {
+  /* collapsed: one line for the title, the strip scrolls sideways instead of wrapping (the body stays above the sheet) */
+  .move.editor h1 { font-size: var(--fs); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .move.editor .move-version { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .move.editor .move-keys { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .move.editor .move-keys button { flex: none; }
+}

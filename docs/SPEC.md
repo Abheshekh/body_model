@@ -176,36 +176,49 @@ Limits to state in the app: the engine is static. It ignores speed, momentum, fa
 
 ## 5. Exercises (R5)
 
-Record:
+Record (`public/data/exercises.json` v2, flat, `family` groups records for the Variation picker):
 ```
 Exercise
-  id, name, aliases[], pattern, posture, equipment[], bodyParts[]
-  supports[], loads[]            load weight is a user slider
-  keyframes[]                    poses, each reviewed
-  cues[], mistakes[]
-  formChecks[]                   machine-checkable rules, for example "knee tracks over foot"
-  sources[], reviewed: boolean
+  id, name, family, aliases[], pattern, posture, equipment[], bodyParts[]
+  props[]                        engine props (loads.json / supports.json), never a muscle list
+  placement?                     per equipment item: { at?, yaw?, angle? }
+  loads?                         load id -> kg (the user's slider overrides)
+  keyframes[]                    poses in prototype format (>= 2), each with a pin
+  cam?, cues[], mistakes[]
+  formChecks[]                   kneeOverFoot, neutralSpine {maxLumbarFlex} only; the global checks run for every record
+  note?, sources[], reviewed: boolean
 ```
+`reviewed: true` only when every form check passes on both sexes and the contact-sheet tile was looked at and read as correct. Generated records are `reviewed: false`.
 
-Scale comes from patterns. A pattern is a reviewed motion (curl, press, row, pulldown, squat, hinge, lunge, raise, fly, extension, rotation, carry, hold). Pattern × posture (standing, seated, incline, decline, lying, kneeling, hanging) × equipment (barbell, dumbbell, kettlebell, cable, machine, band, bodyweight) gives most named gym exercises. Names and text come from free-exercise-db and wger and are matched to a pattern.
+Scale comes from patterns. A pattern is a reviewed motion: curl, press, row, pulldown, squat, hinge, lunge, raise, fly, extension, rotation, carry, hold, flexion. `hold` is a static position (plank, side plank); `carry` is walking or standing with a load (farmer carry); `flexion` is trunk flexion (crunch). Pattern x posture (standing, seated, incline, decline, lying, kneeling, hanging) x equipment (barbell, dumbbell, kettlebell, cable, machine, band, bodyweight) gives most named gym exercises. Names and text come from free-exercise-db and wger and are matched to a pattern.
 
-Honest target: 50 hand-reviewed, 300+ generated at first release, growing toward the roughly 1,200–1,500 unique entries in open data. "Every exercise in the world" is not a finite list. Build-your-own covers the rest.
+Form checks (pure, `src/library/form.ts`, run on every keyframe and three in-betweens per segment, both sexes): limits (every joint inside its range), balance (centre of mass over the supports; skipped when a seat, back, bench or pad braces the body), contacts (each support point touches its equipment surface or the floor), clearance (nothing through equipment or floor), kneeOverFoot, neutralSpine.
 
-Equipment: real models (flat and adjustable bench, rack, barbell and plates, dumbbells, kettlebell, cable column, lat machine, leg press, leg extension and curl, pull-up rig, box, mat). CC0 sources or built in Blender. No placeholder boxes in a reviewed exercise.
+Compare: one body, an A/B switch, a translucent ghost of the other version (a second skin draw, only while comparing), side-by-side columns from 900 px, and words: muscles whose level changes by 0.1 or more (max 6 lines, levels low < 0.25 <= medium < 0.5 <= high), the lower-back moment and the balance change; "No muscle changes by more than 10%" when none.
+
+Keyframe editor: add, remove, reorder (at least 2 kept), drag joints; effort and checks update live. A saved version lives in localStorage on the device only; Revert restores the shipped record.
+
+Honest target: 50 hand-reviewed, 300+ generated at first release, growing toward the roughly 1,200-1,500 unique entries in open data. "Every exercise in the world" is not a finite list. Build-your-own covers the rest.
+
+Equipment: built in code for the project (source "built for the project"), real dimensions, real materials: flat and adjustable bench, squat rack, barbell and plates, dumbbells, kettlebell, cable column, lat machine, leg press, leg extension and curl, pull-up rig, plyo box, mat, band. One data file (`equipment.json`) gives the mesh, the contact surfaces and the colliders, so the form checks and the picture agree. A CC0 model may replace an item only if it clearly looks better; its source and licence are then recorded. No placeholder boxes in a reviewed exercise.
 
 ## 6. Task builder (R5)
 
 | Step | Options |
 |---|---|
 | Object | Box, bucket, bag, child, suitcase, gas cylinder, furniture edge, mop or broom, none |
-| Weight | Slider, 0–50 kg |
+| Weight | Slider, 0-50 kg |
 | Where it starts | Floor in front, floor to the side, knee height, table, shelf, overhead |
 | Action | Pick up, put down, carry, push, pull, climb step, sit down, stand up, reach, bend and hold |
 | Style | Each action ships two or three ways of doing it. Pick up: stoop, squat, one-hand, golfer's lift. |
 | Edit | Open any keyframe. Drag joints. Effort updates live. |
 | Compare | Pin one version. Edit another. See both side by side with the differences in words. |
 
+Combinations that make no sense or cannot be reached are disabled with a reason ("Out of reach"). The pose comes from a template plus IK to the grip plus a balance fix (shift the root and ankle up to 15 cm / 15 degrees); if it still cannot balance, the task stays playable with the warning "cannot balance this pose".
+
 Outputs: per-muscle effort, lower-back moment in Nm with a low/medium/high band, balance warning when the centre of mass leaves the feet.
+
+Lumbar band: lower-back moment divided by typical back-extensor strength (strengths.json), low < 0.3 <= medium < 0.6 <= high, labelled "Share of typical back-extensor strength (estimate)". No injury threshold is claimed. The moment is overcounted because trunk mass sits on spine_02; say so where the band shows.
 
 ## 7. My model (R6)
 

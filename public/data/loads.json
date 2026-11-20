@@ -2,7 +2,7 @@
  "sources": [
   "Prop masses are start values chosen for the app (user can edit kg in the player), approximate start value, not verified against the original; kg is the total for the load point (hands = split over both hands)."
  ],
- "note": "toward/track are directions of the force the load applies to the body (y up, z body-forward); the engine normalises them. handle toward is the default (row); towardByVariant overrides it by exercise/variant (pulley direction differs per exercise). legpress track: force on the feet along the torso axis toward the body, for a back reclined 35 degrees off vertical. Plan section 2b.3 lists legpress as a prop; no current variant uses it (squat/legpress uses reclineBack and reclineSeat), so it is kept for the library.",
+ "note": "toward/track are directions of the force the load applies to the body (y up, z body-forward); the engine normalises them. handle toward is the default (row); towardByVariant overrides it by exercises.json record id (pulley direction differs per exercise). legpress track: force of the sled on the feet, down and back along the leg-press rails (45 degrees, equipment.json leg-press railLeft/railRight rx -45), changed in R5 T9a from the 35-degree start value so the load agrees with the drawn machine; magnitude is kg x g along the rail (the true push of a 45-degree sled is kg x g x sin 45; simplification). The leg-press record carries legpress since R5 T9b. band = elastic, modelled as a cable with force kg x g at the stretched keyframe (simplification); the band prop pulls each hand toward the other (band pull-apart). R5 T9b props: kettlebell = kettlebell at both hands; crossover = two high pulleys, one per hand, pulling out, up and back (cable fly; one cable column is drawn); hipBar = barbell across the hips at hipsFront (hip thrust); legext and legcurl = machine lever pad at the shins, track fixed at the 45-degree midpoint of the lever arc (simplification: on the machine the direction turns with the knee angle). Task builder props (taskbuilder.json): <object> = the load at both hands (split), <object>R = at the right hand; furniture-edge is the push/pull force, a horizontal cable along body z, toward by task key tasks/push (pushes back on the hands) and tasks/pull (pulls them forward); its kg is the force to move it.",
  "props": {
   "bar": [
    {
@@ -78,25 +78,35 @@
      1
     ],
     "towardByVariant": {
-     "row/cable": [
+     "seated-cable-row": [
       0,
       -0.1,
       1
      ],
-     "pull/pulldown": [
+     "lat-pulldown": [
       0,
       1,
       0
      ],
-     "triceps/pushdown": [
+     "triceps-pushdown": [
       0,
       1,
       0
      ],
-     "triceps/overhead": [
+     "overhead-triceps-extension": [
       0,
       -0.5,
       -1
+     ],
+     "face-pull": [
+      0,
+      0.1,
+      1
+     ],
+     "pallof-press": [
+      1,
+      0,
+      0
      ]
     }
    }
@@ -108,8 +118,191 @@
     "kg": 40,
     "track": [
      0,
-     0.574,
-     -0.819
+     -0.707,
+     -0.707
+    ]
+   }
+  ],
+  "boxR": [
+   {
+    "at": "hand_r",
+    "kind": "free",
+    "kg": 10
+   }
+  ],
+  "bag": [
+   {
+    "at": "hands",
+    "kind": "free",
+    "kg": 5
+   }
+  ],
+  "child": [
+   {
+    "at": "hands",
+    "kind": "free",
+    "kg": 14
+   }
+  ],
+  "childR": [
+   {
+    "at": "hand_r",
+    "kind": "free",
+    "kg": 14
+   }
+  ],
+  "suitcase": [
+   {
+    "at": "hands",
+    "kind": "free",
+    "kg": 15
+   }
+  ],
+  "suitcaseR": [
+   {
+    "at": "hand_r",
+    "kind": "free",
+    "kg": 15
+   }
+  ],
+  "gas-cylinder": [
+   {
+    "at": "hands",
+    "kind": "free",
+    "kg": 24
+   }
+  ],
+  "gas-cylinderR": [
+   {
+    "at": "hand_r",
+    "kind": "free",
+    "kg": 24
+   }
+  ],
+  "mopR": [
+   {
+    "at": "hand_r",
+    "kind": "free",
+    "kg": 1
+   }
+  ],
+  "broom": [
+   {
+    "at": "hands",
+    "kind": "free",
+    "kg": 1
+   }
+  ],
+  "broomR": [
+   {
+    "at": "hand_r",
+    "kind": "free",
+    "kg": 1
+   }
+  ],
+  "furniture-edge": [
+   {
+    "at": "hands",
+    "kind": "cable",
+    "kg": 20,
+    "toward": [
+     0,
+     0,
+     -1
+    ],
+    "towardByVariant": {
+     "tasks/push": [
+      0,
+      0,
+      -1
+     ],
+     "tasks/pull": [
+      0,
+      0,
+      1
+     ]
+    }
+   }
+  ],
+  "kettlebell": [
+   {
+    "at": "hands",
+    "kind": "free",
+    "kg": 16
+   }
+  ],
+  "band": [
+   {
+    "at": "hand_l",
+    "kind": "band",
+    "kg": 5,
+    "toward": [
+     -1,
+     0,
+     0
+    ]
+   },
+   {
+    "at": "hand_r",
+    "kind": "band",
+    "kg": 5,
+    "toward": [
+     1,
+     0,
+     0
+    ]
+   }
+  ],
+  "hipBar": [
+   {
+    "at": "hipsFront",
+    "kind": "free",
+    "kg": 40
+   }
+  ],
+  "legext": [
+   {
+    "at": "shin",
+    "kind": "machine",
+    "kg": 30,
+    "track": [
+     0,
+     -0.707,
+     -0.707
+    ]
+   }
+  ],
+  "legcurl": [
+   {
+    "at": "shin",
+    "kind": "machine",
+    "kg": 25,
+    "track": [
+     0,
+     -0.707,
+     -0.707
+    ]
+   }
+  ],
+  "crossover": [
+   {
+    "at": "hand_l",
+    "kind": "cable",
+    "kg": 10,
+    "toward": [
+     1,
+     0.3,
+     -0.3
+    ]
+   },
+   {
+    "at": "hand_r",
+    "kind": "cable",
+    "kg": 10,
+    "toward": [
+     -1,
+     0.3,
+     -0.3
     ]
    }
   ]
@@ -124,6 +317,16 @@
   "reclineSeat",
   "seat",
   "back",
-  "bench"
+  "bench",
+  "chair",
+  "inclineBack",
+  "matSupine",
+  "matUpperBack",
+  "legCurlPads",
+  "matForearmL",
+  "benchKneeHandL",
+  "benchFootR",
+  "benchUpperBack",
+  "floorHands"
  ]
 }

@@ -1,1223 +1,4000 @@
 {
  "sources": [
-  "prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine"
+  "prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine",
+  "R5 plan 2b.1: the 22 R4 variants migrated to flat records (id map in src/library/exercises.ts legacyId)",
+  "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+  "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased",
+  "R5 plan 2b.2 (T9b): 28 new records; keyframes fitted so every form check passes on both bodies (tools/library/check.mjs)"
  ],
+ "version": 2,
  "exercises": [
   {
-   "id": "curl",
-   "name": "Biceps curl",
-   "part": "Arms",
-   "cues": [
-    "Elbows stay by your ribs.",
-    "Stand or sit tall, ribs down.",
-    "Lower for a slow count of three."
+   "id": "barbell-curl",
+   "name": "Barbell curl",
+   "family": "curl",
+   "aliases": [
+    "Biceps curl",
+    "Standing barbell curl"
    ],
-   "avoid": [
-    "Swinging the hips to start the rep.",
-    "Elbows drifting forward.",
-    "Wrists bending back."
+   "pattern": "curl",
+   "posture": "standing",
+   "equipment": [
+    "barbell"
    ],
-   "variants": [
+   "bodyParts": [
+    "Arms"
+   ],
+   "props": [
+    "bar"
+   ],
+   "keyframes": [
     {
-     "id": "stand",
-     "name": "Standing, barbell",
-     "props": [
-      "bar"
-     ],
-     "proto": {
-      "a": {
-       "elbow": 6
-      },
-      "b": {
-       "elbow": 140,
-       "shoulder": {
-        "flex": 8
-       }
-      }
-     },
-     "moving": [
-      "elbow"
-     ],
-     "held": [
-      "wrist",
-      "shoulder",
-      "spine",
-      "hip",
-      "knee",
-      "ankle"
-     ]
+     "elbow": 6
     },
     {
-     "id": "seat",
-     "name": "Seated, dumbbells",
-     "props": [
-      "seat",
-      "back",
-      "dbL",
-      "dbR"
-     ],
-     "proto": {
-      "a": {
-       "root": {
-        "y": 0.535,
-        "pitch": 0
-       },
-       "hip": {
-        "flex": 90
-       },
-       "knee": 90,
-       "pin": "none",
-       "elbow": 6
-      },
-      "b": {
-       "root": {
-        "y": 0.535,
-        "pitch": 0
-       },
-       "hip": {
-        "flex": 90
-       },
-       "knee": 90,
-       "pin": "none",
-       "elbow": 140,
-       "shoulder": {
-        "flex": 8
-       }
-      }
-     },
-     "moving": [
-      "elbow"
-     ],
-     "held": [
-      "wrist",
-      "shoulder",
-      "spine"
-     ],
-     "note": "The seat takes your legs out. The back pad takes most of the trunk out."
-    },
-    {
-     "id": "preacher",
-     "name": "Preacher bench",
-     "props": [
-      "seat",
-      "pad",
-      "bar"
-     ],
-     "proto": {
-      "a": {
-       "root": {
-        "y": 0.535,
-        "pitch": 0
-       },
-       "hip": {
-        "flex": 90
-       },
-       "knee": 90,
-       "pin": "none",
-       "spine": {
-        "flex": 14
-       },
-       "shoulder": {
-        "flex": 50,
-        "abd": 4
-       },
-       "elbow": 18
-      },
-      "b": {
-       "root": {
-        "y": 0.535,
-        "pitch": 0
-       },
-       "hip": {
-        "flex": 90
-       },
-       "knee": 90,
-       "pin": "none",
-       "spine": {
-        "flex": 14
-       },
-       "shoulder": {
-        "flex": 50,
-        "abd": 4
-       },
-       "elbow": 125
-      }
-     },
-     "moving": [
-      "elbow"
-     ],
-     "held": [
-      "wrist",
-      "shoulder"
-     ],
-     "note": "The pad fixes your upper arms. You cannot swing, so the elbow benders do nearly everything."
+     "elbow": 140,
+     "shoulder": {
+      "flex": 8
+     }
     }
-   ]
+   ],
+   "cues": [
+    "Stand tall, bar at arm's length, palms facing forward.",
+    "Keep the upper arms still at your sides as you curl.",
+    "Lower the bar slowly until the arms are straight."
+   ],
+   "mistakes": [
+    "Swinging the hips or leaning back to start the rep.",
+    "Elbows drifting forward at the top.",
+    "Stopping short of straight arms at the bottom."
+   ],
+   "formChecks": [],
+   "sources": [
+    "prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine",
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": true
   },
   {
-   "id": "ohp",
+   "id": "seated-dumbbell-curl",
+   "name": "Seated dumbbell curl",
+   "family": "curl",
+   "aliases": [
+    "Biceps curl",
+    "Seated biceps curl"
+   ],
+   "pattern": "curl",
+   "posture": "seated",
+   "equipment": [
+    "dumbbell",
+    "adjustable-bench"
+   ],
+   "bodyParts": [
+    "Arms"
+   ],
+   "props": [
+    "seat",
+    "back",
+    "dbL",
+    "dbR"
+   ],
+   "keyframes": [
+    {
+     "root": {
+      "y": 0.52,
+      "z": 0.01,
+      "pitch": 0
+     },
+     "hip": {
+      "flex": 90
+     },
+     "knee": 90,
+     "pin": "none",
+     "elbow": 6
+    },
+    {
+     "root": {
+      "y": 0.52,
+      "z": 0.01,
+      "pitch": 0
+     },
+     "hip": {
+      "flex": 90
+     },
+     "knee": 90,
+     "pin": "none",
+     "elbow": 140,
+     "shoulder": {
+      "flex": 8
+     }
+    }
+   ],
+   "cues": [
+    "Sit tall with your back against the upright pad.",
+    "Keep the elbows at your sides as you curl.",
+    "Lower each dumbbell slowly to straight arms."
+   ],
+   "mistakes": [
+    "Leaning off the pad to swing the weights.",
+    "Elbows drifting forward at the top.",
+    "Dropping the weights fast on the way down."
+   ],
+   "formChecks": [],
+   "note": "The seat takes your legs out. The back pad takes most of the trunk out.",
+   "sources": [
+    "prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine",
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased",
+    "Pose and placement adjusted in R5 T9a so every form check passes on both bodies (tools/library/check.mjs)"
+   ],
+   "reviewed": true,
+   "placement": {
+    "adjustable-bench": {
+     "angle": 85
+    }
+   }
+  },
+  {
+   "id": "preacher-curl",
+   "name": "Preacher curl",
+   "family": "curl",
+   "aliases": [
+    "Biceps curl",
+    "Scott curl"
+   ],
+   "pattern": "curl",
+   "posture": "seated",
+   "equipment": [
+    "barbell"
+   ],
+   "bodyParts": [
+    "Arms"
+   ],
+   "props": [
+    "seat",
+    "pad",
+    "bar"
+   ],
+   "keyframes": [
+    {
+     "pin": "flat",
+     "root": {
+      "pitch": 0
+     },
+     "hip": {
+      "flex": 86
+     },
+     "knee": 86,
+     "spine": {
+      "flex": 14
+     },
+     "shoulder": {
+      "flex": 50,
+      "abd": 4
+     },
+     "elbow": 18
+    },
+    {
+     "pin": "flat",
+     "root": {
+      "pitch": 0
+     },
+     "hip": {
+      "flex": 86
+     },
+     "knee": 86,
+     "spine": {
+      "flex": 14
+     },
+     "shoulder": {
+      "flex": 50,
+      "abd": 4
+     },
+     "elbow": 125
+    }
+   ],
+   "cues": [
+    "Rest the backs of the upper arms flat on the pad.",
+    "Curl until the forearms are nearly upright.",
+    "Lower slowly until the arms are almost straight."
+   ],
+   "mistakes": [
+    "Lifting the elbows off the pad.",
+    "Dropping quickly into the straight-arm position.",
+    "Shrugging the shoulders toward the ears."
+   ],
+   "formChecks": [],
+   "note": "The pad fixes your upper arms. You cannot swing, so the elbow benders do nearly everything.",
+   "sources": [
+    "prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine",
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased",
+    "Pose and placement adjusted in R5 T9a so every form check passes on both bodies (tools/library/check.mjs)"
+   ],
+   "reviewed": false
+  },
+  {
+   "id": "overhead-press",
    "name": "Overhead press",
-   "part": "Shoulders",
-   "cues": [
-    "Squeeze glutes before you press.",
-    "Bar travels in a straight line over mid-foot.",
-    "Finish with arms by your ears."
+   "family": "ohp",
+   "aliases": [
+    "Military press",
+    "Shoulder press",
+    "Standing barbell press"
    ],
-   "avoid": [
+   "pattern": "press",
+   "posture": "standing",
+   "equipment": [
+    "barbell"
+   ],
+   "bodyParts": [
+    "Shoulders"
+   ],
+   "props": [
+    "bar"
+   ],
+   "keyframes": [
+    {
+     "shoulder": {
+      "abd": 72,
+      "rot": 90
+     },
+     "elbow": 122
+    },
+    {
+     "shoulder": {
+      "abd": 166,
+      "rot": 90
+     },
+     "elbow": 8
+    }
+   ],
+   "cues": [
+    "Start with the bar on the front of the shoulders, hands just outside shoulder width.",
+    "Brace the trunk and press the bar straight up.",
+    "Finish with the arms straight and the bar over the middle of the feet."
+   ],
+   "mistakes": [
     "Leaning back to turn it into a chest press.",
-    "Elbows flared straight out to the sides.",
-    "Pressing with a loose core."
+    "Bending the knees to drive the bar up.",
+    "Letting the bar drift forward of the head."
    ],
-   "variants": [
-    {
-     "id": "stand",
-     "name": "Standing, barbell",
-     "props": [
-      "bar"
-     ],
-     "cam": {
-      "ty": 1.12,
-      "dist": 4.8
-     },
-     "proto": {
-      "a": {
-       "shoulder": {
-        "abd": 72,
-        "rot": 90
-       },
-       "elbow": 122
-      },
-      "b": {
-       "shoulder": {
-        "abd": 166,
-        "rot": 90
-       },
-       "elbow": 8
-      }
-     },
-     "moving": [
-      "shoulder",
-      "elbow"
-     ],
-     "held": [
-      "wrist",
-      "spine",
-      "hip",
-      "knee",
-      "ankle"
-     ]
-    },
-    {
-     "id": "seat",
-     "name": "Seated, dumbbells",
-     "props": [
-      "seat",
-      "back",
-      "dbL",
-      "dbR"
-     ],
-     "cam": {
-      "ty": 0.85
-     },
-     "proto": {
-      "a": {
-       "root": {
-        "y": 0.535,
-        "pitch": 0
-       },
-       "hip": {
-        "flex": 90
-       },
-       "knee": 90,
-       "pin": "none",
-       "shoulder": {
-        "abd": 72,
-        "rot": 90
-       },
-       "elbow": 122
-      },
-      "b": {
-       "root": {
-        "y": 0.535,
-        "pitch": 0
-       },
-       "hip": {
-        "flex": 90
-       },
-       "knee": 90,
-       "pin": "none",
-       "shoulder": {
-        "abd": 164,
-        "rot": 90
-       },
-       "elbow": 10
-      }
-     },
-     "moving": [
-      "shoulder",
-      "elbow"
-     ],
-     "held": [
-      "wrist",
-      "spine"
-     ],
-     "note": "No legs. Less trunk. More work keeping each dumbbell steady."
-    }
-   ]
+   "formChecks": [],
+   "sources": [
+    "prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine",
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": false
   },
   {
-   "id": "press",
-   "name": "Chest press",
-   "part": "Chest",
-   "cues": [
-    "Shoulder blades pulled back and down.",
-    "Forearms vertical at the bottom.",
-    "Lower under control to mid-chest."
+   "id": "seated-dumbbell-press",
+   "name": "Seated dumbbell press",
+   "family": "ohp",
+   "aliases": [
+    "Overhead press",
+    "Seated shoulder press"
    ],
-   "avoid": [
-    "Elbows flared at 90 degrees.",
+   "pattern": "press",
+   "posture": "seated",
+   "equipment": [
+    "dumbbell",
+    "adjustable-bench"
+   ],
+   "bodyParts": [
+    "Shoulders"
+   ],
+   "props": [
+    "seat",
+    "back",
+    "dbL",
+    "dbR"
+   ],
+   "keyframes": [
+    {
+     "root": {
+      "y": 0.52,
+      "z": 0.01,
+      "pitch": 0
+     },
+     "hip": {
+      "flex": 90
+     },
+     "knee": 90,
+     "pin": "none",
+     "shoulder": {
+      "abd": 72,
+      "rot": 90
+     },
+     "elbow": 122
+    },
+    {
+     "root": {
+      "y": 0.52,
+      "z": 0.01,
+      "pitch": 0
+     },
+     "hip": {
+      "flex": 90
+     },
+     "knee": 90,
+     "pin": "none",
+     "shoulder": {
+      "abd": 164,
+      "rot": 90
+     },
+     "elbow": 10
+    }
+   ],
+   "cues": [
+    "Sit tall with your back against the upright pad.",
+    "Start with the dumbbells at shoulder height, palms forward.",
+    "Press up until the arms are straight, then lower under control."
+   ],
+   "mistakes": [
+    "Arching the back away from the pad.",
+    "Letting the dumbbells drift forward or apart.",
+    "Lowering only part of the way."
+   ],
+   "formChecks": [],
+   "note": "No legs. Less trunk. More work keeping each dumbbell steady.",
+   "sources": [
+    "prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine",
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased",
+    "Pose and placement adjusted in R5 T9a so every form check passes on both bodies (tools/library/check.mjs)"
+   ],
+   "reviewed": false,
+   "placement": {
+    "adjustable-bench": {
+     "angle": 85
+    }
+   }
+  },
+  {
+   "id": "bench-press",
+   "name": "Bench press",
+   "family": "press",
+   "aliases": [
+    "Chest press",
+    "Barbell bench press"
+   ],
+   "pattern": "press",
+   "posture": "lying",
+   "equipment": [
+    "barbell",
+    "flat-bench",
+    "squat-rack"
+   ],
+   "bodyParts": [
+    "Chest"
+   ],
+   "props": [
+    "bench",
+    "bar"
+   ],
+   "keyframes": [
+    {
+     "root": {
+      "pitch": -84,
+      "y": 0.55
+     },
+     "pin": "none",
+     "spine": {
+      "flex": 12
+     },
+     "hip": {
+      "flex": 0,
+      "abd": 10
+     },
+     "knee": 82,
+     "shoulder": {
+      "abd": 46,
+      "flex": 18
+     },
+     "elbow": 92
+    },
+    {
+     "root": {
+      "pitch": -84,
+      "y": 0.55
+     },
+     "pin": "none",
+     "spine": {
+      "flex": 12
+     },
+     "hip": {
+      "flex": 0,
+      "abd": 10
+     },
+     "knee": 82,
+     "shoulder": {
+      "abd": 90,
+      "flex": 86
+     },
+     "elbow": 4
+    }
+   ],
+   "cam": {
+    "az": 62
+   },
+   "cues": [
+    "Lie with head, upper back and hips on the bench and feet flat on the floor.",
+    "Lower the bar under control to the lower chest.",
+    "Press up until the elbows are straight."
+   ],
+   "mistakes": [
     "Bouncing the bar off the chest.",
-    "Shoulders rolling forward at the top."
+    "Lifting the hips off the bench.",
+    "Pressing one side up faster than the other."
    ],
-   "variants": [
-    {
-     "id": "bench",
-     "name": "Flat bench, barbell",
-     "props": [
-      "bench",
-      "bar"
-     ],
-     "cam": {
-      "az": 62,
-      "ty": 0.6,
-      "tz": -0.2,
-      "dist": 4.2
-     },
-     "proto": {
-      "a": {
-       "root": {
-        "pitch": -90,
-        "y": 0.56
-       },
-       "pin": "none",
-       "hip": {
-        "flex": 0,
-        "abd": 10
-       },
-       "knee": 82,
-       "shoulder": {
-        "abd": 46,
-        "flex": 0
-       },
-       "elbow": 92
-      },
-      "b": {
-       "root": {
-        "pitch": -90,
-        "y": 0.56
-       },
-       "pin": "none",
-       "hip": {
-        "flex": 0,
-        "abd": 10
-       },
-       "knee": 82,
-       "shoulder": {
-        "abd": 90,
-        "flex": 68
-       },
-       "elbow": 4
-      }
-     },
-     "moving": [
-      "shoulder",
-      "elbow"
-     ],
-     "held": [
-      "wrist",
-      "spine",
-      "hip",
-      "knee"
-     ]
-    },
-    {
-     "id": "pushup",
-     "name": "Push-up",
-     "props": [],
-     "cam": {
-      "az": 66,
-      "ty": 0.4,
-      "tz": 0.88,
-      "dist": 4.2
-     },
-     "proto": {
-      "a": {
-       "root": {
-        "pitch": 80
-       },
-       "flat": false,
-       "pin": "toes",
-       "ankle": 0,
-       "shoulder": {
-        "abd": 46,
-        "flex": 10
-       },
-       "elbow": 95,
-       "neck": {
-        "flex": -22
-       }
-      },
-      "b": {
-       "root": {
-        "pitch": 66
-       },
-       "flat": false,
-       "pin": "toes",
-       "ankle": 0,
-       "shoulder": {
-        "abd": 60,
-        "flex": 76
-       },
-       "elbow": 4,
-       "neck": {
-        "flex": -22
-       }
-      }
-     },
-     "adjusted": "Ankle 0 (prototype -62 stood in for toe extension; pin 'toes' grounds the ball).",
-     "moving": [
-      "shoulder",
-      "elbow"
-     ],
-     "held": [
-      "wrist",
-      "spine",
-      "hip",
-      "knee",
-      "ankle"
-     ],
-     "note": "No bench to hold you. The whole front of the trunk has to work."
-    }
-   ]
+   "formChecks": [],
+   "sources": [
+    "prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine",
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased",
+    "Pose and placement adjusted in R5 T9a so every form check passes on both bodies (tools/library/check.mjs)"
+   ],
+   "reviewed": false
   },
   {
-   "id": "row",
-   "name": "Row",
-   "part": "Back",
-   "cues": [
-    "Pull elbows back, not hands up.",
-    "Squeeze shoulder blades together at the top.",
-    "Keep the neck in line with the spine."
+   "id": "push-up",
+   "name": "Push-up",
+   "family": "press",
+   "aliases": [
+    "Chest press",
+    "Press-up",
+    "Pushup"
    ],
-   "avoid": [
-    "Rounding the lower back.",
-    "Jerking the weight with the hips.",
-    "Shrugging the shoulders to the ears."
+   "pattern": "press",
+   "posture": "lying",
+   "equipment": [
+    "bodyweight"
    ],
-   "variants": [
+   "bodyParts": [
+    "Chest"
+   ],
+   "props": [],
+   "keyframes": [
     {
-     "id": "bent",
-     "name": "Bent over, barbell",
-     "props": [
-      "bar"
-     ],
-     "cam": {
-      "az": 55
+     "root": {
+      "pitch": 80
      },
-     "proto": {
-      "a": {
-       "hip": {
-        "flex": 75
-       },
-       "knee": 25,
-       "ankle": -8,
-       "armsHang": true,
-       "elbow": 5
-      },
-      "b": {
-       "hip": {
-        "flex": 75
-       },
-       "knee": 25,
-       "ankle": -8,
-       "shoulder": {
-        "flex": -8,
-        "abd": 22
-       },
-       "elbow": 98
-      }
+     "flat": false,
+     "pin": "toes",
+     "ankle": 0,
+     "shoulder": {
+      "abd": 46,
+      "flex": 10
      },
-     "moving": [
-      "shoulder",
-      "elbow"
-     ],
-     "held": [
-      "wrist",
-      "spine",
-      "hip",
-      "knee",
-      "ankle"
-     ]
+     "elbow": 95,
+     "neck": {
+      "flex": -22
+     }
     },
     {
-     "id": "cable",
-     "name": "Seated, cable",
-     "props": [
-      "seat",
-      "handle"
-     ],
-     "cam": {
-      "az": 60
+     "root": {
+      "pitch": 66
      },
-     "proto": {
-      "a": {
-       "root": {
-        "y": 0.535,
-        "pitch": 0
-       },
-       "hip": {
-        "flex": 80
-       },
-       "knee": 35,
-       "pin": "none",
-       "shoulder": {
-        "flex": 78,
-        "abd": 4
-       },
-       "elbow": 8,
-       "spine": {
-        "flex": 6
-       }
-      },
-      "b": {
-       "root": {
-        "y": 0.535,
-        "pitch": 0
-       },
-       "hip": {
-        "flex": 80
-       },
-       "knee": 35,
-       "pin": "none",
-       "shoulder": {
-        "flex": -12,
-        "abd": 14
-       },
-       "elbow": 100,
-       "spine": {
-        "flex": -2
-       }
-      }
+     "flat": false,
+     "pin": "toes",
+     "ankle": 0,
+     "shoulder": {
+      "abd": 60,
+      "flex": 76
      },
-     "moving": [
-      "shoulder",
-      "elbow"
-     ],
-     "held": [
-      "wrist",
-      "spine",
-      "hip"
-     ],
-     "note": "Sitting upright cuts the lower-back and hamstring hold by about half."
+     "elbow": 4,
+     "neck": {
+      "flex": -22
+     }
     }
-   ]
+   ],
+   "cam": {
+    "az": 66
+   },
+   "cues": [
+    "Hands a little wider than the shoulders.",
+    "Keep a straight line from head to heels.",
+    "Lower until the chest is near the floor, then push back up."
+   ],
+   "mistakes": [
+    "Hips sagging toward the floor.",
+    "Hips piking up.",
+    "Lowering only part of the way."
+   ],
+   "formChecks": [],
+   "note": "No bench to hold you. The whole front of the trunk has to work.",
+   "sources": [
+    "prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased",
+    "Pose adjusted from the prototype: Ankle 0 (prototype -62 stood in for toe extension; pin 'toes' grounds the ball)."
+   ],
+   "reviewed": false
   },
   {
-   "id": "pull",
-   "name": "Pull-up and pulldown",
-   "part": "Back",
-   "cues": [
-    "Start each rep by pulling shoulders down.",
-    "Drive elbows toward your back pockets.",
-    "Chin over the bar, chest up."
+   "id": "bent-over-row",
+   "name": "Bent-over row",
+   "family": "row",
+   "aliases": [
+    "Row",
+    "Barbell row"
    ],
-   "avoid": [
-    "Swinging the legs for momentum.",
-    "Half reps that skip the dead hang.",
-    "Pulling with a rounded upper back."
+   "pattern": "row",
+   "posture": "standing",
+   "equipment": [
+    "barbell"
    ],
-   "variants": [
+   "bodyParts": [
+    "Back"
+   ],
+   "props": [
+    "bar"
+   ],
+   "keyframes": [
     {
-     "id": "pullup",
-     "name": "Pull-up",
-     "props": [
-      "pullbar"
-     ],
-     "cam": {
-      "ty": 1.25,
-      "dist": 5.6
+     "hip": {
+      "flex": 90
      },
-     "proto": {
-      "a": {
-       "pin": "hands",
-       "pinAt": [
-        0.35,
-        2.15,
-        0
-       ],
-       "flat": false,
-       "shoulder": {
-        "abd": 165,
-        "rot": 90
-       },
-       "elbow": 8,
-       "knee": 55
-      },
-      "b": {
-       "pin": "hands",
-       "pinAt": [
-        0.37,
-        2.15,
-        0
-       ],
-       "flat": false,
-       "shoulder": {
-        "abd": 46,
-        "rot": 90
-       },
-       "elbow": 140,
-       "knee": 55
-      }
-     },
-     "moving": [
-      "shoulder",
-      "elbow"
-     ],
-     "held": [
-      "wrist",
-      "spine",
-      "hip"
-     ]
+     "knee": 40,
+     "ankle": -2,
+     "armsHang": true,
+     "elbow": 5
     },
     {
-     "id": "pulldown",
-     "name": "Lat pulldown",
-     "props": [
-      "seat",
-      "handle"
-     ],
-     "cam": {
-      "ty": 1.05,
-      "dist": 5
+     "hip": {
+      "flex": 90
      },
-     "proto": {
-      "a": {
-       "root": {
-        "y": 0.535,
-        "pitch": 0
-       },
-       "hip": {
-        "flex": 90
-       },
-       "knee": 90,
-       "pin": "none",
-       "shoulder": {
-        "abd": 165,
-        "rot": 90
-       },
-       "elbow": 8
-      },
-      "b": {
-       "root": {
-        "y": 0.535,
-        "pitch": 0
-       },
-       "hip": {
-        "flex": 90
-       },
-       "knee": 90,
-       "pin": "none",
-       "shoulder": {
-        "abd": 46,
-        "rot": 90
-       },
-       "elbow": 140,
-       "spine": {
-        "flex": -6
-       }
-      }
+     "knee": 40,
+     "ankle": -2,
+     "shoulder": {
+      "flex": -8,
+      "abd": 22
      },
-     "moving": [
-      "shoulder",
-      "elbow"
-     ],
-     "held": [
-      "wrist",
-      "spine"
-     ],
-     "note": "Same pull. You choose the weight, and the thigh pad replaces the core work of hanging."
+     "elbow": 98
     }
-   ]
+   ],
+   "cam": {
+    "az": 55
+   },
+   "cues": [
+    "Hinge at the hips with the knees bent and the back flat.",
+    "Pull the bar to the lower ribs.",
+    "Lower until the arms are straight without moving the trunk."
+   ],
+   "mistakes": [
+    "Rounding the back.",
+    "Standing up as you pull.",
+    "Jerking the weight up."
+   ],
+   "formChecks": [
+    {
+     "id": "neutralSpine"
+    }
+   ],
+   "sources": [
+    "prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine",
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased",
+    "Pose and placement adjusted in R5 T9a so every form check passes on both bodies (tools/library/check.mjs)"
+   ],
+   "reviewed": true
   },
   {
-   "id": "squat",
-   "name": "Squat",
-   "part": "Legs",
-   "cues": [
-    "Feet about shoulder width, toes slightly out.",
-    "Knees track over the toes.",
-    "Chest and hips rise at the same speed."
+   "id": "seated-cable-row",
+   "name": "Seated cable row",
+   "family": "row",
+   "aliases": [
+    "Row",
+    "Cable row"
    ],
-   "avoid": [
-    "Knees caving inward.",
+   "pattern": "row",
+   "posture": "seated",
+   "equipment": [
+    "cable-column"
+   ],
+   "bodyParts": [
+    "Back"
+   ],
+   "props": [
+    "seat",
+    "handle"
+   ],
+   "keyframes": [
+    {
+     "root": {
+      "y": 0.535,
+      "pitch": 0
+     },
+     "hip": {
+      "flex": 80
+     },
+     "knee": 35,
+     "pin": "none",
+     "shoulder": {
+      "flex": 78,
+      "abd": 4
+     },
+     "elbow": 8,
+     "spine": {
+      "flex": 6
+     }
+    },
+    {
+     "root": {
+      "y": 0.535,
+      "pitch": 0
+     },
+     "hip": {
+      "flex": 80
+     },
+     "knee": 35,
+     "pin": "none",
+     "shoulder": {
+      "flex": -12,
+      "abd": 14
+     },
+     "elbow": 100,
+     "spine": {
+      "flex": -2
+     }
+    }
+   ],
+   "cam": {
+    "az": 60
+   },
+   "cues": [
+    "Sit tall with the knees slightly bent.",
+    "Pull the handle to the lower ribs, elbows close to the body.",
+    "Return slowly until the arms are straight, trunk still upright."
+   ],
+   "mistakes": [
+    "Rocking the trunk back and forth.",
+    "Rounding the back as the arms reach forward.",
+    "Shrugging the shoulders."
+   ],
+   "formChecks": [
+    {
+     "id": "neutralSpine"
+    }
+   ],
+   "note": "Sitting upright takes most of the lower-back and hamstring holding out of the row.",
+   "sources": [
+    "prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine",
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased",
+    "Pose and placement adjusted in R5 T9a so every form check passes on both bodies (tools/library/check.mjs)"
+   ],
+   "reviewed": false,
+   "placement": {
+    "cable-column": {
+     "at": [
+      0,
+      0,
+      1
+     ],
+     "height": 0.7
+    }
+   }
+  },
+  {
+   "id": "pull-up",
+   "name": "Pull-up",
+   "family": "pull",
+   "aliases": [
+    "Pull-up and pulldown",
+    "Pullup"
+   ],
+   "pattern": "pulldown",
+   "posture": "hanging",
+   "equipment": [
+    "pull-up-rig"
+   ],
+   "bodyParts": [
+    "Back"
+   ],
+   "props": [
+    "pullbar"
+   ],
+   "keyframes": [
+    {
+     "pin": "hands",
+     "pinAt": [
+      0.25,
+      2.1,
+      0
+     ],
+     "flat": false,
+     "shoulder": {
+      "abd": 165,
+      "rot": 90
+     },
+     "elbow": 8,
+     "knee": 55
+    },
+    {
+     "pin": "hands",
+     "pinAt": [
+      0.37,
+      2.1,
+      0
+     ],
+     "flat": false,
+     "shoulder": {
+      "abd": 46,
+      "rot": 90
+     },
+     "elbow": 140,
+     "knee": 55
+    }
+   ],
+   "cues": [
+    "Hang with straight arms, hands a little wider than the shoulders.",
+    "Pull until the chin is over the bar.",
+    "Lower all the way to straight arms."
+   ],
+   "mistakes": [
+    "Kicking or swinging the legs.",
+    "Stopping short of straight arms.",
+    "Craning the neck to reach the bar."
+   ],
+   "formChecks": [],
+   "sources": [
+    "prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine",
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased",
+    "Pose and placement adjusted in R5 T9a so every form check passes on both bodies (tools/library/check.mjs)"
+   ],
+   "reviewed": false
+  },
+  {
+   "id": "lat-pulldown",
+   "name": "Lat pulldown",
+   "family": "pull",
+   "aliases": [
+    "Pull-up and pulldown",
+    "Pulldown",
+    "Cable pulldown"
+   ],
+   "pattern": "pulldown",
+   "posture": "seated",
+   "equipment": [
+    "lat-machine"
+   ],
+   "bodyParts": [
+    "Back"
+   ],
+   "props": [
+    "seat",
+    "handle"
+   ],
+   "keyframes": [
+    {
+     "pin": "flat",
+     "root": {
+      "z": -0.03,
+      "pitch": 0
+     },
+     "hip": {
+      "flex": 86
+     },
+     "knee": 86,
+     "shoulder": {
+      "abd": 165,
+      "rot": 90
+     },
+     "elbow": 8
+    },
+    {
+     "pin": "flat",
+     "root": {
+      "z": -0.03,
+      "pitch": 0
+     },
+     "hip": {
+      "flex": 86
+     },
+     "knee": 86,
+     "shoulder": {
+      "abd": 46,
+      "rot": 90
+     },
+     "elbow": 140,
+     "spine": {
+      "flex": -6
+     }
+    }
+   ],
+   "cues": [
+    "Sit with the thighs under the pad and a wide grip on the bar.",
+    "Pull the bar down to the upper chest.",
+    "Let the bar rise slowly until the arms are straight."
+   ],
+   "mistakes": [
+    "Leaning far back to pull.",
+    "Using a body swing to move the weight.",
+    "Letting the bar snap up."
+   ],
+   "formChecks": [],
+   "note": "Same pull. You choose the weight, and the thigh pad replaces the core work of hanging.",
+   "sources": [
+    "prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine",
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased",
+    "Pose and placement adjusted in R5 T9a so every form check passes on both bodies (tools/library/check.mjs)"
+   ],
+   "reviewed": false
+  },
+  {
+   "id": "back-squat",
+   "name": "Back squat",
+   "family": "squat",
+   "aliases": [
+    "Squat",
+    "Barbell squat"
+   ],
+   "pattern": "squat",
+   "posture": "standing",
+   "equipment": [
+    "barbell",
+    "squat-rack"
+   ],
+   "bodyParts": [
+    "Legs"
+   ],
+   "props": [
+    "bar"
+   ],
+   "keyframes": [
+    {
+     "hip": {
+      "flex": 0,
+      "abd": 4
+     },
+     "shoulder": {
+      "abd": 58,
+      "rot": 90,
+      "flex": -10
+     },
+     "elbow": 138
+    },
+    {
+     "hip": {
+      "flex": 120,
+      "abd": 4
+     },
+     "knee": 95,
+     "ankle": -20,
+     "shoulder": {
+      "abd": 58,
+      "rot": 90,
+      "flex": -10
+     },
+     "elbow": 138
+    }
+   ],
+   "cam": {
+    "az": 48
+   },
+   "cues": [
+    "Bar across the upper back, feet about shoulder width.",
+    "Sit the hips back and down with the knees in line with the toes.",
+    "Keep the heels down and the back flat, then stand up."
+   ],
+   "mistakes": [
+    "Knees falling inward.",
     "Heels lifting off the floor.",
-    "Lower back rounding at the bottom."
+    "Back rounding at the bottom."
    ],
-   "variants": [
+   "formChecks": [
     {
-     "id": "back",
-     "name": "Back squat",
-     "props": [
-      "bar"
-     ],
-     "cam": {
-      "az": 48
-     },
-     "proto": {
-      "a": {
-       "hip": {
-        "flex": 0,
-        "abd": 8
-       },
-       "shoulder": {
-        "abd": 58,
-        "rot": 90,
-        "flex": -10
-       },
-       "elbow": 138
-      },
-      "b": {
-       "hip": {
-        "flex": 105,
-        "abd": 14
-       },
-       "knee": 116,
-       "ankle": -20,
-       "shoulder": {
-        "abd": 58,
-        "rot": 90,
-        "flex": -10
-       },
-       "elbow": 138
-      }
-     },
-     "adjusted": "Ankle dorsiflexion 28 -> 20 (AAOS 1965 limit).",
-     "moving": [
-      "hip",
-      "knee",
-      "ankle"
-     ],
-     "held": [
-      "spine",
-      "shoulder",
-      "elbow"
-     ]
+     "id": "kneeOverFoot"
     },
     {
-     "id": "legpress",
-     "name": "Leg press",
-     "props": [
-      "reclineBack",
-      "reclineSeat"
-     ],
-     "cam": {
-      "az": 70,
-      "ty": 0.7
-     },
-     "proto": {
-      "a": {
-       "root": {
-        "pitch": -35,
-        "y": 0.5
-       },
-       "pin": "none",
-       "hip": {
-        "flex": 112,
-        "abd": 8
-       },
-       "knee": 104,
-       "ankle": -18,
-       "shoulder": {
-        "flex": -10,
-        "abd": 10
-       },
-       "elbow": 25
-      },
-      "b": {
-       "root": {
-        "pitch": -35,
-        "y": 0.5
-       },
-       "pin": "none",
-       "hip": {
-        "flex": 66,
-        "abd": 8
-       },
-       "knee": 18,
-       "ankle": -6,
-       "shoulder": {
-        "flex": -10,
-        "abd": 10
-       },
-       "elbow": 25
-      }
-     },
-     "moving": [
-      "hip",
-      "knee",
-      "ankle"
-     ],
-     "held": [
-      "spine"
-     ],
-     "note": "The seat carries your spine and there is nothing to balance. Legs only."
+     "id": "neutralSpine"
     }
-   ]
+   ],
+   "sources": [
+    "prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine",
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased",
+    "Pose adjusted from the prototype: Ankle dorsiflexion 28 -> 20 (AAOS 1965 limit).",
+    "Pose and placement adjusted in R5 T9a so every form check passes on both bodies (tools/library/check.mjs)"
+   ],
+   "reviewed": false
+  },
+  {
+   "id": "leg-press",
+   "name": "Leg press",
+   "family": "squat",
+   "aliases": [
+    "Squat",
+    "Sled leg press"
+   ],
+   "pattern": "squat",
+   "posture": "seated",
+   "equipment": [
+    "leg-press"
+   ],
+   "bodyParts": [
+    "Legs"
+   ],
+   "props": [
+    "reclineBack",
+    "reclineSeat",
+    "legpress"
+   ],
+   "keyframes": [
+    {
+     "root": {
+      "pitch": -35,
+      "y": 0.48,
+      "z": 0.1
+     },
+     "pin": "none",
+     "hip": {
+      "flex": 112,
+      "abd": 8,
+      "rot": 10
+     },
+     "knee": 104,
+     "ankle": -18,
+     "shoulder": {
+      "flex": -10,
+      "abd": 10
+     },
+     "elbow": 25
+    },
+    {
+     "root": {
+      "pitch": -35,
+      "y": 0.48,
+      "z": 0.1
+     },
+     "pin": "none",
+     "hip": {
+      "flex": 66,
+      "abd": 8,
+      "rot": 10
+     },
+     "knee": 18,
+     "ankle": -6,
+     "shoulder": {
+      "flex": -10,
+      "abd": 10
+     },
+     "elbow": 25
+    }
+   ],
+   "cam": {
+    "az": 70
+   },
+   "cues": [
+    "Back and hips flat against the pads.",
+    "Feet about hip width on the platform, toes slightly out.",
+    "Lower until the knees are bent about 90 degrees, then press without snapping the knees straight."
+   ],
+   "mistakes": [
+    "Hips lifting off the seat at the bottom.",
+    "Knees falling inward.",
+    "Heels coming off the platform."
+   ],
+   "formChecks": [
+    {
+     "id": "kneeOverFoot"
+    }
+   ],
+   "note": "The seat carries your spine and there is nothing to balance. Legs only.",
+   "sources": [
+    "prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine",
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased",
+    "Pose and placement adjusted in R5 T9a so every form check passes on both bodies (tools/library/check.mjs)"
+   ],
+   "reviewed": true
   },
   {
    "id": "deadlift",
    "name": "Deadlift",
-   "part": "Legs",
-   "cues": [
-    "Bar stays against the legs.",
-    "Flat back from hips to head.",
-    "Push the floor away, then stand tall."
+   "family": "deadlift",
+   "aliases": [
+    "Conventional deadlift",
+    "Barbell deadlift"
    ],
-   "avoid": [
-    "Rounding the lower back.",
-    "Yanking the bar off the floor.",
+   "pattern": "hinge",
+   "posture": "standing",
+   "equipment": [
+    "barbell"
+   ],
+   "bodyParts": [
+    "Legs"
+   ],
+   "props": [
+    "bar"
+   ],
+   "keyframes": [
+    {
+     "hip": {
+      "flex": 86
+     },
+     "knee": 56,
+     "ankle": -15,
+     "armsHang": true
+    },
+    {}
+   ],
+   "cam": {
+    "az": 55
+   },
+   "cues": [
+    "Bar over the middle of the feet, shins close to it.",
+    "Flat back, chest up, arms straight.",
+    "Push the floor away and stand tall with the bar close to the legs."
+   ],
+   "mistakes": [
+    "Rounding the back.",
+    "Hips rising faster than the shoulders.",
     "Leaning back at the top."
    ],
-   "variants": [
+   "formChecks": [
     {
-     "id": "conv",
-     "name": "Conventional",
-     "props": [
-      "bar"
-     ],
-     "cam": {
-      "az": 55
-     },
-     "proto": {
-      "a": {
-       "hip": {
-        "flex": 86
-       },
-       "knee": 56,
-       "ankle": -15,
-       "armsHang": true
-      },
-      "b": {}
-     },
-     "moving": [
-      "hip",
-      "knee",
-      "ankle"
-     ],
-     "held": [
-      "spine",
-      "shoulder",
-      "elbow",
-      "wrist"
-     ]
-    },
-    {
-     "id": "rdl",
-     "name": "Romanian",
-     "props": [
-      "bar"
-     ],
-     "cam": {
-      "az": 55
-     },
-     "proto": {
-      "a": {
-       "hip": {
-        "flex": 76
-       },
-       "knee": 16,
-       "ankle": -3,
-       "armsHang": true
-      },
-      "b": {
-       "knee": 8
-      }
-     },
-     "moving": [
-      "hip"
-     ],
-     "held": [
-      "spine",
-      "knee",
-      "ankle",
-      "shoulder",
-      "elbow",
-      "wrist"
-     ],
-     "note": "Knees barely bend, so the quads drop out and the hamstrings take over."
+     "id": "neutralSpine"
     }
-   ]
+   ],
+   "sources": [
+    "prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine",
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": true
   },
   {
-   "id": "lateral",
-   "name": "Lateral raise",
-   "part": "Shoulders",
+   "id": "romanian-deadlift",
+   "name": "Romanian deadlift",
+   "family": "deadlift",
+   "aliases": [
+    "Deadlift",
+    "RDL"
+   ],
+   "pattern": "hinge",
+   "posture": "standing",
+   "equipment": [
+    "barbell"
+   ],
+   "bodyParts": [
+    "Legs"
+   ],
+   "props": [
+    "bar"
+   ],
+   "keyframes": [
+    {
+     "hip": {
+      "flex": 80
+     },
+     "knee": 30,
+     "ankle": 0,
+     "armsHang": true
+    },
+    {
+     "hip": {
+      "flex": 4
+     },
+     "knee": 8,
+     "ankle": -4,
+     "armsHang": true
+    }
+   ],
+   "cam": {
+    "az": 55
+   },
    "cues": [
-    "Lead with the elbows.",
-    "Stop at shoulder height.",
+    "Start standing with the bar at the thighs, knees slightly bent.",
+    "Push the hips back and slide the bar down the thighs.",
+    "Keep the back flat and stand up by driving the hips forward."
+   ],
+   "mistakes": [
+    "Rounding the back.",
+    "Bending the knees into a squat.",
+    "Letting the bar drift away from the legs."
+   ],
+   "formChecks": [
+    {
+     "id": "neutralSpine"
+    }
+   ],
+   "note": "Knees barely bend, so the quads drop out and the hamstrings take over.",
+   "sources": [
+    "prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine",
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased",
+    "Pose and placement adjusted in R5 T9a so every form check passes on both bodies (tools/library/check.mjs)"
+   ],
+   "reviewed": true
+  },
+  {
+   "id": "lateral-raise",
+   "name": "Lateral raise",
+   "family": "lateral",
+   "aliases": [
+    "Side raise",
+    "Dumbbell lateral raise"
+   ],
+   "pattern": "raise",
+   "posture": "standing",
+   "equipment": [
+    "dumbbell"
+   ],
+   "bodyParts": [
+    "Shoulders"
+   ],
+   "props": [
+    "dbL",
+    "dbR"
+   ],
+   "keyframes": [
+    {
+     "shoulder": {
+      "abd": 8
+     },
+     "elbow": 12
+    },
+    {
+     "shoulder": {
+      "abd": 86
+     },
+     "elbow": 12
+    }
+   ],
+   "cues": [
+    "Stand tall, dumbbells at your sides, elbows slightly bent.",
+    "Raise the arms out to the sides to shoulder height.",
     "Lower slower than you lift."
    ],
-   "avoid": [
-    "Shrugging the weight up.",
+   "mistakes": [
+    "Shrugging the weights up.",
     "Swinging from the hips.",
-    "Going too heavy to control."
+    "Bending the elbows more as you lift."
    ],
-   "variants": [
-    {
-     "id": "stand",
-     "name": "Standing",
-     "props": [
-      "dbL",
-      "dbR"
-     ],
-     "proto": {
-      "a": {
-       "shoulder": {
-        "abd": 8
-       },
-       "elbow": 12
-      },
-      "b": {
-       "shoulder": {
-        "abd": 86
-       },
-       "elbow": 12
-      }
-     },
-     "moving": [
-      "shoulder"
-     ],
-     "held": [
-      "elbow",
-      "wrist",
-      "spine",
-      "hip",
-      "knee"
-     ]
-    },
-    {
-     "id": "seat",
-     "name": "Seated",
-     "props": [
-      "seat",
-      "dbL",
-      "dbR"
-     ],
-     "proto": {
-      "a": {
-       "root": {
-        "y": 0.535,
-        "pitch": 0
-       },
-       "hip": {
-        "flex": 90
-       },
-       "knee": 90,
-       "pin": "none",
-       "shoulder": {
-        "abd": 8
-       },
-       "elbow": 12
-      },
-      "b": {
-       "root": {
-        "y": 0.535,
-        "pitch": 0
-       },
-       "hip": {
-        "flex": 90
-       },
-       "knee": 90,
-       "pin": "none",
-       "shoulder": {
-        "abd": 86
-       },
-       "elbow": 12
-      }
-     },
-     "moving": [
-      "shoulder"
-     ],
-     "held": [
-      "elbow",
-      "wrist",
-      "spine"
-     ],
-     "note": "Sitting removes the leg drive, so it is harder to cheat the weight up."
-    }
-   ]
+   "formChecks": [],
+   "sources": [
+    "prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine",
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": true
   },
   {
-   "id": "triceps",
-   "name": "Triceps extension",
-   "part": "Arms",
-   "cues": [
-    "Upper arms stay still.",
-    "Straighten fully, then return slowly.",
-    "Wrists stay straight."
+   "id": "seated-lateral-raise",
+   "name": "Seated lateral raise",
+   "family": "lateral",
+   "aliases": [
+    "Lateral raise",
+    "Seated side raise"
    ],
-   "avoid": [
-    "Elbows flaring out.",
-    "Leaning over the weight.",
-    "Shoulders rolling forward."
+   "pattern": "raise",
+   "posture": "seated",
+   "equipment": [
+    "dumbbell",
+    "flat-bench"
    ],
-   "variants": [
+   "bodyParts": [
+    "Shoulders"
+   ],
+   "props": [
+    "seat",
+    "dbL",
+    "dbR"
+   ],
+   "keyframes": [
     {
-     "id": "pushdown",
-     "name": "Cable pushdown",
-     "props": [
-      "handle"
-     ],
-     "proto": {
-      "a": {
-       "spine": {
-        "flex": 10
-       },
-       "shoulder": {
-        "flex": 4,
-        "abd": 6
-       },
-       "elbow": 112
-      },
-      "b": {
-       "spine": {
-        "flex": 10
-       },
-       "shoulder": {
-        "flex": 4,
-        "abd": 6
-       },
-       "elbow": 4
-      }
+     "root": {
+      "y": 0.535,
+      "pitch": 0
      },
-     "moving": [
-      "elbow"
-     ],
-     "held": [
-      "shoulder",
-      "wrist",
-      "spine",
-      "hip",
-      "knee"
-     ]
+     "hip": {
+      "flex": 90
+     },
+     "knee": 90,
+     "pin": "none",
+     "shoulder": {
+      "abd": 8
+     },
+     "elbow": 12
     },
     {
-     "id": "overhead",
-     "name": "Overhead, seated",
-     "props": [
-      "seat",
-      "back",
-      "handle"
-     ],
-     "cam": {
-      "ty": 0.9,
-      "dist": 4.4
+     "root": {
+      "y": 0.535,
+      "pitch": 0
      },
-     "proto": {
-      "a": {
-       "root": {
-        "y": 0.535,
-        "pitch": 0
-       },
-       "hip": {
-        "flex": 90
-       },
-       "knee": 90,
-       "pin": "none",
-       "shoulder": {
-        "flex": 172,
-        "abd": 2
-       },
-       "elbow": 132
-      },
-      "b": {
-       "root": {
-        "y": 0.535,
-        "pitch": 0
-       },
-       "hip": {
-        "flex": 90
-       },
-       "knee": 90,
-       "pin": "none",
-       "shoulder": {
-        "flex": 172,
-        "abd": 2
-       },
-       "elbow": 8
-      }
+     "hip": {
+      "flex": 90
      },
-     "moving": [
-      "elbow"
-     ],
-     "held": [
-      "shoulder",
-      "wrist",
-      "spine"
-     ],
-     "note": "Arms overhead stretch the long head of the triceps and add shoulder holding work."
+     "knee": 90,
+     "pin": "none",
+     "shoulder": {
+      "abd": 86
+     },
+     "elbow": 12
     }
-   ]
+   ],
+   "cues": [
+    "Sit tall at the end of the bench, feet flat.",
+    "Raise the arms out to the sides to shoulder height.",
+    "Lower slower than you lift."
+   ],
+   "mistakes": [
+    "Leaning to swing the weights up.",
+    "Shrugging the weights up.",
+    "Dropping the arms quickly."
+   ],
+   "formChecks": [],
+   "note": "Sitting removes the leg drive, so it is harder to cheat the weight up.",
+   "sources": [
+    "prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine",
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": true
+  },
+  {
+   "id": "triceps-pushdown",
+   "name": "Triceps pushdown",
+   "family": "triceps",
+   "aliases": [
+    "Triceps extension",
+    "Cable pushdown",
+    "Triceps pressdown"
+   ],
+   "pattern": "extension",
+   "posture": "standing",
+   "equipment": [
+    "cable-column"
+   ],
+   "bodyParts": [
+    "Arms"
+   ],
+   "props": [
+    "handle"
+   ],
+   "keyframes": [
+    {
+     "spine": {
+      "flex": 10
+     },
+     "shoulder": {
+      "flex": 4,
+      "abd": 6
+     },
+     "elbow": 112
+    },
+    {
+     "spine": {
+      "flex": 10
+     },
+     "shoulder": {
+      "flex": 4,
+      "abd": 6
+     },
+     "elbow": 4
+    }
+   ],
+   "cues": [
+    "Stand close to the cable with the elbows at your sides.",
+    "Push the handle down until the arms are straight.",
+    "Let it rise slowly to about chest height."
+   ],
+   "mistakes": [
+    "Elbows drifting away from the body.",
+    "Leaning over to push with body weight.",
+    "Letting the handle snap up."
+   ],
+   "formChecks": [],
+   "sources": [
+    "prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine",
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": false
+  },
+  {
+   "id": "overhead-triceps-extension",
+   "name": "Overhead triceps extension",
+   "family": "triceps",
+   "aliases": [
+    "Triceps extension",
+    "Seated cable overhead extension"
+   ],
+   "pattern": "extension",
+   "posture": "seated",
+   "equipment": [
+    "cable-column",
+    "adjustable-bench"
+   ],
+   "bodyParts": [
+    "Arms"
+   ],
+   "props": [
+    "seat",
+    "back",
+    "handle"
+   ],
+   "keyframes": [
+    {
+     "root": {
+      "y": 0.52,
+      "z": 0.01,
+      "pitch": 0
+     },
+     "hip": {
+      "flex": 90
+     },
+     "knee": 90,
+     "pin": "none",
+     "shoulder": {
+      "flex": 172,
+      "abd": 2
+     },
+     "elbow": 132
+    },
+    {
+     "root": {
+      "y": 0.52,
+      "z": 0.01,
+      "pitch": 0
+     },
+     "hip": {
+      "flex": 90
+     },
+     "knee": 90,
+     "pin": "none",
+     "shoulder": {
+      "flex": 172,
+      "abd": 2
+     },
+     "elbow": 8
+    }
+   ],
+   "cues": [
+    "Sit tall against the pad with the upper arms beside the head.",
+    "Straighten the elbows to press the handle up.",
+    "Lower slowly behind the head."
+   ],
+   "mistakes": [
+    "Elbows flaring wide.",
+    "Arching the lower back.",
+    "Moving the upper arms instead of the elbows."
+   ],
+   "formChecks": [],
+   "note": "Arms overhead stretch the long head of the triceps and add shoulder holding work.",
+   "sources": [
+    "prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine",
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased",
+    "Pose and placement adjusted in R5 T9a so every form check passes on both bodies (tools/library/check.mjs)"
+   ],
+   "reviewed": false,
+   "placement": {
+    "adjustable-bench": {
+     "angle": 85
+    }
+   }
   },
   {
    "id": "plank",
    "name": "Plank",
-   "part": "Core",
-   "cues": [
-    "Elbows under shoulders.",
-    "Straight line from head to heels.",
-    "Breathe. Do not hold your breath."
+   "family": "plank",
+   "aliases": [
+    "Front plank"
    ],
-   "avoid": [
-    "Hips sagging.",
-    "Hips piked up.",
-    "Head dropping."
+   "pattern": "hold",
+   "posture": "lying",
+   "equipment": [
+    "bodyweight"
    ],
-   "variants": [
+   "bodyParts": [
+    "Core"
+   ],
+   "props": [],
+   "keyframes": [
     {
-     "id": "front",
-     "name": "Front plank",
-     "props": [],
-     "cam": {
-      "az": 66,
-      "ty": 0.3,
-      "tz": 0.9,
-      "dist": 4.1
+     "root": {
+      "pitch": 86
      },
-     "still": true,
-     "proto": {
-      "a": {
-       "root": {
-        "pitch": 83
-       },
-       "flat": false,
-       "pin": "toes",
-       "ankle": 0,
-       "shoulder": {
-        "flex": 88,
-        "abd": 4
-       },
-       "elbow": 90,
-       "neck": {
-        "flex": -18
-       }
-      },
-      "b": {
-       "root": {
-        "pitch": 83
-       },
-       "flat": false,
-       "pin": "toes",
-       "ankle": 0,
-       "shoulder": {
-        "flex": 88,
-        "abd": 4
-       },
-       "elbow": 90,
-       "neck": {
-        "flex": -18
-       }
-      }
+     "flat": false,
+     "pin": "toes",
+     "ankle": 0,
+     "shoulder": {
+      "flex": 88,
+      "abd": 4
      },
-     "adjusted": "Ankle 0 (prototype -70 stood in for toe extension; pin 'toes' grounds the ball).",
-     "moving": [],
-     "held": [
-      "shoulder",
-      "elbow",
-      "spine",
-      "hip",
-      "knee",
-      "ankle"
-     ],
-     "note": "Nothing moves. Every muscle here is holding a position."
-    }
-   ]
-  },
-  {
-   "id": "calf",
-   "name": "Calf raise",
-   "part": "Legs",
-   "cues": [
-    "Pause at the top.",
-    "Lower until the heel is below the toes if on a step.",
-    "Go straight up, do not roll outward."
-   ],
-   "avoid": [
-    "Bouncing.",
-    "Bending the knees to help.",
-    "Cutting the range short."
-   ],
-   "variants": [
-    {
-     "id": "stand",
-     "name": "Standing",
-     "props": [],
-     "proto": {
-      "a": {
-       "flat": false
-      },
-      "b": {
-       "flat": false,
-       "ankle": 36
-      }
-     },
-     "moving": [
-      "ankle"
-     ],
-     "held": [
-      "knee",
-      "hip",
-      "spine"
-     ]
+     "elbow": 90,
+     "neck": {
+      "flex": -18
+     }
     },
     {
-     "id": "seat",
-     "name": "Seated",
-     "props": [
-      "seat"
-     ],
-     "proto": {
-      "a": {
-       "root": {
-        "y": 0.535,
-        "pitch": 0
-       },
-       "hip": {
-        "flex": 90
-       },
-       "knee": 90,
-       "pin": "none"
-      },
-      "b": {
-       "root": {
-        "y": 0.555,
-        "pitch": 0
-       },
-       "hip": {
-        "flex": 90
-       },
-       "knee": 90,
-       "pin": "none",
-       "ankle": 30
-      }
+     "root": {
+      "pitch": 86
      },
-     "moving": [
-      "ankle"
-     ],
-     "held": [],
-     "note": "Bent knees slacken the outer calf muscle, shifting work to the soleus underneath."
+     "flat": false,
+     "pin": "toes",
+     "ankle": 0,
+     "shoulder": {
+      "flex": 88,
+      "abd": 4
+     },
+     "elbow": 90,
+     "neck": {
+      "flex": -18
+     }
     }
-   ]
+   ],
+   "cam": {
+    "az": 66
+   },
+   "cues": [
+    "Elbows under the shoulders, forearms on the mat.",
+    "Keep a straight line from head to heels.",
+    "Breathe steadily."
+   ],
+   "mistakes": [
+    "Hips sagging.",
+    "Hips piking up.",
+    "Holding the breath."
+   ],
+   "formChecks": [],
+   "note": "Nothing moves. Every muscle here is holding a position.",
+   "sources": [
+    "prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased",
+    "Pose adjusted from the prototype: Ankle 0 (prototype -70 stood in for toe extension; pin 'toes' grounds the ball).",
+    "Pose and placement adjusted in R5 T9a so every form check passes on both bodies (tools/library/check.mjs)"
+   ],
+   "reviewed": false
+  },
+  {
+   "id": "standing-calf-raise",
+   "name": "Standing calf raise",
+   "family": "calf",
+   "aliases": [
+    "Calf raise",
+    "Heel raise"
+   ],
+   "pattern": "raise",
+   "posture": "standing",
+   "equipment": [
+    "bodyweight"
+   ],
+   "bodyParts": [
+    "Calves"
+   ],
+   "props": [],
+   "keyframes": [
+    {
+     "flat": false
+    },
+    {
+     "flat": false,
+     "ankle": 36
+    }
+   ],
+   "cues": [
+    "Stand tall with the feet about hip width.",
+    "Rise as high as you can onto the balls of the feet.",
+    "Pause, then lower the heels slowly."
+   ],
+   "mistakes": [
+    "Bouncing.",
+    "Bending the knees to help.",
+    "Rolling onto the outer edge of the foot."
+   ],
+   "formChecks": [],
+   "sources": [
+    "prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine",
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": false
+  },
+  {
+   "id": "seated-calf-raise",
+   "name": "Seated calf raise",
+   "family": "calf",
+   "aliases": [
+    "Calf raise",
+    "Seated heel raise"
+   ],
+   "pattern": "raise",
+   "posture": "seated",
+   "equipment": [
+    "flat-bench"
+   ],
+   "bodyParts": [
+    "Calves"
+   ],
+   "props": [
+    "seat"
+   ],
+   "keyframes": [
+    {
+     "pin": "flat",
+     "root": {
+      "pitch": 0
+     },
+     "hip": {
+      "flex": 90
+     },
+     "knee": 90
+    },
+    {
+     "pin": "toes",
+     "root": {
+      "pitch": 0
+     },
+     "hip": {
+      "flex": 92
+     },
+     "knee": 80,
+     "ankle": 20
+    }
+   ],
+   "cues": [
+    "Sit tall with the feet flat and the knees bent about 90 degrees.",
+    "Lift the heels as high as you can.",
+    "Pause, then lower slowly."
+   ],
+   "mistakes": [
+    "Bouncing.",
+    "Pushing up with the hands.",
+    "Cutting the range short."
+   ],
+   "formChecks": [],
+   "note": "Bent knees slacken the outer calf muscle, shifting work to the soleus underneath.",
+   "sources": [
+    "prototype/index.html lines 380-690 (EX, CH); muscle effort comes from the R4 effort engine",
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased",
+    "Pose and placement adjusted in R5 T9a so every form check passes on both bodies (tools/library/check.mjs)"
+   ],
+   "reviewed": true
+  },
+  {
+   "id": "hammer-curl",
+   "name": "Hammer curl",
+   "family": "curl",
+   "aliases": [
+    "Neutral-grip curl",
+    "Dumbbell hammer curl"
+   ],
+   "pattern": "curl",
+   "posture": "standing",
+   "equipment": [
+    "dumbbell"
+   ],
+   "bodyParts": [
+    "Arms"
+   ],
+   "props": [
+    "dbL",
+    "dbR"
+   ],
+   "keyframes": [
+    {
+     "elbow": 6
+    },
+    {
+     "elbow": 140,
+     "shoulder": {
+      "flex": 8
+     }
+    }
+   ],
+   "cues": [
+    "Stand tall with the dumbbells at your sides, palms facing each other.",
+    "Keep the elbows at your sides as you curl.",
+    "Lower slowly to straight arms."
+   ],
+   "mistakes": [
+    "Swinging the trunk to lift the weights.",
+    "Elbows drifting forward at the top.",
+    "Turning the palms up during the lift."
+   ],
+   "formChecks": [],
+   "note": "The model does not turn the forearm, so the neutral grip shows the same elbow work as a curl with the palms up.",
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": true
+  },
+  {
+   "id": "front-raise",
+   "name": "Front raise",
+   "family": "lateral",
+   "aliases": [
+    "Dumbbell front raise",
+    "Front delt raise"
+   ],
+   "pattern": "raise",
+   "posture": "standing",
+   "equipment": [
+    "dumbbell"
+   ],
+   "bodyParts": [
+    "Shoulders"
+   ],
+   "props": [
+    "dbL",
+    "dbR"
+   ],
+   "keyframes": [
+    {
+     "shoulder": {
+      "flex": 4,
+      "abd": 8
+     },
+     "elbow": 10
+    },
+    {
+     "shoulder": {
+      "flex": 88,
+      "abd": 8
+     },
+     "elbow": 10
+    }
+   ],
+   "cues": [
+    "Stand tall with the dumbbells in front of the thighs.",
+    "Raise the arms forward to shoulder height, elbows slightly bent.",
+    "Lower slowly."
+   ],
+   "mistakes": [
+    "Swinging the trunk to lift the weights.",
+    "Raising the arms far above shoulder height.",
+    "Dropping the weights fast."
+   ],
+   "formChecks": [],
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": true
+  },
+  {
+   "id": "dumbbell-shrug",
+   "name": "Dumbbell shrug",
+   "family": "shrug",
+   "aliases": [
+    "Shrug",
+    "Shoulder shrug"
+   ],
+   "pattern": "raise",
+   "posture": "standing",
+   "equipment": [
+    "dumbbell"
+   ],
+   "bodyParts": [
+    "Shoulders",
+    "Back"
+   ],
+   "props": [
+    "dbL",
+    "dbR"
+   ],
+   "loads": {
+    "dbL": 20,
+    "dbR": 20
+   },
+   "keyframes": [
+    {
+     "elbow": 4,
+     "neck": {
+      "flex": 0
+     }
+    },
+    {
+     "elbow": 4,
+     "neck": {
+      "flex": -4
+     }
+    }
+   ],
+   "cues": [
+    "Stand tall with the dumbbells at your sides.",
+    "Lift the shoulders straight up toward the ears.",
+    "Lower them slowly."
+   ],
+   "mistakes": [
+    "Rolling the shoulders in circles.",
+    "Bending the elbows to help.",
+    "Pushing the head forward."
+   ],
+   "formChecks": [],
+   "note": "The model has no shoulder-blade lift of its own, so it shows the hold of the weights at the sides; the lift itself is not modelled (known gap).",
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": false
+  },
+  {
+   "id": "farmer-carry",
+   "name": "Farmer carry",
+   "family": "carry",
+   "aliases": [
+    "Farmer's walk",
+    "Dumbbell carry"
+   ],
+   "pattern": "carry",
+   "posture": "standing",
+   "equipment": [
+    "dumbbell"
+   ],
+   "bodyParts": [
+    "Back",
+    "Core",
+    "Legs",
+    "Arms"
+   ],
+   "props": [
+    "dbL",
+    "dbR"
+   ],
+   "loads": {
+    "dbL": 20,
+    "dbR": 20
+   },
+   "keyframes": [
+    {
+     "elbow": 4
+    },
+    {
+     "elbow": 4,
+     "hipL": {
+      "flex": 22
+     },
+     "kneeL": 12,
+     "ankleL": 0,
+     "hipR": {
+      "flex": -8
+     },
+     "kneeR": 4,
+     "ankleR": 0,
+     "root": {
+      "pitch": 0
+     }
+    }
+   ],
+   "cues": [
+    "Stand tall with a heavy dumbbell in each hand.",
+    "Walk with short, steady steps.",
+    "Keep the shoulders level and the trunk upright."
+   ],
+   "mistakes": [
+    "Leaning to one side.",
+    "Rounding the shoulders forward.",
+    "Taking long, rushed steps."
+   ],
+   "formChecks": [
+    {
+     "id": "neutralSpine"
+    }
+   ],
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": true
+  },
+  {
+   "id": "face-pull",
+   "name": "Face pull",
+   "family": "rear-delt",
+   "aliases": [
+    "Rope face pull",
+    "Cable face pull"
+   ],
+   "pattern": "row",
+   "posture": "standing",
+   "equipment": [
+    "cable-column"
+   ],
+   "bodyParts": [
+    "Shoulders",
+    "Back"
+   ],
+   "props": [
+    "handle"
+   ],
+   "placement": {
+    "cable-column": {
+     "height": 1.6
+    }
+   },
+   "keyframes": [
+    {
+     "shoulder": {
+      "flex": 88,
+      "abd": 6
+     },
+     "elbow": 6
+    },
+    {
+     "shoulder": {
+      "flex": 10,
+      "abd": 88,
+      "rot": -60
+     },
+     "elbow": 100
+    }
+   ],
+   "cues": [
+    "Set the pulley at about face height and step back with the arms straight.",
+    "Pull the hands toward the face, elbows high and out to the sides.",
+    "Return slowly until the arms are straight."
+   ],
+   "mistakes": [
+    "Leaning back to move the weight.",
+    "Letting the elbows drop below the hands.",
+    "Shrugging the shoulders."
+   ],
+   "formChecks": [
+    {
+     "id": "neutralSpine"
+    }
+   ],
+   "note": "The column draws its own attachment; a rope is the usual choice for this pull.",
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": false
+  },
+  {
+   "id": "band-pull-apart",
+   "name": "Band pull-apart",
+   "family": "rear-delt",
+   "aliases": [
+    "Pull-apart",
+    "Resistance band pull-apart"
+   ],
+   "pattern": "fly",
+   "posture": "standing",
+   "equipment": [
+    "band"
+   ],
+   "bodyParts": [
+    "Shoulders",
+    "Back"
+   ],
+   "props": [
+    "band"
+   ],
+   "keyframes": [
+    {
+     "shoulder": {
+      "flex": 88,
+      "abd": 10
+     },
+     "elbow": 6
+    },
+    {
+     "shoulder": {
+      "flex": 88,
+      "abd": 88
+     },
+     "elbow": 6
+    }
+   ],
+   "cues": [
+    "Hold the band in front at shoulder height, arms straight.",
+    "Pull the hands apart until the band touches the chest.",
+    "Return slowly to the start."
+   ],
+   "mistakes": [
+    "Bending the elbows to shorten the pull.",
+    "Arching the lower back.",
+    "Shrugging the shoulders."
+   ],
+   "formChecks": [],
+   "note": "A band gets harder as it stretches; the model uses the force at full stretch for the whole move (simplification).",
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": true
+  },
+  {
+   "id": "cable-fly",
+   "name": "Cable fly",
+   "family": "fly",
+   "aliases": [
+    "Cable crossover",
+    "Standing cable fly"
+   ],
+   "pattern": "fly",
+   "posture": "standing",
+   "equipment": [
+    "cable-column"
+   ],
+   "bodyParts": [
+    "Chest",
+    "Shoulders"
+   ],
+   "props": [
+    "crossover"
+   ],
+   "placement": {
+    "cable-column": {
+     "at": [
+      0,
+      0,
+      -0.75
+     ],
+     "yaw": 0,
+     "height": 1.85
+    }
+   },
+   "keyframes": [
+    {
+     "shoulder": {
+      "flex": 30,
+      "abd": 80
+     },
+     "elbow": 20
+    },
+    {
+     "shoulder": {
+      "flex": 80,
+      "abd": 12
+     },
+     "elbow": 20
+    }
+   ],
+   "cues": [
+    "Stand between two high pulleys with the arms out wide, elbows slightly bent.",
+    "Bring the hands together in front of the chest in a wide arc.",
+    "Let the arms open again slowly."
+   ],
+   "mistakes": [
+    "Bending the elbows to pull with the arms.",
+    "Leaning forward to move the handles.",
+    "Letting the cables snap the arms back."
+   ],
+   "formChecks": [],
+   "note": "The pull comes from two high pulleys, one on each side; one cable column is drawn.",
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": false
+  },
+  {
+   "id": "pallof-press",
+   "name": "Pallof press",
+   "family": "pallof",
+   "aliases": [
+    "Anti-rotation press",
+    "Cable Pallof press"
+   ],
+   "pattern": "rotation",
+   "posture": "standing",
+   "equipment": [
+    "cable-column"
+   ],
+   "bodyParts": [
+    "Core"
+   ],
+   "props": [
+    "handle"
+   ],
+   "placement": {
+    "cable-column": {
+     "at": [
+      0.85,
+      0,
+      0
+     ],
+     "yaw": -90,
+     "height": 1.1
+    }
+   },
+   "keyframes": [
+    {
+     "hip": {
+      "abd": 6
+     },
+     "shoulder": {
+      "flex": 30
+     },
+     "elbow": 110
+    },
+    {
+     "hip": {
+      "abd": 6
+     },
+     "shoulder": {
+      "flex": 86
+     },
+     "elbow": 6
+    }
+   ],
+   "cues": [
+    "Stand side-on to a cable at chest height, handle at the chest.",
+    "Press the handle straight out in front without turning.",
+    "Bring it back to the chest slowly."
+   ],
+   "mistakes": [
+    "Letting the trunk turn toward the cable.",
+    "Leaning away from the cable.",
+    "Holding the breath."
+   ],
+   "formChecks": [],
+   "note": "The trunk muscles work to stop the cable turning you; little moves.",
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": true
+  },
+  {
+   "id": "goblet-squat",
+   "name": "Goblet squat",
+   "family": "squat",
+   "aliases": [
+    "Kettlebell goblet squat"
+   ],
+   "pattern": "squat",
+   "posture": "standing",
+   "equipment": [
+    "kettlebell"
+   ],
+   "bodyParts": [
+    "Legs",
+    "Glutes",
+    "Core"
+   ],
+   "props": [
+    "kettlebell"
+   ],
+   "keyframes": [
+    {
+     "hip": {
+      "flex": 0,
+      "abd": 4
+     },
+     "shoulder": {
+      "flex": 20,
+      "abd": 14
+     },
+     "elbow": 140
+    },
+    {
+     "hip": {
+      "flex": 120,
+      "abd": 4
+     },
+     "knee": 108,
+     "ankle": -20,
+     "shoulder": {
+      "flex": 40,
+      "abd": 14
+     },
+     "elbow": 140
+    }
+   ],
+   "cues": [
+    "Hold the kettlebell at the chest, feet about shoulder width.",
+    "Sit down between the heels, knees in line with the toes.",
+    "Stand up by pushing through the whole foot."
+   ],
+   "mistakes": [
+    "Heels lifting off the floor.",
+    "Knees falling inward.",
+    "Rounding the back at the bottom."
+   ],
+   "formChecks": [
+    {
+     "id": "kneeOverFoot"
+    },
+    {
+     "id": "neutralSpine"
+    }
+   ],
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": false
+  },
+  {
+   "id": "front-squat",
+   "name": "Front squat",
+   "family": "squat",
+   "aliases": [
+    "Barbell front squat"
+   ],
+   "pattern": "squat",
+   "posture": "standing",
+   "equipment": [
+    "barbell",
+    "squat-rack"
+   ],
+   "bodyParts": [
+    "Legs",
+    "Glutes",
+    "Core"
+   ],
+   "props": [
+    "bar"
+   ],
+   "keyframes": [
+    {
+     "hip": {
+      "flex": 0,
+      "abd": 4
+     },
+     "shoulder": {
+      "flex": 90,
+      "abd": 10
+     },
+     "elbow": 145
+    },
+    {
+     "hip": {
+      "flex": 120,
+      "abd": 4
+     },
+     "knee": 105,
+     "ankle": -20,
+     "shoulder": {
+      "flex": 90,
+      "abd": 10
+     },
+     "elbow": 145
+    }
+   ],
+   "cues": [
+    "Rest the bar on the front of the shoulders with the elbows high.",
+    "Squat down keeping the trunk upright, knees in line with the toes.",
+    "Stand up with the elbows still high."
+   ],
+   "mistakes": [
+    "Elbows dropping so the bar rolls forward.",
+    "Knees falling inward.",
+    "Heels lifting off the floor."
+   ],
+   "formChecks": [
+    {
+     "id": "kneeOverFoot"
+    },
+    {
+     "id": "neutralSpine"
+    }
+   ],
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": false
+  },
+  {
+   "id": "dumbbell-bench-press",
+   "name": "Dumbbell bench press",
+   "family": "press",
+   "aliases": [
+    "DB bench press",
+    "Dumbbell chest press"
+   ],
+   "pattern": "press",
+   "posture": "lying",
+   "equipment": [
+    "dumbbell",
+    "flat-bench"
+   ],
+   "bodyParts": [
+    "Chest",
+    "Shoulders",
+    "Arms"
+   ],
+   "props": [
+    "bench",
+    "dbL",
+    "dbR"
+   ],
+   "keyframes": [
+    {
+     "root": {
+      "pitch": -84,
+      "y": 0.55
+     },
+     "pin": "none",
+     "spine": {
+      "flex": 12
+     },
+     "hip": {
+      "flex": 0,
+      "abd": 10
+     },
+     "knee": 82,
+     "shoulder": {
+      "abd": 46,
+      "flex": 18
+     },
+     "elbow": 92
+    },
+    {
+     "root": {
+      "pitch": -84,
+      "y": 0.55
+     },
+     "pin": "none",
+     "spine": {
+      "flex": 12
+     },
+     "hip": {
+      "flex": 0,
+      "abd": 10
+     },
+     "knee": 82,
+     "shoulder": {
+      "abd": 90,
+      "flex": 86
+     },
+     "elbow": 4
+    }
+   ],
+   "cam": {
+    "az": 62
+   },
+   "cues": [
+    "Lie with head, upper back and hips on the bench and feet flat on the floor.",
+    "Lower the dumbbells under control to the sides of the chest.",
+    "Press up until the elbows are straight."
+   ],
+   "mistakes": [
+    "Letting the dumbbells drift toward the face.",
+    "Lifting the hips off the bench.",
+    "Bouncing out of the bottom."
+   ],
+   "formChecks": [],
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": true
+  },
+  {
+   "id": "dumbbell-fly",
+   "name": "Dumbbell fly",
+   "family": "fly",
+   "aliases": [
+    "Flat dumbbell fly",
+    "Chest fly"
+   ],
+   "pattern": "fly",
+   "posture": "lying",
+   "equipment": [
+    "dumbbell",
+    "flat-bench"
+   ],
+   "bodyParts": [
+    "Chest",
+    "Shoulders"
+   ],
+   "props": [
+    "bench",
+    "dbL",
+    "dbR"
+   ],
+   "keyframes": [
+    {
+     "root": {
+      "pitch": -84,
+      "y": 0.55
+     },
+     "pin": "none",
+     "spine": {
+      "flex": 12
+     },
+     "hip": {
+      "flex": 0,
+      "abd": 10
+     },
+     "knee": 82,
+     "shoulder": {
+      "abd": 85,
+      "flex": 12
+     },
+     "elbow": 25
+    },
+    {
+     "root": {
+      "pitch": -84,
+      "y": 0.55
+     },
+     "pin": "none",
+     "spine": {
+      "flex": 12
+     },
+     "hip": {
+      "flex": 0,
+      "abd": 10
+     },
+     "knee": 82,
+     "shoulder": {
+      "abd": 90,
+      "flex": 86
+     },
+     "elbow": 15
+    }
+   ],
+   "cam": {
+    "az": 62
+   },
+   "cues": [
+    "Lie on the bench with the dumbbells above the chest, elbows slightly bent.",
+    "Open the arms in a wide arc until the hands are level with the chest.",
+    "Bring the dumbbells back together over the chest in the same arc."
+   ],
+   "mistakes": [
+    "Bending the elbows more and turning it into a press.",
+    "Lowering the arms far below the bench.",
+    "Moving fast at the bottom of the arc."
+   ],
+   "formChecks": [],
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": true
+  },
+  {
+   "id": "chin-up",
+   "name": "Chin-up",
+   "family": "pull",
+   "aliases": [
+    "Chin up",
+    "Underhand pull-up"
+   ],
+   "pattern": "pulldown",
+   "posture": "hanging",
+   "equipment": [
+    "pull-up-rig"
+   ],
+   "bodyParts": [
+    "Back",
+    "Arms"
+   ],
+   "props": [
+    "pullbar"
+   ],
+   "keyframes": [
+    {
+     "pin": "hands",
+     "pinAt": [
+      0.174,
+      2.1,
+      0
+     ],
+     "flat": false,
+     "root": {
+      "pitch": -4.5
+     },
+     "hip": {
+      "flex": 0
+     },
+     "knee": 60,
+     "shoulder": {
+      "flex": 168,
+      "abd": -3.5
+     },
+     "elbow": 8
+    },
+    {
+     "pin": "hands",
+     "pinAt": [
+      0.177,
+      2.1,
+      0
+     ],
+     "flat": false,
+     "root": {
+      "pitch": -11.5
+     },
+     "hip": {
+      "flex": 0
+     },
+     "knee": 60,
+     "shoulder": {
+      "flex": 140,
+      "abd": -2.5
+     },
+     "elbow": 35
+    },
+    {
+     "pin": "hands",
+     "pinAt": [
+      0.177,
+      2.1,
+      0
+     ],
+     "flat": false,
+     "root": {
+      "pitch": -19
+     },
+     "hip": {
+      "flex": 0
+     },
+     "knee": 60,
+     "shoulder": {
+      "flex": 110,
+      "abd": -1.5
+     },
+     "elbow": 62
+    },
+    {
+     "pin": "hands",
+     "pinAt": [
+      0.18,
+      2.1,
+      0
+     ],
+     "flat": false,
+     "root": {
+      "pitch": -25
+     },
+     "hip": {
+      "flex": 0
+     },
+     "knee": 60,
+     "shoulder": {
+      "flex": 80,
+      "abd": -1
+     },
+     "elbow": 88
+    },
+    {
+     "pin": "hands",
+     "pinAt": [
+      0.18,
+      2.1,
+      0
+     ],
+     "flat": false,
+     "root": {
+      "pitch": -27.5
+     },
+     "hip": {
+      "flex": 0
+     },
+     "knee": 60,
+     "shoulder": {
+      "flex": 50,
+      "abd": -0.5
+     },
+     "elbow": 115
+    },
+    {
+     "pin": "hands",
+     "pinAt": [
+      0.18,
+      2.1,
+      0
+     ],
+     "flat": false,
+     "root": {
+      "pitch": -26.75
+     },
+     "hip": {
+      "flex": 0
+     },
+     "knee": 60,
+     "shoulder": {
+      "flex": 35,
+      "abd": 0.5
+     },
+     "elbow": 128
+    },
+    {
+     "pin": "hands",
+     "pinAt": [
+      0.179,
+      2.1,
+      0
+     ],
+     "flat": false,
+     "root": {
+      "pitch": -24
+     },
+     "hip": {
+      "flex": 0
+     },
+     "knee": 60,
+     "shoulder": {
+      "flex": 20,
+      "abd": -1
+     },
+     "elbow": 140
+    }
+   ],
+   "cues": [
+    "Hang from the bar with the palms facing you, hands about shoulder width.",
+    "Pull the chest up toward the bar, elbows travelling down in front.",
+    "Lower under control to straight arms."
+   ],
+   "mistakes": [
+    "Kicking the legs to get up.",
+    "Stopping short of straight arms at the bottom.",
+    "Reaching the chin forward instead of lifting the chest."
+   ],
+   "formChecks": [],
+   "note": "The model does not turn the forearm, so the underhand grip shows through the arm path, not the grip.",
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": false
+  },
+  {
+   "id": "rear-delt-fly",
+   "name": "Rear delt fly",
+   "family": "rear-delt",
+   "aliases": [
+    "Bent-over reverse fly",
+    "Rear delt raise"
+   ],
+   "pattern": "fly",
+   "posture": "standing",
+   "equipment": [
+    "dumbbell"
+   ],
+   "bodyParts": [
+    "Shoulders",
+    "Back"
+   ],
+   "props": [
+    "dbL",
+    "dbR"
+   ],
+   "keyframes": [
+    {
+     "hip": {
+      "flex": 90
+     },
+     "knee": 40,
+     "ankle": -2,
+     "armsHang": true,
+     "shoulder": {
+      "abd": 8
+     },
+     "elbow": 15
+    },
+    {
+     "hip": {
+      "flex": 90
+     },
+     "knee": 40,
+     "ankle": -2,
+     "armsHang": true,
+     "shoulder": {
+      "abd": 80
+     },
+     "elbow": 15
+    }
+   ],
+   "cam": {
+    "az": 55
+   },
+   "cues": [
+    "Hinge at the hips with a flat back, arms hanging under the shoulders.",
+    "Raise the arms out to the sides, elbows slightly bent.",
+    "Lower slowly to the start."
+   ],
+   "mistakes": [
+    "Rounding the back.",
+    "Lifting the trunk as the arms rise.",
+    "Squeezing the shoulders up toward the ears."
+   ],
+   "formChecks": [
+    {
+     "id": "neutralSpine"
+    }
+   ],
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": true
+  },
+  {
+   "id": "kettlebell-swing",
+   "name": "Kettlebell swing",
+   "family": "deadlift",
+   "aliases": [
+    "Russian kettlebell swing",
+    "KB swing"
+   ],
+   "pattern": "hinge",
+   "posture": "standing",
+   "equipment": [
+    "kettlebell"
+   ],
+   "bodyParts": [
+    "Glutes",
+    "Legs",
+    "Back",
+    "Core"
+   ],
+   "props": [
+    "kettlebell"
+   ],
+   "keyframes": [
+    {
+     "hip": {
+      "flex": 81,
+      "abd": 6
+     },
+     "knee": 25,
+     "ankle": -5,
+     "armsHang": -25,
+     "elbow": 4
+    },
+    {
+     "hip": {
+      "flex": 28,
+      "abd": 6
+     },
+     "knee": 12,
+     "ankle": -2,
+     "shoulder": {
+      "flex": 40
+     },
+     "elbow": 4
+    },
+    {
+     "hip": {
+      "flex": 0,
+      "abd": 6
+     },
+     "shoulder": {
+      "flex": 88
+     },
+     "elbow": 4
+    }
+   ],
+   "cam": {
+    "az": 70
+   },
+   "cues": [
+    "Hinge at the hips with a flat back, kettlebell between the thighs.",
+    "Drive the hips forward to swing the kettlebell to chest height.",
+    "Let it swing back down as you hinge again."
+   ],
+   "mistakes": [
+    "Squatting down instead of hinging.",
+    "Lifting the kettlebell with the arms.",
+    "Rounding the back at the bottom."
+   ],
+   "formChecks": [
+    {
+     "id": "neutralSpine"
+    }
+   ],
+   "note": "The swing is fast; the model only counts the weight in each position, not the speed (known gap).",
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": true
+  },
+  {
+   "id": "reverse-lunge",
+   "name": "Reverse lunge",
+   "family": "lunge",
+   "aliases": [
+    "Dumbbell reverse lunge",
+    "Backward lunge"
+   ],
+   "pattern": "lunge",
+   "posture": "standing",
+   "equipment": [
+    "dumbbell"
+   ],
+   "bodyParts": [
+    "Legs",
+    "Glutes"
+   ],
+   "props": [
+    "dbL",
+    "dbR"
+   ],
+   "keyframes": [
+    {
+     "elbow": 4
+    },
+    {
+     "root": {
+      "pitch": 0
+     },
+     "hipL": {
+      "flex": 75
+     },
+     "kneeL": 85,
+     "ankleL": -10,
+     "hipR": {
+      "flex": 6.5
+     },
+     "kneeR": 95,
+     "ankleR": 35,
+     "elbow": 4
+    }
+   ],
+   "cam": {
+    "az": 80
+   },
+   "cues": [
+    "Stand tall with the dumbbells at your sides.",
+    "Step back with one leg and lower until the back knee is near the floor.",
+    "Push through the front foot to return."
+   ],
+   "mistakes": [
+    "Front knee falling inward.",
+    "Leaning the trunk far forward.",
+    "Taking a step so short the front heel lifts."
+   ],
+   "formChecks": [
+    {
+     "id": "kneeOverFoot"
+    }
+   ],
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": true
+  },
+  {
+   "id": "incline-dumbbell-curl",
+   "name": "Incline dumbbell curl",
+   "family": "curl",
+   "aliases": [
+    "Incline curl",
+    "Incline biceps curl"
+   ],
+   "pattern": "curl",
+   "posture": "incline",
+   "equipment": [
+    "dumbbell",
+    "adjustable-bench"
+   ],
+   "bodyParts": [
+    "Arms"
+   ],
+   "props": [
+    "seat",
+    "inclineBack",
+    "dbL",
+    "dbR"
+   ],
+   "placement": {
+    "adjustable-bench": {
+     "angle": 45
+    }
+   },
+   "keyframes": [
+    {
+     "root": {
+      "y": 0.51,
+      "z": -0.01,
+      "pitch": -41
+     },
+     "pin": "none",
+     "hip": {
+      "flex": 48
+     },
+     "knee": 85,
+     "armsHang": true,
+     "elbow": 6,
+     "spine": {
+      "flex": 7
+     },
+     "ankle": -9
+    },
+    {
+     "root": {
+      "y": 0.51,
+      "z": -0.01,
+      "pitch": -41
+     },
+     "pin": "none",
+     "hip": {
+      "flex": 48
+     },
+     "knee": 85,
+     "armsHang": true,
+     "elbow": 140,
+     "spine": {
+      "flex": 7
+     },
+     "ankle": -9
+    }
+   ],
+   "cam": {
+    "az": 70
+   },
+   "cues": [
+    "Sit back on a bench set to about 45 degrees, arms hanging straight down.",
+    "Keep the upper arms still and curl the weights up.",
+    "Lower slowly until the arms are straight again."
+   ],
+   "mistakes": [
+    "Lifting the shoulders off the back pad.",
+    "Bringing the elbows forward to finish the lift.",
+    "Dropping the weights fast at the bottom."
+   ],
+   "formChecks": [],
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": true
+  },
+  {
+   "id": "incline-bench-press",
+   "name": "Incline bench press",
+   "family": "press",
+   "aliases": [
+    "Incline press",
+    "Incline barbell press"
+   ],
+   "pattern": "press",
+   "posture": "incline",
+   "equipment": [
+    "barbell",
+    "adjustable-bench",
+    "squat-rack"
+   ],
+   "bodyParts": [
+    "Chest",
+    "Shoulders",
+    "Arms"
+   ],
+   "props": [
+    "seat",
+    "inclineBack",
+    "bar"
+   ],
+   "placement": {
+    "adjustable-bench": {
+     "angle": 45
+    }
+   },
+   "keyframes": [
+    {
+     "root": {
+      "y": 0.51,
+      "z": -0.01,
+      "pitch": -41
+     },
+     "pin": "none",
+     "hip": {
+      "flex": 48
+     },
+     "knee": 85,
+     "ankle": -9,
+     "spine": {
+      "flex": 7
+     },
+     "shoulder": {
+      "flex": -5,
+      "abd": 50
+     },
+     "elbow": 120
+    },
+    {
+     "root": {
+      "y": 0.51,
+      "z": -0.01,
+      "pitch": -41
+     },
+     "pin": "none",
+     "hip": {
+      "flex": 48
+     },
+     "knee": 85,
+     "ankle": -9,
+     "spine": {
+      "flex": 7
+     },
+     "shoulder": {
+      "flex": 145,
+      "abd": -14
+     },
+     "elbow": 4
+    }
+   ],
+   "cam": {
+    "az": 70
+   },
+   "cues": [
+    "Set the bench to about 45 degrees and keep the back on the pad.",
+    "Lower the bar under control to the upper chest.",
+    "Press the bar straight up over the shoulders."
+   ],
+   "mistakes": [
+    "Arching the lower back off the pad.",
+    "Flaring the elbows straight out to the sides.",
+    "Bouncing the bar off the chest."
+   ],
+   "formChecks": [],
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": false
+  },
+  {
+   "id": "hip-thrust",
+   "name": "Hip thrust",
+   "family": "bridge",
+   "aliases": [
+    "Barbell hip thrust"
+   ],
+   "pattern": "hinge",
+   "posture": "lying",
+   "equipment": [
+    "barbell",
+    "flat-bench"
+   ],
+   "bodyParts": [
+    "Glutes",
+    "Legs"
+   ],
+   "props": [
+    "benchUpperBack",
+    "hipBar"
+   ],
+   "placement": {
+    "flat-bench": {
+     "at": [
+      0,
+      0,
+      -0.5
+     ],
+     "yaw": -90
+    }
+   },
+   "keyframes": [
+    {
+     "root": {
+      "pitch": -45,
+      "z": -0.19
+     },
+     "hip": {
+      "flex": 60
+     },
+     "knee": 116,
+     "ankle": -11,
+     "shoulder": {
+      "flex": -20,
+      "abd": 12
+     },
+     "elbow": 72
+    },
+    {
+     "root": {
+      "pitch": -81,
+      "z": -0.21
+     },
+     "hip": {
+      "flex": -6
+     },
+     "knee": 89,
+     "ankle": -14,
+     "shoulder": {
+      "flex": -17,
+      "abd": 11
+     },
+     "elbow": 66
+    }
+   ],
+   "cam": {
+    "az": 85
+   },
+   "cues": [
+    "Rest the upper back on the bench edge, bar across the hips, feet flat.",
+    "Push the hips up until the thighs and trunk are level.",
+    "Lower the hips under control."
+   ],
+   "mistakes": [
+    "Arching the lower back at the top.",
+    "Feet so far forward the hamstrings take over.",
+    "Letting the knees fall inward."
+   ],
+   "formChecks": [
+    {
+     "id": "neutralSpine"
+    }
+   ],
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": true
+  },
+  {
+   "id": "crunch",
+   "name": "Crunch",
+   "family": "crunch",
+   "aliases": [
+    "Abdominal crunch",
+    "Floor crunch"
+   ],
+   "pattern": "flexion",
+   "posture": "lying",
+   "equipment": [
+    "mat"
+   ],
+   "bodyParts": [
+    "Core"
+   ],
+   "props": [
+    "matSupine"
+   ],
+   "keyframes": [
+    {
+     "root": {
+      "pitch": -82,
+      "z": 0.1
+     },
+     "pin": "flat",
+     "pinAt": [
+      0,
+      0.015,
+      0
+     ],
+     "hip": {
+      "flex": 50
+     },
+     "knee": 107,
+     "ankle": 25,
+     "shoulder": {
+      "flex": 20,
+      "abd": 10
+     },
+     "elbow": 10
+    },
+    {
+     "root": {
+      "pitch": -90,
+      "z": 0.1
+     },
+     "pin": "flat",
+     "pinAt": [
+      0,
+      0.015,
+      0
+     ],
+     "spine": {
+      "flex": 32
+     },
+     "neck": {
+      "flex": 20
+     },
+     "hip": {
+      "flex": 56
+     },
+     "knee": 121,
+     "ankle": 25,
+     "shoulder": {
+      "flex": 40,
+      "abd": 10
+     },
+     "elbow": 10
+    }
+   ],
+   "cam": {
+    "az": 85
+   },
+   "cues": [
+    "Lie on your back with the knees bent and feet flat.",
+    "Curl the head and shoulders up off the mat.",
+    "Lower slowly."
+   ],
+   "mistakes": [
+    "Pulling on the neck with the hands.",
+    "Lifting the lower back off the mat.",
+    "Swinging up fast."
+   ],
+   "formChecks": [],
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": true
+  },
+  {
+   "id": "glute-bridge",
+   "name": "Glute bridge",
+   "family": "bridge",
+   "aliases": [
+    "Bridge",
+    "Hip bridge"
+   ],
+   "pattern": "hinge",
+   "posture": "lying",
+   "equipment": [
+    "mat"
+   ],
+   "bodyParts": [
+    "Glutes",
+    "Legs",
+    "Core"
+   ],
+   "props": [
+    "matUpperBack"
+   ],
+   "keyframes": [
+    {
+     "root": {
+      "pitch": -74,
+      "z": 0.1
+     },
+     "pin": "flat",
+     "pinAt": [
+      0,
+      0.015,
+      0
+     ],
+     "hip": {
+      "flex": 68
+     },
+     "knee": 114,
+     "ankle": 28,
+     "shoulder": {
+      "flex": 0,
+      "abd": 20
+     },
+     "elbow": 5
+    },
+    {
+     "root": {
+      "pitch": -90,
+      "z": 0.1
+     },
+     "pin": "flat",
+     "pinAt": [
+      0,
+      0.015,
+      0
+     ],
+     "spine": {
+      "flex": -9
+     },
+     "hip": {
+      "flex": 37
+     },
+     "knee": 112,
+     "ankle": 15,
+     "shoulder": {
+      "flex": 0,
+      "abd": 20
+     },
+     "elbow": 5
+    }
+   ],
+   "cam": {
+    "az": 85
+   },
+   "cues": [
+    "Lie on your back with the knees bent and feet flat.",
+    "Push through the heels to lift the hips.",
+    "Lower slowly."
+   ],
+   "mistakes": [
+    "Arching the lower back instead of lifting with the hips.",
+    "Feet too far from the hips.",
+    "Knees falling apart or together."
+   ],
+   "formChecks": [],
+   "note": "The model pelvis cannot tilt past level, so the hips rise less than in practice (known gap).",
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": false
+  },
+  {
+   "id": "leg-extension",
+   "name": "Leg extension",
+   "family": "leg-extension",
+   "aliases": [
+    "Machine leg extension",
+    "Knee extension"
+   ],
+   "pattern": "extension",
+   "posture": "seated",
+   "equipment": [
+    "leg-extension"
+   ],
+   "bodyParts": [
+    "Legs"
+   ],
+   "props": [
+    "seat",
+    "back",
+    "legext"
+   ],
+   "keyframes": [
+    {
+     "root": {
+      "y": 0.6,
+      "z": -0.13,
+      "pitch": 3
+     },
+     "pin": "none",
+     "hip": {
+      "flex": 92
+     },
+     "knee": 90,
+     "shoulder": {
+      "flex": 10,
+      "abd": 20
+     },
+     "elbow": 20,
+     "spine": {
+      "flex": 3
+     }
+    },
+    {
+     "root": {
+      "y": 0.6,
+      "z": -0.13,
+      "pitch": 3
+     },
+     "pin": "none",
+     "hip": {
+      "flex": 92
+     },
+     "knee": 5,
+     "shoulder": {
+      "flex": 10,
+      "abd": 20
+     },
+     "elbow": 20,
+     "spine": {
+      "flex": 3
+     }
+    }
+   ],
+   "cam": {
+    "az": 80
+   },
+   "cues": [
+    "Sit back against the pad with the knees in line with the machine pivot.",
+    "Straighten the knees to lift the pad.",
+    "Lower slowly."
+   ],
+   "mistakes": [
+    "Kicking the weight up fast.",
+    "Lifting the hips off the seat.",
+    "Letting the weight crash down."
+   ],
+   "formChecks": [],
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": true
+  },
+  {
+   "id": "lying-leg-curl",
+   "name": "Lying leg curl",
+   "family": "leg-curl",
+   "aliases": [
+    "Prone leg curl",
+    "Machine leg curl"
+   ],
+   "pattern": "curl",
+   "posture": "lying",
+   "equipment": [
+    "leg-curl"
+   ],
+   "bodyParts": [
+    "Legs"
+   ],
+   "props": [
+    "legCurlPads",
+    "legcurl"
+   ],
+   "keyframes": [
+    {
+     "root": {
+      "y": 0.81,
+      "z": 0.05,
+      "pitch": 85
+     },
+     "pin": "none",
+     "spine": {
+      "flex": 15
+     },
+     "hip": {
+      "flex": 18
+     },
+     "knee": 5,
+     "ankle": -10,
+     "shoulder": {
+      "flex": 80,
+      "abd": -16
+     },
+     "elbow": 124
+    },
+    {
+     "root": {
+      "y": 0.81,
+      "z": 0.05,
+      "pitch": 85
+     },
+     "pin": "none",
+     "spine": {
+      "flex": 15
+     },
+     "hip": {
+      "flex": 18
+     },
+     "knee": 110,
+     "ankle": -10,
+     "shoulder": {
+      "flex": 80,
+      "abd": -16
+     },
+     "elbow": 124
+    }
+   ],
+   "cam": {
+    "az": 85
+   },
+   "cues": [
+    "Lie face down with the knees just off the end of the pad.",
+    "Curl the heels toward the hips.",
+    "Lower slowly to straight legs."
+   ],
+   "mistakes": [
+    "Lifting the hips off the pad.",
+    "Jerking the weight up.",
+    "Stopping short of straight legs."
+   ],
+   "formChecks": [],
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": false
+  },
+  {
+   "id": "side-plank",
+   "name": "Side plank",
+   "family": "plank",
+   "aliases": [
+    "Side bridge",
+    "Forearm side plank"
+   ],
+   "pattern": "hold",
+   "posture": "lying",
+   "equipment": [
+    "mat"
+   ],
+   "bodyParts": [
+    "Core",
+    "Shoulders"
+   ],
+   "props": [
+    "matForearmL"
+   ],
+   "keyframes": [
+    {
+     "root": {
+      "yaw": -90,
+      "pitch": 77,
+      "z": -0.03,
+      "roll": -8
+     },
+     "pin": "toeL",
+     "pinAt": [
+      0,
+      0.015,
+      0
+     ],
+     "flat": false,
+     "hip": {
+      "flex": -5,
+      "abd": -4
+     },
+     "ankle": 0,
+     "shoulderL": {
+      "abd": 95,
+      "flex": 2
+     },
+     "elbowL": 99,
+     "shoulderR": {
+      "abd": 10
+     },
+     "elbowR": 90,
+     "spine": {
+      "side": -4
+     }
+    },
+    {
+     "root": {
+      "yaw": -90,
+      "pitch": 77,
+      "z": -0.03,
+      "roll": -8
+     },
+     "pin": "toeL",
+     "pinAt": [
+      0,
+      0.015,
+      0
+     ],
+     "flat": false,
+     "hip": {
+      "flex": -5,
+      "abd": -4
+     },
+     "ankle": 0,
+     "shoulderL": {
+      "abd": 95,
+      "flex": 2
+     },
+     "elbowL": 99,
+     "shoulderR": {
+      "abd": 10
+     },
+     "elbowR": 90,
+     "spine": {
+      "side": -4
+     }
+    }
+   ],
+   "cam": {
+    "az": 0
+   },
+   "cues": [
+    "Lie on your side with the elbow under the shoulder, feet stacked.",
+    "Lift the hips so the body forms a straight line.",
+    "Breathe steadily."
+   ],
+   "mistakes": [
+    "Hips sagging toward the mat.",
+    "Rolling the trunk forward or back.",
+    "Holding the breath."
+   ],
+   "formChecks": [],
+   "note": "Nothing moves. Every muscle here is holding a position.",
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": false
+  },
+  {
+   "id": "bench-dip",
+   "name": "Bench dip",
+   "family": "triceps",
+   "aliases": [
+    "Triceps bench dip",
+    "Bench triceps dip"
+   ],
+   "pattern": "extension",
+   "posture": "seated",
+   "equipment": [
+    "bodyweight",
+    "flat-bench"
+   ],
+   "bodyParts": [
+    "Arms",
+    "Shoulders",
+    "Chest"
+   ],
+   "props": [
+    "floorHands"
+   ],
+   "placement": {
+    "flat-bench": {
+     "at": [
+      0,
+      0,
+      -0.3
+     ],
+     "yaw": 90
+    }
+   },
+   "keyframes": [
+    {
+     "root": {
+      "pitch": -16,
+      "z": -0.14
+     },
+     "pin": "flat",
+     "hip": {
+      "flex": 89
+     },
+     "knee": 100,
+     "ankle": 5,
+     "shoulder": {
+      "flex": -53,
+      "abd": 10
+     },
+     "elbow": 82
+    },
+    {
+     "root": {
+      "pitch": -10,
+      "z": -0.07
+     },
+     "pin": "flat",
+     "hip": {
+      "flex": 82
+     },
+     "knee": 97,
+     "ankle": -5,
+     "shoulder": {
+      "flex": -40,
+      "abd": 10
+     },
+     "elbow": 45
+    },
+    {
+     "root": {
+      "pitch": -8,
+      "z": -0.01
+     },
+     "pin": "flat",
+     "hip": {
+      "flex": 76
+     },
+     "knee": 99,
+     "ankle": -15,
+     "shoulder": {
+      "flex": -22,
+      "abd": 10
+     },
+     "elbow": 4
+    }
+   ],
+   "cam": {
+    "az": 80
+   },
+   "cues": [
+    "Place the hands on the edge of the bench behind you, feet on the floor in front.",
+    "Bend the elbows to lower the hips, keeping the back close to the bench.",
+    "Press back up until the elbows are straight."
+   ],
+   "mistakes": [
+    "Lowering until the shoulders roll forward.",
+    "Letting the elbows flare out to the sides.",
+    "Pushing with the legs instead of the arms."
+   ],
+   "formChecks": [],
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": true
+  },
+  {
+   "id": "one-arm-dumbbell-row",
+   "name": "One-arm dumbbell row",
+   "family": "row",
+   "aliases": [
+    "One-arm row",
+    "Single-arm dumbbell row"
+   ],
+   "pattern": "row",
+   "posture": "kneeling",
+   "equipment": [
+    "dumbbell",
+    "flat-bench"
+   ],
+   "bodyParts": [
+    "Back",
+    "Arms",
+    "Shoulders"
+   ],
+   "props": [
+    "benchKneeHandL",
+    "dbR"
+   ],
+   "placement": {
+    "flat-bench": {
+     "at": [
+      0.1,
+      0,
+      0.1
+     ]
+    }
+   },
+   "keyframes": [
+    {
+     "root": {
+      "pitch": 80,
+      "z": 0,
+      "roll": 0
+     },
+     "pin": "toeR",
+     "flat": false,
+     "spine": {
+      "flex": -5
+     },
+     "hipL": {
+      "flex": 108,
+      "abd": 2
+     },
+     "kneeL": 123,
+     "ankleL": 40,
+     "hipR": {
+      "flex": 89
+     },
+     "kneeR": 1,
+     "ankleR": 8,
+     "shoulderL": {
+      "flex": 77,
+      "abd": -33
+     },
+     "elbowL": 13,
+     "shoulderR": {
+      "flex": 70,
+      "abd": 8
+     },
+     "elbowR": 5
+    },
+    {
+     "root": {
+      "pitch": 80,
+      "z": 0,
+      "roll": 0
+     },
+     "pin": "toeR",
+     "flat": false,
+     "spine": {
+      "flex": -5
+     },
+     "hipL": {
+      "flex": 108,
+      "abd": 2
+     },
+     "kneeL": 123,
+     "ankleL": 40,
+     "hipR": {
+      "flex": 89
+     },
+     "kneeR": 1,
+     "ankleR": 8,
+     "shoulderL": {
+      "flex": 77,
+      "abd": -33
+     },
+     "elbowL": 13,
+     "shoulderR": {
+      "flex": 10,
+      "abd": 15
+     },
+     "elbowR": 95
+    }
+   ],
+   "cam": {
+    "az": 300
+   },
+   "cues": [
+    "Put the left knee and left hand on the bench, right foot on the floor.",
+    "Keep the back flat and pull the dumbbell toward the hip.",
+    "Lower it slowly until the arm is straight."
+   ],
+   "mistakes": [
+    "Twisting the trunk to lift the weight.",
+    "Rounding the back.",
+    "Shrugging the shoulder up to the ear."
+   ],
+   "formChecks": [
+    {
+     "id": "neutralSpine"
+    }
+   ],
+   "note": "One knee and one hand on the bench. The left dumbbell is still drawn; only the right one is loaded.",
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": false
+  },
+  {
+   "id": "bulgarian-split-squat",
+   "name": "Bulgarian split squat",
+   "family": "lunge",
+   "aliases": [
+    "Rear-foot-elevated split squat",
+    "Bulgarian squat"
+   ],
+   "pattern": "lunge",
+   "posture": "standing",
+   "equipment": [
+    "dumbbell",
+    "flat-bench"
+   ],
+   "bodyParts": [
+    "Legs",
+    "Glutes"
+   ],
+   "props": [
+    "benchFootR",
+    "dbL",
+    "dbR"
+   ],
+   "placement": {
+    "flat-bench": {
+     "at": [
+      0,
+      0,
+      -0.5
+     ],
+     "yaw": 90
+    }
+   },
+   "keyframes": [
+    {
+     "root": {
+      "pitch": -5,
+      "z": 0
+     },
+     "pin": "toeL",
+     "flat": false,
+     "hipL": {
+      "flex": 30
+     },
+     "kneeL": 30,
+     "ankleL": 5,
+     "hipR": {
+      "flex": -17.7,
+      "abd": 2.3,
+      "rot": 0
+     },
+     "kneeR": 91.7,
+     "ankleR": 34,
+     "elbow": 4
+    },
+    {
+     "root": {
+      "pitch": 0,
+      "z": 0
+     },
+     "pin": "toeL",
+     "flat": false,
+     "hipL": {
+      "flex": 50
+     },
+     "kneeL": 50,
+     "ankleL": 0,
+     "hipR": {
+      "flex": -15.4,
+      "abd": 2.6,
+      "rot": 0
+     },
+     "kneeR": 99.6,
+     "ankleR": 24,
+     "elbow": 4
+    },
+    {
+     "root": {
+      "pitch": 5,
+      "z": 0
+     },
+     "pin": "toeL",
+     "flat": false,
+     "hipL": {
+      "flex": 68
+     },
+     "kneeL": 70,
+     "ankleL": -7,
+     "hipR": {
+      "flex": -15.8,
+      "abd": 3.1,
+      "rot": 0
+     },
+     "kneeR": 106.2,
+     "ankleR": 11,
+     "elbow": 4
+    },
+    {
+     "root": {
+      "pitch": 10,
+      "z": 0
+     },
+     "pin": "toeL",
+     "flat": false,
+     "hipL": {
+      "flex": 82
+     },
+     "kneeL": 85,
+     "ankleL": -13,
+     "hipR": {
+      "flex": -16.8,
+      "abd": 3.7,
+      "rot": 0
+     },
+     "kneeR": 110.1,
+     "ankleR": 1,
+     "elbow": 4
+    }
+   ],
+   "cam": {
+    "az": 80
+   },
+   "cues": [
+    "Rest the top of the back foot on a bench behind you.",
+    "Lower straight down until the front thigh is about level with the floor.",
+    "Push through the front foot to stand up."
+   ],
+   "mistakes": [
+    "Front knee falling inward.",
+    "Standing too close to the bench so the front heel lifts.",
+    "Pushing off the back foot."
+   ],
+   "formChecks": [
+    {
+     "id": "kneeOverFoot"
+    }
+   ],
+   "note": "Rear foot on the bench; the toes hang over its far edge.",
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": true
+  },
+  {
+   "id": "step-up",
+   "name": "Step-up",
+   "family": "lunge",
+   "aliases": [
+    "Box step-up",
+    "Dumbbell step-up"
+   ],
+   "pattern": "lunge",
+   "posture": "standing",
+   "equipment": [
+    "plyo-box",
+    "dumbbell"
+   ],
+   "bodyParts": [
+    "Legs",
+    "Glutes"
+   ],
+   "props": [
+    "dbL",
+    "dbR"
+   ],
+   "keyframes": [
+    {
+     "root": {
+      "pitch": 25,
+      "z": 0.12,
+      "roll": 16
+     },
+     "pin": "toeL",
+     "pinAt": [
+      0,
+      0.51,
+      0
+     ],
+     "flat": false,
+     "hipL": {
+      "flex": 105,
+      "abd": 0,
+      "rot": -10
+     },
+     "kneeL": 118,
+     "ankleL": -20,
+     "hipR": {
+      "flex": 22,
+      "abd": -20
+     },
+     "kneeR": 8,
+     "ankleR": 49,
+     "armsHang": true,
+     "elbow": 4
+    },
+    {
+     "root": {
+      "pitch": 30,
+      "z": 0.14,
+      "roll": 12
+     },
+     "pin": "toeL",
+     "pinAt": [
+      0,
+      0.51,
+      0
+     ],
+     "flat": false,
+     "spine": {
+      "side": 17
+     },
+     "hipL": {
+      "flex": 73,
+      "abd": 7,
+      "rot": -6
+     },
+     "kneeL": 67,
+     "ankleL": -20,
+     "hipR": {
+      "flex": -2,
+      "abd": -7
+     },
+     "kneeR": 29,
+     "ankleR": 12,
+     "armsHang": true,
+     "elbow": 4
+    },
+    {
+     "root": {
+      "pitch": 4,
+      "z": 0.245,
+      "roll": 0
+     },
+     "pin": "toeL",
+     "pinAt": [
+      0,
+      0.51,
+      0
+     ],
+     "flat": false,
+     "spine": {
+      "side": 16
+     },
+     "hipL": {
+      "flex": 6,
+      "abd": -5,
+      "rot": 0
+     },
+     "kneeL": 3,
+     "ankleL": -1,
+     "hipR": {
+      "flex": 15,
+      "abd": -4
+     },
+     "kneeR": 50,
+     "ankleR": 10,
+     "armsHang": true,
+     "elbow": 4
+    }
+   ],
+   "cam": {
+    "az": 80
+   },
+   "cues": [
+    "Put the whole lead foot on the box and lean your weight onto it.",
+    "Stand up on the lead leg, keeping the knee in line with the toes.",
+    "Lower slowly on the same leg."
+   ],
+   "mistakes": [
+    "Pushing off the trailing foot.",
+    "Lead knee falling inward.",
+    "Only the front of the foot on the box."
+   ],
+   "formChecks": [
+    {
+     "id": "kneeOverFoot"
+    }
+   ],
+   "note": "The weight is on the lead leg throughout; the trailing foot only hovers near the floor at the start.",
+   "sources": [
+    "NSCA, Essentials of Strength Training and Conditioning, 4th ed. (Haff & Triplett, Human Kinetics 2016), exercise technique for free weight and machine training: cues and mistakes paraphrased, no text copied",
+    "free-exercise-db (github.com/yuhonas/free-exercise-db, Unlicense, public domain): exercise instructions used as source text, paraphrased"
+   ],
+   "reviewed": false
   }
  ]
 }

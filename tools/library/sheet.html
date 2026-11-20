@@ -1,0 +1,110 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Equipment contact sheet</title>
+<style>
+  html, body { margin: 0; background: #e9edf0; font: 13px/1.3 system-ui, sans-serif; color: #1c2329; }
+  #wrap { position: relative; }
+  .tag { position: absolute; padding: 3px 8px; font-weight: 600; }
+  .tag small { font-weight: 400; opacity: .7; margin-left: 8px; }
+  .cap { position: absolute; font-size: 11px; opacity: .6; padding: 0 6px; }
+  .bad { color: #b3261e; }
+</style>
+<div id="wrap"><canvas id="c"></canvas></div>
+<script type="module">
+// Contact sheet of equipment.json (tools/library/sheet.mjs drives it): one tile per item, three views each
+// (front, three-quarter, close-up). ?set=gym renders `items`, ?set=objects renders `objects`.
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { buildEquipment } from '/src/ui/workouts/equipment.ts';
+import { buildObjects } from '/src/ui/workouts/objects.ts';
+import { PROTO_ROOT_Y } from '/src/rig/pose.ts';
+
+const set = new URLSearchParams(location.search).get('set') ?? 'gym';
+const eq = await (await fetch('/data/equipment.json')).json();
+const list = set === 'gym' ? eq.items : eq.objects, build = set === 'gym' ? buildEquipment : buildObjects;
+const VW = 330, VH = 290, COLS = 2, LAB = 26, TW = VW * 3, TH = VH + LAB;
+const W = TW * COLS, H = Math.ceil(list.length / COLS) * TH;
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(1);
+renderer.setSize(W, H, false);
+canvas.style.cssText = `width:${W}px;height:${H}px;display:block`;
+renderer.setScissorTest(true);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.0;
+const env = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
+const wrap = document.getElementById('wrap');
+const skel = { names: ['pelvis'], H: [[0, PROTO_ROOT_Y, 0]] }; // body scale s = 1
+let ok = 0;
+const bad = [];
+
+list.forEach((it, n) => {
+  const col = n % COLS, row = Math.floor(n / COLS), x0 = col * TW, y0 = row * TH;
+  const tag = document.createElement('div');
+  tag.className = 'tag';
+  tag.style.cssText = `left:${x0}px;top:${y0}px`;
+  tag.innerHTML = `${it.name}<small>${it.id} · ${it.kind}${it.simplified ? ' · simplified' : ''}</small>`;
+  wrap.appendChild(tag);
+  try {
+    const scene = new THREE.Scene();
+    scene.environment = env;
+    scene.background = new THREE.Color(0xdde3e8);
+    const floor = new THREE.Mesh(new THREE.CircleGeometry(6, 64), new THREE.MeshStandardMaterial({ color: 0xb8c0c7, roughness: 0.95 }));
+    floor.rotation.x = -Math.PI / 2;
+    scene.add(floor);
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x8a929a, 0.9));
+    const sun = new THREE.DirectionalLight(0xffffff, 2.2);
+    sun.position.set(2, 4, 3);
+    scene.add(sun);
+    const fill = new THREE.DirectionalLight(0xbcd0ff, 0.6);
+    fill.position.set(-3, 2, -2);
+    scene.add(fill);
+    const viewer = { addOverlay: (o) => { if (!scene.children.includes(o)) scene.add(o); }, removeOverlay: (o) => scene.remove(o) };
+    const e = build(viewer, [it.id], {}, skel, eq);
+    scene.updateMatrixWorld(true);
+    const box = new THREE.Box3();
+    scene.traverse((o) => { // the item only: no floor, no soft shadow patch
+      if (o.isMesh && o !== floor && !(o.material.isMeshBasicMaterial && o.material.transparent)) box.expandByObject(o);
+    });
+    const size = box.getSize(new THREE.Vector3()), mid = box.getCenter(new THREE.Vector3());
+    if (!isFinite(size.x + size.y + size.z) || size.length() < 0.05) throw new Error('empty item');
+    const R = size.length() / 2;
+    const wide = size.x > 1.2 * Math.max(size.y, size.z);
+    const closeAt = new THREE.Vector3(wide ? box.max.x - 0.25 * size.x : mid.x, box.min.y + (size.y > 2.5 * Math.max(size.x, size.z) ? 0.06 : 0.7) * size.y, wide ? mid.z : mid.z);
+    // close-ups that would miss the detail: the cable column's carriage with its attachment, the mat's corner (its thickness)
+    const CLOSE = { 'cable-column': { at: new THREE.Vector3(mid.x, box.min.y + 0.74 * size.y, mid.z), dist: 0.9 },
+      'plyo-box': { at: new THREE.Vector3(box.max.x - 0.12, box.max.y, box.max.z - 0.12), dist: 0.7, el: 35 },
+      mat: { at: new THREE.Vector3(box.max.x - 0.08, box.max.y, box.max.z - 0.15), dist: 0.4, el: 20 } }[it.id];
+    if (CLOSE) closeAt.copy(CLOSE.at);
+    const flip = ['step1', 'step2', 'furniture-edge', 'cable-column'].includes(it.id) ? 180 : 0; // their working face looks toward -z
+    const views = [
+      { at: mid, dist: R * 4.2, az: flip, el: 8 },
+      { at: mid, dist: R * 4.2, az: 38 + flip, el: 22 },
+      { at: closeAt, dist: CLOSE?.dist ?? Math.max(0.5, R * 1.5), az: -32 + flip, el: CLOSE?.el ?? 14 },
+    ];
+    const cam = new THREE.PerspectiveCamera(30, VW / VH, 0.02, 40);
+    views.forEach((v, i) => {
+      const az = (v.az * Math.PI) / 180, el = (v.el * Math.PI) / 180;
+      cam.position.set(v.at.x + v.dist * Math.sin(az) * Math.cos(el), v.at.y + v.dist * Math.sin(el), v.at.z + v.dist * Math.cos(az) * Math.cos(el));
+      cam.lookAt(v.at);
+      const px = x0 + i * VW, py = H - (y0 + LAB + VH); // gl origin is bottom-left
+      renderer.setViewport(px, py, VW, VH);
+      renderer.setScissor(px, py, VW, VH);
+      renderer.render(scene, cam);
+      const cap = document.createElement('div');
+      cap.className = 'cap';
+      cap.style.cssText = `left:${px}px;top:${y0 + LAB + VH - 16}px`;
+      cap.textContent = ['front', 'three-quarter', 'close-up'][i];
+      wrap.appendChild(cap);
+    });
+    e.dispose();
+    ok++;
+  } catch (err) {
+    bad.push(`${it.id}: ${err.message}`);
+    tag.classList.add('bad');
+    tag.innerHTML += ` FAILED: ${err.message}`;
+  }
+});
+window.__sheet = { ok, total: list.length, bad, w: W, h: H };
+document.title = 'done';
+</script>
